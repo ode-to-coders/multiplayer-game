@@ -1,0 +1,25 @@
+.myForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    padding-top: 20px;
+    padding-bottom: 30px;
+    background: #343739;
+    width: 340px;
+    height: 550px;
+}
+
+h2,
+input {
+    color: white;
+}
+
+label {
+    color: #999999;
+}
+
+a {
+    color: #00a0d7;
+    text-decoration: none;
+}
