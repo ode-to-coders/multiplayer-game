@@ -1,0 +1,23 @@
+.myInput {
+    border: none;
+    border-bottom: 1px solid #00a0d7;
+    background-color: inherit;
+    width: 280px;
+
+    &:focus {
+        border: 1px solid #00a0d7;
+        border-radius: 0.3rem;
+        outline: none;
+    }
+}
+
+.myInputLabel {
+    font-size: 10px;
+    padding-bottom: 5px
+}
+
+.myInputWrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+}

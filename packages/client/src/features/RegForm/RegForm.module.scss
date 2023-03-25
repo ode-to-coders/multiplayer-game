@@ -1,0 +1,35 @@
+.myForm {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: #414345;
+    border: 3px solid #414345;
+    width: 340px;
+    height: 550px;
+}
+
+.msg {
+    color: #FF2F2F;
+    margin-top: 5px;
+    font-size: 12px;
+    //height: 1em;
+}
+
+h2,
+input {
+    color: white;
+    margin-bottom: 0;
+}
+
+label {
+    color: #999999;
+}
+
+a {
+    color: #00a0d7;
+    text-decoration: none;
+}
