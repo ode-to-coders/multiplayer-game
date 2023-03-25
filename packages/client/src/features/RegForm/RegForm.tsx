@@ -1,7 +1,7 @@
 import React from "react";
 
-import { MyButton } from "../../shared/ui/button/MyButton";
-import { MyInput } from "../../shared/ui/input/MyInput";
+import { MyButton } from "../../shared/ui/button";
+import { MyInput } from "../../shared/ui/input";
 
 import { randomID } from "../../shared/lib/utils/randomID";
 
@@ -14,13 +14,13 @@ export const RegForm = () => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
         console.log(
-            formData.get("login"), 
-            formData.get("password"),
-            formData.get("password"),
-            formData.get("password"),
-            formData.get("password"),
-            formData.get("password"),
-            formData.get("password"),
+            "email ", formData.get("email"), 
+            "\nlogin ", formData.get("login"),
+            "\nfirst_name ", formData.get("first_name"),
+            "\nsecond_name ", formData.get("second_name"),
+            "\nphone ", formData.get("phone"),
+            "\npassword ", formData.get("password"),
+            "\npassword_repeat ", formData.get("password_repeat"),
         )
     }
 
