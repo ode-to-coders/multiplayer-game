@@ -1,7 +1,5 @@
 import { useEffect } from 'react'
 import './App.css'
-import { AuthPage } from './pages/AuthPage'
-import { RegPage } from './pages/RegPage'
 
 function App() {
   useEffect(() => {
@@ -14,8 +12,7 @@ function App() {
 
     fetchServerData()
   }, [])
-  // return <div className="App">Вот тут будет жить ваше приложение :)</div>
-  return <><RegPage /></>
+  return <div className="App">Вот тут будет жить ваше приложение :)</div>
 }
 
 export default App

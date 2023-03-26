@@ -17,7 +17,7 @@ export const AuthForm = () => {
         {type: "password", placeholder: "Пароль", label: "Пароль", name: "password"}
     ]
 
-    // логика валидации
+    // логика валидации, хотя зачем валидация для страница входа?
     const [messageLogin, setMessageLogin] = useState('');
     const [messagePassword, setMessagePassword] = useState('');
     const [login, setLogin] = useState('');
@@ -26,10 +26,18 @@ export const AuthForm = () => {
     function handlerSubmit(e: React.FormEvent<HTMLFormElement>): void {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        console.log(
-            'логин ', formData.get("login"),
-            '\nпароль ', formData.get("password")
-        )
+        
+        const login = formData.get("login")
+        const password = formData.get("password")
+        if (login !== null && password !== null) {
+            const loginValidate = validateElem('login', login as string)
+            const passwordValidate = validateElem('password', password as string)
+            if (!loginValidate[0]) setMessageLogin(loginValidate[1])
+            if (!passwordValidate[0]) setMessagePassword(passwordValidate[1])
+
+            if (loginValidate[0] && passwordValidate[0]) console.log('Запрос на авторизацию отправлен...')
+                else console.log('валидация не пройдена')
+        }
     }
     
     function handlerBlur(e: React.FocusEvent<HTMLInputElement>, key: string): void {
