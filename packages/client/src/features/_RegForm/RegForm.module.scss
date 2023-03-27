@@ -5,20 +5,20 @@
     border-radius: 12px;
     padding-top: 20px;
     padding-bottom: 30px;
-    background: #343739;
+    background: var(--color-layout);
     width: 340px;
     height: 550px;
 }
 
 h2 {
-    color: white;
+    color: var(--color-primary);
 }
 
 label {
-    color: #999999;
+    color: var(--color-grey);
 }
 
 a {
-    color: #00a0d7;
+    color: var(--color-blue);
     text-decoration: none;
 }

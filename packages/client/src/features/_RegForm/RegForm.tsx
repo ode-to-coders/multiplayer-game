@@ -2,7 +2,7 @@ import React from "react";
 
 import { TextField, Button } from '@mui/material';
 import { FormControl, FormLabel } from '@mui/material';
-import { randomID } from "../../shared/lib/utils/randomID";
+import { randomID } from "../../shared/utils/randomID";
 
 import { IInputData } from "../../shared/types/d";
 
@@ -54,7 +54,7 @@ export const RegForm = () => {
             <Button 
                 type="submit"
                 variant="contained"
-                sx={{ mt: 'auto', width: 280, borderRadius: 2  }}
+                sx={{ mt: 'auto', width: 280, borderRadius: 2 }}
             >
                 Зарегистрироваться
             </Button>

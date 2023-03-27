@@ -1,14 +1,14 @@
 .myBtn {
-    color: white;
+    color: var(--color-primary);
     font-size: 13px;
     width: 280px;
     height: 37px;
-    background: #00a0d7;
+    background: var(--color-blue);
     border-radius: 8px;
     border: none;
     cursor: pointer;
 
     &:active {
-        border: 1px solid white;
+        border: 1px solid var(--color-primary);
     }
 }

@@ -1,3 +1,5 @@
+import { Registration } from '@/pages/Registration';
+import { Signin } from '@/pages/Signin';
 import { PAGES, Routes } from './routes.types';
 /**
  * Роуты главной страницы, до авторизации
@@ -64,11 +66,11 @@ const PROFILE_ROUTES: Routes = [
 const AUTH_ROUTES: Routes = [
   {
     path: PAGES.signin,
-    Component: () => <div>Signin</div>,
+    Component: () => <Signin />,
   },
   {
     path: PAGES.registration,
-    Component: () => <div>Registration</div>,
+    Component: () => <Registration />,
   },
 ];
 /**

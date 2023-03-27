@@ -1,0 +1,57 @@
+.myForm {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background: var(--color-darkestGrey);
+    border: 3px solid var(--color-darkestGrey);
+    width: 340px;
+    height: 550px;
+}
+
+.msg {
+    color: var(--color-error);
+    font-size: 12px;
+    height: 1em;
+}
+
+.myInput {
+    color: var(--color-primary);
+    margin-bottom: 0;
+    border: none;
+    border-bottom: 2px solid var(--color-blue);
+    background-color: inherit;
+    width: 280px;
+    height: 1.5em;
+
+    &:focus {
+        border: 2px solid var(--color-blue);
+        border-radius: 0.3rem;
+        outline: none;
+    }
+}
+
+.myInputLabel {
+    color: var(--color-grey);
+    font-size: 10px;
+    margin-bottom: 5px;
+}
+
+.myInputWrap {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}
+
+h2 {
+    color: var(--color-primary);
+    margin-bottom: 0;
+}
+
+a {
+    color: var(--color-blue);
+    text-decoration: none;
+}
