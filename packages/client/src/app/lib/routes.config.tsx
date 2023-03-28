@@ -1,4 +1,8 @@
+import { GamePage } from '@/pages/Game/GamePage';
 import { PAGES, Routes } from './routes.types';
+import { StartPage } from '@/pages/StartPage/StartPage';
+import { EndPage } from '@/pages/EndPage/EndPage';
+import { ErrorPage } from '@/pages/ErrorPage/ErrorPage';
 /**
  * Роуты главной страницы, до авторизации
  */
@@ -26,7 +30,15 @@ const MAIN_ROUTES: Routes = [
 const GAME_ROUTES: Routes = [
   {
     path: PAGES.game,
-    Component: () => <div>Game</div>,
+    Component: () => <GamePage />,
+  },
+  {
+    path: PAGES.startGame,
+    Component: () => <StartPage />,
+  },
+  {
+    path: PAGES.endGame,
+    Component: () => <EndPage />,
   },
   {
     path: PAGES.leaderboard,
@@ -77,11 +89,11 @@ const AUTH_ROUTES: Routes = [
 const ERROR_ROUTES: Routes = [
   {
     path: PAGES.not_found,
-    Component: () => <div>Not found</div>,
+    Component: () => <ErrorPage code={404} text={'Не туда попали'} />,
   },
   {
     path: PAGES.server_error,
-    Component: () => <div>Server Error</div>,
+    Component: () => <ErrorPage code={500} text={'Мы уже фиксим'} />,
   },
 ];
 
