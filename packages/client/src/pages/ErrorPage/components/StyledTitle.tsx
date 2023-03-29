@@ -8,8 +8,9 @@ type StyledTitle = {
 export const StyledTitle = (props: StyledTitle) => (
   <Typography
     sx={{
-      fontSize: '1rem',
-      lineHeight: '1.25rem',
+      color: 'var(--color-primary)',
+      fontSize: '2.5rem',
+      lineHeight: '2.5rem',
     }}
     {...props}>
     {props.children}

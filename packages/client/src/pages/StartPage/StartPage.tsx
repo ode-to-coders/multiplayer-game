@@ -21,7 +21,7 @@ export const StartPage = () => {
         direction="row"
         justifyContent="center"
         alignItems="center">
-        <StyledGridItem item xs>
+        <StyledGridItem item xs="auto">
           <Link
             style={{
               color: 'var(--color-blue)',
@@ -33,7 +33,7 @@ export const StartPage = () => {
             Назад
           </Link>
         </StyledGridItem>
-        <StyledGridMainItem item xs="auto">
+        <StyledGridMainItem item xs>
           <StyledImage src={logo} alt="логотип" />
           <StyledDescribe variant="body1">Ожидание игроков...</StyledDescribe>
         </StyledGridMainItem>
