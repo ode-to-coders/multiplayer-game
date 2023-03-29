@@ -1,10 +1,10 @@
 import React, { FC } from "react";
 
-import c from './FormButton.module.scss';
+import s from './FormButton.module.scss';
 
 export const FormButton: FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = ({children, ...props}) => {
     return (
-        <button {...props} className={c.myBtn}>
+        <button {...props} className={s.myBtn}>
             {children}
         </button>
     );

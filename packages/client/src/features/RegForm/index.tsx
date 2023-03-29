@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
-import { FormButton } from "../../shared/ui/FormButton";
+import { FormButton } from "shared/ui/FormButton";
 
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 
-import { PAGES } from "@/app/lib/routes.types";
-import { FieldsValidateMap, FIELDS_VALIDATE_MAP, ERROR_MESSAGES } from "../../shared/const/validate";
-import { IInputData } from "../../shared/types/d";
+import { PAGES } from "app/lib/routes.types";
+import { FieldsValidateMap, FIELDS_VALIDATE_MAP, ERROR_MESSAGES } from "shared/const/validate";
 
 import s from "./index.module.scss";
 
@@ -24,8 +23,9 @@ interface IValues {
 export const RegForm = () => {    
     
     const [isFocused, setIsFocused] = useState([false, '']);
+    const [isEmpty, setIsEmpty] = useState<Record<string, boolean>>({});
     
-    const arrInputsData: IInputData[] = [
+    const arrInputsData = [
         {type: "email", placeholder: "Почта*", label: "Почта*", name: "email", required: true},
         {type: "text", placeholder: "Логин*", label: "Логин*", name: "login", required: true},
         {type: "text", placeholder: "Имя*", label: "Имя*", name: "first_name", required: true},
@@ -50,8 +50,7 @@ export const RegForm = () => {
     const password = watch("password");
     const passwordRepeat = watch("password_repeat");
 
-    const onSubmit = (data: Record<string, string>) => {
-        
+    const onSubmit = (data: Record<string, string>) => {        
         if (password !== passwordRepeat) {
             setError(
                 "password_repeat",
@@ -72,7 +71,6 @@ export const RegForm = () => {
                 alert('что-то пошло не так, попробуйте еще раз')
             }
         }
-
     };
 
     return (
@@ -85,7 +83,10 @@ export const RegForm = () => {
                             htmlFor={input.name} 
                             className={s.myInputLabel}
                             style={{
-                                opacity: (isFocused[0] && isFocused[1] === input.name) ? 1 : 0,
+                                opacity: (
+                                    (isFocused[0] && isFocused[1] === input.name) ||
+                                    (input.name in isEmpty && !isEmpty[input.name])) 
+                                    ? 1 : 0,
                                 transition: 'all .3s ease-in-out'
                             }}
                         >
@@ -100,8 +101,15 @@ export const RegForm = () => {
                                 pattern: FIELDS_VALIDATE_MAP[input.name as keyof FieldsValidateMap],
                                 required: input.required
                             })}
-                            onFocus={() => setIsFocused([true, input.name])}
-                            onBlur={() => setIsFocused([false, input.name])}
+                            onFocus={() => {
+                                setIsFocused([true, input.name])
+                            }}
+                            onBlur={(e) => {
+                                setIsFocused([false, input.name]);
+                                e.target.value 
+                                    ? setIsEmpty({...isEmpty, [input.name]: false })
+                                    : setIsEmpty({...isEmpty, [input.name]: true })
+                            }}
                         />
                     </div>
                     <div className={s.msg}>

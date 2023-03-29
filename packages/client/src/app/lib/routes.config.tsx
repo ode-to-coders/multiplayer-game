@@ -1,5 +1,5 @@
-import { Registration } from '@/pages/Registration';
-import { Signin } from '@/pages/Signin';
+import { Registration } from 'pages/Registration';
+import { Signin } from 'pages/Signin';
 import { PAGES, Routes } from './routes.types';
 /**
  * Роуты главной страницы, до авторизации
