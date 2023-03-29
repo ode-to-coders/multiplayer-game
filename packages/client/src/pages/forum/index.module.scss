@@ -1,0 +1,12 @@
+.container{
+  margin: 50px auto 50px;
+  max-width: 800px;
+  overflow: hidden;
+  border-radius: 12px;
+
+  p,
+  .pagination,
+  svg {
+    color: #fff
+  }
+}

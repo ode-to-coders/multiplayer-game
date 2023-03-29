@@ -1,4 +1,6 @@
 import { PAGES, Routes } from './routes.types';
+import Forum from 'pages/forum';
+import topics from '../../mocks/topics.json';
 /**
  * Роуты главной страницы, до авторизации
  */
@@ -34,7 +36,7 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.forum,
-    Component: () => <div>Form</div>,
+    Component: () => <Forum topics={topics} />,
   },
   {
     path: PAGES.rooms,
