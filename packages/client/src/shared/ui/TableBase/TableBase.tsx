@@ -1,11 +1,13 @@
 import {
   Table,
   TableBody,
-  TableCell,
-  TableContainer,
   TableHead,
   TableRow,
 } from '@mui/material';
+
+import { StyledTableCell } from './components/StyledTableCell';
+import { StyledTableContainer } from './components/StyledTableContainer';
+import { StyledImage } from './components/StyledImage';
 
 type Rows = {
   [key: string]: unknown;
@@ -13,22 +15,19 @@ type Rows = {
 
 type TableBase = {
   rows: Array<Record<number, Rows>>;
-  style: Record<string, Record<string, string | number>>;
   tableNames: Array<string>;
   avatar: string;
 };
 
 export const TableBase = (props: TableBase) => {
-  const { rows, style, tableNames, avatar } = props;
+  const { rows, tableNames, avatar } = props;
   return (
-    <TableContainer sx={style.table}>
+    <StyledTableContainer>
       <Table>
         <TableHead>
           <TableRow>
             {tableNames.map(name => (
-              <TableCell sx={style.tableCell} align="center">
-                {name}
-              </TableCell>
+              <StyledTableCell align="center">{name}</StyledTableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -36,21 +35,21 @@ export const TableBase = (props: TableBase) => {
           {rows.map((row, idx) => (
             <TableRow key={idx}>
               {Object.keys(row).map((key: string) => (
-                <TableCell sx={style.tableCell} align="center">
+                <StyledTableCell align="center">
                   {key === 'name' ? (
                     <>
-                      <img src={avatar} style={style.image} />
+                      <StyledImage src={avatar}/>
                       {row[key as unknown as keyof typeof row]}
                     </>
                   ) : (
                     <>{row[key as unknown as keyof typeof row]}</>
                   )}
-                </TableCell>
+                </StyledTableCell>
               ))}
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </TableContainer>
+    </StyledTableContainer>
   );
 };

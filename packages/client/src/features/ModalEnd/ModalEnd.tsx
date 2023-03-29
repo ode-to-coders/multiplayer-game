@@ -1,5 +1,3 @@
-import { style } from './style';
-
 import avatar from './avatar.png';
 import rows from './const/rows';
 import { ButtonGroupBase, ModalBase, TableBase } from '@/shared/ui';
@@ -11,10 +9,9 @@ export const ModalEnd = () => {
     <ModalBase title={'Расследование завершено!'}>
       <TableBase
         rows={rows}
-        style={style}
         tableNames={tableNames}
         avatar={avatar}></TableBase>
-      <ButtonGroupBase style={style}></ButtonGroupBase>
+      <ButtonGroupBase></ButtonGroupBase>
     </ModalBase>
   );
 };

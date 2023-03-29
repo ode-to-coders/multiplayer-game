@@ -1,11 +1,13 @@
 import React from 'react';
-import { Modal, Box, Typography } from '@mui/material';
-import { style } from './style';
+import { Modal } from '@mui/material';
+
+import { StyledTypography } from './components/StyledTypography';
+import { StyledBox } from './components/StyledBox';
 
 type ModalType = {
-  title: string,
-  children: any,
-}
+  title: string;
+  children?: React.ReactNode;
+};
 
 export const ModalBase = (props: ModalType) => {
   const { title, children } = props;
@@ -19,12 +21,10 @@ export const ModalBase = (props: ModalType) => {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
-      <Box sx={style.modal}>
-        <Typography id="modal-modal-title" sx={style.modalTitle}>
-          {title}
-        </Typography>
-        { children }
-      </Box>
+      <StyledBox>
+        <StyledTypography id="modal-modal-title">{title}</StyledTypography>
+        {children}
+      </StyledBox>
     </Modal>
   );
 };

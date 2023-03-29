@@ -1,33 +1,43 @@
 import React from 'react';
 
-import { Container, Grid, Typography } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { PAGES } from '@/app/lib/routes.types';
 
-import { style } from './style';
+import { StyledDescribe } from './components/StyledDescribe';
+import { StyledGridItem } from './components/StyledGridItem';
+import { StyledGridMainItem } from './components/StyledGridMainItem';
+import { StyledImage } from './components/StyledImage';
+import { StyledContainer } from './components/StyledContainer';
+
 import logo from './logo.png';
 
 export const StartPage = () => {
   return (
-    <Container maxWidth={false} disableGutters sx={style.container}>
+    <StyledContainer maxWidth={false} disableGutters>
       <Grid
         container
         direction="row"
         justifyContent="center"
         alignItems="center">
-        <Grid item xs="auto" sx={style.gridItem}>
-          <Link style={style.link} to={PAGES.game}>
+        <StyledGridItem item xs>
+          <Link
+            style={{
+              color: 'var(--color-blue)',
+              fontSize: '0.8125rem',
+              lineHeight: '0.8125rem',
+              textDecoration: 'none',
+            }}
+            to={PAGES.game}>
             Назад
           </Link>
-        </Grid>
-        <Grid item xs sx={style.gridMainItem}>
-          <img src={logo} alt="логотип" style={style.image} />
-          <Typography sx={style.describe} variant="body1">
-            Ожидание игроков...
-          </Typography>
-        </Grid>
+        </StyledGridItem>
+        <StyledGridMainItem item xs="auto">
+          <StyledImage src={logo} alt="логотип" />
+          <StyledDescribe variant="body1">Ожидание игроков...</StyledDescribe>
+        </StyledGridMainItem>
       </Grid>
-    </Container>
+    </StyledContainer>
   );
 };

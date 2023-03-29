@@ -1,20 +1,19 @@
-import { PAGES } from '@/app/lib/routes.types';
-import { Button, ButtonGroup } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-type ButtonGroupBase = {
-  style: Record<string, Record<string, string | number>>;
-};
-export const ButtonGroupBase = (props: ButtonGroupBase) => {
-  const { style } = props;
+import { PAGES } from '@/app/lib/routes.types';
+
+import { StyledButton } from './components/StyledButton';
+import { StyledGroup } from './components/StyledGroup';
+
+export const ButtonGroupBase = () => {
   return (
-    <ButtonGroup sx={style.buttonGroup}>
-      <Button sx={style.button}>Заново!</Button>
-      <Button sx={style.button}>
-        <Link style={style.link} to={PAGES.game}>
+    <StyledGroup>
+      <StyledButton>Заново!</StyledButton>
+      <StyledButton>
+        <Link style={{ color: 'var(--color-primary)' }} to={PAGES.game}>
           Покинуть лобби
         </Link>
-      </Button>
-    </ButtonGroup>
+      </StyledButton>
+    </StyledGroup>
   );
 };

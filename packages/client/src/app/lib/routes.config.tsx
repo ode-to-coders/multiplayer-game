@@ -1,8 +1,6 @@
-import { GamePage } from '@/pages/Game/GamePage';
+import { EndPage, ErrorPage, GamePage, StartPage } from '@/pages';
 import { PAGES, Routes } from './routes.types';
-import { StartPage } from '@/pages/StartPage/StartPage';
-import { EndPage } from '@/pages/EndPage/EndPage';
-import { ErrorPage } from '@/pages/ErrorPage/ErrorPage';
+
 /**
  * Роуты главной страницы, до авторизации
  */
