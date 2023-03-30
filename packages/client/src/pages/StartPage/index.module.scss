@@ -2,9 +2,21 @@
   margin-top: 30vh;
   margin-bottom: 15vh;
 }
+
 .link {
   color: var(--color-blue);
   font-size: 0.8125rem;
   line-height: 0.8125rem;
   text-decoration: none;
+}
+
+div>.gridItem {
+  margin-left: 1rem;
+  margin-top: 11rem;
+}
+
+div>.gridMainItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

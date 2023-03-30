@@ -12,7 +12,7 @@ export const GameLayout = () => {
       sx={{
         display: 'flex',
       }}>
-       <Grid
+      <Grid
         container
         spacing={2}
         sx={{
@@ -25,28 +25,28 @@ export const GameLayout = () => {
           gap: '27px',
         }}>
         <Grid item>
-          <Link to={PAGES.game}>Главная</Link>
+          <Link to={PAGES.GAME}>Главная</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.startGame}>Старт</Link>
+          <Link to={PAGES.START_GAME}>Старт</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.endGame}>Конец</Link>
+          <Link to={PAGES.ENDGAME}>Конец</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.leaderboard}>Рейтинг</Link>
+          <Link to={PAGES.LEADERBOARD}>Рейтинг</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.forum}>Форум</Link>
+          <Link to={PAGES.FORUM}>Форум</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.profile}>Профиль</Link>
+          <Link to={PAGES.PROFILE}>Профиль</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.rooms}>Комнаты</Link>
+          <Link to={PAGES.ROOMS}>Комнаты</Link>
         </Grid>
       </Grid>
-      <Outlet /> 
+      <Outlet />
     </Container>
   );
 };

@@ -1,19 +1,15 @@
 import { TableContainer } from '@mui/material';
+import { FC, PropsWithChildren } from 'react';
+import style from './index.module.scss';
 
-type StyledTableContainer = {
-  children: React.ReactNode;
-  styles?: Record<string, string | number>;
+type StyledTableContainerProps = {
   [key: string]: unknown;
 };
 
-export const StyledTableContainer = (props: StyledTableContainer) => (
-  <TableContainer
-    sx={{
-      border: '0.0625rem solid var(--color-grey)',
-      borderRadius: '0.3125rem',
-      ...props.styles,
-    }}
-    {...props}>
+export const StyledTableContainer: FC<
+  PropsWithChildren<StyledTableContainerProps>
+> = props => (
+  <TableContainer className={style.tableContainer} {...props}>
     {props.children}
   </TableContainer>
 );

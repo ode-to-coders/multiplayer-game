@@ -1,24 +1,13 @@
 import { Button } from '@mui/material';
+import { FC, PropsWithChildren } from 'react';
+import style from './index.module.scss';
 
-type StyledButton = {
-  children: React.ReactNode;
-  styles?: Record<string, string | number>;
+type StyledButtonProps = {
   [key: string]: unknown;
 };
 
-export const StyledButton = (props: StyledButton) => (
-  <Button
-    sx={{
-      backgroundColor: 'var(--color-blue)',
-      color: 'var(--color-primary)',
-      borderRadius: '0.5rem',
-      width: '11.5rem',
-      fontSize: '0.8125rem',
-      lineHeight: '0.8125rem',
-      textTransform: 'inherit',
-      padding: '0.75rem',
-      ...props.styles,
-    }}
+export const StyledButton: FC<PropsWithChildren<StyledButtonProps>> = props => (
+  <Button className={style.button}
     {...props}>
     {props.children}
   </Button>

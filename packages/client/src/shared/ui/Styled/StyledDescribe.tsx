@@ -1,20 +1,15 @@
 import { Typography } from '@mui/material';
+import { FC, PropsWithChildren } from 'react';
+import style from './index.module.scss';
 
-type StyledDescribe = {
-  children: React.ReactNode;
-  styles?: Record<string, string | number>;
+type StyledDescribeProps = {
   [key: string]: unknown;
 };
 
-export const StyledDescribe = (props: StyledDescribe) => (
-  <Typography
-    sx={{
-      color: 'var(--color-primary)',
-      fontSize: '1.25rem',
-      lineHeight: '1.25rem',
-      ...props.styles,
-    }}
-    {...props}>
+export const StyledDescribe: FC<
+  PropsWithChildren<StyledDescribeProps>
+> = props => (
+  <Typography className={style.describe} {...props}>
     {props.children}
   </Typography>
 );

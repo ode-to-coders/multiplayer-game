@@ -1,5 +1,3 @@
-import { ButtonGroupBase } from './ButtonGroupBase/ButtonGroupBase';
-import { ModalBase } from './ModalBase/ModalBase';
-import { TableBase } from './TableBase/TableBase';
-
-export { ButtonGroupBase, ModalBase, TableBase };
+export { ButtonGroupBase } from './ButtonGroupBase/ButtonGroupBase';
+export { ModalBase } from './ModalBase/ModalBase';
+export { TableBase } from './TableBase/TableBase';

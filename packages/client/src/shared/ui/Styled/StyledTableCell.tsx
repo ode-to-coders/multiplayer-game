@@ -1,21 +1,13 @@
 import { TableCell } from '@mui/material';
+import { FC, PropsWithChildren } from 'react';
+import style from './index.module.scss';
 
-type StyledTableCell = {
-  children: React.ReactNode;
-  styles?: Record<string, string | number>;
+type StyledTableCellProps = {
   [key: string]: unknown;
 };
 
-export const StyledTableCell = (props: StyledTableCell) => (
-  <TableCell
-    sx={{
-      padding: '0.625rem 0.125rem',
-      color: 'var(--color-primary)',
-      fontSize: '0.625rem',
-      lineHeight: '0.625rem',
-      ...props.styles,
-    }}
-    {...props}>
+export const StyledTableCell: FC<PropsWithChildren<StyledTableCellProps>> = props => (
+  <TableCell className={style.tableCell} {...props}>
     {props.children}
   </TableCell>
 );

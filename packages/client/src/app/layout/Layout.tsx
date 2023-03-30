@@ -17,25 +17,25 @@ export const Layout = () => {
       }}>
       <Grid container spacing={2} justifyContent="center">
         <Grid item>
-          <Link to={PAGES.main}>Main</Link>
+          <Link to={PAGES.MAIN}>Main</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.game}>Game</Link>
+          <Link to={PAGES.GAME}>Game</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.profile}>Profile</Link>
+          <Link to={PAGES.PROFILE}>Profile</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.signin}>Signin</Link>
+          <Link to={PAGES.SIGNIN}>Signin</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.registration}>Registration</Link>
+          <Link to={PAGES.REGISTRATION}>Registration</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.not_found}>404</Link>
+          <Link to={PAGES.NOTFOUND}>404</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.server_error}>500</Link>
+          <Link to={PAGES.SERVER_ERROR}>500</Link>
         </Grid>
       </Grid>
       <Outlet />

@@ -1,18 +1,15 @@
 import { ButtonGroup } from '@mui/material';
+import { FC, PropsWithChildren } from 'react';
+import style from './index.module.scss';
 
-type StyledGroup = {
-  children: React.ReactNode;
-  styles?: Record<string, string | number>;
+type StyledGroupProps = {
   [key: string]: unknown;
 };
 
-export const StyledButtonGroup = (props: StyledGroup) => (
-  <ButtonGroup
-    sx={{
-      marginTop: '1.5rem',
-      ...props.styles,
-    }}
-    {...props}>
+export const StyledButtonGroup: FC<
+  PropsWithChildren<StyledGroupProps>
+> = props => (
+  <ButtonGroup className={style.buttonGroup} {...props}>
     {props.children}
   </ButtonGroup>
 );

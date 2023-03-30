@@ -1,20 +1,14 @@
 import { Typography } from '@mui/material';
+import { FC, PropsWithChildren } from 'react';
 
-type StyledTitle = {
-  children: React.ReactNode;
-  styles?: Record<string, string | number>;
+import style from './index.module.scss';
+
+type StyledTitleProps = {
   [key: string]: unknown;
 };
 
-export const StyledTitle = (props: StyledTitle) => (
-  <Typography
-    sx={{
-      color: 'var(--color-primary)',
-      fontSize: '2.5rem',
-      lineHeight: '2.5rem',
-      ...props.styles,
-    }}
-    {...props}>
+export const StyledTitle: FC<PropsWithChildren<StyledTitleProps>> = props => (
+  <Typography className={style.tableTitle} {...props}>
     {props.children}
   </Typography>
 );

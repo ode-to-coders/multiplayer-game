@@ -2,15 +2,14 @@ import React from 'react';
 
 import { ModalEnd } from '../../features';
 import { StyledContainer } from '../../shared/ui/Styled';
-import { styles } from './styles';
-
+import style from './index.module.scss';
 
 export const EndPage = () => {
   return (
     <StyledContainer
+      className={style.container}
       maxWidth={false}
-      disableGutters
-      styles={styles.container}>
+      disableGutters>
       <ModalEnd />
     </StyledContainer>
   );

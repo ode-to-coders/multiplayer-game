@@ -4,20 +4,23 @@ import style from './index.module.scss';
 import { StyledTableContainer } from '../Styled/StyledTableContainer';
 import { StyledTableCell } from '../Styled/StyledTableCell';
 
-type Rows = {
-  [key: string]: unknown;
+type Row = {
+  place: number;
+  name: string;
+  rate: number;
 };
+type RowKey = keyof Row;
 
-type TableBase = {
-  rows: Array<Record<number, Rows>>;
+type TableBaseProps = {
+  rows: Array<Row>;
   tableNames: Array<string>;
   avatar: string;
 };
 
-export const TableBase = (props: TableBase) => {
+export const TableBase = (props: TableBaseProps) => {
   const { rows, tableNames, avatar } = props;
   return (
-    <StyledTableContainer styles={{ marginTop: '1.25rem' }}>
+    <StyledTableContainer>
       <Table>
         <TableHead>
           <TableRow>
@@ -29,15 +32,15 @@ export const TableBase = (props: TableBase) => {
         <TableBody>
           {rows.map((row, idx) => (
             <TableRow key={idx}>
-              {Object.keys(row).map((key: string) => (
+              {(Object.keys(row) as RowKey[]).map((key) => (
                 <StyledTableCell align="center">
                   {key === 'name' ? (
                     <>
                       <img className={style.image} src={avatar} />
-                      {row[key as unknown as keyof typeof row]}
+                      {row[key]}
                     </>
                   ) : (
-                    <>{row[key as unknown as keyof typeof row]}</>
+                    <>{row[key]}</>
                   )}
                 </StyledTableCell>
               ))}

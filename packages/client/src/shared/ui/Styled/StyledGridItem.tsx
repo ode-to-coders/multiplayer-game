@@ -1,17 +1,10 @@
 import { Grid } from '@mui/material';
+import { FC, PropsWithChildren } from 'react';
 
-type StyledGridItem = {
-  children: React.ReactNode;
-  styles?: Record<string, string | number>;
+type StyledGridItemProps = {
   [key: string]: unknown;
 };
 
-export const StyledGridItem = (props: StyledGridItem) => (
-  <Grid
-    sx={{
-      ...props.styles,
-    }}
-    {...props}>
-    {props.children}
-  </Grid>
-);
+export const StyledGridItem: FC<
+  PropsWithChildren<StyledGridItemProps>
+> = props => <Grid {...props}>{props.children}</Grid>;

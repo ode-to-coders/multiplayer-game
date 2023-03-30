@@ -9,7 +9,7 @@ import { StyledGridItem } from '../../shared/ui/Styled/StyledGridItem';
 
 import style from './index.module.scss';
 import logo from './logo.png';
-import { styles } from './styles';
+
 
 export const StartPage = () => {
   return (
@@ -19,18 +19,12 @@ export const StartPage = () => {
         direction="row"
         justifyContent="center"
         alignItems="center">
-        <StyledGridItem
-          item
-          xs="auto"
-          styles={styles.gridItem}>
-          <Link className={style.link} to={PAGES.game}>
+        <StyledGridItem item xs="auto" className={style.gridItem}>
+          <Link className={style.link} to={PAGES.GAME}>
             Назад
           </Link>
         </StyledGridItem>
-        <StyledGridItem
-          item
-          xs
-          styles={styles.gridMainItem}>
+        <StyledGridItem item xs className={style.gridMainItem}>
           <img className={style.img} src={logo} alt="логотип" />
           <StyledDescribe variant="body1">Ожидание игроков...</StyledDescribe>
         </StyledGridItem>

@@ -1,2 +1,1 @@
-import { ModalEnd } from './ModalEnd/ModalEnd';
-export { ModalEnd };
+export { ModalEnd } from './ModalEnd/ModalEnd';

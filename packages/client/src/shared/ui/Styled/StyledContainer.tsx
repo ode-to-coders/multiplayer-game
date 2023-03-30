@@ -1,19 +1,15 @@
 import { Container } from '@mui/material';
+import { FC, PropsWithChildren } from 'react';
+import style from './index.module.scss';
 
-type StyledContainer = {
-  children: React.ReactNode;
-  styles?: Record<string, string | number>;
+type StyledContainerProps = {
   [key: string]: unknown;
 };
 
-export const StyledContainer = (props: StyledContainer) => (
-  <Container
-    sx={{
-      height: '100vh',
-      backgroundColor: 'var(--color-layout)',
-      ...props.styles,
-    }}
-    {...props}>
+export const StyledContainer: FC<
+  PropsWithChildren<StyledContainerProps>
+> = props => (
+  <Container className={style.container} {...props}>
     {props.children}
   </Container>
 );
