@@ -1,13 +1,8 @@
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableRow,
-} from '@mui/material';
+import { Table, TableBody, TableHead, TableRow } from '@mui/material';
 
-import { StyledTableCell } from './components/StyledTableCell';
-import { StyledTableContainer } from './components/StyledTableContainer';
-import { StyledImage } from './components/StyledImage';
+import style from './index.module.scss';
+import { StyledTableContainer } from '../Styled/StyledTableContainer';
+import { StyledTableCell } from '../Styled/StyledTableCell';
 
 type Rows = {
   [key: string]: unknown;
@@ -22,7 +17,7 @@ type TableBase = {
 export const TableBase = (props: TableBase) => {
   const { rows, tableNames, avatar } = props;
   return (
-    <StyledTableContainer>
+    <StyledTableContainer styles={{ marginTop: '1.25rem' }}>
       <Table>
         <TableHead>
           <TableRow>
@@ -38,7 +33,7 @@ export const TableBase = (props: TableBase) => {
                 <StyledTableCell align="center">
                   {key === 'name' ? (
                     <>
-                      <StyledImage src={avatar}/>
+                      <img className={style.image} src={avatar} />
                       {row[key as unknown as keyof typeof row]}
                     </>
                   ) : (

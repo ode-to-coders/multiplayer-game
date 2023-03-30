@@ -2,6 +2,7 @@ import { Button } from '@mui/material';
 
 type StyledButton = {
   children: React.ReactNode;
+  styles?: Record<string, string | number>;
   [key: string]: unknown;
 };
 
@@ -16,6 +17,7 @@ export const StyledButton = (props: StyledButton) => (
       lineHeight: '0.8125rem',
       textTransform: 'inherit',
       padding: '0.75rem',
+      ...props.styles,
     }}
     {...props}>
     {props.children}

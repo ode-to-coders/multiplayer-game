@@ -1,14 +1,18 @@
 import { Typography } from '@mui/material';
 
-type StyledDescribe = {
+type StyledTitle = {
   children: React.ReactNode;
+  styles?: Record<string, string | number>;
   [key: string]: unknown;
 };
 
-export const StyledDescribe = (props: StyledDescribe) => (
+export const StyledTitle = (props: StyledTitle) => (
   <Typography
     sx={{
       color: 'var(--color-primary)',
+      fontSize: '2.5rem',
+      lineHeight: '2.5rem',
+      ...props.styles,
     }}
     {...props}>
     {props.children}

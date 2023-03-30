@@ -1,16 +1,23 @@
-import React from "react";
+import React from 'react';
 
-import { GameLayout } from '@/app/layout/GameLayout';
-import { StyledContainer } from './components/StyledContainer';
-import { StyledImage } from './components/StyledImage';
+import { GameLayout } from '../../app/layout/GameLayout';
+import { StyledContainer } from '../../shared/ui/Styled';
 
 import logo from './logo.png';
+import style from './index.module.scss'
 
 export const GamePage = () => {
   return (
-    <StyledContainer maxWidth={false} disableGutters>
+    <StyledContainer
+      maxWidth={false}
+      disableGutters
+      styles={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}>
       <GameLayout />
-      <StyledImage src={logo} alt="логотип" />
+      <img className = {style.logo} src={logo} alt="логотип" />
     </StyledContainer>
   );
-}
+};

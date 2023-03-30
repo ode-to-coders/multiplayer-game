@@ -1,4 +1,4 @@
-import { EndPage, ErrorPage, GamePage, StartPage } from '@/pages';
+import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
 import { PAGES, Routes } from './routes.types';
 
 /**
@@ -87,11 +87,11 @@ const AUTH_ROUTES: Routes = [
 const ERROR_ROUTES: Routes = [
   {
     path: PAGES.not_found,
-    Component: () => <ErrorPage code={404} text={'Не туда попали'} />,
+    Component: () => <ErrorPage code={404} text='Не туда попали' />,
   },
   {
     path: PAGES.server_error,
-    Component: () => <ErrorPage code={500} text={'Мы уже фиксим'} />,
+    Component: () => <ErrorPage code={500} text='Мы уже фиксим' />,
   },
 ];
 

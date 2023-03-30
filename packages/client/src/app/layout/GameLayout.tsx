@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import { Container, Grid, Tabs, Tab } from '@mui/material';
+import { Container, Grid } from '@mui/material';
 
-import { PAGES } from '@/app/lib/routes.types';
+import { PAGES } from '../lib/routes.types';
 
 export const GameLayout = () => {
   return (

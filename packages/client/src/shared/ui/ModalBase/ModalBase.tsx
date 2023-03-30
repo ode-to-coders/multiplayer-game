@@ -1,8 +1,7 @@
 import React from 'react';
 import { Modal } from '@mui/material';
 
-import { StyledTypography } from './components/StyledTypography';
-import { StyledBox } from './components/StyledBox';
+import { StyledBox, StyledDescribe } from '../Styled';
 
 type ModalType = {
   title: string;
@@ -22,7 +21,9 @@ export const ModalBase = (props: ModalType) => {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description">
       <StyledBox>
-        <StyledTypography id="modal-modal-title">{title}</StyledTypography>
+        <StyledDescribe id="modal-modal-title">
+          {title}
+        </StyledDescribe>
         {children}
       </StyledBox>
     </Modal>

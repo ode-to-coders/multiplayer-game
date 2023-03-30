@@ -2,6 +2,7 @@ import { Box } from '@mui/material';
 
 type StyledBox = {
   children: React.ReactNode;
+  styles?: Record<string, string | number>;
   [key: string]: unknown;
 };
 
@@ -21,9 +22,9 @@ export const StyledBox = (props: StyledBox) => (
       alignItems: 'center',
       borderRadius: '0.75rem',
       color: 'var(--color-primary)',
+      ...props.styles,
     }}
-    {...props}
-    >
+    {...props}>
     {props.children}
   </Box>
 );
