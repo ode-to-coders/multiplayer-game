@@ -18,6 +18,7 @@ export const enum PAGES {
   game = '/game',
   leaderboard = '/game/leaderboard',
   forum = '/game/forum',
+  topic = 'game/topic',
   rooms = '/game/rooms',
   signin = '/signin',
   registration = '/registration',

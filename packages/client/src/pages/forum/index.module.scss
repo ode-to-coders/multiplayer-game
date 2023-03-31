@@ -1,12 +1,17 @@
-.container{
+.paper{
   margin: 50px auto 50px;
   max-width: 800px;
   overflow: hidden;
   border-radius: 12px;
+  width: 100%;
 
   p,
   .pagination,
   svg {
-    color: #fff
+    color: var(--color-primary)
   }
+}
+
+.container {
+  max-height: 440px;
 }

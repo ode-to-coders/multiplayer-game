@@ -31,48 +31,42 @@ function Forum(props: TopicsT) {
     setPage(0);
   };
 
+  const styledTable= {
+    backgroundColor: 'var(--color-layout)',
+    color: 'var(--color-primary)',
+    align: 'left'
+  };
+
   const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: 'var(--color-layout)',
-      color: '#fff',
-      borderBottom: '1px solid #eee',
+      ...styledTable,
+      borderBottom: '1px solid var(--color-divider)',
+      minWidth: 170,
+      align: 'left'
     },
     [`&.${tableCellClasses.body}`]: {
-      color: '#fff',
-      backgroundColor: 'var(--color-layout)',
+      ...styledTable
     },
   }));
 
   return (
-    <Paper sx={{ width: '100%', background: 'var(--color-layout)' }}
-      className={styles.container}
+    <Paper sx={{ background: 'var(--color-layout)' }}
+      className={styles.paper}
     >
-      <TableContainer sx={{ maxHeight: 440 }}>
+      <TableContainer className={styles.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <StyledTableCell
-                align='left'
-                style={{ minWidth: 170 }}
-              >
+              <StyledTableCell>
                 Тема
               </StyledTableCell>
-              <StyledTableCell
-                align='left'
-                style={{ minWidth: 170 }}
-              >
+              <StyledTableCell>
                 Комментарии
               </StyledTableCell>
-              <StyledTableCell
-                align='left'
-                style={{ minWidth: 170 }}
-              >
+              <StyledTableCell>
                 Создатель
               </StyledTableCell>
-              <StyledTableCell
-                align='left'
-                style={{ minWidth: 170 }}
-              >
+              <StyledTableCell>
                 Дата
               </StyledTableCell>
             </TableRow>
@@ -81,16 +75,16 @@ function Forum(props: TopicsT) {
             {topics.map((item: Subject, i: number) => {
                 return (
                   <TableRow hover role="checkbox" tabIndex={-1} key={i}>
-                    <StyledTableCell align="left">
+                    <StyledTableCell>
                       {item.subject}
                     </StyledTableCell>
-                    <StyledTableCell align="left">
+                    <StyledTableCell>
                       {item.comments_count}
                     </StyledTableCell>
-                    <StyledTableCell align="left">
+                    <StyledTableCell>
                       {item.user.name}
                     </StyledTableCell>
-                    <StyledTableCell align="left">
+                    <StyledTableCell>
                       {item.date}
                     </StyledTableCell>
                   </TableRow>

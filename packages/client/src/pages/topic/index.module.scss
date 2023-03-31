@@ -1,0 +1,35 @@
+.topic {
+  background: var(--color-layout);
+  color: var(--color-primary);
+
+  .container {
+    margin-left: 0;
+  }
+
+  .divider {
+    border-color: var(--color-divider);
+  }
+}
+
+.user {
+  font-size: 15px;
+  line-height: 13px;
+  color: var(--color-blue);
+  margin: 15px 0;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+
+.comment {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.info {
+  margin-left: 10px;
+}
