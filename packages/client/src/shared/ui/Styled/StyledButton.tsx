@@ -3,7 +3,14 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledButtonProps = {
-  [key: string]: string | number | boolean | JSX.Element[] | JSX.Element | null;
+  [key: string]:
+    | string
+    | number
+    | boolean
+    | JSX.Element[]
+    | JSX.Element
+    | null
+    | (() => void);
 };
 
 export const StyledButton: FC<PropsWithChildren<StyledButtonProps>> = props => (

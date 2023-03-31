@@ -1,9 +1,14 @@
+import { ReactNode } from 'react';
 import { Container, Grid } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 
 import { PAGES } from '../lib/routes.types';
 
-export const Layout = () => {
+interface ILayoutProps {
+  children?: ReactNode;
+}
+
+export const Layout: React.FC<ILayoutProps> = ({ children }) => {
   // TODO Grid с ссылками для начального удобства, как большинство будет готово надо удалить
   return (
     <Container
@@ -38,6 +43,7 @@ export const Layout = () => {
           <Link to={PAGES.SERVER_ERROR}>500</Link>
         </Grid>
       </Grid>
+      {children && children}
       <Outlet />
     </Container>
   );
