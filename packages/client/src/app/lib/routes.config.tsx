@@ -1,6 +1,6 @@
 import { PAGES, Routes } from './routes.types';
 
-import LeaderBoard from '@/pages/leaderBoard';
+import LeaderBoard from 'pages/leaderBoard';
 import ratings from '../../mocks/ratings.json';
 /**
  * Роуты главной страницы, до авторизации
