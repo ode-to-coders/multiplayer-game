@@ -1,14 +1,20 @@
 import { Box } from '@mui/material';
-import { FC, PropsWithChildren } from 'react';
-import style from './index.module.scss'
+import { FC, PropsWithChildren, ReactNode } from 'react';
+import style from './index.module.scss';
 
 type StyledBoxProps = {
-  [key: string]: unknown;
+  [key: string]:
+    | string
+    | number
+    | boolean
+    | JSX.Element[]
+    | JSX.Element
+    | ReactNode
+    | null;
 };
 
 export const StyledBox: FC<PropsWithChildren<StyledBoxProps>> = props => (
-  <Box className = {style.box}
-    {...props}>
+  <Box className={style.box} {...props}>
     {props.children}
   </Box>
 );

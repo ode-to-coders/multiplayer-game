@@ -3,7 +3,7 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledContainerProps = {
-  [key: string]: unknown;
+  [key: string]: string | number | boolean | JSX.Element[] | JSX.Element | null;
 };
 
 export const StyledContainer: FC<

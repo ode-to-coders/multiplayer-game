@@ -17,19 +17,19 @@ export const Layout = () => {
       }}>
       <Grid container spacing={2} justifyContent="center">
         <Grid item>
-          <Link to={PAGES.MAIN}>Main</Link>
+          <Link to={PAGES.MAIN}>Главная</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.GAME}>Game</Link>
+          <Link to={PAGES.GAME}>Игра</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.PROFILE}>Profile</Link>
+          <Link to={PAGES.PROFILE}>Профиль</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.SIGNIN}>Signin</Link>
+          <Link to={PAGES.SIGNIN}>Авторизация</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.REGISTRATION}>Registration</Link>
+          <Link to={PAGES.REGISTRATION}>Регистрация</Link>
         </Grid>
         <Grid item>
           <Link to={PAGES.NOTFOUND}>404</Link>

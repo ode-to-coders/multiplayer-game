@@ -9,6 +9,7 @@ type Row = {
   name: string;
   rate: number;
 };
+
 type RowKey = keyof Row;
 
 type TableBaseProps = {

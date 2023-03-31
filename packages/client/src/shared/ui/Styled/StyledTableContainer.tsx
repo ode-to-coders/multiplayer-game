@@ -3,7 +3,7 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledTableContainerProps = {
-  [key: string]: unknown;
+  [key: string]: JSX.Element[] | JSX.Element | null;
 };
 
 export const StyledTableContainer: FC<

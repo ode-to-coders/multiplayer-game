@@ -4,7 +4,7 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledTitleProps = {
-  [key: string]: unknown;
+  [key: string]: string | number | null;
 };
 
 export const StyledTitle: FC<PropsWithChildren<StyledTitleProps>> = props => (
