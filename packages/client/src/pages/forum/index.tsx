@@ -13,7 +13,6 @@ import { TopicsT, Subject} from './types';
 
 import styles from './index.module.scss';
 
-
 function Forum(props: TopicsT) {
   const {
     topics
@@ -50,9 +49,7 @@ function Forum(props: TopicsT) {
   }));
 
   return (
-    <Paper sx={{ background: 'var(--color-layout)' }}
-      className={styles.paper}
-    >
+    <Paper className={styles.paper}>
       <TableContainer className={styles.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -100,6 +97,8 @@ function Forum(props: TopicsT) {
         count={topics.length}
         rowsPerPage={rowsPerPage}
         page={page}
+        labelRowsPerPage='Всего страниц'
+        labelDisplayedRows={({ from, to, count }) => `${from}-${to} из ${count}`}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />

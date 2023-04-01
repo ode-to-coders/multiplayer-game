@@ -8,7 +8,6 @@ import { TopicT, Comment } from './types';
 
 import styles from './index.module.scss';
 
-
 function Topic(props: TopicT) {
   const {
     topic
@@ -20,7 +19,7 @@ function Topic(props: TopicT) {
     description,
     subject,
     user,
-    comments
+    comments,
   } = topic;
 
   return (
@@ -37,7 +36,7 @@ function Topic(props: TopicT) {
               <Avatar />
               <Box className={styles.info}>
                 {comment.user}
-                <div>comment.text</div>
+                comment.text
               </Box>
             </Box>
           ))}

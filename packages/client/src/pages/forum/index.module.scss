@@ -4,11 +4,13 @@
   overflow: hidden;
   border-radius: 12px;
   width: 100%;
+  background: var(--color-layout);
 
   p,
   .pagination,
   svg {
-    color: var(--color-primary)
+    color: var(--color-primary);
+    background: var(--color-layout);
   }
 }
 
