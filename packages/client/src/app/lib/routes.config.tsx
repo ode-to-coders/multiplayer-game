@@ -49,11 +49,11 @@ const GAME_ROUTES: Routes = [
 const PROFILE_ROUTES: Routes = [
   {
     path: PAGES.editProfile,
-    Component: () => <div>Edit profile</div>,
+    Component: () => <div>EditProfile</div>,
   },
   {
     path: PAGES.editPassword,
-    Component: () => <div>Edit Password</div>,
+    Component: () => <div>EditProfile</div>,
   },
   {
     path: PAGES.profile,
