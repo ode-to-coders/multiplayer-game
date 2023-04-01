@@ -49,23 +49,22 @@ export const AuthForm = () => {
   }, [isEmpty]);
 
   const onSubmit = (data: Record<string, string>) => {
-    if (Object.keys(errors).length === 0) {
       
-      console.log(data);
-      // ЗДЕСЬ БУДЕТ ЗАПРОС НА АВТОРИЗАЦИЮ
-      // тест
-      const res = {user: 'Детектив'};
-      if (res) {
-        setTimeout(() => {
-          console.log(`привет, ${res.user}!`);
+    console.log(data);
+    // ЗДЕСЬ БУДЕТ ЗАПРОС НА АВТОРИЗАЦИЮ
+    // тест
+    const res = {user: 'Детектив'};
+    if (res) {
+      setTimeout(() => {
+        console.log(`привет, ${res.user}!`);
 
-          navigate('/game')
+        navigate('/game')
 
-        }, 1000);
-      } else {
-        alert('что-то пошло не так, попробуйте еще раз')
-      }
+      }, 1000);
+    } else {
+      alert('что-то пошло не так, попробуйте еще раз')
     }
+
   }
   
   return (

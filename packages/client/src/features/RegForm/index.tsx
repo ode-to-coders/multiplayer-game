@@ -52,24 +52,22 @@ export const RegForm = () => {
   }, [isEmpty])
 
   const onSubmit = (data: Record<string, string>) => {
-    
-    if (Object.keys(errors).length === 0) {
-      
-      console.log(data);
-      // ЗДЕСЬ БУДЕТ ЗАПРОС НА РЕГИСТРАЦИЮ
-      // тест
-      const res = true;
-      if (res) {                
-        setTimeout(() => {
-          console.log(`Добро пожаловать onboard, Искатель приключений ${data.first_name.toUpperCase()}`);
+          
+    console.log(data);
+    // ЗДЕСЬ БУДЕТ ЗАПРОС НА РЕГИСТРАЦИЮ
+    // тест
+    const res = true;
+    if (res) {                
+      setTimeout(() => {
+        console.log(`Добро пожаловать onboard, Искатель приключений ${data.first_name.toUpperCase()}`);
 
-          navigate('/game')
+        navigate('/game')
 
-        }, 1000)
-      } else {
-        alert('что-то пошло не так, попробуйте еще раз')
-      }
+      }, 1000)
+    } else {
+      alert('что-то пошло не так, попробуйте еще раз')
     }
+    
   };
 
   return (
