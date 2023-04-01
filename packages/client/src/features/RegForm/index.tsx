@@ -33,10 +33,8 @@ export const RegForm = () => {
   
   const {
     register,
-    watch,
     formState: { errors },
-    handleSubmit,
-    setError
+    handleSubmit
   } = useForm({
     mode: 'onChange',
     resolver: yupResolver(schema)
@@ -53,16 +51,9 @@ export const RegForm = () => {
       : setIsEmpty({...isEmpty, [inputName]: true })
   }, [isEmpty])
 
-  const password = watch("password");
-  const passwordRepeat = watch("password_repeat");
-
-  const onSubmit = (data: Record<string, string>) => {        
-    if (password !== passwordRepeat) {
-      setError(
-        "password_repeat",
-        { type: "notMatch", message: "Пароли не совпадают" }
-      );
-    } else if (Object.keys(errors).length === 0) {
+  const onSubmit = (data: Record<string, string>) => {
+    
+    if (Object.keys(errors).length === 0) {
       
       console.log(data);
       // ЗДЕСЬ БУДЕТ ЗАПРОС НА РЕГИСТРАЦИЮ
@@ -106,8 +97,8 @@ export const RegForm = () => {
               inputProps={{ className: s.muiInputBase }}
               placeholder={(isFocused[0] && isFocused[1] === input.name) ? '' : input.placeholder}
               {...register(input.name)}
-              onFocus={() => handleFocusInput(input.name)}
-              onBlur={(e) => handleBlurInput(e, input.name)}
+              onFocus={handleFocusInput}
+              onBlur={handleBlurInput}
             />
           </div>
           <div className={s.msg}>

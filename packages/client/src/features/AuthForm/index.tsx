@@ -93,8 +93,8 @@ export const AuthForm = () => {
               inputProps={{ className: s.muiInputBase }}
               placeholder={(isFocused[0] && isFocused[1] === input.name) ? '' : input.placeholder}
               {...register(input.name)}
-              onFocus={() => handleFocusInput(input.name)}
-              onBlur={(e) => handleBlurInput(e, input.name)}
+              onFocus={handleFocusInput}
+              onBlur={handleBlurInput}
             />
           </div>
           <div className={s.msg}>
