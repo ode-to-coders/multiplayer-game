@@ -11,7 +11,7 @@ export const GamePage = () => {
     <StyledContainer
       maxWidth={false}
       disableGutters
-      className={style.container}>
+      extendClass={style.container}>
       <GameLayout />
       <img className={style.logo} src={logo} alt="логотип" />
     </StyledContainer>

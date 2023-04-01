@@ -30,7 +30,6 @@
 }
 
 .container {
-  height: 100vh;
   background-color: var(--color-layout);
 }
 
@@ -46,7 +45,7 @@
   line-height: 2.5rem;
 }
 
-tr>.tableCell {
+.tableCell {
   padding: 0.625rem 0.125rem;
   color: var(--color-primary);
   font-size: 0.625rem;

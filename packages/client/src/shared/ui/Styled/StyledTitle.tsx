@@ -1,14 +1,22 @@
-import { Typography } from '@mui/material';
+import {
+  Typography,
+  TypographyProps,
+  StyledEngineProvider,
+} from '@mui/material';
+import cn from 'classnames';
+
 import { FC, PropsWithChildren } from 'react';
 
 import style from './index.module.scss';
 
 type StyledTitleProps = {
-  [key: string]: string | number | null;
-};
+  extendClass?: string;
+} & TypographyProps;
 
 export const StyledTitle: FC<PropsWithChildren<StyledTitleProps>> = props => (
-  <Typography className={style.tableTitle} {...props}>
-    {props.children}
-  </Typography>
+  <StyledEngineProvider injectFirst>
+    <Typography className={cn(style.tableTitle, props.extendClass)} {...props}>
+      {props.children}
+    </Typography>
+  </StyledEngineProvider>
 );

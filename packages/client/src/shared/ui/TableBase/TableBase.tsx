@@ -1,8 +1,7 @@
 import { Table, TableBody, TableHead, TableRow } from '@mui/material';
 
 import style from './index.module.scss';
-import { StyledTableContainer } from '../Styled/StyledTableContainer';
-import { StyledTableCell } from '../Styled/StyledTableCell';
+import { StyledTableCell, StyledTableContainer } from '../Styled';
 
 type Row = {
   place: number;
@@ -25,23 +24,25 @@ export const TableBase = (props: TableBaseProps) => {
       <Table>
         <TableHead>
           <TableRow>
-            {tableNames.map(name => (
-              <StyledTableCell align="center">{name}</StyledTableCell>
+            {tableNames.map((name, idx) => (
+              <StyledTableCell key={idx} align="center">
+                {name}
+              </StyledTableCell>
             ))}
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row, idx) => (
             <TableRow key={idx}>
-              {(Object.keys(row) as RowKey[]).map((key) => (
-                <StyledTableCell align="center">
+              {(Object.keys(row) as RowKey[]).map((key, idx) => (
+                <StyledTableCell key={idx} align="center">
                   {key === 'name' ? (
                     <>
                       <img className={style.image} src={avatar} />
                       {row[key]}
                     </>
                   ) : (
-                    <>{row[key]}</>
+                    row[key]
                   )}
                 </StyledTableCell>
               ))}

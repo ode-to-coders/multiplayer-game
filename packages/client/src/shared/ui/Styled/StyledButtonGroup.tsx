@@ -1,15 +1,25 @@
-import { ButtonGroup } from '@mui/material';
+import {
+  ButtonGroup,
+  ButtonGroupProps,
+  StyledEngineProvider,
+} from '@mui/material';
+import cn from 'classnames';
 import { FC, PropsWithChildren } from 'react';
+
 import style from './index.module.scss';
 
 type StyledGroupProps = {
-  [key: string]: string | number | boolean | JSX.Element[] | JSX.Element | null;
-};
+  extendClass?: string;
+} & ButtonGroupProps;
 
 export const StyledButtonGroup: FC<
   PropsWithChildren<StyledGroupProps>
 > = props => (
-  <ButtonGroup className={style.buttonGroup} {...props}>
-    {props.children}
-  </ButtonGroup>
+  <StyledEngineProvider injectFirst>
+    <ButtonGroup
+      className={cn(style.buttonGroup, props.extendClass)}
+      {...props}>
+      {props.children}
+    </ButtonGroup>
+  </StyledEngineProvider>
 );

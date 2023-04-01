@@ -4,12 +4,10 @@ import { Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
 import { PAGES } from '../../app/lib/routes.types';
-import { StyledContainer, StyledDescribe } from '../../shared/ui/Styled';
-import { StyledGridItem } from '../../shared/ui/Styled/StyledGridItem';
+import { StyledContainer, StyledDescribe, StyledGridItem } from '../../shared/ui/Styled';
 
 import style from './index.module.scss';
 import logo from './logo.png';
-
 
 export const StartPage = () => {
   return (

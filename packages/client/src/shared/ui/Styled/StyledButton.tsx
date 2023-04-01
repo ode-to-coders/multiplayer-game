@@ -1,13 +1,17 @@
-import { Button } from '@mui/material';
+import { Button, ButtonProps, StyledEngineProvider } from '@mui/material';
+import cn from 'classnames';
 import { FC, PropsWithChildren } from 'react';
+
 import style from './index.module.scss';
 
 type StyledButtonProps = {
-  [key: string]: string | number | boolean | JSX.Element[] | JSX.Element | null;
-};
+  extendClass?: string;
+} & ButtonProps;
 
 export const StyledButton: FC<PropsWithChildren<StyledButtonProps>> = props => (
-  <Button className={style.button} {...props}>
-    {props.children}
-  </Button>
+  <StyledEngineProvider injectFirst>
+    <Button className={cn(style.button, props.extendClass)} {...props}>
+      {props.children}
+    </Button>
+  </StyledEngineProvider>
 );
