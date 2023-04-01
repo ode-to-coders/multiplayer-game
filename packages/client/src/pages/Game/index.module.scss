@@ -3,8 +3,9 @@
   margin-bottom: 15vh;
 }
 
-div>.container {
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
 }

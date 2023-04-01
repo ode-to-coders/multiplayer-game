@@ -1,10 +1,16 @@
-import { Grid } from '@mui/material';
+import { Grid, GridProps, StyledEngineProvider } from '@mui/material';
 import { FC, PropsWithChildren } from 'react';
 
 type StyledGridItemProps = {
-  [key: string]: string | number | boolean | JSX.Element[] | JSX.Element | null;
-};
+  extendClass?: string;
+} & GridProps;
 
 export const StyledGridItem: FC<
   PropsWithChildren<StyledGridItemProps>
-> = props => <Grid {...props}>{props.children}</Grid>;
+> = props => (
+  <StyledEngineProvider injectFirst>
+    <Grid className={props.extendClass} {...props}>
+      {props.children}
+    </Grid>
+  </StyledEngineProvider>
+);

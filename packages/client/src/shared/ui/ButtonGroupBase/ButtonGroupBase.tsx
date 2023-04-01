@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom';
 
 import { PAGES } from '../../../app/lib/routes.types';
+import { StyledButton, StyledButtonGroup } from '../Styled';
 
-import { StyledButton } from '../Styled/StyledButton';
-import { StyledButtonGroup } from '../Styled/StyledButtonGroup';
-import style from './index.module.scss'
+import style from './index.module.scss';
 
 export const ButtonGroupBase = () => {
   return (

@@ -1,25 +1,22 @@
-import { ReactNode } from 'react';
-import { Container, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 
 import { PAGES } from '../lib/routes.types';
+import { StyledContainer } from '@/shared/ui/Styled';
+
+import style from './index.module.scss';
 
 interface ILayoutProps {
-  children?: ReactNode;
+  children?: React.ReactNode;
 }
 
 export const Layout: React.FC<ILayoutProps> = ({ children }) => {
   // TODO Grid с ссылками для начального удобства, как большинство будет готово надо удалить
   return (
-    <Container
+    <StyledContainer
       maxWidth={false}
       disableGutters
-      sx={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'var(--color-layout)',
-      }}>
+      extendClass={style.container}>
       <Grid container spacing={2} justifyContent="center">
         <Grid item>
           <Link to={PAGES.MAIN}>Главная</Link>
@@ -45,6 +42,6 @@ export const Layout: React.FC<ILayoutProps> = ({ children }) => {
       </Grid>
       {children && children}
       <Outlet />
-    </Container>
+    </StyledContainer>
   );
 };

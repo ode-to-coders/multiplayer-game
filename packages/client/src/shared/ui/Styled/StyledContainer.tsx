@@ -1,15 +1,18 @@
-import { Container } from '@mui/material';
+import { Container, ContainerProps, StyledEngineProvider } from '@mui/material';
+import cn from 'classnames';
 import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledContainerProps = {
-  [key: string]: string | number | boolean | JSX.Element[] | JSX.Element | null;
-};
+  extendClass?: string;
+} & ContainerProps;
 
 export const StyledContainer: FC<
   PropsWithChildren<StyledContainerProps>
 > = props => (
-  <Container className={style.container} {...props}>
-    {props.children}
-  </Container>
+  <StyledEngineProvider injectFirst>
+    <Container className={cn(style.container, props.extendClass)} {...props}>
+      {props.children}
+    </Container>
+  </StyledEngineProvider>
 );
