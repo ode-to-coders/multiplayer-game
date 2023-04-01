@@ -35,8 +35,8 @@ function Topic(props: TopicT) {
             <Box className={styles.comment}>
               <Avatar />
               <Box className={styles.info}>
-                {comment.user}
-                comment.text
+                <div className={styles.username}>{comment.user}</div>
+                <div className={styles.text}>{comment.text}</div>
               </Box>
             </Box>
           ))}
