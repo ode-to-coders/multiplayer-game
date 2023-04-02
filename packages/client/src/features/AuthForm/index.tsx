@@ -58,7 +58,7 @@ export const AuthForm = () => {
       setTimeout(() => {
         console.log(`привет, ${res.user}!`);
 
-        navigate('/game')
+        navigate(PAGES.GAME)
 
       }, 1000);
     } else {

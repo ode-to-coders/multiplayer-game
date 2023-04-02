@@ -61,13 +61,13 @@ export const RegForm = () => {
       setTimeout(() => {
         console.log(`Добро пожаловать onboard, Искатель приключений ${data.first_name.toUpperCase()}`);
 
-        navigate('/game')
+        navigate(PAGES.GAME)
 
       }, 1000)
     } else {
       alert('что-то пошло не так, попробуйте еще раз')
     }
-    
+
   };
 
   return (
