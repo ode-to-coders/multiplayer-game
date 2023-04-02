@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Outlet } from 'react-router-dom';
 
 import { PAGES } from '../lib/routes.types';
-import { StyledContainer, StyledGridItem } from '@/shared/ui/Styled';
+import { StyledContainer, StyledGridItem } from '../../shared/ui/Styled';
 
 
 import style from './index.module.scss';
