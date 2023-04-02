@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import cn from 'classnames';
 import { Portal, Snackbar } from '@mui/material';
 
@@ -16,7 +16,7 @@ export interface ICustomNotificationProps {
   errorMessage?: string | React.ReactElement;
   loadingMessage?: string | React.ReactElement;
   autoClose?: boolean;
-  onCloseCb?: () => void;
+  onClose?: () => void;
 }
 
 export const CustomNotification: React.FC<ICustomNotificationProps> = ({
@@ -29,7 +29,7 @@ export const CustomNotification: React.FC<ICustomNotificationProps> = ({
   errorMessage = 'Произошла ошибка',
   loadingMessage = 'Загрузка',
   autoClose = true,
-  onCloseCb,
+  onClose,
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string | React.ReactElement>('');
@@ -65,16 +65,18 @@ export const CustomNotification: React.FC<ICustomNotificationProps> = ({
     successMessage,
   ]);
 
+  const handleOnClose = useCallback(() => {
+    if (autoClose) {
+      onClose && onClose();
+      setOpen(false);
+    }
+  }, [autoClose, onClose]);
+
   return (
     <Portal>
       <Snackbar
         open={open}
-        onClose={() => {
-          if (autoClose) {
-            onCloseCb && onCloseCb();
-            setOpen(false);
-          }
-        }}
+        onClose={handleOnClose}
         ClickAwayListenerProps={{ onClickAway: () => null }}
         autoHideDuration={timeout}
         transitionDuration={200}

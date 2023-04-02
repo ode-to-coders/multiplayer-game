@@ -6,11 +6,7 @@ import { StyledContainer } from '../../shared/ui/Styled';
 
 import style from './index.module.scss';
 
-interface ILayoutProps {
-  children?: React.ReactNode;
-}
-
-export const Layout: React.FC<ILayoutProps> = ({ children }) => {
+export const Layout: React.FC<React.PropsWithChildren> = (props) => {
   // TODO Grid с ссылками для начального удобства, как большинство будет готово надо удалить
   return (
     <StyledContainer
@@ -40,7 +36,7 @@ export const Layout: React.FC<ILayoutProps> = ({ children }) => {
           <Link to={PAGES.SERVER_ERROR}>500</Link>
         </Grid>
       </Grid>
-      {children && children}
+      {props.children}
       <Outlet />
     </StyledContainer>
   );

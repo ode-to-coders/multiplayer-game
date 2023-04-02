@@ -30,7 +30,7 @@ export const ErrorFallbackPage = () => {
   return (
     <Layout>
       <StyledContainer
-        className={style.container}
+        extendClass={style.container}
         maxWidth={false}
         disableGutters>
         <StyledDescribe variant="body1" className={style.describe}>
