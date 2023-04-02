@@ -1,44 +1,43 @@
-import { Container, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Link, Outlet } from 'react-router-dom';
 
 import { PAGES } from '../lib/routes.types';
+import { StyledContainer } from '../../shared/ui/Styled';
 
-export const Layout = () => {
+import style from './index.module.scss';
+
+export const Layout: React.FC<React.PropsWithChildren> = props => {
   // TODO Grid с ссылками для начального удобства, как большинство будет готово надо удалить
   return (
-    <Container
+    <StyledContainer
       maxWidth={false}
       disableGutters
-      sx={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'var(--color-layout)',
-      }}>
+      extendClass={style.container}>
       <Grid container spacing={2} justifyContent="center">
         <Grid item>
-          <Link to={PAGES.main}>Main</Link>
+          <Link to={PAGES.MAIN}>Главная</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.game}>Game</Link>
+          <Link to={PAGES.GAME}>Игра</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.profile}>Profile</Link>
+          <Link to={PAGES.PROFILE}>Профиль</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.signin}>Signin</Link>
+          <Link to={PAGES.SIGNIN}>Авторизация</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.registration}>Registration</Link>
+          <Link to={PAGES.REGISTRATION}>Регистрация</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.not_found}>404</Link>
+          <Link to={PAGES.NOTFOUND}>404</Link>
         </Grid>
         <Grid item>
-          <Link to={PAGES.server_error}>500</Link>
+          <Link to={PAGES.SERVER_ERROR}>500</Link>
         </Grid>
       </Grid>
+      {props.children}
       <Outlet />
-    </Container>
+    </StyledContainer>
   );
 };

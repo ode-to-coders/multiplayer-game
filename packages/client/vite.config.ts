@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import dotenv from 'dotenv';
 import { resolve } from 'node:path';
+import svgr from 'vite-plugin-svgr';
 
 dotenv.config();
 
@@ -24,5 +25,5 @@ export default defineConfig({
       widgets: resolve(__dirname, 'src/widgets/'),
     },
   },
-  plugins: [react()],
+  plugins: [react(), svgr()],
 });

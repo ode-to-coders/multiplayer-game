@@ -1,24 +1,31 @@
 import { Registration } from 'pages/Registration';
 import { Signin } from 'pages/Signin';
+import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
 import { PAGES, Routes } from './routes.types';
+
+import LeaderBoard from 'pages/leaderBoard';
+import ratings from '../../mocks/ratings.json';
+
 /**
  * Роуты главной страницы, до авторизации
  */
+
+// TODO выпилить мок
 const MAIN_ROUTES: Routes = [
   {
-    path: PAGES.main,
+    path: PAGES.MAIN,
     Component: () => <div>Main</div>,
   },
   {
-    path: PAGES.about,
+    path: PAGES.ABOUT,
     Component: () => <div>About</div>,
   },
   {
-    path: PAGES.rules,
+    path: PAGES.RULES,
     Component: () => <div>Rules</div>,
   },
   {
-    path: PAGES.video,
+    path: PAGES.VIDEO,
     Component: () => <div>Video</div>,
   },
 ];
@@ -27,19 +34,27 @@ const MAIN_ROUTES: Routes = [
  */
 const GAME_ROUTES: Routes = [
   {
-    path: PAGES.game,
-    Component: () => <div>Game</div>,
+    path: PAGES.GAME,
+    Component: () => <GamePage />,
   },
   {
-    path: PAGES.leaderboard,
-    Component: () => <div>Leaderboard</div>,
+    path: PAGES.START_GAME,
+    Component: () => <StartPage />,
   },
   {
-    path: PAGES.forum,
+    path: PAGES.ENDGAME,
+    Component: () => <EndPage />,
+  },
+  {
+    path: PAGES.LEADERBOARD,
+    Component: () => <LeaderBoard users={ratings} />,
+  },
+  {
+    path: PAGES.FORUM,
     Component: () => <div>Form</div>,
   },
   {
-    path: PAGES.rooms,
+    path: PAGES.ROOMS,
     Component: () => <div>Rooms</div>,
   },
 ];
@@ -48,15 +63,15 @@ const GAME_ROUTES: Routes = [
  */
 const PROFILE_ROUTES: Routes = [
   {
-    path: PAGES.editProfile,
-    Component: () => <div>EditProfile</div>,
+    path: PAGES.EDIT_PROFILE,
+    Component: () => <div>Edit profile</div>,
   },
   {
-    path: PAGES.editPassword,
-    Component: () => <div>EditProfile</div>,
+    path: PAGES.EDIT_PASSWORD,
+    Component: () => <div>Edit Password</div>,
   },
   {
-    path: PAGES.profile,
+    path: PAGES.PROFILE,
     Component: () => <div>Profile</div>,
   },
 ];
@@ -65,11 +80,11 @@ const PROFILE_ROUTES: Routes = [
  */
 const AUTH_ROUTES: Routes = [
   {
-    path: PAGES.signin,
+    path: PAGES.SIGNIN,
     Component: () => <Signin />,
   },
   {
-    path: PAGES.registration,
+    path: PAGES.REGISTRATION,
     Component: () => <Registration />,
   },
 ];
@@ -78,12 +93,12 @@ const AUTH_ROUTES: Routes = [
  */
 const ERROR_ROUTES: Routes = [
   {
-    path: PAGES.not_found,
-    Component: () => <div>Not found</div>,
+    path: PAGES.NOTFOUND,
+    Component: () => <ErrorPage code={404} text="Не туда попали" />,
   },
   {
-    path: PAGES.server_error,
-    Component: () => <div>Server Error</div>,
+    path: PAGES.SERVER_ERROR,
+    Component: () => <ErrorPage code={500} text="Мы уже фиксим" />,
   },
 ];
 

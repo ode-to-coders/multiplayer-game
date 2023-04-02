@@ -24,7 +24,7 @@ function App() {
   // TODO как подключим uuid, в key надо будет передавать его
   return (
     <Routes>
-      <Route path="*" element={<Navigate to={`${PAGES.not_found}`} />} />
+      <Route path="*" element={<Navigate to={`${PAGES.NOTFOUND}`} />} />
       {routesConfig.map((route, idx) => (
         <Route element={<Layout />} key={idx}>
           <Route
