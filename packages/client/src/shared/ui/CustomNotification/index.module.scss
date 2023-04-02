@@ -1,0 +1,42 @@
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  line-height: 2rem;
+  min-height: 7.2rem;
+  min-width: 28rem;
+  padding: 0 1rem;
+  background-color: var(--color-primary);
+  border-radius: 0.5rem;
+  box-shadow: 2px 2px 20px 8px rgba(76, 84, 110, 0.1);
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+}
+
+.success {
+  background-color: var(--color-success);
+}
+
+.error {
+  background-color: var(--color-error);
+}
+
+.warning {
+  background-color: var(--color-orange);
+}
+
+.loading {
+  background-color: var(--color-grey);
+}
