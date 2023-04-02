@@ -1,3 +1,5 @@
+import { Registration } from 'pages/Registration';
+import { Signin } from 'pages/Signin';
 import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
 import { PAGES, Routes } from './routes.types';
 
@@ -79,11 +81,11 @@ const PROFILE_ROUTES: Routes = [
 const AUTH_ROUTES: Routes = [
   {
     path: PAGES.SIGNIN,
-    Component: () => <div>Signin</div>,
+    Component: () => <Signin />,
   },
   {
     path: PAGES.REGISTRATION,
-    Component: () => <div>Registration</div>,
+    Component: () => <Registration />,
   },
 ];
 /**
