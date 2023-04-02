@@ -1,0 +1,59 @@
+.box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 455;
+  background-color: var(--color-layout);
+  box-shadow: 0.14;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 0.75rem;
+  color: var(--color-primary);
+}
+
+.button {
+  background-color: var(--color-blue);
+  color: var(--color-primary);
+  border-radius: 0.5rem;
+  width: 11.5rem;
+  font-size: 0.8125rem;
+  line-height: 0.8125rem;
+  text-transform: inherit;
+  padding: 0.75rem;
+}
+
+.buttonGroup {
+  margin-top: 1.5rem;
+}
+
+.container {
+  background-color: var(--color-layout);
+}
+
+.describe {
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  line-height: 1.25rem;
+}
+
+.tableTitle {
+  color: var(--color-primary);
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+}
+
+.tableCell {
+  padding: 0.625rem 0.125rem;
+  color: var(--color-primary);
+  font-size: 0.625rem;
+  line-height: 0.625rem;
+}
+
+.tableContainer {
+  border: 0.0625rem solid var(--color-grey);
+  border-radius: 0.3125rem;
+  margin-top: 1.25rem;
+}
