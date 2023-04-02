@@ -1,8 +1,8 @@
 import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
 import { PAGES, Routes } from './routes.types';
 
-import MainPage from 'pages/main';
-import LeaderBoard from 'pages/leaderBoard';
+import MainPage from 'pages/Main';
+import LeaderBoard from 'pages/LeaderBoard';
 import ratings from '../../mocks/ratings.json';
 
 /**
@@ -12,7 +12,7 @@ import ratings from '../../mocks/ratings.json';
 // TODO выпилить мок
 const MAIN_ROUTES: Routes = [
   {
-    path: PAGES.main,
+    path: PAGES.MAIN,
     Component: () => <MainPage />,
   },
   {
