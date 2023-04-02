@@ -20,7 +20,7 @@ export const enum PAGES {
   ENDGAME = '/game/end',
   LEADERBOARD = '/game/leaderboard',
   FORUM = '/game/forum',
-  Topic = 'game/topic',
+  TOPIC = 'game/topic',
   ROOMS = '/game/rooms',
   SIGNIN = '/signin',
   REGISTRATION = '/registration',
