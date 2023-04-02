@@ -8,7 +8,7 @@ import { TopicT, Comment } from './types';
 
 import styles from './index.module.scss';
 
-function Topic(props: TopicT) {
+export function Topic(props: TopicT) {
   const {
     topic
   } = props;
@@ -44,5 +44,3 @@ function Topic(props: TopicT) {
     </div>
   );
 }
-
-export default Topic;

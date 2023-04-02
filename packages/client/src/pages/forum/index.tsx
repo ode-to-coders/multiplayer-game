@@ -12,7 +12,7 @@ import { TopicsT, Subject} from './types';
 
 import styles from './index.module.scss';
 
-function Forum(props: TopicsT) {
+export function Forum(props: TopicsT) {
   const {
     topics
   } = props;
@@ -75,5 +75,3 @@ function Forum(props: TopicsT) {
     </Paper>
   );
 }
-
-export default Forum;
