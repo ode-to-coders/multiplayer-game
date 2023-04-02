@@ -105,7 +105,7 @@ export const RegForm = () => {
         </div>
       )}
       <FormButton type="submit" className={s.btnSubmit}>Зарегистрироваться</FormButton>
-      <Link to={PAGES.signin} className={s.link}>Войти</Link>
+      <Link to={PAGES.SIGNIN} className={s.link}>Войти</Link>
     </form>
   )
 }

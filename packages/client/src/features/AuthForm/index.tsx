@@ -102,7 +102,7 @@ export const AuthForm = () => {
         </div>
       )}
       <FormButton type="submit" className={s.btnSubmit}>Авторизоваться</FormButton>
-      <Link to={PAGES.registration} className={s.link}>Нет аккаунта?</Link>
+      <Link to={PAGES.REGISTRATION} className={s.link}>Нет аккаунта?</Link>
     </form>
   )
 }
