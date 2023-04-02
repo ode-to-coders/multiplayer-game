@@ -1,9 +1,14 @@
 import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
 import { PAGES, Routes } from './routes.types';
 
+import LeaderBoard from 'pages/leaderBoard';
+import ratings from '../../mocks/ratings.json';
+
 /**
  * Роуты главной страницы, до авторизации
  */
+
+// TODO выпилить мок
 const MAIN_ROUTES: Routes = [
   {
     path: PAGES.MAIN,
@@ -40,7 +45,7 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.LEADERBOARD,
-    Component: () => <div>Leaderboard</div>,
+    Component: () => <LeaderBoard users={ratings} />,
   },
   {
     path: PAGES.FORUM,
