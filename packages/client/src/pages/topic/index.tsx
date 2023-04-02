@@ -31,8 +31,8 @@ function Topic(props: TopicT) {
           <div className={styles.description}>{description}</div>
           <Divider className={styles.divider} />
 
-          {comments.map((comment: Comment) => (
-            <Box className={styles.comment}>
+          {comments.map((comment: Comment, index: number) => (
+            <Box className={styles.comment} key={index}>
               <Avatar />
               <Box className={styles.info}>
                 <div className={styles.username}>{comment.user}</div>

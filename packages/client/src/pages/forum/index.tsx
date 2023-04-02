@@ -2,12 +2,11 @@ import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell,  { tableCellClasses } from '@mui/material/TableCell';
+import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { styled } from '@mui/material/styles';
 
 import { TopicsT, Subject} from './types';
 
@@ -30,63 +29,34 @@ function Forum(props: TopicsT) {
     setPage(0);
   };
 
-  const styledTable= {
-    backgroundColor: 'var(--color-layout)',
-    color: 'var(--color-primary)',
-    align: 'left'
-  };
-
-  const StyledTableCell = styled(TableCell)(() => ({
-    [`&.${tableCellClasses.head}`]: {
-      ...styledTable,
-      borderBottom: '1px solid var(--color-divider)',
-      minWidth: 170,
-      align: 'left'
-    },
-    [`&.${tableCellClasses.body}`]: {
-      ...styledTable
-    },
-  }));
-
   return (
     <Paper className={styles.paper}>
       <TableContainer className={styles.container}>
         <Table stickyHeader aria-label="sticky table">
-          <TableHead>
+          <TableHead className={styles.header}>
             <TableRow>
-              <StyledTableCell>
-                Тема
-              </StyledTableCell>
-              <StyledTableCell>
-                Комментарии
-              </StyledTableCell>
-              <StyledTableCell>
-                Создатель
-              </StyledTableCell>
-              <StyledTableCell>
-                Дата
-              </StyledTableCell>
+              <TableCell className={styles.cell}>Тема</TableCell>
+              <TableCell className={styles.cell}>Комментарии</TableCell>
+              <TableCell className={styles.cell}>Создатель</TableCell>
+              <TableCell className={styles.cell}>Дата</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {topics.map((item: Subject, i: number) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={i}>
-                    <StyledTableCell>
-                      {item.subject}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      {item.comments_count}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      {item.user.name}
-                    </StyledTableCell>
-                    <StyledTableCell>
-                      {item.date}
-                    </StyledTableCell>
-                  </TableRow>
-                );
-              })}
+            {topics.map((item: Subject, index: number) => {
+              return (
+                <TableRow
+                  hover
+                  role="checkbox"
+                  tabIndex={-1}
+                  key={index}
+                >
+                  <TableCell className={styles.cell}>{item.subject}</TableCell>
+                  <TableCell className={styles.cell}>{item.comments_count}</TableCell>
+                  <TableCell className={styles.cell}>{item.user.name}</TableCell>
+                  <TableCell className={styles.cell}>{item.date}</TableCell>
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </TableContainer>

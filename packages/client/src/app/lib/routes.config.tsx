@@ -2,8 +2,8 @@ import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
 import { PAGES, Routes } from './routes.types';
 
 import LeaderBoard from 'pages/leaderBoard';
-import Forum from 'pages/forum';
-import Topic from 'pages/topic';
+import Forum from 'pages/Forum';
+import Topic from 'pages/Topic';
 
 import topics from '../../mocks/topics.json';
 import topic from '../../mocks/topic.json';
