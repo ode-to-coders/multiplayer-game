@@ -6,7 +6,7 @@ import { LeaderBoardT, User } from './types';
 import styles from './index.module.scss';
 
 
-export function LeaderBoard(props: LeaderBoardT) {
+export function LeaderBoardPage(props: LeaderBoardT) {
   const {
     users,
   } = props;

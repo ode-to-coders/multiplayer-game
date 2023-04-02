@@ -8,7 +8,7 @@ import { TopicT, Comment } from './types';
 
 import styles from './index.module.scss';
 
-export function Topic(props: TopicT) {
+export function TopicPage(props: TopicT) {
   const {
     topic
   } = props;

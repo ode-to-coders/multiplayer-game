@@ -3,9 +3,9 @@ import {
   ErrorPage,
   GamePage,
   StartPage,
-  LeaderBoard,
-  Forum,
-  Topic,
+  LeaderBoardPage,
+  ForumPage,
+  TopicPage,
 } from '../../pages'
 
 import { PAGES, Routes } from './routes.types';
@@ -54,15 +54,15 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.LEADERBOARD,
-    Component: () => <LeaderBoard users={ratings} />,
+    Component: () => <LeaderBoardPage users={ratings} />,
   },
   {
     path: PAGES.FORUM,
-    Component: () => <Forum topics={topics} />,
+    Component: () => <ForumPage topics={topics} />,
   },
   {
     path: PAGES.TOPIC,
-    Component: () => <Topic topic={topic} />,
+    Component: () => <TopicPage topic={topic} />,
   },
   {
     path: PAGES.ROOMS,
