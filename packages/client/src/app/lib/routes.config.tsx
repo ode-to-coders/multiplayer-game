@@ -1,5 +1,6 @@
 import { PAGES, Routes } from './routes.types';
 
+import MainPage from 'pages/main';
 import LeaderBoard from 'pages/leaderBoard';
 import ratings from '../../mocks/ratings.json';
 /**
@@ -10,7 +11,7 @@ import ratings from '../../mocks/ratings.json';
 const MAIN_ROUTES: Routes = [
   {
     path: PAGES.main,
-    Component: () => <div>Main</div>,
+    Component: () => <MainPage />,
   },
   {
     path: PAGES.about,
