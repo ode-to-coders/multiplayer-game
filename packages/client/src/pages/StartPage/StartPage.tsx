@@ -17,13 +17,21 @@ export const StartPage = () => {
         direction="row"
         justifyContent="center"
         alignItems="center">
-        <StyledGridItem item xs="auto" className={style.gridItem}>
+        <StyledGridItem
+          item
+          xs="auto"
+          className={style.gridItem}
+        >
           <Link className={style.link} to={PAGES.GAME}>
             Назад
           </Link>
         </StyledGridItem>
         <StyledGridItem item xs className={style.gridMainItem}>
-          <img className={style.img} src={logo} alt="логотип" />
+          <img
+            className={style.img}
+            src={logo}
+            alt="логотип"
+          />
           <StyledDescribe variant="body1">Ожидание игроков...</StyledDescribe>
         </StyledGridItem>
       </Grid>

@@ -1,11 +1,20 @@
-import { Registration } from 'pages/Registration';
-import { Signin } from 'pages/Signin';
-import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
+import {
+  EndPage,
+  ErrorPage,
+  GamePage,
+  StartPage,
+  LeaderBoardPage,
+  ForumPage,
+  TopicPage,
+  Registration,
+  Signin
+} from '../../pages'
+
 import { PAGES, Routes } from './routes.types';
 
-import LeaderBoard from 'pages/leaderBoard';
+import topics from '../../mocks/topics.json';
+import topic from '../../mocks/topic.json';
 import ratings from '../../mocks/ratings.json';
-
 /**
  * Роуты главной страницы, до авторизации
  */
@@ -47,11 +56,15 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.LEADERBOARD,
-    Component: () => <LeaderBoard users={ratings} />,
+    Component: () => <LeaderBoardPage users={ratings} />,
   },
   {
     path: PAGES.FORUM,
-    Component: () => <div>Form</div>,
+    Component: () => <ForumPage topics={topics} />,
+  },
+  {
+    path: PAGES.TOPIC,
+    Component: () => <TopicPage topic={topic} />,
   },
   {
     path: PAGES.ROOMS,
