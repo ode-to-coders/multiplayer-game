@@ -1,6 +1,4 @@
-import { Registration } from 'pages/Registration';
-import { Signin } from 'pages/Signin';
-import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
+import { EndPage, ErrorPage, GamePage, StartPage, Signin, Registration, Profile } from '../../pages';
 import { PAGES, Routes } from './routes.types';
 
 import LeaderBoard from 'pages/leaderBoard';
@@ -64,15 +62,15 @@ const GAME_ROUTES: Routes = [
 const PROFILE_ROUTES: Routes = [
   {
     path: PAGES.EDIT_PROFILE,
-    Component: () => <div>Edit profile</div>,
+    Component: () => <Profile page={PAGES.EDIT_PROFILE} />,
   },
   {
     path: PAGES.EDIT_PASSWORD,
-    Component: () => <div>Edit Password</div>,
+    Component: () => <Profile page={PAGES.EDIT_PASSWORD} />,
   },
   {
     path: PAGES.PROFILE,
-    Component: () => <div>Profile</div>,
+    Component: () => <Profile page={PAGES.PROFILE} />,
   },
 ];
 /**

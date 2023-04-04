@@ -1,0 +1,76 @@
+.myForm {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  background: var(--color-layout);
+  width: 510px;
+  height: 280px;
+
+  .wrapLabelInputMsg {
+    display: flex;
+    flex-direction: column;
+    
+    .myWrapInput {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      width: 510px;
+      height: 35px;
+      border-bottom: 2px solid var(--color-lightGrey);
+      transition: border-bottom-color 0.1s ease-in-out;
+      
+      &:focus-within, &:hover {
+        border-bottom: 2px solid var(--color-blue);
+      }
+
+      &:focus-within .myInputLabel {
+        color: var(--color-blue);
+        transition: color 0.1s ease-in-out;
+      }
+
+      &:hover .myInput {
+        text-shadow: 1px 0 20px var(--color-primary);
+      }
+
+      .myInputLabel {
+        color: var(--color-primary);
+        display: block;
+        width: 100%;
+      }
+
+      .myInput {
+        color: var(--color-primary);
+        margin-bottom: 0;
+        text-align: right;
+        border: none;
+        background-color: inherit;
+        width: 280px;
+        height: 35px;
+        
+        &::placeholder {
+          color: var(--color-grey);
+        }
+
+        &:focus {
+          outline: none;
+        }
+      }      
+    }
+
+    .msg {
+      color: var(--color-error);
+      font-size: 12px;
+      align-self: center;
+      position: absolute;
+      margin-top: 18px;
+      background-color: var(--color-layout)
+    }
+  }
+
+  .btnSubmit {
+    margin-top: auto;
+  }
+}
