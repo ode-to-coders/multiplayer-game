@@ -21,6 +21,7 @@ export default defineConfig({
       entities: resolve(__dirname, 'src/entities/'),
       features: resolve(__dirname, 'src/features/'),
       pages: resolve(__dirname, 'src/pages/'),
+      components: resolve(__dirname, 'src/components/'),
       shared: resolve(__dirname, 'src/shared/'),
       widgets: resolve(__dirname, 'src/widgets/'),
     },

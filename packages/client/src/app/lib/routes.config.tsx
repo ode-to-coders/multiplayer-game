@@ -7,7 +7,8 @@ import {
   ForumPage,
   TopicPage,
   Registration,
-  Signin
+  Signin,
+  MainPage,
 } from '../../pages'
 
 import { PAGES, Routes } from './routes.types';
@@ -23,7 +24,7 @@ import ratings from '../../mocks/ratings.json';
 const MAIN_ROUTES: Routes = [
   {
     path: PAGES.MAIN,
-    Component: () => <div>Main</div>,
+    Component: () => <MainPage />,
   },
   {
     path: PAGES.ABOUT,
