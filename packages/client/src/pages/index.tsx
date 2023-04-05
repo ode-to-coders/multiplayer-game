@@ -8,3 +8,4 @@ export { ForumPage } from './ForumPage';
 export { Registration } from './Registration';
 export { Signin } from './Signin';
 export { MainPage } from './MainPage';
+export { Profile } from './Profile';

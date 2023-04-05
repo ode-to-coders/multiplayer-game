@@ -37,3 +37,33 @@ export const yupSchemaSigninForm = yup.object().shape({
   password: yup.string()
     .required('Введите пароль')
 });
+
+export const yupSchemaProfileEditForm = yup.object().shape({
+  email: yup.string()
+    .matches(/^([\w-]+@[a-zA-Z]+\.[a-zA-Z]+)?$/, 'Не соответствует формату email ***@***.***'),
+  login: yup.string()
+    .matches(/^([a-zA-Z].*)?$/, 'Должен начинаться с латинской буквы')
+    .matches(/^([a-zA-Z0-9]+)?$/, 'Содержит только латинские буквы и цифры')
+    .max(20, 'Максимально количество 20 символов'),
+  first_name: yup.string()
+    .optional()
+    .matches(/^([A-ZА-ЯЁ][-a-zа-яё]*)?$/, 'Заглавная + прописные: а-я a-z -'),
+  second_name: yup.string()
+    .matches(/^([A-ZА-ЯЁ][-a-zа-яё]*)?$/, 'Заглавная + прописные: а-я a-z -'),
+  display_name: yup.string()
+    .max(30, 'Не больше 30'),
+  phone: yup.string()
+    .matches(/^(\+?\d{10,15})?$/, '10-15 цифр, можно начать с "+"')
+});
+
+export const yupSchemaProfileEditPasswordForm = yup.object().shape({
+  password: yup.string()
+    .required('Введите новый пароль')
+    .min(8, 'Пароль должен содержать не менее 8 символов')
+    .matches(/(?=.*[A-ZА-Я])/, 'Должна быть хотя бы одна заглавная буква')
+    .matches(/(?=.*\d)/, 'Должна быть хотя бы одна цифра')
+    .max(50, 'Пароль должен содержать не больше 50 символов'),
+  password_repeat: yup.string()
+    .required('Повторно введите новый пароль')
+    .oneOf([yup.ref('password'), ''], 'Пароли не совпадают')
+});
