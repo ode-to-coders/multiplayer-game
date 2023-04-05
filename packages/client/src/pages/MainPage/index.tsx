@@ -1,15 +1,15 @@
 import { useRef } from 'react';
-import { Button, StyledEngineProvider } from '@mui/material';
 import { Grid } from '@mui/material';
 
 import AboutGame from '../../components/AboutGame';
 import Video from '../../components/Video';
+import { StyledButton } from '../../shared/ui/Styled/StyledButton';
 
 import logo from '../../images/logo.png';
 
 import styles from './index.module.scss';
 
-function MainPage() {
+export function MainPage() {
   const aboutAnchor = useRef<HTMLDivElement>(null);
   const videoAnchor = useRef<HTMLDivElement>(null);
   const toPlay = useRef<HTMLDivElement>(null);
@@ -47,11 +47,9 @@ function MainPage() {
       <div className={styles.logo}>
         <img src={logo} />
       </div>
-      <StyledEngineProvider injectFirst>
-        <Button className={styles.button}>
-          Играть
-        </Button>
-      </StyledEngineProvider>
+      <StyledButton>
+        Играть
+      </StyledButton>
     </div>
     <div ref={aboutAnchor}>
       <AboutGame />
@@ -63,4 +61,3 @@ function MainPage() {
   );
 }
 
-export default MainPage;

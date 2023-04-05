@@ -1,8 +1,12 @@
-import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
+import { EndPage,
+  ErrorPage,
+  GamePage,
+  StartPage,
+  MainPage,
+} from '../../pages';
 import { PAGES, Routes } from './routes.types';
+import LeaderBoard from '@/pages/leaderBoard';
 
-import MainPage from 'pages/Main';
-import LeaderBoard from 'pages/LeaderBoard';
 import ratings from '../../mocks/ratings.json';
 
 /**
