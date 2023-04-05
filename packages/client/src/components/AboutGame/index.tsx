@@ -2,7 +2,7 @@ import Grid from '@mui/material/Grid';
 
 import styles from './index.module.scss';
 
-import watch from '../../images/watch.svg'
+import watch from '../../images/watch.svg';
 import group from '../../images/group.svg';
 import stroller from '../../images/stroller.svg';
 
