@@ -8,9 +8,9 @@ import {
   TopicPage,
   Registration,
   Signin,
+  Profile,
   MainPage,
 } from '../../pages'
-
 import { PAGES, Routes } from './routes.types';
 
 import topics from '../../mocks/topics.json';
@@ -78,15 +78,15 @@ const GAME_ROUTES: Routes = [
 const PROFILE_ROUTES: Routes = [
   {
     path: PAGES.EDIT_PROFILE,
-    Component: () => <div>Edit profile</div>,
+    Component: () => <Profile page={PAGES.EDIT_PROFILE} />,
   },
   {
     path: PAGES.EDIT_PASSWORD,
-    Component: () => <div>Edit Password</div>,
+    Component: () => <Profile page={PAGES.EDIT_PASSWORD} />,
   },
   {
     path: PAGES.PROFILE,
-    Component: () => <div>Profile</div>,
+    Component: () => <Profile page={PAGES.PROFILE} />,
   },
 ];
 /**
