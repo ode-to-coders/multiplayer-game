@@ -36,7 +36,7 @@ export const ProfileMain = ({ profileData }: Props) => {
                 {item.label}
               </span>
               <span className={s.value}>              
-                {profileData[item.name as keyof IProfileData]}
+                {profileData[item.name]}
               </span>
           </div>
         )}

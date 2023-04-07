@@ -3,6 +3,8 @@ import { FormButton } from "shared/ui/FormButton";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
+import { yupSchemaProfileEditPasswordForm as schema } from 'shared/const/validate';
+import { yupResolver } from "@hookform/resolvers/yup"
 import { PAGES } from "app/lib/routes.types";
 
 import { helpingDataInputs } from "./helpingDataInputs";
@@ -22,7 +24,8 @@ export const ProfileEditPasswordForm = ({ profileData }: Props) => {
     formState: { errors },
     handleSubmit,
   } = useForm<IProfileEditPassword>({
-    mode: 'onChange'
+    mode: 'onChange',
+    resolver: yupResolver(schema)
   });
 
   const onSubmit = (data: IProfileEditPassword) => {
