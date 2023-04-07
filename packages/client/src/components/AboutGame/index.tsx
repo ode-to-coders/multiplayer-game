@@ -2,10 +2,9 @@ import Grid from '@mui/material/Grid';
 
 import styles from './index.module.scss';
 
-import watch from '../../images/watch.svg';
-import group from '../../images/group.svg';
-import stroller from '../../images/stroller.svg';
-
+import { ReactComponent as watch } from '../../images/watch.svg';
+import { ReactComponent as group } from '../../images/group.svg';
+import { ReactComponent as stroller } from '../../images/stroller.svg';
 
 function AboutGame() {
   return (
