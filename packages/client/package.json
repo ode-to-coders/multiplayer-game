@@ -21,12 +21,12 @@
     "prettier": "2.7.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "7.43.8",
     "react-error-boundary": "4.0.2",
+    "react-hook-form": "7.43.8",
     "react-router-dom": "6.9.0",
-    "yup": "1.0.2",
+    "styled-components": "5.3.9",
     "vite-plugin-svgr": "2.4.0",
-    "styled-components": "5.3.9"
+    "yup": "1.0.2"
   },
   "devDependencies": {
     "@testing-library/react": "13.3.0",
@@ -41,6 +41,7 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "28",
     "jest-environment-jsdom": "29.0.1",
+    "jest-svg-transformer": "^1.0.0",
     "lefthook": "1.1.1",
     "prettier": "2.7.1",
     "sass": "1.59.3",

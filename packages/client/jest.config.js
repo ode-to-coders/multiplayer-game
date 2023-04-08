@@ -19,4 +19,7 @@ export default {
     '^widgets(.*)$': '<rootDir>/src/widgets$1',
     '^components(.*)$': '<rootDir>/src/components$1',
   },
+  transform: {
+    "^.+\\.svg$": "jest-svg-transformer",
+  }
 };
