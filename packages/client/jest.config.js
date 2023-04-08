@@ -20,6 +20,6 @@ export default {
     '^components(.*)$': '<rootDir>/src/components$1',
   },
   transform: {
-    "^.+\\.svg$": "jest-svg-transformer",
+    "^.+\\.svg$": "<rootDir>/svgTransform.js",
   }
 };
