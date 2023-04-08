@@ -2,9 +2,9 @@ import Grid from '@mui/material/Grid';
 
 import styles from './index.module.scss';
 
-import watch from '../../images/watch.svg';
-import group from '../../images/group.svg';
-import stroller from '../../images/stroller.svg';
+import { ReactComponent as Watch } from '../../images/watch.svg';
+import { ReactComponent as Group } from '../../images/group.svg';
+import { ReactComponent as Stroller } from '../../images/stroller.svg';
 
 
 function AboutGame() {
@@ -20,13 +20,13 @@ function AboutGame() {
           rowSpacing={1}
           >
           <Grid item xs={4} className={styles.icon}>
-            <img src={group} />
+            <Group />
           </Grid>
           <Grid item xs={4} className={styles.icon}>
-            <img src={watch}/>
+            <Watch />
           </Grid>
           <Grid item xs={4} className={styles.icon}>
-            <img src={stroller} />
+            <Stroller />
           </Grid>
         </Grid>
         <div className={styles.description}>
