@@ -6,7 +6,7 @@ import { LeaderBoardT, User } from './types';
 import styles from './index.module.scss';
 
 
-function LeaderBoard(props: LeaderBoardT) {
+export function LeaderBoardPage(props: LeaderBoardT) {
   const {
     users,
   } = props;
@@ -80,5 +80,3 @@ function LeaderBoard(props: LeaderBoardT) {
     </div>
   );
 }
-
-export default LeaderBoard;

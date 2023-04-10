@@ -1,11 +1,21 @@
-import { Registration } from 'pages/Registration';
-import { Signin } from 'pages/Signin';
-import { EndPage, ErrorPage, GamePage, StartPage } from '../../pages';
+import {
+  EndPage,
+  ErrorPage,
+  GamePage,
+  StartPage,
+  LeaderBoardPage,
+  ForumPage,
+  TopicPage,
+  Registration,
+  Signin,
+  Profile,
+  MainPage,
+} from '../../pages'
 import { PAGES, Routes } from './routes.types';
 
-import LeaderBoard from 'pages/leaderBoard';
+import topics from '../../mocks/topics.json';
+import topic from '../../mocks/topic.json';
 import ratings from '../../mocks/ratings.json';
-
 /**
  * Роуты главной страницы, до авторизации
  */
@@ -14,7 +24,7 @@ import ratings from '../../mocks/ratings.json';
 const MAIN_ROUTES: Routes = [
   {
     path: PAGES.MAIN,
-    Component: () => <div>Main</div>,
+    Component: () => <MainPage />,
   },
   {
     path: PAGES.ABOUT,
@@ -47,11 +57,15 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.LEADERBOARD,
-    Component: () => <LeaderBoard users={ratings} />,
+    Component: () => <LeaderBoardPage users={ratings} />,
   },
   {
     path: PAGES.FORUM,
-    Component: () => <div>Form</div>,
+    Component: () => <ForumPage topics={topics} />,
+  },
+  {
+    path: PAGES.TOPIC,
+    Component: () => <TopicPage topic={topic} />,
   },
   {
     path: PAGES.ROOMS,
@@ -64,15 +78,15 @@ const GAME_ROUTES: Routes = [
 const PROFILE_ROUTES: Routes = [
   {
     path: PAGES.EDIT_PROFILE,
-    Component: () => <div>Edit profile</div>,
+    Component: () => <Profile page={PAGES.EDIT_PROFILE} />,
   },
   {
     path: PAGES.EDIT_PASSWORD,
-    Component: () => <div>Edit Password</div>,
+    Component: () => <Profile page={PAGES.EDIT_PASSWORD} />,
   },
   {
     path: PAGES.PROFILE,
-    Component: () => <div>Profile</div>,
+    Component: () => <Profile page={PAGES.PROFILE} />,
   },
 ];
 /**

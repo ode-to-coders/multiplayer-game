@@ -1,0 +1,18 @@
+{
+  "id": 1,
+  "subject": "Гарри поттер",
+  "user": {
+    "name": "Vasya",
+    "id": 2
+  },
+  "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean vel posuere augue. Pellentesque eget nisi massa. Etiam quis sapien eget elit pulvinar feugiat. Praesent non tellus rutrum, tincidunt justo at, feugiat quam. Vivamus ultrices est sagittis, efficitur neque sit amet, porta dui. Ut rhoncus augue id est volutpat rutrum. Cras molestie tortor metus, in accumsan nibh porttitor ut. Donec hendrerit dictum est, ut blandit felis auctor id. Mauris eget diam egestas, ornare nulla non, elementum dui. Pellentesque in enim ultricies, elementum massa in, fringilla orci. Aenean id orci condimentum, gravida enim non, laoreet nisl. Aliquam semper mi augue, vitae hendrerit diam molestie et. Cras at ex neque. Aenean nunc dui, imperdiet a maximus eget, laoreet sit amet ex.",
+  "comments": [
+    {
+      "id": 1,
+      "user": "Anton",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
+      "avatar": ""
+    }
+  ]
+}
+
