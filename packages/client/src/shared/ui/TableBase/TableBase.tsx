@@ -4,12 +4,11 @@ import style from './index.module.scss';
 import { StyledTableCell, StyledTableContainer } from '../Styled';
 
 type Row = {
-  place: number;
-  name: string;
-  rate: number;
+  id: number;
+  login: string;
+  avatar: string;
+  score: number;
 };
-
-type RowKey = keyof Row;
 
 type TableBaseProps = {
   rows: Array<Row>;
@@ -33,19 +32,17 @@ export const TableBase = (props: TableBaseProps) => {
         </TableHead>
         <TableBody>
           {rows.map((row, idx) => (
-            <TableRow key={idx}>
-              {(Object.keys(row) as RowKey[]).map((key, idx) => (
-                <StyledTableCell key={idx} align="center">
-                  {key === 'name' ? (
-                    <>
-                      <img className={style.image} src={avatar} />
-                      {row[key]}
-                    </>
-                  ) : (
-                    row[key]
-                  )}
-                </StyledTableCell>
-              ))}
+            <TableRow key={row.id}>
+              <StyledTableCell align="center">
+                {idx+1}
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                <img className={style.image} src={avatar} />
+                {row.login}
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                {row.score}
+              </StyledTableCell>
             </TableRow>
           ))}
         </TableBody>

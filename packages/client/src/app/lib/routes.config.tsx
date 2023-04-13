@@ -10,12 +10,15 @@ import {
   Signin,
   Profile,
   MainPage,
+  RoomPage,
 } from '../../pages'
 import { PAGES, Routes } from './routes.types';
 
 import topics from '../../mocks/topics.json';
+import rooms from '../../mocks/rooms.json';
 import topic from '../../mocks/topic.json';
 import ratings from '../../mocks/ratings.json';
+
 /**
  * Роуты главной страницы, до авторизации
  */
@@ -69,7 +72,7 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.ROOMS,
-    Component: () => <div>Rooms</div>,
+    Component: () => <RoomPage rooms={rooms} />,
   },
 ];
 /**
