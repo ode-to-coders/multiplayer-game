@@ -1,5 +1,6 @@
-import { MainPage } from '../pages';
+import { LeaderBoardPage } from '../pages';
 import { render, screen } from '@testing-library/react';
+import ratings from '../mocks/ratings.json';
 import '@testing-library/jest-dom';
 
 const сontent = 'Не туда попали';
@@ -15,7 +16,7 @@ test('Example test', async () => {
 });
 
 test('Main page render', () => {
-  render(<MainPage/>);
+  render(<LeaderBoardPage users={ratings} />);
   screen.debug();
-  expect(screen.getByText(/Видео/i)).toBeInTheDocument();
+  expect(screen.getByText(/Всего игр/i)).toBeInTheDocument();
 });

@@ -5,7 +5,7 @@ import AboutGame from '../../components/AboutGame';
 import Video from '../../components/Video';
 import { StyledButton } from '../../shared/ui/Styled/StyledButton';
 
-import logo  from '../../images/logo.png';
+import logo from '../../images/logo.png';
 
 import styles from './index.module.scss';
 
