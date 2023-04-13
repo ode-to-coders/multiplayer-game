@@ -1,32 +1,38 @@
 [
   {
-    "place": 1,
-    "name": "username1",
-    "rate": 20
+    "id": 1,
+    "login": "username1",
+    "avatar": "/path/to/avatar.jpg",
+    "score": 20
   },
   {
-    "place": 2,
-    "name": "username2",
-    "rate": 18
+    "id": 2,
+    "login": "username2",
+    "avatar": "/path/to/avatar.jpg",
+    "score": 14
   },
   {
-    "place": 3,
-    "name": "username3",
-    "rate": 15
+    "id": 3,
+    "login": "username3",
+    "avatar": "/path/to/avatar.jpg",
+    "score": 15
   },
   {
-    "place": 4,
-    "name": "username4",
-    "rate": 13
+    "id": 4,
+    "login": "username4",
+    "avatar": "/path/to/avatar.jpg",
+    "score": 20
   },
   {
-    "place": 5,
-    "name": "username5",
-    "rate": 12
+    "id": 5,
+    "login": "username5",
+    "avatar": "/path/to/avatar.jpg",
+    "score": 11
   },
   {
-    "place": 6,
-    "name": "username6",
-    "rate": 10
+    "id": 6,
+    "login": "username6",
+    "avatar": "/path/to/avatar.jpg",
+    "score": 13
   }
 ]
