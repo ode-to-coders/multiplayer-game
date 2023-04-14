@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 import cn from 'classnames';
 import { yupSchemaRoomForm as schema } from 'shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,36 +10,12 @@ import { StyledButton } from '../../shared/ui/Styled';
 
 import styles from './index.module.scss';
 import { PAGES } from '../../app/lib/routes.types';
+import { arrInputsData } from './helpingData';
 
 export function RoomForm() {
   const [isFocused, setIsFocused] = useState([false, '']);
   const [isEmpty, setIsEmpty] = useState<Record<string, boolean>>({});
-
   const navigate = useNavigate();
-
-  const arrInputsData = useMemo(
-    () => [
-      {
-        type: 'text',
-        placeholder: 'Название',
-        label: 'Название',
-        name: 'name',
-      },
-      {
-        type: 'text',
-        placeholder: 'Количество игроков (2-6)',
-        label: 'Количество игроков (2-6)',
-        name: 'count',
-      },
-      {
-        type: 'password',
-        placeholder: 'Пароль',
-        label: 'Пароль',
-        name: 'password',
-      },
-    ],
-    []
-  );
 
   const {
     register,
