@@ -24,7 +24,15 @@ export const ProfileContent = ({
   const [urlAva, setUrlAva] = useState(emptyAvatar);
 
   const avatar = useMemo(() => {
-    return <Avatar src={data.avatar ?? emptyAvatar} className={s.ava} />;
+    return (
+      <Avatar
+        src={
+          `https://ya-praktikum.tech/api/v2/resources${data.avatar}` ??
+          emptyAvatar
+        }
+        className={s.ava}
+      />
+    );
   }, [urlAva]);
   //------------------------------
 
@@ -65,7 +73,7 @@ export const ProfileContent = ({
     const inputWithAva = document.getElementById(
       'inputAvatar'
     ) as HTMLInputElement;
-    // TODO работает неправильно, поправить
+
     if (inputWithAva?.files?.length && inputWithAva.files.length > 0) {
       const formData = new FormData();
       const file = inputWithAva.files?.[0] ?? '';
@@ -73,7 +81,7 @@ export const ProfileContent = ({
       formData.append('avatar', file);
 
       const response = changeUserAvatar(formData);
-
+      
       if ('error' in response) {
         //TODO поменять на CustomNotification
         alert('Что-то пошло не так');

@@ -84,9 +84,6 @@ export const usersApi = baseApi.injectEndpoints({
       query: body => ({
         url: USER_CHANGE_AVATAR_API_PATH,
         method: HTTP_METHOD.PUT,
-        headers: {
-          'content-type': 'multipart/form-data',
-        },
         body,
         responseHandler: response => response.text(),
       }),
