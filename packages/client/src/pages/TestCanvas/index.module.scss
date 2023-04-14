@@ -1,0 +1,12 @@
+.wrapCont {
+  display: flex;
+
+  .canvas {
+    border: 1px solid orange;
+    border-radius: 20px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
