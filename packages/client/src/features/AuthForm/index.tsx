@@ -69,11 +69,7 @@ export const AuthForm = () => {
     const isError = 'error' in response;
 
     if (!isError) {
-      setTimeout(() => {
-        console.log(`привет!`);
-
-        navigate(PAGES.GAME);
-      }, 1000);
+      navigate(PAGES.GAME);
     } else {
       alert('что-то пошло не так, попробуйте еще раз');
     }

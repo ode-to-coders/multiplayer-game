@@ -1,58 +1,60 @@
-import { FormButton } from "shared/ui/FormButton";
+import { FormButton } from 'shared/ui/FormButton';
 
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-import { PAGES } from "app/lib/routes.types";
+import { useChangeUserPasswordMutation } from 'app/store/api/users/usersApi';
+import { PAGES } from 'app/lib/routes.types';
 
-import { helpingDataInputs } from "./helpingDataInputs";
+import { helpingDataInputs } from './helpingDataInputs';
 
-import s from "./index.module.scss";
+import s from './index.module.scss';
 
 type Props = {
   profileData: IProfileData;
-}
+};
 
-export const ProfileEditPasswordForm = ({ profileData }: Props) => {   
-  
+export const ProfileEditPasswordForm = ({ profileData }: Props) => {
   const navigate = useNavigate();
-  
+
+  const [changeUserPassword] = useChangeUserPasswordMutation();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<IProfileEditPassword>({
-    mode: 'onChange'
+    mode: 'onChange',
   });
 
-  const onSubmit = (data: IProfileEditPassword) => {
-    
+  const onSubmit = async (data: IProfileEditPassword) => {
     console.log(data);
-    // ------------ API ИЗМЕНИТЬ ДАННЫЕ ------------- 
+    // ------------ API ИЗМЕНИТЬ ДАННЫЕ -------------
     // ЗАПРОС НА ИЗМЕНЕНИЕ ПАРОЛЯ
-    const resReg = true;
-    if (resReg) {                
-      setTimeout(() => {
-        console.log(`Добро пожаловать onboard, ${profileData.first_name}`);
 
-        navigate(PAGES.PROFILE)
+    const response = await changeUserPassword({
+      oldPassword: data.oldpassword,
+      newPassword: data.password,
+    });
 
-      }, 1000)
+    const isError = 'error' in response;
+
+    if (isError) {
+      alert('что-то пошло не так, попробуйте еще раз');
     } else {
-      alert('что-то пошло не так, попробуйте еще раз')
+      navigate(PAGES.PROFILE);
     }
-
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className={s.myForm}>
-      {helpingDataInputs.map(input =>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      autoComplete="off"
+      className={s.myForm}>
+      {helpingDataInputs.map(input => (
         <div key={input.name} className={s.wrapLabelInputMsg}>
-          <div className={s.myWrapInput}>    
-            <label 
-              htmlFor={input.name} 
-              className={s.myInputLabel}
-            >
+          <div className={s.myWrapInput}>
+            <label htmlFor={input.name} className={s.myInputLabel}>
               {input.label}
             </label>
             <input
@@ -62,14 +64,14 @@ export const ProfileEditPasswordForm = ({ profileData }: Props) => {
               {...register(input.name)}
             />
           </div>
-          {errors[input.name]?.message && 
-            <div className={s.msg}>
-              {errors[input.name]?.message as string}
-            </div>
-          }
+          {errors[input.name]?.message && (
+            <div className={s.msg}>{errors[input.name]?.message as string}</div>
+          )}
         </div>
-      )}
-      <FormButton type="submit" className={s.btnSubmit}>Сохранить</FormButton>
+      ))}
+      <FormButton type="submit" className={s.btnSubmit}>
+        Сохранить
+      </FormButton>
     </form>
-  )
-}
+  );
+};
