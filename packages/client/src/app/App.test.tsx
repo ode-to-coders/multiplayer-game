@@ -1,7 +1,9 @@
-import App from './App';
 import { render, screen } from '@testing-library/react';
+import { LeaderBoardPage } from '../pages';
+import ratings from '../mocks/ratings.json';
+import '@testing-library/jest-dom';
 
-const appContent = 'Main';
+const сontent = 'Не туда попали';
 
 // @ts-ignore
 global.fetch = jest.fn(() =>
@@ -9,6 +11,12 @@ global.fetch = jest.fn(() =>
 );
 
 test('Example test', async () => {
-  render(<App />);
-  expect(screen.getAllByText(appContent)).toBeDefined();
+  const { getByText } = render(<div>Не туда попали</div>);
+  expect(getByText(сontent)).toBeDefined();
+});
+
+test('Main page render', () => {
+  render(<LeaderBoardPage users={ratings} />);
+  screen.debug();
+  expect(screen.getByText(/Всего игр/i)).toBeInTheDocument();
 });
