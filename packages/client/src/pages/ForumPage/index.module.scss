@@ -1,0 +1,31 @@
+.paper {
+  margin: 3.1rem auto 3.1rem;
+  max-width: 50rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  width: 100%;
+  background: var(--color-layout);
+
+  .pagination,
+  svg {
+    color: var(--color-primary);
+    background: var(--color-layout);
+  }
+}
+
+.container {
+  max-height: 27.5rem;
+  overflow: hidden;
+}
+
+.cell {
+  background: var(--color-layout);
+  color: var(--color-primary);
+}
+
+.header {
+  .cell {
+    border-bottom: 1px solid var(--color-layout);
+    min-width: 10.7rem;
+  }
+}

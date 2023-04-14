@@ -1,7 +1,9 @@
 {
   "singleQuote": true,
-  "semi": false,
+  "semi": true,
+  "endOfLine": "lf",
   "arrowParens": "avoid",
   "bracketSameLine": true,
-  "width": 50
+  "width": 50,
+  "useTabs": false
 }

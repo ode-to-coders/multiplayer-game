@@ -1,5 +1,5 @@
-import dotenv from 'dotenv'
-dotenv.config()
+import dotenv from 'dotenv';
+dotenv.config();
 
 export default {
   preset: 'ts-jest',
@@ -8,4 +8,15 @@ export default {
   globals: {
     __SERVER_PORT__: process.env.SERVER_PORT,
   },
-}
+  moduleNameMapper: {
+    '\\.(css|scss|png|jpg|svg)$': 'identity-obj-proxy',
+    '^@/(.*)$': '<rootDir>/src',
+    '^app(.*)$': '<rootDir>/src/app$1',
+    '^entities(.*)$': '<rootDir>/src/entities$1',
+    '^features(.*)$': '<rootDir>/src/features$1',
+    '^pages(.*)$': '<rootDir>/src/pages$1',
+    '^shared(.*)$': '<rootDir>/src/shared$1',
+    '^widgets(.*)$': '<rootDir>/src/widgets$1',
+    '^components(.*)$': '<rootDir>/src/components$1',
+  },
+};

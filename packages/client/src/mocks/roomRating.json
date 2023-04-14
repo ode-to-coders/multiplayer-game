@@ -1,0 +1,32 @@
+[
+  {
+    "place": 1,
+    "name": "username1",
+    "rate": 20
+  },
+  {
+    "place": 2,
+    "name": "username2",
+    "rate": 18
+  },
+  {
+    "place": 3,
+    "name": "username3",
+    "rate": 15
+  },
+  {
+    "place": 4,
+    "name": "username4",
+    "rate": 13
+  },
+  {
+    "place": 5,
+    "name": "username5",
+    "rate": 12
+  },
+  {
+    "place": 6,
+    "name": "username6",
+    "rate": 10
+  }
+]
