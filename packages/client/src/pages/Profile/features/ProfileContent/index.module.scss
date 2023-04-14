@@ -1,0 +1,113 @@
+.wrapData {
+  width: 510px;
+  height: 550px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & > .wrapAva {
+    width: 130px;
+    height: 130px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > .ava {
+      width: 100%;
+      height: 100%;
+    }
+
+    & > .hoverAva {
+      opacity: 1;
+      flex-shrink: 0;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 1;
+      cursor: pointer;
+      text-align: center;
+
+      &:hover {
+        opacity: 0.5;
+        background-color: var(--color-black);
+
+        &::before {
+          content: 'Поменять аватар';
+          font-family: 'Inter';
+          font-size: 13px;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  & > .wrapData__text {
+    width: 510px;
+    height: 324px;
+  }
+}
+
+.linkBack {
+  position: fixed;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  border-right: 3px solid var(--color-darkestGrey);
+  display: flex;
+  color: var(--color-blue);
+  transition: text-shadow 0.1s ease-in-out;
+
+  &:hover {
+    text-shadow: 1px 0 20px var(--color-primary);
+  }
+}
+
+.modalWrap {
+  margin: auto;
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+
+  & > .inputFileWrap {
+    margin-top: 45px;
+    align-self: center;
+    text-align: center;
+
+    & > .inputFile {
+      position: absolute;
+      z-index: -1;
+      opacity: 0;
+      display: block;
+      width: 0;
+      height: 0;
+    }
+
+    & > .inputFileText {
+      position: relative;
+      display: inline-block;
+      color: var(--color-blue);
+      text-decoration: underline;
+      transition: all 0.1s ease-in-out;
+    }
+
+    &:hover .inputFileText {
+      text-shadow: 1px 0 30px var(--color-primary);
+    }
+  }
+
+  & > .modalButton {
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+}

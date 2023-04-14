@@ -90,14 +90,11 @@ export const RegForm = () => {
     password: string;
     phone: string;
   }) => {
-    console.log('data', data);
-
-    console.log(data);
-
+    
     const response = await signUp(data);
 
     const isError = 'error' in response;
-    // ЗДЕСЬ БУДЕТ ЗАПРОС НА РЕГИСТРАЦИЮ
+
     if (!isError) {
       navigate(PAGES.GAME);
     } else {

@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
 
-import style from './DataLoader.module.scss';
+import style from './index.module.scss';
 
 export interface IDataLoaderProps<T> {
   isLoading: boolean;
