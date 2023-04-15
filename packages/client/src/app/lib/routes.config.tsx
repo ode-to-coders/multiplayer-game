@@ -10,6 +10,7 @@ import {
   Signin,
   Profile,
   MainPage,
+  Enthourage,
 } from '../../pages'
 import { PAGES, Routes } from './routes.types';
 
@@ -70,6 +71,14 @@ const GAME_ROUTES: Routes = [
   {
     path: PAGES.ROOMS,
     Component: () => <div>Rooms</div>,
+  },
+  {
+    path: PAGES.ROOMS,
+    Component: () => <div>Rooms</div>,
+  },
+  {
+    path: PAGES.ENTHOURAGE,
+    Component: () => <Enthourage />
   },
 ];
 /**

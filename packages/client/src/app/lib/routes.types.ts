@@ -26,4 +26,5 @@ export const enum PAGES {
   REGISTRATION = '/registration',
   NOTFOUND = '/404',
   SERVER_ERROR = '/500',
+  ENTHOURAGE = '/game/enthourage',
 }
