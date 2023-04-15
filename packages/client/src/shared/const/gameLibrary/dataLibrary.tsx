@@ -1,5 +1,5 @@
 export const memoryList = {
-  victorian: {
+  england: {
     professions: [
       'Почтальон',
       'Портной',
