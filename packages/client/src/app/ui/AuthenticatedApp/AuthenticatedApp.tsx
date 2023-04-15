@@ -1,16 +1,12 @@
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Layout } from './layout/Layout';
+import { Layout } from 'app/layout/Layout';
 
-import { withProviders } from './providers/withProviders';
-import { routesConfig } from './lib/routes.config';
-import { PAGES } from './lib/routes.types';
+import { routesConfig } from 'app/lib/routes.config';
+import { PAGES } from 'app/lib/routes.types';
 
-import './styles/global.scss';
-import './styles/vars.scss';
-
-function App() {
+export const AuthenticatedApp = () => {
   useEffect(() => {
     const fetchServerData = async () => {
       const url = `http://localhost:${__SERVER_PORT__}`;
@@ -21,7 +17,7 @@ function App() {
 
     fetchServerData();
   }, []);
-  // TODO как подключим uuid, в key надо будет передавать его
+
   return (
     <Routes>
       <Route path="*" element={<Navigate to={`${PAGES.NOTFOUND}`} />} />
@@ -36,6 +32,4 @@ function App() {
       ))}
     </Routes>
   );
-}
-
-export default withProviders(App);
+};

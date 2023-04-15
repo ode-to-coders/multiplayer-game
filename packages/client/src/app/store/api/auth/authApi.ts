@@ -3,6 +3,7 @@ import { baseApi } from '../baseApi';
 
 const SIGN_IN_API_PATH = '/auth/signin';
 const SIGN_UP_API_PATH = '/auth/signup';
+const LOGOUT_API_PATH = '/auth/logout';
 const USER_INFO_API_PATH = '/auth/user';
 
 type SignInRequestBody = {
@@ -43,6 +44,7 @@ export const authApi = baseApi.injectEndpoints({
         body: credentials,
         responseHandler: response => response.text(),
       }),
+      invalidatesTags: [{ type: 'USER_INFO', id: 'INFO' }],
     }),
     signUp: builder.mutation<SignUpResponse, SignUpRequestBody>({
       query: credentials => ({
@@ -50,6 +52,15 @@ export const authApi = baseApi.injectEndpoints({
         method: HTTP_METHOD.POST,
         body: credentials,
       }),
+      invalidatesTags: [{ type: 'USER_INFO', id: 'INFO' }],
+    }),
+    logout: builder.mutation<SignUpResponse, void>({
+      query: credentials => ({
+        url: LOGOUT_API_PATH,
+        method: HTTP_METHOD.POST,
+        body: credentials,
+      }),
+      invalidatesTags: [{ type: 'USER_INFO', id: 'INFO' }],
     }),
     getUserInfo: builder.query<UserInfoResponse, void | Record<never, never>>({
       query: () => USER_INFO_API_PATH,
@@ -58,5 +69,9 @@ export const authApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useSignInMutation, useSignUpMutation, useGetUserInfoQuery } =
-  authApi;
+export const {
+  useSignInMutation,
+  useSignUpMutation,
+  useGetUserInfoQuery,
+  useLogoutMutation,
+} = authApi;
