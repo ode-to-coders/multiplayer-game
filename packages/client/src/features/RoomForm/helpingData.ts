@@ -1,8 +1,10 @@
+import { IRoomData } from '@/pages/RoomPage/types';
+
 export type HelpingDataRoom = {
   type: string;
   placeholder: string;
   label: string;
-  name: string;
+  name: keyof IRoomData;
 }[];
 
 export const arrInputsData: HelpingDataRoom = [

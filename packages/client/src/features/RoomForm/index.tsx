@@ -7,10 +7,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { MuiMemoInputBase } from '../../shared/ui/MuiMemoInputBase';
 import { StyledButton } from '../../shared/ui/Styled';
+import { PAGES } from '../../app/lib/routes.types';
+import { IRoomData } from '../../pages/RoomPage/types';
+import { arrInputsData } from './helpingData';
 
 import styles from './index.module.scss';
-import { PAGES } from '../../app/lib/routes.types';
-import { arrInputsData } from './helpingData';
 
 export function RoomForm() {
   const [isFocused, setIsFocused] = useState([false, '']);
@@ -21,7 +22,7 @@ export function RoomForm() {
     register,
     formState: { errors },
     handleSubmit,
-  } = useForm({
+  } = useForm<IRoomData>({
     mode: 'onSubmit',
     resolver: yupResolver(schema),
   });
@@ -43,9 +44,8 @@ export function RoomForm() {
     [isEmpty]
   );
 
-  const onSubmit = (data: Record<string, string>) => {
+  const onSubmit = (data: IRoomData) => {
     // Добавление комнаты в БД + обновление списка комнат (созданная - наверху)
-    console.log(data);
     const res = { name: 'Room1' };
     if (res) {
       setTimeout(() => {
@@ -92,10 +92,7 @@ export function RoomForm() {
               onBlur={handleBlurInput}
             />
           </div>
-          <div className={styles.msg}>
-            {errors[input.name]?.message &&
-              (errors[input.name]?.message as string)}
-          </div>
+          <div className={styles.msg}>{errors[input.name]?.message}</div>
         </div>
       ))}
       <StyledButton type="submit">Создать</StyledButton>

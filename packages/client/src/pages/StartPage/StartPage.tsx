@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useCallback, useState } from 'react';
 import { Grid } from '@mui/material';
 import { Link } from 'react-router-dom';
 
@@ -15,23 +14,23 @@ import style from './index.module.scss';
 import logo from './logo.png';
 
 export const StartPage = () => {
+  const [text, setText] = useState('Полноэкранный режим');
 
-  const handleChangeFullscreen = (e: React.MouseEvent) => {
+  const handleChangeFullscreen = useCallback(() => {
     const page = document.getElementById('root') as HTMLElement;
-    const button = e.target as HTMLButtonElement;
     if (!document.fullscreenElement) {
-      page.requestFullscreen();
-      button.textContent = 'Выйти из полноэкранного режима';
-    } else if (document.exitFullscreen) {
-      document.exitFullscreen();
-      button.textContent = 'Полноэкранный режим';
+      setText('Выйти из полноэкранного режима');
+      return page.requestFullscreen();
+    } else {
+      setText('Полноэкранный режим');
+      return document.exitFullscreen();
     }
-  };
+  }, [document.fullscreenElement]);
 
   return (
     <StyledContainer maxWidth={false} disableGutters>
       <StyledButton onClick={handleChangeFullscreen} extendClass={style.button}>
-        Полноэкранный режим
+        {text}
       </StyledButton>
       <Grid
         container

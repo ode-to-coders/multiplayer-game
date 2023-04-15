@@ -4,7 +4,7 @@
   border-radius: 1rem;
   width: 100%;
   background: var(--color-layout);
-  
+
   .pagination,
   svg {
     color: var(--color-primary);
@@ -44,10 +44,8 @@
 .button {
   width: 5.8rem;
   padding: 0.5rem 1.8rem;
-}
 
-.buttonDisabled {
-  width: 5.8rem;
-  padding: 0.5rem 1.8rem;
-  background-color: var(--color-grey);
+  &:disabled {
+    background-color: var(--color-grey);
+  }
 }

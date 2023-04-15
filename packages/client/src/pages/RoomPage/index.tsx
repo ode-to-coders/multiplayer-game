@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -7,7 +7,9 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import TablePagination from '@mui/material/TablePagination';
+import TablePagination, {
+  LabelDisplayedRowsArgs,
+} from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
 import { RoomsT, Subject } from './types';
@@ -17,7 +19,7 @@ import { ModalBase } from '../../shared/ui';
 import { RoomForm } from '../../features';
 
 import styles from './index.module.scss';
-
+import { boolean } from 'yup';
 
 export function RoomPage(props: RoomsT) {
   const { rooms } = props;
@@ -26,10 +28,11 @@ export function RoomPage(props: RoomsT) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
 
-  const pageContent =
-    rowsPerPage > 0
+  const pageContent = useMemo(() => {
+    return rowsPerPage > 0
       ? rooms.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       : rooms;
+  }, [page, rowsPerPage]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -39,6 +42,17 @@ export function RoomPage(props: RoomsT) {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRowsPerPage(+event.target.value);
+  };
+
+  const handleChangeDisplayedRows = ({
+    from,
+    to,
+    count,
+  }: LabelDisplayedRowsArgs): string => {
+    const pages = useMemo(() => {
+      return `${from}-${to} из ${count}`;
+    }, [from, to, count]);
+    return pages;
   };
 
   const handleChangeShowModal = () => {
@@ -83,21 +97,15 @@ export function RoomPage(props: RoomsT) {
                     <TableCell className={styles.cell}>
                       {item.user.name}
                     </TableCell>
-                    {item.players.toString() === item.maxPlayers.toString() ? (
-                      <TableCell className={styles.cell}>
-                        <StyledButton
-                          disabled
-                          extendClass={styles.buttonDisabled}>
-                          <Link to={PAGES.START_GAME}>Войти</Link>
-                        </StyledButton>
-                      </TableCell>
-                    ) : (
-                      <TableCell className={styles.cell}>
-                        <StyledButton extendClass={styles.button}>
-                          <Link to={PAGES.START_GAME}>Войти</Link>
-                        </StyledButton>
-                      </TableCell>
-                    )}
+                    <TableCell className={styles.cell}>
+                      <StyledButton
+                        disabled={
+                          item.maxPlayers === item.players ? true : undefined
+                        }
+                        extendClass={styles.button}>
+                        <Link to={PAGES.START_GAME}>Войти</Link>
+                      </StyledButton>
+                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -112,9 +120,7 @@ export function RoomPage(props: RoomsT) {
           rowsPerPage={rowsPerPage}
           page={page}
           labelRowsPerPage="Всего страниц"
-          labelDisplayedRows={({ from, to, count }) =>
-            `${from}-${to} из ${count}`
-          }
+          labelDisplayedRows={handleChangeDisplayedRows}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
