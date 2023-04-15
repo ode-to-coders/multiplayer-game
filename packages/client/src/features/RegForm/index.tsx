@@ -90,7 +90,6 @@ export const RegForm = () => {
     password: string;
     phone: string;
   }) => {
-    
     const response = await signUp(data);
 
     const isError = 'error' in response;
@@ -105,7 +104,7 @@ export const RegForm = () => {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit as any)}
       autoComplete="off"
       className={s.myForm}>
       <h2 className={s.head}>Регистрация</h2>

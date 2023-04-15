@@ -78,7 +78,7 @@ export const AuthForm = () => {
   // TODO типизация
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(onSubmit as any)}
       autoComplete="off"
       className={s.myForm}>
       <h2 className={s.head}>Вход</h2>
