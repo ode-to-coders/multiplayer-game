@@ -8,7 +8,7 @@ import { FormButton } from 'shared/ui/FormButton';
 import emptyAvatar from './avatar.png';
 import s from './index.module.scss';
 import { profileConfig } from '../../profileConfig';
-import { PAGES } from '@/app/lib/routes.types';
+import { PAGES } from 'app/lib/routes.types';
 import { UserInfoResponse } from 'app/store/api/auth/authApi';
 import { useChangeUserAvatarMutation } from 'app/store/api/users/usersApi';
 
@@ -81,7 +81,7 @@ export const ProfileContent = ({
       formData.append('avatar', file);
 
       const response = changeUserAvatar(formData);
-      
+
       if ('error' in response) {
         //TODO поменять на CustomNotification
         alert('Что-то пошло не так');

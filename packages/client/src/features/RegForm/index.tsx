@@ -13,7 +13,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { PAGES } from 'app/lib/routes.types';
 
 import s from './index.module.scss';
-import { useSignUpMutation } from '@/app/store/api/auth/authApi';
+import { useSignUpMutation } from 'app/store/api/auth/authApi';
 
 export const RegForm = () => {
   const [isFocused, setIsFocused] = useState([false, '']);
