@@ -19,7 +19,6 @@ import { ModalBase } from '../../shared/ui';
 import { RoomForm } from '../../features';
 
 import styles from './index.module.scss';
-import { boolean } from 'yup';
 
 export function RoomPage(props: RoomsT) {
   const { rooms } = props;
