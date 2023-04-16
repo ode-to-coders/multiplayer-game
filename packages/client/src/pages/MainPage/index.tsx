@@ -16,48 +16,47 @@ export function MainPage() {
 
   const handleScroll = (element: HTMLDivElement | null) => {
     if (element) {
-      element.scrollIntoView()
+      element.scrollIntoView();
     }
-  }
+  };
 
   return (
-   <div className={styles.container}>
-     <Grid
-      container
-      spacing={2}
-      className={styles.grid}
-      >
+    <div className={styles.container}>
+      <Grid container spacing={2} className={styles.grid}>
         <Grid item>
-          <div className={styles.item} onClick={() => handleScroll(aboutAnchor.current)}>
+          <div
+            className={styles.item}
+            onClick={() => handleScroll(aboutAnchor.current)}>
             Об игре
           </div>
         </Grid>
         <Grid item>
-          <div className={styles.item} onClick={() => handleScroll(videoAnchor.current)}>
+          <div
+            className={styles.item}
+            onClick={() => handleScroll(videoAnchor.current)}>
             Видео
           </div>
         </Grid>
         <Grid item>
-          <div className={styles.item} onClick={() => handleScroll(toPlay.current)}>
+          <div
+            className={styles.item}
+            onClick={() => handleScroll(toPlay.current)}>
             Играть
           </div>
         </Grid>
       </Grid>
-    <div className={styles.main} ref={toPlay}>
-      <div className={styles.logo}>
-        <img src={logo} />
+      <div className={styles.main} ref={toPlay}>
+        <div className={styles.logo}>
+          <img src={logo} />
+        </div>
+        <StyledButton>Играть</StyledButton>
       </div>
-      <StyledButton>
-        Играть
-      </StyledButton>
+      <div ref={aboutAnchor}>
+        <AboutGame />
+      </div>
+      <div ref={videoAnchor}>
+        <Video />
+      </div>
     </div>
-    <div ref={aboutAnchor}>
-      <AboutGame />
-    </div>
-    <div ref={videoAnchor}>
-      <Video />
-    </div>
-   </div>
   );
 }
-
