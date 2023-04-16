@@ -43,26 +43,14 @@ export const TestCanvas = () => {
   // основная логика отрисовки здесь
   useEffect(() => {
     let frameId: number;
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
-      
-    const ctx = canvas.getContext('2d');
-    if (!ctx) {
-      return;
-    }
-
-    canvas.setAttribute('tabIndex', '0');
-      canvas.focus();
   
     const animation = () => {
       
-      canvasScenes.startGame(canvas, ctx, hoveredRect, arrText);
+      // запуск!
+      canvasScenes.startGame(canvasRef.current, hoveredRect, arrText);
       
       frameId = window.requestAnimationFrame(animation);
-    }
-  
+    }  
     frameId = window.requestAnimationFrame(animation);
   
     return () => {

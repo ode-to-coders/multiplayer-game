@@ -9,14 +9,25 @@ export const mockRects = [
 ]
 
 export class CanvasScenes {
-
+  
   startGame(
-    canvas: HTMLCanvasElement, 
-    ctx: CanvasRenderingContext2D, 
+    canvas: HTMLCanvasElement | null,
     hoveredRect: number | null,
     arrText: paramsDrawText | null
   ) {
     console.log('привет')
+
+    if (!canvas) {
+      return;
+    }
+      
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      return;
+    }
+
+    canvas.setAttribute('tabIndex', '0');
+    canvas.focus();
     
     ctx.fillStyle = '#343739';
     ctx.fillRect(0, 0, canvas.width, canvas.height)
@@ -29,6 +40,7 @@ export class CanvasScenes {
     hoveredRect: number | null, 
     arrText: paramsDrawText | null
   ) {
+    
     drawImgBorderText(ctx, source.cardFantasyMage, {
       left: 94,
       top: 50,
@@ -53,7 +65,7 @@ export class CanvasScenes {
     }, {
       text: questions.fantasy[0]
     })
-    
+
     //отрисовываем весь массив mock-прямоугольников-областей
     mockRects.forEach((rect, i) => {
       if (i == 2) drawRoundedRect(ctx, rect, hoveredRect === i)
