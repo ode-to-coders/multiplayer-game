@@ -1,7 +1,6 @@
 import { IUserVote } from 'pages/Entourage/types';
-import { useCallback} from 'react';
 
-export const getWinnerEnthourage = useCallback((votes: IUserVote[]): Record<string, unknown> | undefined => {
+export const getWinnerEnthourage = (votes: IUserVote[]): Record<string, unknown> | undefined => {
   const countVotes = votes.reduce((result: Record<string, number>, vote: IUserVote) => {
     if (vote.votes) {
       result[vote.votes] = result[vote.votes] ? result[vote.votes] + 1 : 1;
@@ -24,4 +23,4 @@ export const getWinnerEnthourage = useCallback((votes: IUserVote[]): Record<stri
   });
 
   return winner;
-}, []);
+}
