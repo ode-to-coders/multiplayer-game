@@ -14,15 +14,15 @@ import style from './index.module.scss';
 import logo from './logo.png';
 
 export const StartPage = () => {
-  const [text, setText] = useState('Полноэкранный режим');
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const handleChangeFullscreen = useCallback(() => {
     const page = document.getElementById('root') as HTMLElement;
     if (!document.fullscreenElement) {
-      setText('Выйти из полноэкранного режима');
+      setIsFullscreen(true);
       return page.requestFullscreen();
     } else {
-      setText('Полноэкранный режим');
+      setIsFullscreen(false);
       return document.exitFullscreen();
     }
   }, [document.fullscreenElement]);
@@ -30,7 +30,9 @@ export const StartPage = () => {
   return (
     <StyledContainer maxWidth={false} disableGutters>
       <StyledButton onClick={handleChangeFullscreen} extendClass={style.button}>
-        {text}
+        {isFullscreen
+          ? 'Выйти из полноэкранного режима'
+          : 'Полноэкранный режим'}
       </StyledButton>
       <Grid
         container

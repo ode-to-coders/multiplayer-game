@@ -1,7 +1,7 @@
 interface IRoomData {
-  "name": string;
-  "count": string;
-  "password": string;
+  name: string;
+  count: string;
+  password: string;
 }
 
 type User = {
