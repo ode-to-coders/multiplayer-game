@@ -1,6 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 import { PAGES } from '../../app/lib/routes.types';
 import {
@@ -13,8 +14,13 @@ import {
 import style from './index.module.scss';
 import logo from './logo.png';
 
+const wss = new WebSocket('ws://localhost:3002/game/rooms/');
+
 export const StartPage = () => {
   const [text, setText] = useState('Полноэкранный режим');
+  const [gamers, setGamers] = useState('');
+  const { gameId } = useParams();
+  const navigate = useNavigate();
 
   const handleChangeFullscreen = useCallback(() => {
     const page = document.getElementById('root') as HTMLElement;
@@ -26,6 +32,31 @@ export const StartPage = () => {
       return document.exitFullscreen();
     }
   }, [document.fullscreenElement]);
+
+  wss.onmessage = function (response) {
+    const { type, payload } = JSON.parse(response.data);
+    const { login, rivalName } = payload;
+    console.log(login, rivalName);
+    switch (type) {
+      case 'connectionToPlay':
+        if (!payload.success) {
+          return navigate('/game/rooms');
+        }
+        setGamers(rivalName);
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    wss.send(
+      JSON.stringify({
+        event: 'connect',
+        payload: { login: `login${uuidv4()}`, gameId: gameId },
+      })
+    );
+  },[]);
 
   return (
     <StyledContainer maxWidth={false} disableGutters>
@@ -45,6 +76,11 @@ export const StartPage = () => {
         <StyledGridItem item xs className={style.gridMainItem}>
           <img className={style.img} src={logo} alt="логотип" />
           <StyledDescribe variant="body1">Ожидание игроков...</StyledDescribe>
+        </StyledGridItem>
+      </Grid>
+      <Grid>
+        <StyledGridItem>
+          <StyledDescribe>{gamers}</StyledDescribe>
         </StyledGridItem>
       </Grid>
     </StyledContainer>

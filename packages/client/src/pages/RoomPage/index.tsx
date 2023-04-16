@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,6 +11,7 @@ import TablePagination, {
   LabelDisplayedRowsArgs,
 } from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+import { v4 as uuidv4 } from 'uuid';
 
 import { RoomsT, Subject } from './types';
 import { StyledButton, StyledContainer } from '../../shared/ui/Styled';
@@ -19,14 +20,16 @@ import { ModalBase } from '../../shared/ui';
 import { RoomForm } from '../../features';
 
 import styles from './index.module.scss';
-import { boolean } from 'yup';
 
 export function RoomPage(props: RoomsT) {
   const { rooms } = props;
 
   const [page, setPage] = useState(0);
+  const [gameId, setGameId] = useState(uuidv4());
+  const [login, setLogin] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const pageContent = useMemo(() => {
     return rowsPerPage > 0
@@ -60,6 +63,12 @@ export function RoomPage(props: RoomsT) {
       setShowModal(false);
     } else {
       setShowModal(true);
+    }
+  };
+
+  const startGame = () => {
+    if (gameId) {
+      navigate(`${gameId}`);
     }
   };
 
@@ -99,11 +108,12 @@ export function RoomPage(props: RoomsT) {
                     </TableCell>
                     <TableCell className={styles.cell}>
                       <StyledButton
+                        onClick={startGame}
                         disabled={
                           item.maxPlayers === item.players ? true : undefined
                         }
                         extendClass={styles.button}>
-                        <Link to={PAGES.START_GAME}>Войти</Link>
+                        Войти
                       </StyledButton>
                     </TableCell>
                   </TableRow>
