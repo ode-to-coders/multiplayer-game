@@ -17,7 +17,7 @@ import logo from './logo.png';
 const wss = new WebSocket('ws://localhost:3002/game/rooms/');
 
 export const StartPage = () => {
-  const [text, setText] = useState('Полноэкранный режим');
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [gamers, setGamers] = useState('');
   const { gameId } = useParams();
   const navigate = useNavigate();
@@ -25,10 +25,10 @@ export const StartPage = () => {
   const handleChangeFullscreen = useCallback(() => {
     const page = document.getElementById('root') as HTMLElement;
     if (!document.fullscreenElement) {
-      setText('Выйти из полноэкранного режима');
+      setIsFullscreen(true);
       return page.requestFullscreen();
     } else {
-      setText('Полноэкранный режим');
+      setIsFullscreen(false);
       return document.exitFullscreen();
     }
   }, [document.fullscreenElement]);
@@ -56,12 +56,14 @@ export const StartPage = () => {
         payload: { login: `login${uuidv4()}`, gameId: gameId },
       })
     );
-  },[]);
+  }, []);
 
   return (
     <StyledContainer maxWidth={false} disableGutters>
       <StyledButton onClick={handleChangeFullscreen} extendClass={style.button}>
-        {text}
+        {isFullscreen
+          ? 'Выйти из полноэкранного режима'
+          : 'Полноэкранный режим'}
       </StyledButton>
       <Grid
         container

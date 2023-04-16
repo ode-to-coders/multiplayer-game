@@ -11,6 +11,7 @@ import TablePagination, {
   LabelDisplayedRowsArgs,
 } from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
+
 import { v4 as uuidv4 } from 'uuid';
 
 import { RoomsT, Subject } from './types';
@@ -65,7 +66,7 @@ export function RoomPage(props: RoomsT) {
       setShowModal(true);
     }
   };
-
+  
   const startGame = () => {
     if (gameId) {
       navigate(`${gameId}`);
