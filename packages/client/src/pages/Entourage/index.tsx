@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import {StyledDescribe, StyledTitle } from '../../shared/ui/Styled';
 
 import { getWinnerEnthourage } from '../../utils';
@@ -43,8 +43,7 @@ export function Enthourage() {
   const [timer, setTimer] = useState(45);
   const [over, setOver] = useState(false);
 
-  const handleClick = (vote: string) => {
-    console.log(vote);
+  const handleClick = useCallback((vote: string) => {
     const user = members.filter(enthourage => enthourage.name === currentUser);
     if (user.length > 0) {
       user[0].votes = vote;
@@ -54,7 +53,7 @@ export function Enthourage() {
 
     setWinnerEnthourage(winner);
     setOver(true);
-  };
+  }, [members]);
 
   useEffect(() => {
     if (over) return;
@@ -73,7 +72,7 @@ export function Enthourage() {
       const randomIndex = Math.floor(Math.random() * (enthourageVariants.length - 1));
       handleClick(enthourageVariants[randomIndex].name);
     }
-  }, [timer]);
+  }, [timer, handleClick]);
 
   useEffect(() => {
     if (winnerEnthourage) {
@@ -84,13 +83,13 @@ export function Enthourage() {
 
   return (
     <div className={styles.wrapper}>
-      {!over &&
+      {!over && (
         <Fragment>
           <StyledTitle variant="h3" className={styles.headline}>
             Голосование за антураж
           </StyledTitle>
           <div className={styles.enthourages}>
-            {enthourageVariants.map((variant, i) => {
+            {enthourageVariants.map((variant, index) => {
               return (
                 <label className={styles.label} key={variant.id}>
                   <input
@@ -101,18 +100,18 @@ export function Enthourage() {
                   <div className={styles.enthourage}>
                     <img src={variant.src} />
                   </div>
-                  {i === 0 &&
+                  {!index && (
                     <StyledDescribe variant="body1" extendClass={styles.timer}>
                       {timer}
                     </StyledDescribe>
-                  }
+                  )}
                 </label>
               )
             })}
           </div>
         </Fragment>
-      }
-      {over &&
+      )}
+      {over && (
         <Fragment>
           <StyledTitle variant='h5' className={styles.headline}>
             {winnerEnthourage &&
@@ -124,7 +123,7 @@ export function Enthourage() {
               <img src={winnerSrc} />
             </div>
         </Fragment>
-      }
+      )}
     </div>
   );
 }
