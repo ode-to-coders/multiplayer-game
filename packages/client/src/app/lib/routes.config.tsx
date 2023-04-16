@@ -16,7 +16,6 @@ import { PAGES, Routes } from './routes.types';
 import topics from '../../mocks/topics.json';
 import topic from '../../mocks/topic.json';
 import ratings from '../../mocks/ratings.json';
-import { TestCanvas } from '@/pages/TestCanvas';
 /**
  * Роуты главной страницы, до авторизации
  */
@@ -50,8 +49,7 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.START_GAME,
-    //Component: () => <StartPage />,
-    Component: () => <TestCanvas />,
+    Component: () => <StartPage />,
   },
   {
     path: PAGES.ENDGAME,
