@@ -18,7 +18,7 @@ function App() {
   if (isFetching) {
     return (
       <Layout>
-        <Grid container xs={12} className={style.fullScreenLoader}>
+        <Grid container className={style.fullScreenLoader}>
           <CircularProgress />
         </Grid>
       </Layout>
