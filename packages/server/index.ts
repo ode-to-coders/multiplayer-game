@@ -22,10 +22,12 @@ app.listen(port, () => {
 });
 
 type payloadType = {
-  success: boolean;
-  rivalName: string;
-  login: string;
+  success?: boolean;
+  rivalName?: Array<string>;
+  login?: string;
   gameId?: string;
+  canStart?: boolean;
+  count?: number;
 };
 
 type resultType = {
@@ -55,6 +57,12 @@ function start() {
   wss.on('connection', (wsClient: clientType) => {
     wsClient.on('message', async message => {
       const request = JSON.parse(message.toString());
+      if (request.event === 'logout') {
+        wsClient.close();
+        games[request.payload.gameId] = games[request.payload.gameId].filter(
+          wsc => wsc.login !== request.payload.login
+        );
+      }
       if (request.event === 'connect') {
         wsClient.login = request.payload.login;
         initGame(wsClient, request.payload.gameId);
@@ -68,10 +76,11 @@ function start() {
       games[gameId] = [ws];
     }
     if (games[gameId] && games[gameId]?.length < 4) {
+      games[gameId] = games[gameId].filter(wsc => wsc.login !== ws.login);
       games[gameId] = [...games[gameId], ws];
     }
     if (games[gameId] && games[gameId]?.length === 4) {
-      games[gameId] = games[gameId].filter(wsc => wsc.login !== wsc.login);
+      games[gameId] = games[gameId].filter(wsc => wsc.login !== ws.login);
     }
   }
 
@@ -87,15 +96,34 @@ function start() {
             type: 'connectToPlay',
             payload: {
               success: true,
-              rivalName: games[gameId as string].find(
-                (user: clientType) => user.login !== client.login
-              )?.login as string,
+              rivalName: games[gameId as string]
+                .filter((user: clientType) => user.login !== client.login)
+                ?.map(user => user.login),
+              login: client.login,
+              count: games[gameId as string].length,
+            },
+          };
+          break;
+        case 'ready':
+          result = {
+            type: 'readyToPlay',
+            payload: {
+              canStart: games[gameId as string].length > 3,
               login: client.login,
             },
           };
           break;
         default:
-          result = { type: 'logout', payload: params.payload };
+          result = {
+            type: 'logout',
+            payload: {
+              rivalName: games[gameId as string]
+                .filter((user: clientType) => user.login !== client.login)
+                ?.map(user => user.login),
+              login: client.login,
+              count: games[gameId as string].length,
+            },
+          };
           break;
       }
       client.send(JSON.stringify(result));

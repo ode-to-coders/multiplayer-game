@@ -25,7 +25,7 @@ export function RoomPage(props: RoomsT) {
   const { rooms } = props;
 
   const [page, setPage] = useState(0);
-  const [gameId, setGameId] = useState('');
+  const [gameId, setGameId] = useState(uuidv4());
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -64,8 +64,8 @@ export function RoomPage(props: RoomsT) {
       setShowModal(true);
     }
   };
+  
   const startGame = () => {
-    setGameId(uuidv4())
     if (gameId) {
       navigate(`${gameId}`);
     }
