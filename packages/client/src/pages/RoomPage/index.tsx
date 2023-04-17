@@ -16,7 +16,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { RoomsT, Subject } from './types';
 import { StyledButton, StyledContainer } from '../../shared/ui/Styled';
-import { PAGES } from '../../app/lib/routes.types';
 import { ModalBase } from '../../shared/ui';
 import { RoomForm } from '../../features';
 
@@ -26,8 +25,7 @@ export function RoomPage(props: RoomsT) {
   const { rooms } = props;
 
   const [page, setPage] = useState(0);
-  const [gameId, setGameId] = useState(uuidv4());
-  const [login, setLogin] = useState('');
+  const [gameId, setGameId] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
@@ -66,8 +64,8 @@ export function RoomPage(props: RoomsT) {
       setShowModal(true);
     }
   };
-  
   const startGame = () => {
+    setGameId(uuidv4())
     if (gameId) {
       navigate(`${gameId}`);
     }

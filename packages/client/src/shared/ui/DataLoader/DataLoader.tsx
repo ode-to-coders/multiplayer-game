@@ -1,9 +1,9 @@
 import React, { ReactElement } from 'react';
 import cn from 'classnames';
 
-import CircularProgress from '@mui/material/CircularProgress/CircularProgress';
+import CircularProgress from '@mui/material/CircularProgress';
 
-import style from './DataLoader.module.scss';
+import style from './index.module.scss';
 
 export interface IDataLoaderProps<T> {
   isLoading: boolean;

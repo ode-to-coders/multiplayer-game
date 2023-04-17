@@ -12,6 +12,7 @@ import {
   MainPage,
   RoomPage,
 } from '../../pages'
+
 import { PAGES, Routes } from './routes.types';
 
 import topics from '../../mocks/topics.json';
@@ -95,7 +96,7 @@ const PROFILE_ROUTES: Routes = [
 /**
  * Роуты связанные с аутентификацией
  */
-const AUTH_ROUTES: Routes = [
+export const AUTH_ROUTES: Routes = [
   {
     path: PAGES.SIGNIN,
     Component: () => <Signin />,
@@ -123,6 +124,5 @@ export const routesConfig: Routes = [
   ...MAIN_ROUTES,
   ...GAME_ROUTES,
   ...PROFILE_ROUTES,
-  ...AUTH_ROUTES,
   ...ERROR_ROUTES,
 ];
