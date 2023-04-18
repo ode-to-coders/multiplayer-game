@@ -4,10 +4,10 @@ import { yupSchemaRoomForm as schema } from 'shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 
 import { MuiMemoInputBase } from '../../shared/ui/MuiMemoInputBase';
 import { StyledButton } from '../../shared/ui/Styled';
-import { PAGES } from '../../app/lib/routes.types';
 import { IRoomData } from '../../pages/RoomPage/types';
 import { arrInputsData } from './helpingData';
 
@@ -16,6 +16,8 @@ import styles from './index.module.scss';
 export function RoomForm() {
   const [isFocused, setIsFocused] = useState([false, '']);
   const [isEmpty, setIsEmpty] = useState<Record<string, boolean>>({});
+  const [gameId, setGameId] = useState(uuidv4());
+
   const navigate = useNavigate();
 
   const {
@@ -46,14 +48,16 @@ export function RoomForm() {
 
   const onSubmit = (data: IRoomData) => {
     // Добавление комнаты в БД + обновление списка комнат (созданная - наверху)
-    const res = { name: 'Room1' };
-    if (res) {
+    if (data) {
       setTimeout(() => {
-        console.log(`привет, вы создали комнату с названием ${res.name}!`);
+        console.log(`привет, вы создали комнату с названием ${data.name}!`);
         // Переход к странице комнаты (с уникальным id, по которому можно подключиться)
-        navigate(PAGES.START_GAME);
+        if (gameId) {
+          navigate(`${gameId}`);
+        }
       }, 1000);
     } else {
+      // TODO custom notifications
       alert('что-то пошло не так, попробуйте еще раз');
     }
   };

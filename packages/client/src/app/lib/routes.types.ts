@@ -16,7 +16,7 @@ export const enum PAGES {
   EDIT_PROFILE = '/profile/edit',
   EDIT_PASSWORD = '/profile/edit/password',
   GAME = '/game',
-  START_GAME = '/game/start',
+  START_GAME = '/game/rooms/:gameId',
   ENDGAME = '/game/end',
   LEADERBOARD = '/game/leaderboard',
   FORUM = '/game/forum',
