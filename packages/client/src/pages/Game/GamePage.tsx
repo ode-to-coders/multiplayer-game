@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { GameLayout } from '../../app/layout/GameLayout';
 import { StyledContainer } from '../../shared/ui/Styled';
 
-import logo from './logo.png';
 import style from './index.module.scss';
+import { MainPage } from '../MainPage';
 
 export const GamePage = () => {
   return (
@@ -12,8 +11,7 @@ export const GamePage = () => {
       maxWidth={false}
       disableGutters
       extendClass={style.container}>
-      <GameLayout />
-      <img className={style.logo} src={logo} alt="логотип" />
+      <MainPage></MainPage>
     </StyledContainer>
   );
 };

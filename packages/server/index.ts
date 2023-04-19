@@ -87,20 +87,20 @@ function start() {
   function broadcast(params: requestType) {
     let result: resultType;
 
-    const { gameId } = params.payload;
+    const { gameId } = params.payload as requestType;
 
-    games[gameId as string].forEach((client: clientType) => {
+    games[gameId].forEach((client: clientType) => {
       switch (params.event) {
         case 'connect':
           result = {
             type: 'connectToPlay',
             payload: {
               success: true,
-              rivalName: games[gameId as string]
+              rivalName: games[gameId]
                 .filter((user: clientType) => user.login !== client.login)
                 ?.map(user => user.login),
               login: client.login,
-              count: games[gameId as string].length,
+              count: games[gameId].length,
             },
           };
           break;
@@ -108,7 +108,7 @@ function start() {
           result = {
             type: 'readyToPlay',
             payload: {
-              canStart: games[gameId as string].length > 3,
+              canStart: games[gameId].length > 3,
               login: client.login,
             },
           };
@@ -117,11 +117,11 @@ function start() {
           result = {
             type: 'logout',
             payload: {
-              rivalName: games[gameId as string]
+              rivalName: games[gameId]
                 .filter((user: clientType) => user.login !== client.login)
                 ?.map(user => user.login),
               login: client.login,
-              count: games[gameId as string].length,
+              count: games[gameId].length,
             },
           };
           break;

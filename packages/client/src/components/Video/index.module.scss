@@ -4,4 +4,9 @@
   justify-content: center;
   background-color: var(--color-layout);
   height: 100vh;
+  iframe {
+    top: 20;
+    border-width: 0;
+    outline-width: 0;
+  }
 }
