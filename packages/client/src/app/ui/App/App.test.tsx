@@ -20,5 +20,5 @@ test('Example test', async () => {
 test('LeaderBoard render', () => {
   render(<LeaderBoardPage users={ratings} />);
   screen.debug();
-  expect(screen.getByText(/saff/i)).toBeInTheDocument();
+  expect(screen.getByText(/Всего игр/i)).toBeInTheDocument();
 });
