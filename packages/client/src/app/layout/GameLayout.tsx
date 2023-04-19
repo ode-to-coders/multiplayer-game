@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 
 import { PAGES } from '../lib/routes.types';
 import { StyledContainer, StyledGridItem } from '../../shared/ui/Styled';
@@ -12,25 +12,52 @@ export const GameLayout = () => {
     <StyledContainer maxWidth={false} disableGutters>
       <StyledGridItem container spacing={2} extendClass={style.grid}>
         <StyledGridItem item>
-          <Link to={PAGES.GAME}>Главная</Link>
+          <NavLink
+            className={({ isActive }) => (isActive ? 'active-link' : 'link')}
+            to={PAGES.GAME}>
+            Главная
+            <span />
+          </NavLink>
         </StyledGridItem>
         <StyledGridItem item>
-          <Link to={PAGES.START_GAME}>Старт</Link>
+          <NavLink
+            className={({ isActive }) => (isActive ? 'active-link' : 'link')}
+            to={PAGES.ENDGAME}>
+            Конец
+            <span />
+          </NavLink>
         </StyledGridItem>
         <StyledGridItem item>
-          <Link to={PAGES.ENDGAME}>Конец</Link>
+          <NavLink
+            className={({ isActive }) => (isActive ? 'active-link' : 'link')}
+            to={PAGES.LEADERBOARD}>
+            Рейтинг
+            <span />
+          </NavLink>
         </StyledGridItem>
         <StyledGridItem item>
-          <Link to={PAGES.LEADERBOARD}>Рейтинг</Link>
+          <NavLink
+            className={({ isActive }) => (isActive ? 'active-link' : 'link')}
+            to={PAGES.FORUM}>
+            Форум
+            <span />
+          </NavLink>
         </StyledGridItem>
         <StyledGridItem item>
-          <Link to={PAGES.FORUM}>Форум</Link>
-        </StyledGridItem>
-        <StyledGridItem item>
-          <Link to={PAGES.PROFILE}>Профиль</Link>
+          <NavLink
+            className={({ isActive }) => (isActive ? 'active-link' : 'link')}
+            to={PAGES.PROFILE}>
+            Профиль
+            <span />
+          </NavLink>
         </StyledGridItem>
         <StyledGridItem item extendClass={style.gridLast}>
-          <Link to={PAGES.ROOMS}>Комнаты</Link>
+          <NavLink
+            className={({ isActive }) => (isActive ? 'active-link' : 'link')}
+            to={PAGES.ROOMS}>
+            Комнаты
+            <span />
+          </NavLink>
         </StyledGridItem>
       </StyledGridItem>
       <Outlet />

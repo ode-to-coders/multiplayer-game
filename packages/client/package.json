@@ -10,6 +10,22 @@
     "format": "prettier --write .",
     "test": "jest ./"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts, js}": [
+      "npm run format",
+      "npm run lint",
+      "npm run test"
+    ],
+    "*.{scss, css}": [
+      "npm run format",
+      "npm run lint"
+    ]
+  },
   "dependencies": {
     "@emotion/react": "11.10.6",
     "@emotion/styled": "11.10.6",
@@ -27,7 +43,7 @@
     "react-redux": "8.0.5",
     "react-router-dom": "6.9.0",
     "styled-components": "5.3.9",
-    "uuid": "^9.0.0",
+    "uuid": "9.0.0",
     "vite-plugin-svgr": "2.4.0",
     "yup": "1.0.2"
   },
@@ -38,15 +54,17 @@
     "@types/react": "18.0.17",
     "@types/react-dom": "18.0.6",
     "@types/styled-jsx": "3.4.4",
-    "@types/uuid": "^9.0.1",
+    "@types/uuid": "9.0.1",
     "@typescript-eslint/eslint-plugin": "5.35.1",
     "@typescript-eslint/parser": "5.35.1",
     "@vitejs/plugin-react": "2.0.1",
     "eslint": "8.23.0",
+    "husky": "8.0.3",
     "identity-obj-proxy": "3.0.0",
     "jest": "28",
     "jest-environment-jsdom": "29.0.1",
     "lefthook": "1.1.1",
+    "lint-staged": "13.2.1",
     "prettier": "2.7.1",
     "sass": "1.59.3",
     "styled-jsx": "5.1.2",

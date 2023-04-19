@@ -43,7 +43,7 @@ export const StartPage = () => {
     switch (type) {
       case 'connectionToPlay':
         if (!payload.success) {
-          return navigate('/game/rooms');
+          return navigate('/rooms');
         }
         break;
       case 'readyToPlay':
@@ -73,20 +73,16 @@ export const StartPage = () => {
         payload: { login: data?.login, gameId: gameId },
       })
     );
-    navigate('/game/rooms');
+    navigate('/rooms');
   };
 
   return (
     <DataLoader isLoading={isFetching} isError={isError} data={data}>
       {data => (
-        <StyledContainer maxWidth={false} disableGutters>
-          <StyledButton
-            onClick={handleChangeFullscreen}
-            extendClass={style.button}>
-            {isFullscreen
-              ? 'Выйти из полноэкранного режима'
-              : 'Полноэкранный режим'}
-          </StyledButton>
+        <StyledContainer
+          maxWidth={false}
+          disableGutters
+          extendClass={style.container}>
           <Grid
             container
             direction="row"
@@ -105,8 +101,16 @@ export const StartPage = () => {
                 Ожидание игроков... ({count} из 4)
               </StyledDescribe>
             </StyledGridItem>
-            <StyledGridItem item xs className={style.gridGamersItem}>
-              <StyledDescribe>{`${data.login} ${gamers}`}</StyledDescribe>
+            <StyledGridItem item xs extendClass={style.gridGamersItem}>
+              <StyledButton
+                onClick={handleChangeFullscreen}
+                extendClass={style.button}>
+                {isFullscreen
+                  ? 'Выйти из полноэкранного режима'
+                  : 'Полноэкранный режим'}
+              </StyledButton>
+              <StyledDescribe>Игроки в комнате</StyledDescribe>
+              <StyledDescribe >{`${data.login} ${gamers}`}</StyledDescribe>
             </StyledGridItem>
           </Grid>
         </StyledContainer>

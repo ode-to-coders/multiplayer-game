@@ -72,13 +72,13 @@ export function RoomPage(props: RoomsT) {
   };
 
   return (
-    <StyledContainer>
+    <StyledContainer extendClass={styles.mainContainer}>
       {showModal && (
         <ModalBase title="Создание комнаты" setOpenCback={setShowModal}>
           <RoomForm />
         </ModalBase>
       )}
-      <StyledButton onClick={handleChangeShowModal}>
+      <StyledButton extendClass={styles.create} onClick={handleChangeShowModal}>
         Создать комнату
       </StyledButton>
       <Paper className={styles.paper}>

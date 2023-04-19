@@ -12,4 +12,14 @@ body {
 a {
   text-decoration: none;
   color: white;
+  &.active-link {
+    display: flex;
+    flex-direction: column;
+    span {
+      margin-top: 5px;
+      width: 100%;
+      height: 2px;
+      background-color: var(--color-blue);
+    }
+  }
 }

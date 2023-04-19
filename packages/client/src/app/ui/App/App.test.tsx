@@ -17,8 +17,8 @@ test('Example test', async () => {
   expect(getByText(сontent)).toBeDefined();
 });
 
-test('Main page render', () => {
+test('LeaderBoard render', () => {
   render(<LeaderBoardPage users={ratings} />);
   screen.debug();
-  expect(screen.getByText(/Всего игр/i)).toBeInTheDocument();
+  expect(screen.getByText(/saff/i)).toBeInTheDocument();
 });

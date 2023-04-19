@@ -1,9 +1,15 @@
+.mainContainer {
+  height: 100vh;
+  padding-top: 5rem;
+}
+
 .leaderboard {
-  max-height: 1300px;
+  max-height: 35rem;
   max-width: 800px;
   overflow-y: scroll;
   width: 100%;
   margin: 50px auto 50px;
+  margin-top: 0;
   &::-webkit-scrollbar {
     width: 10px;
     background: var(--color-darkGrey);

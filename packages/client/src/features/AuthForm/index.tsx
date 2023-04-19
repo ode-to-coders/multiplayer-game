@@ -63,8 +63,6 @@ export const AuthForm = () => {
   );
 
   const onSubmit = async (data: { login: string; password: string }) => {
-    // ЗДЕСЬ БУДЕТ ЗАПРОС НА АВТОРИЗАЦИЮ
-    // тест
     const response = await signIn(data);
     const isError = 'error' in response;
 

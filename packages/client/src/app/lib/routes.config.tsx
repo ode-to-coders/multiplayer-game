@@ -30,18 +30,6 @@ const MAIN_ROUTES: Routes = [
     path: PAGES.MAIN,
     Component: () => <MainPage />,
   },
-  {
-    path: PAGES.ABOUT,
-    Component: () => <div>About</div>,
-  },
-  {
-    path: PAGES.RULES,
-    Component: () => <div>Rules</div>,
-  },
-  {
-    path: PAGES.VIDEO,
-    Component: () => <div>Video</div>,
-  },
 ];
 /**
  * Роуты связанные с игрой, после авторизации
