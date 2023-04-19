@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "John Lennon",
+    "votes": "Фэнтэзи"
+  },
+  {
+    "id": 2,
+    "name": "Paul McCartney",
+    "votes":  "Викторианская Англия"
+  },
+  {
+    "id": 3,
+    "name": "George Harrison",
+    "votes": "Современность"
+  },
+  {
+    "id": 4,
+    "name": "Ringo Starr",
+    "votes": ""
+  }
+]
