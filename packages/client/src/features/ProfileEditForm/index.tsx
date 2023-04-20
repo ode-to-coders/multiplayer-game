@@ -63,6 +63,7 @@ export const ProfileEditForm = ({ profileData }: Props) => {
               {input.label}
             </label>
             <input
+              id={input.name}
               className={styles.myInput}
               type={input.type}
               placeholder={profileData[input.name]}

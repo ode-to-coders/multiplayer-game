@@ -58,6 +58,7 @@ export const ProfileEditPasswordForm = () => {
               {input.label}
             </label>
             <input
+              id={input.name}
               className={styles.myInput}
               type={input.type}
               placeholder={input.placeholder}
