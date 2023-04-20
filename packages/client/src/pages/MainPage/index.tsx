@@ -1,6 +1,8 @@
 import { useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
+
+import { PAGES } from 'app/lib/routes.types';
 
 import AboutGame from '../../components/AboutGame';
 import Video from '../../components/Video';
@@ -11,22 +13,17 @@ import logo from '../../images/logo.png';
 import styles from './index.module.scss';
 import { useAuth } from '@/app/hooks/useAuth';
 
+
 export function MainPage() {
   const aboutAnchor = useRef<HTMLDivElement>(null);
   const videoAnchor = useRef<HTMLDivElement>(null);
   const toPlay = useRef<HTMLDivElement>(null);
   const { isAuth } = useAuth();
-  const navigate = useNavigate();
 
   const handleScroll = (element: HTMLDivElement | null) => {
     if (element) {
       element.scrollIntoView();
     }
-  };
-
-  const handleNavigate = () => {
-    if (isAuth) navigate('/game/rooms');
-    else navigate('/signin');
   };
 
   return (
@@ -58,7 +55,9 @@ export function MainPage() {
         <div className={styles.logo}>
           <img src={logo} />
         </div>
-        <StyledButton onClick={handleNavigate}>Играть</StyledButton>
+        <StyledButton>
+          <Link to={isAuth ? PAGES.ROOMS : PAGES.REGISTRATION}>Играть</Link>
+        </StyledButton>
       </div>
       <div ref={aboutAnchor}>
         <AboutGame />

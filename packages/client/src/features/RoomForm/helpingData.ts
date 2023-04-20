@@ -7,6 +7,7 @@ export type HelpingDataRoom = {
   name: keyof IRoomData;
 }[];
 
+
 export const arrInputsData: HelpingDataRoom = [
   {
     type: 'text',

@@ -10,7 +10,7 @@ import {
   StyledGridItem,
 } from '../../shared/ui/Styled';
 
-import style from './index.module.scss';
+import styles from './index.module.scss';
 import logo from './logo.png';
 import { DataLoader } from '@/shared/ui/DataLoader/DataLoader';
 
@@ -82,29 +82,29 @@ export const StartPage = () => {
         <StyledContainer
           maxWidth={false}
           disableGutters
-          extendClass={style.container}>
+          extendClass={styles.container}>
           <Grid
             container
-            direction="row"
-            justifyContent="center"
-            alignItems="center">
-            <StyledGridItem item xs="auto" className={style.gridItem}>
+            direction='row'
+            justifyContent='center'
+            alignItems='center'>
+            <StyledGridItem item xs='auto' className={styles.gridItem}>
               <StyledButton
-                extendClass={style.link}
+                extendClass={styles.link}
                 onClick={handleChangeButton}>
                 Назад
               </StyledButton>
             </StyledGridItem>
-            <StyledGridItem item xs className={style.gridMainItem}>
-              <img className={style.img} src={logo} alt="логотип" />
-              <StyledDescribe variant="body1">
+            <StyledGridItem item xs className={styles.gridMainItem}>
+              <img className={styles.img} src={logo} alt='логотип' />
+              <StyledDescribe variant='body1'>
                 Ожидание игроков... ({count} из 4)
               </StyledDescribe>
             </StyledGridItem>
-            <StyledGridItem item xs extendClass={style.gridGamersItem}>
+            <StyledGridItem item xs extendClass={styles.gridGamersItem}>
               <StyledButton
                 onClick={handleChangeFullscreen}
-                extendClass={style.button}>
+                extendClass={styles.button}>
                 {isFullscreen
                   ? 'Выйти из полноэкранного режима'
                   : 'Полноэкранный режим'}

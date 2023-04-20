@@ -11,10 +11,12 @@ import TablePagination, {
 } from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
+import { StyledContainer } from '@/shared/ui/Styled';
+
 import { TopicsT, Subject } from './types';
 
 import styles from './index.module.scss';
-import { StyledContainer } from '@/shared/ui/Styled';
+
 
 export function ForumPage(props: TopicsT) {
   const { topics } = props;

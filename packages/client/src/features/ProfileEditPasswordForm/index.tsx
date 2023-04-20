@@ -6,13 +6,10 @@ import { useForm } from 'react-hook-form';
 import { useChangeUserPasswordMutation } from 'app/store/api/users/usersApi';
 import { PAGES } from 'app/lib/routes.types';
 
-import { helpingDataInputs } from './helpingDataInputs';
+import { helpingDataInputs, Props } from './helpingDataInputs';
 
-import s from './index.module.scss';
+import styles from './index.module.scss';
 
-type Props = {
-  profileData: IProfileData;
-};
 
 export const ProfileEditPasswordForm = ({ profileData }: Props) => {
   const navigate = useNavigate();
@@ -49,27 +46,27 @@ export const ProfileEditPasswordForm = ({ profileData }: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      autoComplete="off"
-      className={s.myForm}>
+      autoComplete='off'
+      className={styles.myForm}>
       {helpingDataInputs.map(input => (
-        <div key={input.name} className={s.wrapLabelInputMsg}>
-          <div className={s.myWrapInput}>
-            <label htmlFor={input.name} className={s.myInputLabel}>
+        <div key={input.name} className={styles.wrapLabelInputMsg}>
+          <div className={styles.myWrapInput}>
+            <label htmlFor={input.name} className={styles.myInputLabel}>
               {input.label}
             </label>
             <input
-              className={s.myInput}
+              className={styles.myInput}
               type={input.type}
               placeholder={input.placeholder}
               {...register(input.name)}
             />
           </div>
           {errors[input.name]?.message && (
-            <div className={s.msg}>{errors[input.name]?.message as string}</div>
+            <div className={styles.msg}>{errors[input.name]?.message as string}</div>
           )}
         </div>
       ))}
-      <FormButton type="submit" className={s.btnSubmit}>
+      <FormButton type='submit' className={styles.btnSubmit}>
         Сохранить
       </FormButton>
     </form>

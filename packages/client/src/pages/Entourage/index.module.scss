@@ -1,10 +1,10 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   padding: 40px;
   width: 100%;
+  height: 100vh;
   background-color: var(--color-layout);
 }
 
@@ -13,6 +13,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-top: 50px;
+  max-width: 1300px;
 }
 
 .enthourage {
@@ -50,6 +51,7 @@
 .headline {
   text-align: center;
   color: var(--color-primary);
+  margin-top: 40px;
 }
 
 .timer {

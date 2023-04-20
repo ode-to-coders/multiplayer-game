@@ -1,39 +1,17 @@
 import { HTTP_METHOD } from 'shared/const/constants';
 import { baseApi } from '../baseApi';
 
+import {
+  SignInRequestBody,
+  SignUpResponse,
+  SignUpRequestBody,
+  UserInfoResponse,
+} from './types';
+
 const SIGN_IN_API_PATH = '/auth/signin';
 const SIGN_UP_API_PATH = '/auth/signup';
 const LOGOUT_API_PATH = '/auth/logout';
 const USER_INFO_API_PATH = '/auth/user';
-
-type SignInRequestBody = {
-  login: string;
-  password: string;
-};
-
-type SignUpRequestBody = {
-  first_name: string;
-  second_name: string;
-  login: string;
-  email: string;
-  password: string;
-  phone: string;
-};
-
-type SignUpResponse = {
-  id: number;
-};
-
-export type UserInfoResponse = {
-  id: number;
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  login: string;
-  email: string;
-  phone: string;
-  avatar: string | null;
-};
 
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({

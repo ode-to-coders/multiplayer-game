@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 import { FormButton } from 'shared/ui/FormButton';
 import { MuiMemoInputBase } from 'shared/ui/MuiMemoInputBase';
-
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useCallback, useMemo, useState } from 'react';
@@ -13,7 +12,8 @@ import { yupSchemaSigninForm as schema } from 'shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PAGES } from 'app/lib/routes.types';
 
-import s from './index.module.scss';
+import styles from './index.module.scss';
+
 
 export const AuthForm = () => {
   const [isFocused, setIsFocused] = useState([false, '']);
@@ -77,16 +77,16 @@ export const AuthForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit as any)}
-      autoComplete="off"
-      className={s.myForm}>
-      <h2 className={s.head}>Вход</h2>
+      autoComplete='off'
+      className={styles.myForm}>
+      <h2 className={styles.head}>Вход</h2>
       {arrInputsData.map(input => (
         <div key={input.name}>
-          <div className={s.myInputWrap}>
+          <div className={styles.myInputWrap}>
             <label
               htmlFor={input.name}
-              className={classNames(s.myInputLabel, {
-                [s.myInputLabelAnimation]:
+              className={classNames(styles.myInputLabel, {
+                [styles.myInputLabelAnimation]:
                   (isFocused[0] && isFocused[1] === input.name) ||
                   (input.name in isEmpty && !isEmpty[input.name]),
               })}>
@@ -94,9 +94,9 @@ export const AuthForm = () => {
             </label>
             <MuiMemoInputBase
               id={input.name}
-              className={s.muiInput}
+              className={styles.muiInput}
               type={input.type}
-              inputProps={{ className: s.muiInputBase }}
+              inputProps={{ className: styles.muiInputBase }}
               placeholder={
                 isFocused[0] && isFocused[1] === input.name
                   ? ''
@@ -107,16 +107,16 @@ export const AuthForm = () => {
               onBlur={handleBlurInput}
             />
           </div>
-          <div className={s.msg}>
+          <div className={styles.msg}>
             {errors[input.name]?.message &&
               (errors[input.name]?.message as string)}
           </div>
         </div>
       ))}
-      <FormButton type="submit" className={s.btnSubmit}>
+      <FormButton type='submit' className={styles.btnSubmit}>
         Авторизоваться
       </FormButton>
-      <Link to={PAGES.REGISTRATION} className={s.link}>
+      <Link to={PAGES.REGISTRATION} className={styles.link}>
         Нет аккаунта?
       </Link>
     </form>

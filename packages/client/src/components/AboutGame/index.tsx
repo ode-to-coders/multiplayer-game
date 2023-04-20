@@ -1,11 +1,12 @@
 import Grid from '@mui/material/Grid';
 
-import styles from './index.module.scss';
+import { StyledDescribe, StyledGridItem } from '@/shared/ui/Styled';
 
 import { ReactComponent as Watch } from '../../images/watch.svg';
 import { ReactComponent as Group } from '../../images/group.svg';
 import { ReactComponent as Stroller } from '../../images/stroller.svg';
-import { StyledDescribe, StyledGridItem } from '@/shared/ui/Styled';
+
+import styles from './index.module.scss';
 
 
 function AboutGame() {

@@ -1,16 +1,15 @@
-import React from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 
 import { PAGES } from '../lib/routes.types';
 import { StyledContainer, StyledGridItem } from '../../shared/ui/Styled';
 
 
-import style from './index.module.scss';
+import styles from './index.module.scss';
 
 export const GameLayout = () => {
   return (
     <StyledContainer maxWidth={false} disableGutters>
-      <StyledGridItem container spacing={2} extendClass={style.grid}>
+      <StyledGridItem container spacing={2} extendClass={styles.grid}>
         <StyledGridItem item>
           <NavLink
             className={({ isActive }) => (isActive ? 'active-link' : 'link')}
@@ -51,7 +50,7 @@ export const GameLayout = () => {
             <span />
           </NavLink>
         </StyledGridItem>
-        <StyledGridItem item extendClass={style.gridLast}>
+        <StyledGridItem item extendClass={styles.gridLast}>
           <NavLink
             className={({ isActive }) => (isActive ? 'active-link' : 'link')}
             to={PAGES.ROOMS}>

@@ -16,5 +16,6 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
+    'quotes': [2, 'single', { 'avoidEscape': true }]
   },
 };

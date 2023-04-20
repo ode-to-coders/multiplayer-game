@@ -5,6 +5,7 @@ import { routesConfig } from 'app/lib/routes.config';
 import { PAGES } from 'app/lib/routes.types';
 import { GameLayout } from '@/app/layout/GameLayout';
 
+
 export const AuthenticatedApp = () => {
   useEffect(() => {
     const fetchServerData = async () => {
@@ -19,7 +20,7 @@ export const AuthenticatedApp = () => {
 
   return (
     <Routes>
-      <Route path="*" element={<Navigate to={`${PAGES.NOTFOUND}`} />} />
+      <Route path='*' element={<Navigate to={`${PAGES.NOTFOUND}`} />} />
       {routesConfig.map((route, idx) => (
         <Route element={<GameLayout />} key={idx}>
           <Route
