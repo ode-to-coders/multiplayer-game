@@ -11,7 +11,7 @@ import { PAGES } from 'app/lib/routes.types';
 
 import { helpingDataInputs } from './helpingDataInputs';
 
-import s from './index.module.scss';
+import styles from './index.module.scss';
 
 export const ProfileEditPasswordForm = () => {
   const navigate = useNavigate();
@@ -49,27 +49,28 @@ export const ProfileEditPasswordForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      autoComplete="off"
-      className={s.myForm}>
+      autoComplete='off'
+      className={styles.myForm}>
       {helpingDataInputs.map(input => (
-        <div key={input.name} className={s.wrapLabelInputMsg}>
-          <div className={s.myWrapInput}>
-            <label htmlFor={input.name} className={s.myInputLabel}>
+        <div key={input.name} className={styles.wrapLabelInputMsg}>
+          <div className={styles.myWrapInput}>
+            <label htmlFor={input.name} className={styles.myInputLabel}>
               {input.label}
             </label>
             <input
-              className={s.myInput}
+              id={input.name}
+              className={styles.myInput}
               type={input.type}
               placeholder={input.placeholder}
               {...register(input.name)}
             />
           </div>
           {errors[input.name]?.message && (
-            <div className={s.msg}>{errors[input.name]?.message as string}</div>
+            <div className={styles.msg}>{errors[input.name]?.message as string}</div>
           )}
         </div>
       ))}
-      <StyledButton type="submit" extendClass={s.btnSubmit}>
+      <StyledButton type="submit" extendClass={styles.btnSubmit}>
         Сохранить
       </StyledButton>
     </form>

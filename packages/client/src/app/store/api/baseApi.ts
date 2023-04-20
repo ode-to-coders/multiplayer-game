@@ -5,6 +5,7 @@ import {
   createApi,
   fetchBaseQuery,
 } from '@reduxjs/toolkit/query/react';
+
 import { setIsAuth } from '../auth/authSlice';
 
 const BASE_API_PATH = 'https://ya-praktikum.tech/api/v2/';

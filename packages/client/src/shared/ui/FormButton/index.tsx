@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC } from 'react';
 import classNames from 'classnames';
 
 import s from './FormButton.module.scss';

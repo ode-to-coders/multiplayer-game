@@ -2,45 +2,17 @@ import { HTTP_METHOD } from 'shared/const/constants';
 import { baseApi } from '../baseApi';
 import { authApi } from '../auth/authApi';
 
+import {
+  ChangeUserPasswordRequestBody,
+  ChangeUserProfileRequestBody,
+  ChangeUserProfileResponse,
+  UserInfoResponse
+} from './types';
+
 const USER_PROFILE_API_PATH = '/user/profile';
 const USER_CHANGE_PASSWORD_API_PATH = '/user/password';
 const USER_CHANGE_AVATAR_API_PATH = '/user/profile/avatar';
 
-type ChangeUserPasswordRequestBody = {
-  oldPassword: string;
-  newPassword: string;
-};
-
-type ChangeUserProfileRequestBody = {
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  login: string;
-  email: string;
-  phone: string;
-};
-
-type ChangeUserProfileResponse = {
-  id: number;
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  login: string;
-  email: string;
-  phone: string;
-  avatar: string;
-};
-
-export type UserInfoResponse = {
-  id: number;
-  first_name: string;
-  second_name: string;
-  display_name: string;
-  login: string;
-  email: string;
-  phone: string;
-  avatar: string | null;
-};
 
 export const usersApi = baseApi.injectEndpoints({
   endpoints: builder => ({

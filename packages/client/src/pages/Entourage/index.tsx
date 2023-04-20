@@ -91,21 +91,23 @@ export function Enthourage() {
           <div className={styles.enthourages}>
             {enthourageVariants.map((variant, index) => {
               return (
-                <label className={styles.label} key={variant.id}>
-                  <input
-                    type='radio'
-                    className={styles.input}
-                    onInput={() => handleClick(variant.name)}
-                  />
-                  <div className={styles.enthourage}>
-                    <img src={variant.src} />
-                  </div>
+                <Fragment>
+                  <label className={styles.label} key={variant.id}>
+                    <input
+                      type='radio'
+                      className={styles.input}
+                      onInput={() => handleClick(variant.name)}
+                    />
+                    <div className={styles.enthourage}>
+                      <img src={variant.src} />
+                    </div>
+                  </label>
                   {!index && (
                     <StyledDescribe variant="body1" extendClass={styles.timer}>
                       {timer}
                     </StyledDescribe>
                   )}
-                </label>
+                </Fragment>
               )
             })}
           </div>

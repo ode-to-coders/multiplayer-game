@@ -242,7 +242,7 @@ export const writingsText = (
     if (fontSize*(arrTxt.length + 1) > height) {
       return -1;
     }
-    text += `\n`;
+    text += '\n';
     logWritings[key] = text;
     setState({left, top, width, height, text, textColor, fontSize})
     return text;

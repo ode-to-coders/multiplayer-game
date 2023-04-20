@@ -15,6 +15,7 @@ import { PAGES } from 'app/lib/routes.types';
 import s from './index.module.scss';
 import { useSignUpMutation } from 'app/store/api/auth/authApi';
 
+
 export const RegForm = () => {
   const [isFocused, setIsFocused] = useState([false, '']);
   const [isEmpty, setIsEmpty] = useState<Record<string, boolean>>({});

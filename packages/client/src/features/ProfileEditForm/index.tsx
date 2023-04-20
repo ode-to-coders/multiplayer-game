@@ -4,18 +4,21 @@ import { StyledButton } from 'shared/ui/Styled';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
+import { useChangeUserProfileMutation } from 'app/store/api/users/usersApi';
+
 import { yupSchemaProfileEditForm as schema } from 'shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PAGES } from 'app/lib/routes.types';
 
 import { helpingDataInputs } from './helpingDataInputs';
 
-import s from './index.module.scss';
-import { useChangeUserProfileMutation } from 'app/store/api/users/usersApi';
+import styles from './index.module.scss';
+
 
 type Props = {
   profileData: IProfileData;
 };
+
 
 export const ProfileEditForm = ({ profileData }: Props) => {
   const navigate = useNavigate();
@@ -51,27 +54,28 @@ export const ProfileEditForm = ({ profileData }: Props) => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      autoComplete="off"
-      className={s.myForm}>
+      autoComplete='off'
+      className={styles.myForm}>
       {helpingDataInputs.map(input => (
-        <div key={input.name} className={s.wrapLabelInputMsg}>
-          <div className={s.myWrapInput}>
-            <label htmlFor={input.name} className={s.myInputLabel}>
+        <div key={input.name} className={styles.wrapLabelInputMsg}>
+          <div className={styles.myWrapInput}>
+            <label htmlFor={input.name} className={styles.myInputLabel}>
               {input.label}
             </label>
             <input
-              className={s.myInput}
+              id={input.name}
+              className={styles.myInput}
               type={input.type}
               placeholder={profileData[input.name]}
               {...register(input.name)}
             />
           </div>
           {errors[input.name]?.message && (
-            <div className={s.msg}>{errors[input.name]?.message as string}</div>
+            <div className={styles.msg}>{errors[input.name]?.message as string}</div>
           )}
         </div>
       ))}
-      <StyledButton type="submit" extendClass={s.btnSubmit}>
+      <StyledButton type="submit" extendClass={styles.btnSubmit}>
         Сохранить
       </StyledButton>
     </form>

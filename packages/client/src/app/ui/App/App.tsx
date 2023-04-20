@@ -10,7 +10,7 @@ import { UnauthenticatedApp } from '../UnauthenticatedApp/UnauthenticatedApp';
 
 import '../../styles/vars.scss';
 import '../../styles/global.scss';
-import style from './index.module.scss';
+import styles from './index.module.scss';
 
 function App() {
   const { isFetching, isAuth } = useAuth();
@@ -18,7 +18,7 @@ function App() {
   if (isFetching) {
     return (
       <Layout>
-        <Grid container className={style.fullScreenLoader}>
+        <Grid container className={styles.fullScreenLoader}>
           <CircularProgress />
         </Grid>
       </Layout>

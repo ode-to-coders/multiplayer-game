@@ -65,10 +65,6 @@ const GAME_ROUTES: Routes = [
     Component: () => <RoomPage rooms={rooms} />,
   },
   {
-    path: PAGES.ROOMS,
-    Component: () => <div>Rooms</div>,
-  },
-  {
     path: PAGES.ENTHOURAGE,
     Component: () => <Enthourage />
   },
@@ -109,11 +105,11 @@ export const AUTH_ROUTES: Routes = [
 const ERROR_ROUTES: Routes = [
   {
     path: PAGES.NOTFOUND,
-    Component: () => <ErrorPage code={404} text="Не туда попали" />,
+    Component: () => <ErrorPage code={404} text='Не туда попали' />,
   },
   {
     path: PAGES.SERVER_ERROR,
-    Component: () => <ErrorPage code={500} text="Мы уже фиксим" />,
+    Component: () => <ErrorPage code={500} text='Мы уже фиксим' />,
   },
 ];
 
