@@ -1,0 +1,233 @@
+[
+  {
+    "id": 1,
+    "subject": "Комната 1",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 2,
+    "subject": "Комната 2",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 3,
+    "subject": "Комната 3",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 4,
+    "subject": "Комната 4",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 5,
+    "subject": "Комната 5",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 6,
+    "subject": "Комната 6",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 7,
+    "subject": "Комната 7",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 8,
+    "subject": "Комната 8",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 9,
+    "subject": "Комната 9",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 10,
+    "subject": "Комната 10",
+    "players": 4,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 11,
+    "subject": "Комната ddd",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 12,
+    "subject": "Комната 2",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 13,
+    "subject": "Комната 3",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 14,
+    "subject": "Комната 4",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 15,
+    "subject": "Комната 5",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 16,
+    "subject": "Комната 6",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 17,
+    "subject": "Комната 7",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 18,
+    "subject": "Комната dfg",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 19,
+    "subject": "Комната dfg",
+    "players": 3,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 20,
+    "subject": "Комната dfg",
+    "players": 4,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  },
+  {
+    "id": 21,
+    "subject": "Комната dfg",
+    "players": 4,
+    "maxPlayers": 4,
+    "user": {
+      "name": "Petya",
+      "id": 1
+    },
+    "password": ""
+  }
+]

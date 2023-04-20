@@ -23,6 +23,9 @@
   line-height: 0.8125rem;
   text-transform: inherit;
   padding: 0.75rem;
+  &:hover {
+    background-color: darken(#00a0d7, 15%);
+  }
 }
 
 .buttonGroup {

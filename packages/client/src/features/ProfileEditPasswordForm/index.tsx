@@ -1,75 +1,78 @@
-import { FormButton } from "shared/ui/FormButton";
 
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { StyledButton } from 'shared/ui/Styled';
 
-import { PAGES } from "app/lib/routes.types";
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 
-import { helpingDataInputs } from "./helpingDataInputs";
+import { useChangeUserPasswordMutation } from 'app/store/api/users/usersApi';
+import { yupSchemaProfileEditPasswordForm as schema } from 'shared/const/validate';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { PAGES } from 'app/lib/routes.types';
 
-import s from "./index.module.scss";
+import { helpingDataInputs } from './helpingDataInputs';
 
-type Props = {
-  profileData: IProfileData;
-}
+import styles from './index.module.scss';
 
-export const ProfileEditPasswordForm = ({ profileData }: Props) => {   
-  
+export const ProfileEditPasswordForm = () => {
   const navigate = useNavigate();
-  
+
+  const [changeUserPassword] = useChangeUserPasswordMutation();
+
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm<IProfileEditPassword>({
-    mode: 'onChange'
+    mode: 'onChange',
+    resolver: yupResolver(schema)
   });
 
-  const onSubmit = (data: IProfileEditPassword) => {
-    
+  const onSubmit = async (data: IProfileEditPassword) => {
     console.log(data);
-    // ------------ API ИЗМЕНИТЬ ДАННЫЕ ------------- 
+    // ------------ API ИЗМЕНИТЬ ДАННЫЕ -------------
     // ЗАПРОС НА ИЗМЕНЕНИЕ ПАРОЛЯ
-    const resReg = true;
-    if (resReg) {                
-      setTimeout(() => {
-        console.log(`Добро пожаловать onboard, ${profileData.first_name}`);
 
-        navigate(PAGES.PROFILE)
+    const response = await changeUserPassword({
+      oldPassword: data.oldpassword,
+      newPassword: data.password,
+    });
 
-      }, 1000)
+    const isError = 'error' in response;
+
+    if (isError) {
+      alert('что-то пошло не так, попробуйте еще раз');
     } else {
-      alert('что-то пошло не так, попробуйте еще раз')
+      navigate(PAGES.PROFILE);
     }
-
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className={s.myForm}>
-      {helpingDataInputs.map(input =>
-        <div key={input.name} className={s.wrapLabelInputMsg}>
-          <div className={s.myWrapInput}>    
-            <label 
-              htmlFor={input.name} 
-              className={s.myInputLabel}
-            >
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      autoComplete='off'
+      className={styles.myForm}>
+      {helpingDataInputs.map(input => (
+        <div key={input.name} className={styles.wrapLabelInputMsg}>
+          <div className={styles.myWrapInput}>
+            <label htmlFor={input.name} className={styles.myInputLabel}>
               {input.label}
             </label>
             <input
-              className={s.myInput}
+              id={input.name}
+              className={styles.myInput}
               type={input.type}
               placeholder={input.placeholder}
               {...register(input.name)}
             />
           </div>
-          {errors[input.name]?.message && 
-            <div className={s.msg}>
-              {errors[input.name]?.message as string}
-            </div>
-          }
+          {errors[input.name]?.message && (
+            <div className={styles.msg}>{errors[input.name]?.message as string}</div>
+          )}
         </div>
-      )}
-      <FormButton type="submit" className={s.btnSubmit}>Сохранить</FormButton>
+      ))}
+      <StyledButton type="submit" extendClass={styles.btnSubmit}>
+        Сохранить
+      </StyledButton>
     </form>
-  )
-}
+  );
+};

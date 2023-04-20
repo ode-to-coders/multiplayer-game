@@ -1,84 +1,83 @@
-import { FormButton } from "shared/ui/FormButton";
 
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { StyledButton } from 'shared/ui/Styled';
+
+import { useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+
+import { useChangeUserProfileMutation } from 'app/store/api/users/usersApi';
 
 import { yupSchemaProfileEditForm as schema } from 'shared/const/validate';
-import { yupResolver } from "@hookform/resolvers/yup"
-import { PAGES } from "app/lib/routes.types";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { PAGES } from 'app/lib/routes.types';
 
-import { helpingDataInputs } from "./helpingDataInputs"
+import { helpingDataInputs } from './helpingDataInputs';
 
-import s from "./index.module.scss";
+import styles from './index.module.scss';
+
 
 type Props = {
   profileData: IProfileData;
-}
+};
+
 
 export const ProfileEditForm = ({ profileData }: Props) => {
-
   const navigate = useNavigate();
-  
+
+  const [changeUserProfile] = useChangeUserProfileMutation();
+
   const {
     register,
     formState: { errors },
-    handleSubmit
+    handleSubmit,
   } = useForm<IProfileData>({
     mode: 'onChange',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
-
-  const onSubmit = (data: IProfileData) => {
-    
+  const onSubmit = async (data: IProfileData) => {
     // если какие-то введенные данные новые, то заменяем на них перед запросом
-    (Object.keys(data) as Array<keyof IProfileData>).map(key => {   
-      if (data[key] !== '') return
-      data[key] = profileData[key]
-    })
-    
-    console.log(data);
-    // ------------ API ИЗМЕНИТЬ ДАННЫЕ ------------- 
-    // ЗДЕСЬ ЗАПРОС НА ИЗМЕНЕНИЕ ДАННЫХ ПРОФИЛЯ
-    const resReg = true;
-    if (resReg) {                
-      setTimeout(() => {
-        console.log(`Данные обновлены, ${data.first_name}`);
+    (Object.keys(data) as Array<keyof IProfileData>).map(key => {
+      if (data[key] !== '') return;
+      data[key] = profileData[key];
+    });
 
-        navigate(PAGES.PROFILE)
+    const response = await changeUserProfile(data);
 
-      }, 1000)
+    if ('error' in response) {
+      //TODO переделать на CustomNotification
+      alert('что-то пошло не так, попробуйте еще раз');
     } else {
-      alert('что-то пошло не так, попробуйте еще раз')
+      navigate(PAGES.PROFILE);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className={s.myForm}>
-      {helpingDataInputs.map(input =>
-        <div key={input.name} className={s.wrapLabelInputMsg}>
-          <div className={s.myWrapInput}>    
-            <label 
-              htmlFor={input.name} 
-              className={s.myInputLabel}
-            >
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      autoComplete='off'
+      className={styles.myForm}>
+      {helpingDataInputs.map(input => (
+        <div key={input.name} className={styles.wrapLabelInputMsg}>
+          <div className={styles.myWrapInput}>
+            <label htmlFor={input.name} className={styles.myInputLabel}>
               {input.label}
             </label>
             <input
-              className={s.myInput}
+              id={input.name}
+              className={styles.myInput}
               type={input.type}
               placeholder={profileData[input.name]}
               {...register(input.name)}
             />
           </div>
-          {errors[input.name]?.message && 
-            <div className={s.msg}>
-              {errors[input.name]?.message as string}
-            </div>
-          }
+          {errors[input.name]?.message && (
+            <div className={styles.msg}>{errors[input.name]?.message as string}</div>
+          )}
         </div>
-      )}
-      <FormButton type="submit" className={s.btnSubmit}>Сохранить</FormButton>
+      ))}
+      <StyledButton type="submit" extendClass={styles.btnSubmit}>
+        Сохранить
+      </StyledButton>
     </form>
-  )
-}
+  );
+};

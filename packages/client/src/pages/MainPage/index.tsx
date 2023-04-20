@@ -1,5 +1,8 @@
 import { useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
+
+import { PAGES } from 'app/lib/routes.types';
 
 import AboutGame from '../../components/AboutGame';
 import Video from '../../components/Video';
@@ -8,56 +11,60 @@ import { StyledButton } from '../../shared/ui/Styled/StyledButton';
 import logo from '../../images/logo.png';
 
 import styles from './index.module.scss';
+import { useAuth } from '@/app/hooks/useAuth';
+
 
 export function MainPage() {
   const aboutAnchor = useRef<HTMLDivElement>(null);
   const videoAnchor = useRef<HTMLDivElement>(null);
   const toPlay = useRef<HTMLDivElement>(null);
+  const { isAuth } = useAuth();
 
   const handleScroll = (element: HTMLDivElement | null) => {
     if (element) {
-      element.scrollIntoView()
+      element.scrollIntoView();
     }
-  }
+  };
 
   return (
-   <div className={styles.container}>
-     <Grid
-      container
-      spacing={2}
-      className={styles.grid}
-      >
+    <div className={styles.container}>
+      <Grid container spacing={2} className={styles.grid}>
         <Grid item>
-          <div className={styles.item} onClick={() => handleScroll(aboutAnchor.current)}>
+          <div
+            className={styles.item}
+            onClick={() => handleScroll(aboutAnchor.current)}>
             Об игре
           </div>
         </Grid>
         <Grid item>
-          <div className={styles.item} onClick={() => handleScroll(videoAnchor.current)}>
+          <div
+            className={styles.item}
+            onClick={() => handleScroll(videoAnchor.current)}>
             Видео
           </div>
         </Grid>
         <Grid item>
-          <div className={styles.item} onClick={() => handleScroll(toPlay.current)}>
+          <div
+            className={styles.item}
+            onClick={() => handleScroll(toPlay.current)}>
             Играть
           </div>
         </Grid>
       </Grid>
-    <div className={styles.main} ref={toPlay}>
-      <div className={styles.logo}>
-        <img src={logo} />
+      <div className={styles.main} ref={toPlay}>
+        <div className={styles.logo}>
+          <img src={logo} />
+        </div>
+        <StyledButton>
+          <Link to={isAuth ? PAGES.ROOMS : PAGES.REGISTRATION}>Играть</Link>
+        </StyledButton>
       </div>
-      <StyledButton>
-        Играть
-      </StyledButton>
+      <div ref={aboutAnchor}>
+        <AboutGame />
+      </div>
+      <div ref={videoAnchor}>
+        <Video />
+      </div>
     </div>
-    <div ref={aboutAnchor}>
-      <AboutGame />
-    </div>
-    <div ref={videoAnchor}>
-      <Video />
-    </div>
-   </div>
   );
 }
-

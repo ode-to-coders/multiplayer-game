@@ -1,33 +1,35 @@
-import { ProfileEditForm } from "features/ProfileEditForm";
-import { ProfileEditPasswordForm } from "features/ProfileEditPasswordForm";
-import { ProfileMain } from "features/ProfileMain";
+import { ProfileEditForm } from 'features/ProfileEditForm';
+import { ProfileEditPasswordForm } from 'features/ProfileEditPasswordForm';
+import { ProfileMain } from 'features/ProfileMain';
 
-import { PAGES } from "app/lib/routes.types";
+import { PAGES } from 'app/lib/routes.types';
 
-import mockProfileData from "../../mocks/profileData.json";
+import { UserInfoResponse } from 'app/store/api/auth/authApi';
 
 type ProfileConfig = {
   [key: string]: {
-    component: JSX.Element;
+    getComponent: (profileData: UserInfoResponse) => JSX.Element;
     linkBack: string;
     hoverAvatar: boolean;
-  }
-}
+  };
+};
 
 export const profileConfig: ProfileConfig = {
   [PAGES.EDIT_PROFILE]: {
-    component: <ProfileEditForm profileData={mockProfileData} />,
+    getComponent: profileData => <ProfileEditForm profileData={profileData} />,
     linkBack: PAGES.PROFILE,
-    hoverAvatar: false
+    hoverAvatar: false,
   },
   [PAGES.EDIT_PASSWORD]: {
-    component: <ProfileEditPasswordForm profileData={mockProfileData} />,
+    getComponent: () => (
+      <ProfileEditPasswordForm />
+    ),
     linkBack: PAGES.PROFILE,
-    hoverAvatar: false
+    hoverAvatar: false,
   },
   [PAGES.PROFILE]: {
-    component: <ProfileMain profileData={mockProfileData} />,
+    getComponent: profileData => <ProfileMain profileData={profileData} />,
     linkBack: PAGES.GAME,
-    hoverAvatar: true
-  }
-}
+    hoverAvatar: true,
+  },
+};

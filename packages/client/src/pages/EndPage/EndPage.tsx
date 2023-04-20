@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ModalEnd } from '../../features';
 import { StyledContainer } from '../../shared/ui/Styled';
 

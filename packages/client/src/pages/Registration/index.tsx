@@ -1,6 +1,6 @@
-import { RegForm } from "features/RegForm";
+import { RegForm } from 'features/RegForm';
 
-import s from "./index.module.scss";
+import s from './index.module.scss';
 
 export const Registration = () => {
   return (
