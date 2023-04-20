@@ -46,7 +46,7 @@ export const ProfileMain = ({ profileData }: Props) => {
         <Link to={PAGES.EDIT_PASSWORD}>
           Изменить пароль
         </Link>
-        <Link to='/' onClick={handleExit}>
+        <Link to={PAGES.MAIN} onClick={handleExit}>
           Выйти
         </Link>
       </div>

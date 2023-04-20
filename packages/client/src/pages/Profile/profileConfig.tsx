@@ -21,8 +21,8 @@ export const profileConfig: ProfileConfig = {
     hoverAvatar: false,
   },
   [PAGES.EDIT_PASSWORD]: {
-    getComponent: profileData => (
-      <ProfileEditPasswordForm profileData={profileData} />
+    getComponent: () => (
+      <ProfileEditPasswordForm />
     ),
     linkBack: PAGES.PROFILE,
     hoverAvatar: false,

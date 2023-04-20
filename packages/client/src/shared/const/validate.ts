@@ -58,7 +58,7 @@ export const yupSchemaRoomForm = yup.object().shape({
   count: yup
     .string()
     .required('Введите количество игроков')
-    .matches(/[2-6]+$/, 'Количество игроков от 2 до 6'),
+    .matches(/^[2-6]+$/, 'Количество игроков от 2 до 6'),
   password: yup.string().required('Введите пароль'),
 });
 
@@ -88,6 +88,9 @@ export const yupSchemaProfileEditForm = yup.object().shape({
 });
 
 export const yupSchemaProfileEditPasswordForm = yup.object().shape({
+  oldpassword: yup
+    .string()
+    .required('Введите старый пароль'),
   password: yup
     .string()
     .required('Введите новый пароль')
