@@ -1,20 +1,19 @@
-import { FormButton } from 'shared/ui/FormButton';
+
+import { StyledButton } from 'shared/ui/Styled';
 
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
 import { useChangeUserPasswordMutation } from 'app/store/api/users/usersApi';
+import { yupSchemaProfileEditPasswordForm as schema } from 'shared/const/validate';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { PAGES } from 'app/lib/routes.types';
 
 import { helpingDataInputs } from './helpingDataInputs';
 
 import s from './index.module.scss';
 
-type Props = {
-  profileData: IProfileData;
-};
-
-export const ProfileEditPasswordForm = ({ profileData }: Props) => {
+export const ProfileEditPasswordForm = () => {
   const navigate = useNavigate();
 
   const [changeUserPassword] = useChangeUserPasswordMutation();
@@ -25,6 +24,7 @@ export const ProfileEditPasswordForm = ({ profileData }: Props) => {
     handleSubmit,
   } = useForm<IProfileEditPassword>({
     mode: 'onChange',
+    resolver: yupResolver(schema)
   });
 
   const onSubmit = async (data: IProfileEditPassword) => {
@@ -69,9 +69,9 @@ export const ProfileEditPasswordForm = ({ profileData }: Props) => {
           )}
         </div>
       ))}
-      <FormButton type="submit" className={s.btnSubmit}>
+      <StyledButton type="submit" extendClass={s.btnSubmit}>
         Сохранить
-      </FormButton>
+      </StyledButton>
     </form>
   );
 };

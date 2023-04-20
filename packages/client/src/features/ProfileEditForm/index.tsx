@@ -1,4 +1,5 @@
-import { FormButton } from 'shared/ui/FormButton';
+
+import { StyledButton } from 'shared/ui/Styled';
 
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -70,9 +71,9 @@ export const ProfileEditForm = ({ profileData }: Props) => {
           )}
         </div>
       ))}
-      <FormButton type="submit" className={s.btnSubmit}>
+      <StyledButton type="submit" extendClass={s.btnSubmit}>
         Сохранить
-      </FormButton>
+      </StyledButton>
     </form>
   );
 };

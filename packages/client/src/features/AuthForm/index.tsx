@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 
 import { Link } from 'react-router-dom';
-import { FormButton } from 'shared/ui/FormButton';
+import { StyledButton } from 'shared/ui/Styled';
 import { MuiMemoInputBase } from 'shared/ui/MuiMemoInputBase';
 
 import { useNavigate } from 'react-router-dom';
@@ -113,9 +113,9 @@ export const AuthForm = () => {
           </div>
         </div>
       ))}
-      <FormButton type="submit" className={s.btnSubmit}>
+      <StyledButton type="submit" extendClass={s.btnSubmit}>
         Авторизоваться
-      </FormButton>
+      </StyledButton>
       <Link to={PAGES.REGISTRATION} className={s.link}>
         Нет аккаунта?
       </Link>
