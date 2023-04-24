@@ -30,11 +30,12 @@ export type TImgBord = {
 export interface paramsDrawText {
   left: number, 
   top: number, 
-  width: number, 
-  height: number, 
+  width?: number, 
+  height?: number, 
   text: string, 
   textColor?: string, 
-  fontSize?: number
+  fontSize?: number,
+  textAlign?: 'left' | 'center'
 }
 
 export interface IobjLogWritingsText {

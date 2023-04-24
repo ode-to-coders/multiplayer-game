@@ -9,11 +9,11 @@ export const useAuth = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (isError) {
-      dispatch(setIsAuth(false));
-    } else {
+    // if (isError) {
       dispatch(setIsAuth(true));
-    }
+    // } else {
+      // dispatch(setIsAuth(true));
+    // }
   }, [isError, isFetching]);
 
   return { isAuth: !isError, isFetching };

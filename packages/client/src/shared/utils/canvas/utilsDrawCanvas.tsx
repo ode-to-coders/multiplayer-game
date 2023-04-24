@@ -121,7 +121,7 @@ export const drawImageOnload = (
  * @param textObj опционально текст и его параметры
  */
 
-export const drawImgBorderText = (
+export const drawImgBorderText = async(
   ctx: CanvasRenderingContext2D, 
   src: string, 
   rect: TImgBord, 
@@ -132,8 +132,9 @@ export const drawImgBorderText = (
   const img = new Image();
   img.src = src;
   ctx.drawImage(img, left, top, width, height);
-  //return new Promise(resolve => {
-  if (img.complete) {     
+  // return new Promise(resolve => {
+  // const anim = () => {
+    if (img.complete) {     
       //resolve(() => {
         drawRoundedRect(
             ctx, 
@@ -154,9 +155,15 @@ export const drawImgBorderText = (
           const {text, textColor, fontSize} = textObj;
           drawText(ctx, {left, top, width, height, text, textColor, fontSize});
         }
+        // resolve('');
       //});
+    } else {
+      // console.log('не готов'); 
+      // setTimeout(() => anim(), 1000/10)
     }
-  //})
+  // }
+  // anim()
+  // })
 }
 
 /**
@@ -172,16 +179,21 @@ export const drawText = (
 ) => {
   const {left, top, width, height, text} = params;
 
-  const sizeText = params.fontSize ?? width/18;
+  const sizeText = params.fontSize ?? (width ? width/18 : 20);
   ctx.fillStyle = params.textColor ?? 'white';
   ctx.font = `bold ${sizeText}px Arial Narrow`;
   
   const arrTxt = text.split('\n');
-  const topText = top + height/2 + 0.3*sizeText - ((arrTxt.length-1)*0.5*sizeText)
+  const topText = 
+    top + (
+      height 
+      ? height/2 + 0.3*sizeText - ((arrTxt.length-1)*0.5*sizeText) 
+      : 0
+    )
   for (let i = 0; i < arrTxt.length; i++)
     ctx.fillText(
       arrTxt[i], 
-      left + width/2 - ctx.measureText(arrTxt[i]).width/2, 
+      left + (width ? width/2 - ctx.measureText(arrTxt[i]).width/2 : 0), 
       topText + (i*sizeText)
     );
 }

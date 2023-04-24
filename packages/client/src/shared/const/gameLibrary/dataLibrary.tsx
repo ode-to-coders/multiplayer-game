@@ -1,9 +1,49 @@
 export const source = {
+  logo: '../src/images/logo.png',
   cardFantasyMage: '../src/app/assets/cardFantasyMage.png',
-  qBlack: '../src/app/assets/qBlackBg.png',
-  qEngland: '../src/app/assets/qEnglandBg.png',
-  qModern: '../src/app/assets/qModernBg.png',
-  qFantasy: '../src/app/assets/qFantasyBg.png',
+  qblack: '../src/app/assets/qBlackBg.png',
+  qengland: '../src/app/assets/qEnglandBg.png',
+  qmodern: '../src/app/assets/qModernBg.png',
+  qfantasy: '../src/app/assets/qFantasyBg.png',
+  notebookSmall: '../src/app/assets/notebookSmall2.png',
+  memory: {
+    england: '../src/app/assets/memoryEngland.png',
+    englandH: '../src/app/assets/memoryEnglandH.png',
+    fantasy: '../src/app/assets/_____?.png',
+    modern: '../src/app/assets/_____?.png',
+  },
+  cards: {
+    back: [
+      '../src/app/assets/cards/back/backQ13.png',
+      '../src/app/assets/cards/back/backQ245.png'
+    ],
+    england: {
+      profession: [
+        '../src/app/assets/cards/england/profession/01.png',
+        '../src/app/assets/cards/england/profession/06.png',
+      ],
+      secrets: [
+        '../src/app/assets/cards/england/secrets/01.png',
+        '../src/app/assets/cards/england/secrets/02.png',
+      ]
+    },
+    modern: {
+      profession: {
+
+      },
+      secrets: {
+        
+      }
+    },
+    fantasy: {
+      profession: {
+
+      },
+      secrets: {
+
+      }
+    }
+  }
 }
 
 export const questions = {

@@ -11,7 +11,7 @@ import { StyledButton } from '../../shared/ui/Styled/StyledButton';
 import logo from '../../images/logo.png';
 
 import styles from './index.module.scss';
-import { useAuth } from '@/app/hooks/useAuth';
+import { useAuth } from 'app/hooks/useAuth';
 
 
 export function MainPage() {
