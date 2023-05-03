@@ -112,7 +112,7 @@ export const drawImageOnload = (
   }
 }
 
-const arrLoadedImg: (HTMLImageElement)[] = [];
+const arrLoadedImg: HTMLImageElement[] = [];
 const arrLoadedImgSrc: string[] = [];
 /**
  * Отрисовка изображения. Опционально - рамка и текст
@@ -247,11 +247,6 @@ export const writingsText = (
   if (notWriteKeys.includes(e.key)) { // исключаем логические клавиши клавиатуры
     return -1;
   }
-  console.log(params.validate)
-  if (params.validate && !params.validate.test(e.key)) { // если не прошло валидацию
-    console.log(';lkjasdf;lkj')
-    return -1;
-  }
   const {key, left, top, width, height} = params;
   const fontSize = params.fontSize ?? 20;
   const textColor = params.textColor ?? 'white';
@@ -259,7 +254,13 @@ export const writingsText = (
   if (!logWritings[key]) {
     logWritings[key] = '';
   }
-  let text = logWritings[key];
+
+  let text = logWritings[key]; 
+
+  if (params.validate && !params.validate.test(text + e.key)) { // если не прошло валидацию
+    return -1;
+  }
+
   ctx.font = `bold ${fontSize}px Arial Narrow`;
   
   if (e.key === KEYS.Backspace) {
