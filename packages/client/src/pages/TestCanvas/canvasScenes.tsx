@@ -16,6 +16,9 @@ enum GAMESCENES {
 }
 
 enum NAMESCENES {
+  select = 'select',
+  fiveClose = 'fiveClose',
+  fiveOpen = 'fiveOpen',
   myAnswer = 'myAnswer',
   gamersAnswers = 'gamersAnswers',
   finalAnswer = 'finalAnswer',
@@ -23,17 +26,21 @@ enum NAMESCENES {
 }
 
 enum TIMESCENES {  
-  selectProf = 10,
-  selectSecret = 10,
-  fiveClose = 3,
-  fiveOpen = 3,
-  myAnswer = 10,
-  gamersAnswers = 15,
+  selectProf = 5,
+  selectSecret = 5,
+  fiveClose = 2,
+  fiveOpen = 2,
+  myAnswer = 2,
+  gamersAnswers = 1,
   finalAnswer = 15,
   finalResult = 15
 }
 
 const hoverRects: {[key in string]: IRectsWriteAndHover[]}  = {
+  [NAMESCENES.select]: [
+    {key: 'selectLeft', left: 85, top: 80, width: 347, height: 526},
+    {key: 'selectRight', left: 572, top: 80, width: 347, height: 526}
+  ],
   [NAMESCENES.myAnswer]: [
     {key: '', left: 50, top: 515, width: 924, height: 105}
   ],
@@ -152,6 +159,10 @@ export class CanvasScenes {
     {left: 533, top: 340, width: 300, height: 197, src: source.cards.back[1]},
   ]
 
+  public static cardsForSelect = {
+    prof: [0, 1],  // сюда прислать от бека индексы карт профессий и секретов для выбора игроку
+    secret: [0, 1]
+  }
   // сюда записываются выбранный антураж и данные выбора игрока для блокнота
   public static mainGamer: TMainGamer = {
     antourage: 'england',
@@ -240,7 +251,17 @@ export class CanvasScenes {
       const timerData = {
         nameId: scene,
         seconds: TIMESCENES.selectProf,
-        cback: () => {
+        cback: () => {  
+          const arrSelected = cs.mainGamer.selectedCards
+          if (this.clickIndexRect !== null) {
+            arrSelected[0] = cs.cardsForSelect.prof[this.clickIndexRect];
+            arrSelected[2] = cs.cardsForSelect.prof[this.clickIndexRect === 0 ? 1 : 0]
+          } else {
+            const num = Math.random() < 0.5 ? 0 : 1;
+            arrSelected[0] = num;
+            arrSelected[2] = num === 1 ? 0 : 1;
+          }
+
           // колбек по окончании сцены (таймера), здесь место для отправки выбора игрока и получения разрешения от сервера продолжать
           const next = true;
           // ...
@@ -249,7 +270,9 @@ export class CanvasScenes {
       }
       cs.scenes.active = scene;
       this.sceneSelect(
-        ctx, 'Выберите профессию', source.cards[cs.mainGamer.antourage].profession,
+        'Выберите профессию',
+        cs.cardsForSelect.prof,
+        source.cards[cs.mainGamer.antourage].profession,
         timerData
       )
     
@@ -260,6 +283,15 @@ export class CanvasScenes {
         nameId: scene,
         seconds: TIMESCENES.selectSecret,
         cback: () => {
+          const arrSelected = cs.mainGamer.selectedCards
+          if (this.clickIndexRect !== null) {
+            arrSelected[1] = cs.cardsForSelect.prof[this.clickIndexRect];
+            arrSelected[3] = cs.cardsForSelect.prof[this.clickIndexRect === 0 ? 1 : 0]
+          } else {
+            const num = Math.random() < 0.5 ? 0 : 1;
+            arrSelected[1] = num;
+            arrSelected[3] = num === 1 ? 0 : 1;
+          }
           // колбек по окончании сцены (таймера), здесь место для отправки выбора игрока, получения данных выбранных вопросов для следующей сцены и разрешения от сервера продолжать
           const next = true;
           // ...
@@ -268,7 +300,9 @@ export class CanvasScenes {
       }      
       cs.scenes.active = scene;
       this.sceneSelect(
-        ctx, 'Выберите тайну', source.cards[cs.mainGamer.antourage].secrets,
+        'Выберите тайну',
+        cs.cardsForSelect.secret,
+        source.cards[cs.mainGamer.antourage].secrets,
         timerData
       )
 
@@ -277,7 +311,7 @@ export class CanvasScenes {
       
       const counter = cs.counterFiveQuestions;
 
-      this.sceneFiveQuestions(ctx, cs.dataFiveQuestions);
+      this.sceneFiveQuestions(cs.dataFiveQuestions);
 
       if (cs.scenes.active !== scene) {
         cs.scenes.active = scene;
@@ -391,11 +425,14 @@ export class CanvasScenes {
   }
 
   sceneSelect(
-    ctx: CanvasRenderingContext2D,
     text: string,
+    indexForSelect: number[],
     profOrSecrets: string[],
     timerData: TTimerData
   ) {
+    const ctx = this.canvasCtx;
+    CanvasScenes.rectsForScene = hoverRects[NAMESCENES.select];
+
     // запускаем таймер
     this.helperDrawTimer(ctx, {
       nameTimer: timerData.nameId,
@@ -415,7 +452,7 @@ export class CanvasScenes {
       fontSize: 25, 
       textColor: 'white'});
 
-    /* await */ drawImgBorderText(ctx, profOrSecrets[0], {
+    drawImgBorderText(ctx, profOrSecrets[indexForSelect[0]], {
       left: 90,
       top: 85,
       width: 347,
@@ -423,11 +460,13 @@ export class CanvasScenes {
       color: 'black',
       borderPadding: 5,
       borderColor: 'orange',
-      // shadowOn: hoveredRect === 0,
+      shadowOn: 
+        this.hoveredIndexRect === 0
+        || this.clickIndexRect === 0,
       radius: 5
     })
 
-    /* await */ drawImgBorderText(ctx, profOrSecrets[1], {
+    drawImgBorderText(ctx, profOrSecrets[indexForSelect[1]], {
       left: 577,
       top: 85,
       width: 347,
@@ -435,15 +474,19 @@ export class CanvasScenes {
       color: 'black',
       borderPadding: 5,
       borderColor: 'orange',
-      // shadowOn: hoveredRect === 0,
+      shadowOn:
+        this.hoveredIndexRect === 1
+        || this.clickIndexRect === 1,
       radius: 5
     })
+
+
   }
 
   sceneFiveQuestions(
-    ctx: CanvasRenderingContext2D, 
     arrQuestions: TCardQuestion[]
   ){
+    const ctx = this.canvasCtx;
 
     CanvasScenes.arrCardBack.forEach((elem, index) => {
       drawImgBorderText(
@@ -513,7 +556,7 @@ export class CanvasScenes {
         top: top,
         width: width,
         height: height,
-        fontSize: 35 // этот размер шрифта не будет использоваться, но будет влиять на расчет количества строк и символов в строке 
+        fontSize: 35 // этот размер шрифта не используется, но влияет на расчет количества строк и символов в строке
       }]
     }
     
@@ -609,7 +652,7 @@ export class CanvasScenes {
       })
 
       // логика наведения и кликов
-      // подготовка массива с координатами и размерами полей 'инпутов' (создается один раз в момент загрузки сцены)
+      // подготовка массива с координатами и размерами полей 'инпутов' (создается один раз на игру)
       if (hoverRects[nameScene][1] === undefined) { // если только первый запуск (есть только элемент [0] с данными для разворачивания)
         const {
           left, top, width, height
@@ -624,8 +667,7 @@ export class CanvasScenes {
               top: top + height*indexLine,
               width: width,
               height: indexLine === 5 ? height*2 : height,
-              fontSize: 45, // этот размер шрифта не будет использоваться, но будет влиять на расчет количества символов (сейчас до 2 символов)
-              validate: /^\d$|^Backspace$/ // можно только цифры и удалять/переписывать их
+              validate: /^[1-9]\d?$|Backspace$/ // можно только 2 цифры и удалять
             })
           }
         }
@@ -838,7 +880,7 @@ export class CanvasScenes {
       this.canvasRef.style.cursor = '';
       if (nameScene === NAMESCENES.finalAnswer) {
         // логика наведения и кликов
-        // подготовка массива с координатами и размерами полей 'инпутов' (создается один раз в момент загрузки сцены)
+        // подготовка массива с координатами и размерами полей 'инпутов' (создается один раз на игру)
         if (hoverRects[nameScene][1] === undefined) { // если только первый запуск (есть только элемент [0] с данными для разворачивания)
           const {
             left, top, width, height
@@ -853,8 +895,7 @@ export class CanvasScenes {
                 top: top + height*indexLine,
                 width: width,
                 height: indexLine === 5 ? height*2 : height,
-                fontSize: 45, // этот размер шрифта не будет использоваться, но будет влиять на расчет количества символов (до 2 символов)
-                validate: /^\d$|^Backspace$/ // можно только цифры и удалять/переписывать их
+                validate: /^[1-9]\d?$|Backspace$/ // можно только 2 цифры и удалять
               })
             }
           }
