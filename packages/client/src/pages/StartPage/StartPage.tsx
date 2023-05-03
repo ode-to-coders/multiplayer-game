@@ -1,28 +1,65 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useGetUserInfoQuery } from 'app/store/api/auth/authApi';
+import { setGameMemebers } from 'app/store/game/gameSlice';
+import { useAppDispatch } from 'app/store/store';
+
 import {
   StyledButton,
   StyledContainer,
   StyledDescribe,
   StyledGridItem,
-} from '../../shared/ui/Styled';
+} from 'shared/ui/Styled';
+import { DataLoader } from 'shared/ui/DataLoader/DataLoader';
+
+import logo from './logo.png';
 
 import styles from './index.module.scss';
-import logo from './logo.png';
-import { DataLoader } from '@/shared/ui/DataLoader/DataLoader';
 
-const wss = new WebSocket('ws://localhost:3002/game/rooms/');
+
+export const wss = new WebSocket('ws://localhost:3002/game/rooms/');
 
 export const StartPage = () => {
-  const { data, isError, isFetching } = useGetUserInfoQuery();
+  const { 
+    data,
+    isError,
+    isFetching,
+  } = useGetUserInfoQuery();
+
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [gamers, setGamers] = useState([]);
   const [count, setCount] = useState(1);
   const { gameId } = useParams();
+
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    wss.send(
+      JSON.stringify({
+        event: 'connect',
+        payload: {
+          login: data?.login,
+          gameId: gameId,
+        },
+      })
+    );
+  }, [gameId, data?.login]);
+
+  useEffect(() => {
+    if (count >= 2) {
+      wss.send(
+        JSON.stringify({
+          event: 'ready',
+          payload: {
+            gameId,
+          },
+        })
+      );
+    }
+  }, [gameId, count]);
 
   const handleChangeFullscreen = useCallback(() => {
     const page = document.getElementById('root') as HTMLElement;
@@ -33,47 +70,58 @@ export const StartPage = () => {
       setIsFullscreen(false);
       return document.exitFullscreen();
     }
-  }, [document.fullscreenElement]);
+  }, []);
+
+  const handleChangeButton = useCallback(() => {
+    wss.send(
+      JSON.stringify({
+        event: 'logout',
+        payload: {
+          gameId, 
+        },
+      })
+    );
+    navigate('/rooms');
+  }, [gameId, navigate]);
 
   wss.onmessage = function (response) {
     const { type, payload } = JSON.parse(response.data);
-    const { login, rivalName, canStart, count } = payload;
+
+    const {
+      rivalName,
+      canStart,
+      login,
+      count
+    } = payload;
+
     setGamers(rivalName);
+
     setCount(count);
+
     switch (type) {
       case 'connectionToPlay':
         if (!payload.success) {
           return navigate('/rooms');
         }
         break;
+
       case 'readyToPlay':
-        if (login === data?.login && canStart) {
-          // TODO: переход на страницу с канвасом
-          console.log('ready to play');
+        if (canStart) {
+          const users = [...gamers, login].map((user: string, i: number) => {
+            return {
+              login: user,
+              id: i,
+              enthourage: '',
+            }
+          });
+          dispatch(setGameMemebers(users));
+          navigate(`/game/${gameId}/enthourage`);
         }
         break;
+
       default:
         break;
     }
-  };
-
-  useEffect(() => {
-    wss.send(
-      JSON.stringify({
-        event: 'connect',
-        payload: { login: data?.login, gameId: gameId },
-      })
-    );
-  }, []);
-
-  const handleChangeButton = () => {
-    wss.send(
-      JSON.stringify({
-        event: 'logout',
-        payload: { login: data?.login, gameId: gameId },
-      })
-    );
-    navigate('/rooms');
   };
 
   return (
@@ -82,7 +130,8 @@ export const StartPage = () => {
         <StyledContainer
           maxWidth={false}
           disableGutters
-          extendClass={styles.container}>
+          extendClass={styles.container}
+        >
           <Grid
             container
             direction='row'
@@ -91,7 +140,8 @@ export const StartPage = () => {
             <StyledGridItem item xs='auto' className={styles.gridItem}>
               <StyledButton
                 extendClass={styles.link}
-                onClick={handleChangeButton}>
+                onClick={handleChangeButton}
+              >
                 Назад
               </StyledButton>
             </StyledGridItem>

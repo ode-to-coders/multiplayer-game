@@ -8,10 +8,11 @@ import AboutGame from '../../components/AboutGame';
 import Video from '../../components/Video';
 import { StyledButton } from '../../shared/ui/Styled/StyledButton';
 
+import { useAuth } from 'app/hooks/useAuth';
+
 import logo from '../../images/logo.png';
 
 import styles from './index.module.scss';
-import { useAuth } from '@/app/hooks/useAuth';
 
 
 export function MainPage() {
