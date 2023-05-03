@@ -1,9 +1,8 @@
-import { Dispatch, KeyboardEvent, MouseEvent, SetStateAction } from 'react';
 import { KEYS } from 'shared/const/constants';
-import { IRect, TText, TImgBord, paramsDrawText, IobjLogWritingsText, TWritingsTextParams, IobjLogBack, IobjHelpOffset } from './types'
+import { IRect, TText, TImgBord, paramsDrawText, IobjLogWritingsText, TWritingsTextParams, IobjLogBack, IobjHelpOffset, TObjParamsDrawText } from './types'
 /**
  * Функция установки State при наведении на объект в канвасе (например, тени при наведении)
- * Помещать в обработчик onMouseMove канваса.
+ * Помещать в обработчик mousemove, click канваса.
  * @param arrHovered 
  * @param e 
  * @param state ?
@@ -13,9 +12,9 @@ import { IRect, TText, TImgBord, paramsDrawText, IobjLogWritingsText, TWritingsT
 
 export const settingHover = (
   arrRect: IRect[], 
-  e: MouseEvent<HTMLCanvasElement>, 
+  e: MouseEvent, 
   state?: number | null, 
-  setState?: Dispatch<SetStateAction<number | null>>
+  setState?: (index: number | null) => void
 ) => {
   const target = e.target as HTMLCanvasElement;
   const x = e.pageX - target.offsetLeft;
@@ -113,6 +112,8 @@ export const drawImageOnload = (
   }
 }
 
+const arrLoadedImg: (HTMLImageElement)[] = [];
+const arrLoadedImgSrc: string[] = [];
 /**
  * Отрисовка изображения. Опционально - рамка и текст
  * @param ctx контекст канваса
@@ -121,49 +122,64 @@ export const drawImageOnload = (
  * @param textObj опционально текст и его параметры
  */
 
-export const drawImgBorderText = async(
+export const drawImgBorderText = (
   ctx: CanvasRenderingContext2D, 
   src: string, 
   rect: TImgBord, 
   textObj?: TText
 ) => {
-  const {left, top, width, height, radius, color, borderColor, shadowOn, shadowColor} = rect;
+  const {left, top, width, height, radius, color, borderColor, shadowOn, shadowColor, cback} = rect;
   const padding = rect.borderPadding ?? 0;
-  const img = new Image();
-  img.src = src;
-  ctx.drawImage(img, left, top, width, height);
-  // return new Promise(resolve => {
-  // const anim = () => {
-    if (img.complete) {     
-      //resolve(() => {
-        drawRoundedRect(
-            ctx, 
-            {
-              left: left-padding,
-              top: top-padding,
-              width: width+(2*padding),
-              height: height+(2*padding),
-              radius,
-              color,
-              borderColor
-            }, 
-            shadowOn,
-            shadowColor
-        );
-        ctx.drawImage(img, left, top, width, height);
-        if (textObj) {
-          const {text, textColor, fontSize} = textObj;
-          drawText(ctx, {left, top, width, height, text, textColor, fontSize});
-        }
-        // resolve('');
-      //});
-    } else {
-      // console.log('не готов'); 
-      // setTimeout(() => anim(), 1000/10)
+  let checkCashImage = false;  
+  let img: HTMLImageElement;
+  for (let i = 0; i < arrLoadedImgSrc.length; i++) {
+    if (arrLoadedImgSrc[i] === src) {
+      img = arrLoadedImg[i];
+      checkCashImage = true;
+      // console.log(`Изображение ${src} уже есть в кеше`);
+      break;
     }
-  // }
-  // anim()
-  // })
+  }
+
+  const draw = () => {
+    drawRoundedRect(
+        ctx, 
+        {
+          left: left-padding,
+          top: top-padding,
+          width: width+(2*padding),
+          height: height+(2*padding),
+          radius,
+          color,
+          borderColor
+        },
+        shadowOn,
+        shadowColor
+    );
+    ctx.drawImage(img, left, top, width, height);
+    if (textObj) {
+      const {text, textColor, fontSize} = textObj;
+      drawText(ctx, {left, top, width, height, text, textColor, fontSize});
+    }
+    if (cback) {
+      cback() // в колбек можно добавить постпрорисовки, если что-то надо поверх еще нарисовать/сделать, то есть так можно бесконечно создавать слой на слое
+    }
+    // console.log(`отрисовка ${src}`)
+  } 
+
+  if (checkCashImage) {    
+    // console.log('Прямой запуск отрисовки')
+    draw()
+  } else {
+    img = new Image();
+    img.src = src;
+    img.onload = () => {  
+      arrLoadedImgSrc.push(src);
+      arrLoadedImg.push(img);
+      // console.log('Onload запуск отрисовки')      
+      draw();
+    }
+  }
 }
 
 /**
@@ -183,7 +199,7 @@ export const drawText = (
   ctx.fillStyle = params.textColor ?? 'white';
   ctx.font = `bold ${sizeText}px Arial Narrow`;
   
-  const arrTxt = text.split('\n');
+  const arrTxt = text ? text.toString().split('\n') : ['']; // возможно если Null то лучше return
   const topText = 
     top + (
       height 
@@ -220,12 +236,20 @@ const notWriteKeys: string[] = [
 
 export const writingsText = (
   ctx: CanvasRenderingContext2D, 
-  setState: Dispatch<SetStateAction<paramsDrawText | null>>, 
-  e: KeyboardEvent<HTMLCanvasElement>, 
+  e: KeyboardEvent, 
+  state: {
+    objText: TObjParamsDrawText,
+    set: (objText: TObjParamsDrawText) => void, 
+  },
   params: TWritingsTextParams
 ) => {
 
   if (notWriteKeys.includes(e.key)) { // исключаем логические клавиши клавиатуры
+    return -1;
+  }
+  console.log(params.validate)
+  if (params.validate && !params.validate.test(e.key)) { // если не прошло валидацию
+    console.log(';lkjasdf;lkj')
     return -1;
   }
   const {key, left, top, width, height} = params;
@@ -244,7 +268,10 @@ export const writingsText = (
     }
     text = text.slice(0, text.length-1)
     logWritings[key] = text;
-    setState({left, top, width, height, text, textColor, fontSize})
+    state.set({
+      ...state.objText, 
+      [key]: {left, top, width, height, text, textColor, fontSize}
+    })
     return text;
   }
   
@@ -256,7 +283,10 @@ export const writingsText = (
     }
     text += '\n';
     logWritings[key] = text;
-    setState({left, top, width, height, text, textColor, fontSize})
+    state.set({
+      ...state.objText,
+      [key]: {left, top, width, height, text, textColor, fontSize}
+    })
     return text;
   }
   
@@ -269,7 +299,10 @@ export const writingsText = (
   } else text += e.key;
   
   logWritings[key] = text;
-  setState({left, top, width, height, text, textColor, fontSize})
+  state.set({
+    ...state.objText,
+    [key]: {left, top, width, height, text, textColor, fontSize}
+  })
   return text;
 }
 

@@ -25,6 +25,7 @@ export type TImgBord = {
   borderColor?: string;
   shadowOn?: boolean;
   shadowColor?: string;
+  cback?: () => void;
 }
 
 export interface paramsDrawText {
@@ -38,6 +39,10 @@ export interface paramsDrawText {
   textAlign?: 'left' | 'center'
 }
 
+export type TObjParamsDrawText = {
+  [key in string]: paramsDrawText
+}
+
 export interface IobjLogWritingsText {
   [key: string]: string
 }
@@ -49,7 +54,12 @@ export type TWritingsTextParams = {
   width: number,
   height: number,
   fontSize?: number,
-  textColor?: string
+  textColor?: string,
+}
+export interface IRectsWriteAndHover extends TWritingsTextParams {
+  radius?: number,
+  color?: string,
+  borderColor?: string
 }
 
 export type IlogBack = {

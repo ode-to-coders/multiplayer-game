@@ -1,72 +1,51 @@
-import { KeyboardEvent, MouseEvent, RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 
-import { mockRects } from './canvasScenes';
-
-import { settingHover, writingsText } from 'shared/utils/canvas/utilsDrawCanvas';
-import { paramsDrawText } from 'shared/utils/canvas/types';
 import { CanvasScenes } from './canvasScenes';
 
 import s from './index.module.scss';
+import { EndPage } from '../EndPage/EndPage';
 
 // компонент только для Тестирования командой
 
 export const TestCanvas = () => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
-  const [hoveredRect, setHoveredRect] = useState<number | null>(null);
-  //const [arrRect, setArrRect] = useState(mockRects)
-  const [arrText, setArrText] = useState<paramsDrawText | null>(null)
-  const [keys, setKeys] = useState(-1)
+  const [scene, setScene] = useState(1);
+  const [showModalResult, setShowModalResult] = useState(false);
+  const [frameRender, goFrameRender] = useState<number>(1);
 
-  const handlerMouseMove = (e: MouseEvent<HTMLCanvasElement>) => {
-    settingHover(mockRects, e, hoveredRect, setHoveredRect);
-  }
-  
-  const handlerClick = (e: MouseEvent<HTMLCanvasElement, globalThis.MouseEvent>) => {
-    setKeys(settingHover(mockRects, e) ?? -1); // по клику функция вовзращает индекс элемента в массиве, над которым произошел клик
-    //пример тогла между разными данными для отрисовки
-    //setArrRect(arrRect.length === mockRects.length ? mockRects2 : mockRects)
-  }
-
-  const handlerKeyDown = (e: KeyboardEvent<HTMLCanvasElement>) => {
-    const ctx = canvasRef?.current?.getContext('2d');
-    if (!ctx) return;
-
-    if (keys !== -1) {
-      writingsText(ctx, setArrText, e, {...mockRects[keys], fontSize: 35})
-    }
-  }
-  
   const canvasScenes = useMemo(() => {
-    return new CanvasScenes();
+    return new CanvasScenes(
+      setScene,
+      setShowModalResult,
+      goFrameRender
+    );
   }, [])
 
   // основная логика отрисовки здесь
   useEffect(() => {
     let frameId: number | null = null;
     let next = false; // нужен ли следующий кадр?
-    // (async () => {
     
-      const animation = /* async */ () => { 
-        if(!canvasRef.current) {
-          // Компонент был размонтирован
-          return;
-        }     
-        
-        // запуск!
-        next = /* await */ canvasScenes.startGame(canvasRef.current, hoveredRect, arrText);
-        
-        if (next) {
-          frameId = window.requestAnimationFrame(animation);
-        } else {
-          if (frameId !== null) {
-            window.cancelAnimationFrame(frameId);
-            frameId = null;
-          }
+    const animation = () => { 
+      if(!canvasRef.current) {
+        // Компонент был размонтирован
+        return;
+      }     
+      
+      // запуск!
+      next = canvasScenes.startGame(canvasRef.current, scene);
+      
+      if (next) {
+        frameId = window.requestAnimationFrame(animation);
+      } else {
+        if (frameId !== null) {
+          window.cancelAnimationFrame(frameId);
+          frameId = null;
         }
       }
+    }
 
-      animation()
-    // })()
+    animation()
   
     return () => {
       if (frameId !== null) {
@@ -74,19 +53,19 @@ export const TestCanvas = () => {
         frameId = null;
       }
     };
-  }, [canvasRef.current, arrText, hoveredRect]);
+  }, [canvasRef.current, scene, frameRender]);
 
   return (
-    <div className={s.wrapCont}>
-      <canvas
-        ref={canvasRef}
-        className={s.canvas}
-        width='1024'
-        height='640'
-        onMouseMove={handlerMouseMove}
-        onClick={handlerClick}
-        onKeyDown={handlerKeyDown}
-      />
+    <div>
+      <div className={s.wrapCont}>
+        <canvas
+          ref={canvasRef}
+          className={s.canvas}
+          width='1024'
+          height='640'
+        />
+      </div>
+      {showModalResult && <EndPage />}
     </div>
   )
 }

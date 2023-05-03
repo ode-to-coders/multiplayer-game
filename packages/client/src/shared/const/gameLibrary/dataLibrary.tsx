@@ -5,12 +5,15 @@ export const source = {
   qengland: '../src/app/assets/qEnglandBg.png',
   qmodern: '../src/app/assets/qModernBg.png',
   qfantasy: '../src/app/assets/qFantasyBg.png',
-  notebookSmall: '../src/app/assets/notebookSmall2.png',
+  notebookSmall: '../src/app/assets/notebookSmall.png',
+  notebookSmall2: '../src/app/assets/notebookSmall2.png',
   memory: {
     england: '../src/app/assets/memoryEngland.png',
     englandH: '../src/app/assets/memoryEnglandH.png',
     fantasy: '../src/app/assets/_____?.png',
+    fantasyH: '../src/app/assets/_____?.png',
     modern: '../src/app/assets/_____?.png',
+    modernH: '../src/app/assets/_____?.png',
   },
   cards: {
     back: [
@@ -19,7 +22,7 @@ export const source = {
     ],
     england: {
       profession: [
-        '../src/app/assets/cards/england/profession/01.png',
+        '../src/app/assets/cards/england/profession/01.jpg',
         '../src/app/assets/cards/england/profession/06.png',
       ],
       secrets: [
@@ -58,4 +61,49 @@ export const questions = {
     'Какое у тебя телосложение?', 'Что на тебе надето?', 'Какие у тебя руки?',
     'Какое ты производишь\nпервое впечатление?', 'Какая на тебе обувь?', 'Как выглядят твоё лицо\nи твоя причёска?'
   ],
+}
+
+export const cards = {
+  england: {
+    profession: [
+      'Почтальон',
+      'Портной',
+      'Адмирал',
+      'Пекарь',
+      'Банкир',
+      'Поэт',
+      'Механик',
+      'Полицейский',
+      'Продавец газет',
+      'Частный сыщик',
+      'Кучер',
+      'Химик',
+      'Фокусник',
+      'Путешественник',
+    ],
+    secrets: [
+      'Подделывает\nденьги',
+      'Клептоман',
+      'Отравил дядю\nради наследства',
+      'Непьющий',
+      'Болен\nтропической\nлихорадкой',
+      'Рассеянный',
+      'Посещает\nпубличный дом',
+      'Блохастый',
+      'Скрывает\nблагородное\nпроисхождение',
+      'Держит дома\nзмей',
+      'Живёт двойной\nжизнью',
+      'Строит\nподводную лодку',
+      'Уволен с работы',
+      'Проводит\nспиритические\nсеансы',
+    ]
+  },
+  modern: {
+    profession: [],
+    secrets: []
+  },
+  fantasy: {
+    profession: [],
+    secrets: []
+  },
 }

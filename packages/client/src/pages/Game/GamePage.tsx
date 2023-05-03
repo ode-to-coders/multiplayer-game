@@ -4,7 +4,6 @@ import { StyledContainer } from '../../shared/ui/Styled';
 
 import style from './index.module.scss';
 import { MainPage } from '../MainPage';
-import { TestCanvas } from '../TestCanvas';
 
 export const GamePage = () => {
   return (
@@ -13,7 +12,6 @@ export const GamePage = () => {
       disableGutters
       extendClass={style.container}>
       <MainPage></MainPage>
-      <TestCanvas></TestCanvas>
     </StyledContainer>
   );
 };
