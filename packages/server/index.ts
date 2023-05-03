@@ -2,13 +2,21 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import WebSocket from 'ws';
 
-dotenv.config();
-
 import express from 'express';
 import { createClientAndConnect } from './db';
 
+import type {
+  gamesType,
+  clientType,
+  requestType,
+  resultType,
+} from './types';
+
+dotenv.config();
+
 const app = express();
 app.use(cors());
+
 const port = Number(process.env.SERVER_PORT) || 3001;
 
 createClientAndConnect();
@@ -20,32 +28,6 @@ app.get('/', (_, res) => {
 app.listen(port, () => {
   console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
 });
-
-type payloadType = {
-  success?: boolean;
-  rivalName?: Array<string>;
-  login?: string;
-  gameId?: string;
-  canStart?: boolean;
-  count?: number;
-};
-
-type resultType = {
-  type: string;
-  payload: payloadType;
-};
-
-type requestType = {
-  event: string;
-  gameId: string;
-  payload: payloadType;
-};
-
-type clientType = {
-  login: string;
-} & WebSocket;
-
-type gamesType = Record<string, Array<clientType>>;
 
 const games: gamesType = {};
 
@@ -59,6 +41,7 @@ function start() {
       const request = JSON.parse(message.toString());
       if (request.event === 'logout') {
         wsClient.close();
+  
         games[request.payload.gameId] = games[request.payload.gameId].filter(
           wsc => wsc.login !== request.payload.login
         );
@@ -99,20 +82,36 @@ function start() {
               rivalName: games[gameId]
                 .filter((user: clientType) => user.login !== client.login)
                 ?.map(user => user.login),
-              login: client.login,
-              count: games[gameId].length,
+                login: client.login,
+                count: games[gameId].length,
             },
           };
           break;
+
         case 'ready':
           result = {
             type: 'readyToPlay',
             payload: {
-              canStart: games[gameId].length > 3,
+              canStart: games[gameId].length > 0,
               login: client.login,
+              count: games[gameId].length,
+              rivalName: games[gameId]
+                .filter((user: clientType) => user.login !== client.login)
+                ?.map(user => user.login),
             },
           };
           break;
+
+        case 'chooseEnthourage':
+          result = {
+            type: 'selectedEnthourage',
+            payload: {
+              vote: params.payload.vote,
+              login: params.payload.login,
+            },
+          };
+          break;
+
         default:
           result = {
             type: 'logout',
@@ -120,7 +119,6 @@ function start() {
               rivalName: games[gameId]
                 .filter((user: clientType) => user.login !== client.login)
                 ?.map(user => user.login),
-              login: client.login,
               count: games[gameId].length,
             },
           };

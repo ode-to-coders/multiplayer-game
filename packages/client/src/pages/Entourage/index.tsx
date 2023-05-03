@@ -1,15 +1,24 @@
 import { Fragment, useCallback, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
 import {StyledDescribe, StyledTitle } from '../../shared/ui/Styled';
 
-import { getWinnerEnthourage } from '../../utils';
+import { selectGameMembers } from 'app/store/game/gameSlice';
+import { useGetUserInfoQuery } from 'app/store/api/auth/authApi';
+import { useAppDispatch } from 'app/store/store';
+import { setVoice } from 'app/store/game/gameSlice';
 
-import participants from '../../mocks/participants.json';
+import { getWinnerEnthourage, isOpen } from 'shared/utils/helpers';
+
+import { wss } from '../StartPage/StartPage';
 
 import fantasy from '../../images/fantasy.jpg';
 import modernity from '../../images/modernity.jpg';
 import victorian from '../../images/victorian.jpg';
 
-import { IUserVote } from './types';
+import { IEnthourage } from './types';
+import { UserChoice } from 'app/store/game/types';
 
 import styles from './index.module.scss';
 
@@ -32,27 +41,61 @@ const enthourageVariants = [
   }
 ];
 
+
 //Todo. Карточки будут отрисованы на канвасе.
 
 export function Enthourage() {
   const [winnerEnthourage, setWinnerEnthourage] = useState<Record<string, unknown> | undefined >();
   const [winnerSrc, updateWinnerSrc] = useState('');
-  const members = participants;
-  const currentUser = 'Ringo Starr';
+  const members = useSelector(selectGameMembers);
 
-  const [timer, setTimer] = useState(45);
+  const { gameId } = useParams();
+  const { data } = useGetUserInfoQuery();
+  const dispatch = useAppDispatch();
+
+  const [timer, setTimer] = useState(30);
   const [over, setOver] = useState(false);
 
-  const handleClick = useCallback((vote: string) => {
-    const user = members.filter(enthourage => enthourage.name === currentUser);
-    if (user.length > 0) {
-      user[0].votes = vote;
+  const handleClick = useCallback((vote: string | undefined) => {
+    if (isOpen(wss)) {
+      wss.send(
+        JSON.stringify({
+          event: 'chooseEnthourage',
+          payload: {
+            gameId,
+            vote,
+            login: data?.login,
+          }
+        })
+      );
     }
+  }, [data?.login, gameId]);
 
-    const winner = getWinnerEnthourage(members);
+  wss.onmessage = function (response) {
+    const { type, payload } = JSON.parse(response.data);
 
-    setWinnerEnthourage(winner);
-    setOver(true);
+    switch (type) {
+      case 'selectedEnthourage':
+        dispatch(setVoice({
+          login: payload.login,
+          vote: payload.vote,
+        }))
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    const isVoted = members.every((user: UserChoice) => user.enthourage !== '');
+    
+    if (isVoted) {
+      const winner = getWinnerEnthourage(members);
+
+      setWinnerEnthourage(winner);
+      setOver(true);
+    }
   }, [members]);
 
   useEffect(() => {
@@ -76,7 +119,7 @@ export function Enthourage() {
 
   useEffect(() => {
     if (winnerEnthourage) {
-      updateWinnerSrc(enthourageVariants.filter((enthourage: IUserVote) =>
+      updateWinnerSrc(enthourageVariants.filter((enthourage: IEnthourage) =>
         enthourage.name === winnerEnthourage.name)[0].src);
     }
   }, [winnerEnthourage]);
@@ -91,8 +134,8 @@ export function Enthourage() {
           <div className={styles.enthourages}>
             {enthourageVariants.map((variant, index) => {
               return (
-                <Fragment>
-                  <label className={styles.label} key={variant.id}>
+                <Fragment key={variant.id}>
+                  <label className={styles.label}>
                     <input
                       type='radio'
                       className={styles.input}
@@ -117,12 +160,12 @@ export function Enthourage() {
         <Fragment>
           <StyledTitle variant='h5' className={styles.headline}>
             {winnerEnthourage &&
-              `${winnerEnthourage.value} из ${participants.length}
+              `${winnerEnthourage.value} из ${members.length}
               игроков проголосовали за антураж ${winnerEnthourage.name}!`
             }
           </StyledTitle>
             <div className={styles.enthourage}>
-              <img src={winnerSrc} />
+              {winnerSrc && <img src={winnerSrc} />}
             </div>
         </Fragment>
       )}

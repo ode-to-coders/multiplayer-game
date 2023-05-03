@@ -12,7 +12,6 @@ export const AuthenticatedApp = () => {
       const url = `http://localhost:${__SERVER_PORT__}`;
       const response = await fetch(url);
       const data = await response.json();
-      console.log(data);
     };
 
     fetchServerData();

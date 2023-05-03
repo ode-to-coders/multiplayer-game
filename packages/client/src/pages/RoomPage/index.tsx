@@ -35,7 +35,7 @@ export function RoomPage(props: RoomsT) {
     return rowsPerPage > 0
       ? rooms.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
       : rooms;
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, rooms]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
