@@ -10,9 +10,9 @@ export const source = {
   memory: {
     england: '../src/app/assets/memoryEngland.png',
     englandH: '../src/app/assets/memoryEnglandH.png',
-    fantasy: '../src/app/assets/_____?.png',
+    fantasy: '../src/app/assets/memoryFantasy.png',
     fantasyH: '../src/app/assets/_____?.png',
-    modern: '../src/app/assets/_____?.png',
+    modern: '../src/app/assets/memoryModern.png',
     modernH: '../src/app/assets/_____?.png',
   },
   cards: {
@@ -31,20 +31,24 @@ export const source = {
       ]
     },
     modern: {
-      profession: {
-
-      },
-      secrets: {
-        
-      }
+      profession: [
+        '../src/app/assets/cards/england/profession/01.jpg',
+        '../src/app/assets/cards/england/profession/06.png',
+      ],
+      secrets: [
+        '../src/app/assets/cards/england/secrets/01.png',
+        '../src/app/assets/cards/england/secrets/02.png',
+      ]
     },
     fantasy: {
-      profession: {
-
-      },
-      secrets: {
-
-      }
+      profession: [
+        '../src/app/assets/cards/england/profession/01.jpg',
+        '../src/app/assets/cards/england/profession/06.png',
+      ],
+      secrets: [
+        '../src/app/assets/cards/england/secrets/01.png',
+        '../src/app/assets/cards/england/secrets/02.png',
+      ]
     }
   }
 }

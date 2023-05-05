@@ -2,155 +2,33 @@ import { IRectsWriteAndHover, TObjParamsDrawText } from 'shared/utils/canvas/typ
 import { cards, questions, source } from 'shared/const/gameLibrary/dataLibrary';
 import { drawRoundedRect, drawText, drawImgBorderText, settingHover, writingsText } from 'shared/utils/canvas/utilsDrawCanvas';
 import { Dispatch, SetStateAction } from 'react';
-
-enum JSCOLORS {
-  null = 'transparent',
-  black = 'black',
-  black_40 = 'rgba(0, 0, 0, 0.4)',
-  white = 'white',
-  green = 'green',
-  green_05 = 'rgba(0, 255, 0, 0.05)',
-  green_30 = 'rgba(146, 252, 12, 0.3)',
-  red = 'red',
-  orange = 'orange',
-  orange_20 = 'rgba(252, 146, 12, 0.2)',
-  yellow = 'yellow',
-  grey = 'grey',
-  manyGrey = '#242729'
-}
-
-enum FONTS {
-  mainCanvas = 'Arial Narrow'
-}
-
-enum GAMESCENES {
-  selectProf = 1,
-  selectSecret = 2,
-  fiveClose = 3,
-  fiveOpen = 4,
-  myAnswer = 5,
-  gamersAnswers = 6,
-  finalAnswer = 7,
-  finalResult = 8
-}
-
-enum NAMESCENES {
-  select = 'select',
-  fiveClose = 'fiveClose',
-  fiveOpen = 'fiveOpen',
-  myAnswer = 'myAnswer',
-  gamersAnswers = 'gamersAnswers',
-  finalAnswer = 'finalAnswer',
-  finalResult = 'finalResult'
-}
-
-enum TIMESCENES {  
-  selectProf = 5,
-  selectSecret = 5,
-  fiveClose = 2,
-  fiveOpen = 2,
-  myAnswer = 10,
-  gamersAnswers = 5,
-  finalAnswer = 15,
-  finalResult = 15
-}
+import { TMainGamer, TCardQuestion, TScenes, TTimerData } from './types';
+import { JSCOLORS, GAMESCENES, NAMESCENES, TIMESCENES, FONTS } from './const';
 
 const hoverRects: {[key in string]: IRectsWriteAndHover[]}  = {
+  [NAMESCENES.selectWishEntourage]: [
+    {key: 'entourageLeft', left: 30, top: 85, width: 450, height: 229},
+    {key: 'entourageBottom', left: 287, top: 380, width: 450, height: 229},
+    {key: 'entourageRight', left: 544, top: 85, width: 450, height: 229}
+  ],
   [NAMESCENES.select]: [
     {key: 'selectLeft', left: 85, top: 80, width: 357, height: 536},
     {key: 'selectRight', left: 572, top: 80, width: 357, height: 536}
   ],
-  [NAMESCENES.myAnswer]: [
+  [NAMESCENES.myAnswer]: [ // разворачивается динамически
     {key: '', left: 50, top: 515, width: 924, height: 105}
   ],
-  [NAMESCENES.gamersAnswers]: [
+  [NAMESCENES.gamersAnswers]: [ // разворачивается динамически
     {key: '', left: 473, top: 458, width: 50.5, height: 19.5}
   ],
-  [NAMESCENES.finalAnswer]: [
+  [NAMESCENES.finalAnswer]: [ // разворачивается динамически
     {key: '', left: 48, top: 163, width: 52.8, height: 20.2}
   ],
 }
 
-type TMainGamer = {
-  antourage: 'england'/*  | 'modern' | 'fantasy' */, // раскомментировать, как добавится вся сжатая библиотека изображений карт
-  notes: (number | string | '✔' | '✖' | null)[][],
-  selectedCards: number[]
-}
-type TCardQuestion = { 
-  open: boolean, 
-  type: 'black' | 'england' | 'modern' | 'fantasy', 
-  index: number
-}
-type TScenes = {
-  set: Dispatch<SetStateAction<number>> | null,
-  active: number
-}
-type TTimerData = {
-  nameId: string | number,
-  seconds: number,
-  cback: () => void
-}
-
 export class CanvasScenes {
 
-  static checkOnEvents = false;
-  static indexElem: number | null = null;
-  public objText: TObjParamsDrawText = {};
-  public setObjText = (objText: TObjParamsDrawText) => {
-    this.objText = objText;
-    this.setFrameRender(Math.random()) // рандомное число для запуска ререндера
-  };
-  public hoveredIndexRect: number | null = null;
-  public setHoveredIndexRect = (index: number | null) => {
-    if (this.hoveredIndexRect !== index) {
-      this.hoveredIndexRect = index;
-      this.setFrameRender(Math.random());
-      if (index !== null) console.log('зашли на ' + index)
-        else console.log('ушли с элемента')
-    }
-  };
-  public clickIndexRect: number | null = null;
-  public setClickIndexRect = (index: number | null) => {
-    if (this.clickIndexRect !== index) {
-      this.clickIndexRect = index;
-      this.setFrameRender(Math.random());
-    }
-    if (index !== null) console.log('клик по ' + index)
-  }
-
   static rectsForScene: IRectsWriteAndHover[] = [];
-  
-  handlerMouseMove = (e: MouseEvent) => {
-    settingHover(
-      CanvasScenes.rectsForScene, e, 
-      this.hoveredIndexRect, 
-      this.setHoveredIndexRect
-    );
-  }
-
-  handlerClick = (e: MouseEvent) => {
-    CanvasScenes.indexElem = settingHover(
-      CanvasScenes.rectsForScene, e,
-      this.hoveredIndexRect,
-      this.setHoveredIndexRect
-    ) ?? null,
-    this.setClickIndexRect(CanvasScenes.indexElem)
-  }
-
-  handlerKeyDown = (e: KeyboardEvent) => {
-    if (CanvasScenes.indexElem !== null) {
-      const text = writingsText(
-        this.canvasCtx, e, 
-        {
-          objText: this.objText, 
-          set: this.setObjText 
-        }, 
-        CanvasScenes.rectsForScene[CanvasScenes.indexElem]);
-      console.log(text);
-      console.log(this.objText);
-    }
-  }
-
   public static scenes: TScenes = {
     set: null,
     active: 0
@@ -169,34 +47,26 @@ export class CanvasScenes {
     this.setShowModalResult = setShowModal;
     this.setFrameRender = setFrameRender;
   }
-  
-  private static arrCardBack = [
-    {left: 32, top: 110, width: 300, height: 197, src: source.cards.back[0]},
-    {left: 360, top: 110, width: 300, height: 197, src: source.cards.back[1]},
-    {left: 688, top: 110, width: 300, height: 197, src: source.cards.back[0]},
-    {left: 200, top: 340, width: 300, height: 197, src: source.cards.back[1]},
-    {left: 533, top: 340, width: 300, height: 197, src: source.cards.back[1]},
-  ]
 
   public static cardsForSelect = {
-    prof: [0, 1],  // сюда прислать от бека индексы карт профессий и секретов для выбора игроку
+    prof: [0, 1],  // сюда придут от бека индексы (TODO или номера) карт профессий и секретов для выбора игроку
     secret: [0, 1]
   }
   // сюда записываются выбранный антураж и данные выбора игрока для блокнота
   public static mainGamer: TMainGamer = {
-    antourage: 'england',
-    selectedCards: [ // индексы выбранных карт: [выбранная профессия, тайна, невыбранная профессия, тайна]
+    entourage: 'england', // этот антураж-мок можно оставить здесь, он все равно поменяется
+    nameEntourage: 'Викторианская Англия', // аналогично
+    numsVoicesWinEntourage: 0,
+    numsRivals: 0, // количество соперников . если 0 - значит есть только сам игрок
+    namesRivals: [], // имена соперников
+    selectedCards: [ // индексы (TODO или номера) выбранных карт: [выбранная профессия, тайна, невыбранная профессия, тайна]
       0, 0, 1, 1
     ],
     // TODO приходить должно количество игроков.. и в зависимости от этого создавать размеры массивов (1 игрок = 2 местам)
-    notes: [ // ответы самого игрока в формате номеров профессий и секретов (их не надо отправлять на сервер, кроме 5 индекса)
-    new Array(10),
-    new Array(10),
-    new Array(10), // инициализировать здесь вначале можно вот так, сейчас пока остальные линии заполнил моками для удобства
-    new Array(10),
-    new Array(10),
-    new Array(10), // здесь на строке с 5 индексом - окончательные ответы игрока - их нужно отправить на сервер для сверки в конце
-    new Array(10), // а сюда уже принять в конце от сервера правильно или неправильно угадал игрок
+    notes: [ // блокнот игрока сюда помещать массивы при инициализации - один массив - одна строка блокнота.
+    // (первые 5 строк-массивов в блокноте беку не нужно пулять)
+    // в notes[5] массив c 5 индексом пишутся - окончательные ответы игрока - их нужно отправить на бек для сверки в конце
+    // в notes[6] массив принимаются в конце правильно или неправильно угадал игрок [false, true, false....]
     ]
   }
   public static dataFiveQuestions: TCardQuestion[] = [
@@ -206,12 +76,8 @@ export class CanvasScenes {
     {open: false, type: 'black', index: 5},
     {open: false, type: 'modern', index: 2},
   ]
-  private static counterFiveQuestions = {
-    openFive: 0,
-    open: false
-  }
+
   private static answersOfGamers = {};
-  
 
   static checkanim = 0;
   startGame(
@@ -262,15 +128,100 @@ export class CanvasScenes {
     
     // console.log(`СЦЕНА ${scene}: отрисовка`)
     
+    // СЦЕНА ВЫБОРА ЖЕЛАЕМОГО АНТУРАЖА  ------------------------------------------
+    if (scene === GAMESCENES.selectWishEntourage) {
+      const returnEntourage = (index: number) => {
+        return index === 0
+          ? 'modern'
+          : index === 1
+            ? 'england'
+            : 'fantasy'
+      }
+      const randomIndex012 = () => {        
+        const index = Math.random();
+        return index < 1/3 ? 0 : index < 2/3 ? 1 : 2;
+      }
+
+      const timerData = {
+        nameId: scene,
+        seconds: TIMESCENES.selectWishEntourage,
+        cback: () => {
+          // колбек по окончании сцены (таймера)
+          let entourage: TMainGamer['entourage'];
+          // запись желаемого антуража в временный entourage
+          if (this.clickIndexRect !== null) {
+            entourage = returnEntourage(this.clickIndexRect)
+          } else {
+            entourage = returnEntourage(randomIndex012())
+          }
+
+          // WEBSOCKET место для отправки entourage на бек
+          console.log('желаемый антураж ', entourage)
+
+          // с бека получаем выигравший антураж и количество голосов за него
+          const mockResWinEntourage = entourage // пока закинем желаемый
+          const mockRecNumsVoicesWinEntourage = 4;
+          // получаем также количество [1-5] соперников в сессии игры для целей отрисовки и их имена
+          const mockResNumsRivals = 5;
+          const mockResNamesRivals = ['Bibi', 'Macarena', 'MoveIt', 'Дед', 'Sherlock'];
+
+          cs.mainGamer.entourage = mockResWinEntourage;
+          switch (cs.mainGamer.entourage) {
+            case 'england':
+              cs.mainGamer.nameEntourage = 'Викторианская Англия'
+              break;
+            case 'modern':
+              cs.mainGamer.nameEntourage = 'Современность'
+              break;
+            case 'fantasy':
+              cs.mainGamer.nameEntourage = 'Фэнтези'
+              break;
+            default:              
+              break;
+          }
+          cs.mainGamer.numsVoicesWinEntourage = mockRecNumsVoicesWinEntourage;
+          cs.mainGamer.numsRivals = mockResNumsRivals;
+          cs.mainGamer.namesRivals = mockResNamesRivals;
+          for (let i = 0; i < 7; i++) { // разворачиваем 7 массивчиков для отрисовки и возможности заполнять блокнот в след сценах
+            cs.mainGamer.notes.push(new Array(cs.mainGamer.numsRivals*2))
+          }
+
+          const next = true; // можно продолжать
+          // ...
+          this.clickIndexRect = null;
+          this.hoveredIndexRect = null;
+          this.canvasRef.style.cursor = '';
+          if (next) cs.scenes.set?.(GAMESCENES.winEntourage) // ок, продолжаем
+        }
+      }
+      cs.scenes.active = scene;
+      this.sceneSelectWishEntourage(
+        'Голосование за антураж',
+        timerData
+      )
+    
+    // ПРОМЕЖУТОЧНАЯ СЦЕНА ПОКАЗА ВЫИГРАВШЕГО АНТУРАЖА  -------------------------
+    } else if (scene === GAMESCENES.winEntourage) {
+
+      this.sceneWinEntourage();
+
+      setTimeout(() => { // здесь хватает обычного таймаута
+        cs.scenes.set?.(GAMESCENES.selectProf)
+      }, TIMESCENES.winEntourage * 1000
+      )
+    
     // СЦЕНА ВЫБОРА ПРОФЕССИИ  ------------------------------------------
-    if (scene === GAMESCENES.selectProf) {
+    } else if (scene === GAMESCENES.selectProf) {
       
       const timerData = {
         nameId: scene,
         seconds: TIMESCENES.selectProf,
         cback: () => {  
+            
           const arrSelected = cs.mainGamer.selectedCards
           if (this.clickIndexRect !== null) {
+            // const num = cs.cardsForSelect.prof[this.clickIndexRect];
+            // console.log(mock[0]['england'].profession[num-1]);
             arrSelected[0] = cs.cardsForSelect.prof[this.clickIndexRect];
             arrSelected[2] = cs.cardsForSelect.prof[this.clickIndexRect === 0 ? 1 : 0]
           } else {
@@ -290,7 +241,7 @@ export class CanvasScenes {
       this.sceneSelect(
         'Выберите профессию',
         cs.cardsForSelect.prof,
-        source.cards[cs.mainGamer.antourage].profession,
+        source.cards[cs.mainGamer.entourage].profession,
         timerData
       )
     
@@ -303,6 +254,8 @@ export class CanvasScenes {
         cback: () => {
           const arrSelected = cs.mainGamer.selectedCards
           if (this.clickIndexRect !== null) {
+            // const num = cs.cardsForSelect.prof[this.clickIndexRect];
+            // console.log(mock[0]['england'].profession[num-1]);
             arrSelected[1] = cs.cardsForSelect.secret[this.clickIndexRect];
             arrSelected[3] = cs.cardsForSelect.secret[this.clickIndexRect === 0 ? 1 : 0]
           } else {
@@ -325,7 +278,7 @@ export class CanvasScenes {
       this.sceneSelect(
         'Выберите тайну',
         cs.cardsForSelect.secret,
-        source.cards[cs.mainGamer.antourage].secrets,
+        source.cards[cs.mainGamer.entourage].secrets,
         timerData
       )
 
@@ -334,7 +287,7 @@ export class CanvasScenes {
       
       const counter = cs.counterFiveQuestions;
 
-      this.sceneFiveQuestions(cs.dataFiveQuestions);
+      this.sceneFiveQuestions();
 
       if (cs.scenes.active !== scene) {
         cs.scenes.active = scene;
@@ -363,11 +316,11 @@ export class CanvasScenes {
           console.log(this.objText[`${NAMESCENES.myAnswer}${cs.counterFiveQuestions.openFive-1}`]?.text)
           // колбек по окончании сцены, здесь место для отправки ответа игрока и получения ответов игроков с сервера и разрешения продолжать
           const mockAnswersOfGamers = {
-            Gamer12345: 'Живу в лесу, люблю есть мухоморы, иногда встречаю лакомые поганки, иногда приходится быть на диете и пить одну только воду',
-            Gamer2: 'Ношу, ношу, уже устал, ох, как же так, и нет ни конца, ни начала этим письмам',
-            Gamer3: 'Встретил я однажды золотую монетку, с тех пор с золотом не расстаюсь, люблю его как самого себя',
-            Gamer4: 'Я Завулон, Маг и Великий Воин в одном лице, Вы никогда не догадаетесь, откуда я пришел и куда иду',
-            Gamer5: 'Вы думаете, у меня не бывает неудач? Еще как'
+            'Bibi': 'Живу в лесу, люблю есть мухоморы, иногда встречаю лакомые поганки, иногда приходится быть на диете и пить одну только воду',
+            'Macarena': 'Ношу, ношу, уже устал, ох, как же так, и нет ни конца, ни начала этим письмам',
+            'MoveIt': 'Встретил я однажды золотую монетку, с тех пор с золотом не расстаюсь, люблю его как самого себя',
+            'Дед': 'Я Завулон, Маг и Великий Воин в одном лице, Вы никогда не догадаетесь, откуда я пришел и куда иду',
+            'Sherlock': 'Вы думаете, у меня не бывает неудач? Еще как'
           }
           cs.answersOfGamers = mockAnswersOfGamers;
           const next = true;
@@ -454,6 +407,94 @@ export class CanvasScenes {
     return next;
   }
 
+  sceneSelectWishEntourage(
+    text: string,
+    timerData: TTimerData
+  ) {
+    const ctx = this.canvasCtx;
+    const cs = CanvasScenes;
+    cs.rectsForScene = hoverRects[NAMESCENES.selectWishEntourage];
+
+    // запускаем таймер
+    this.helperDrawTimer(ctx, {
+      nameTimer: timerData.nameId,
+      numsSeconds: timerData.seconds,
+      left: 480,
+      top: 324,
+      width: 65,
+      height: 35,
+      fontSize: 32,
+      textColor: JSCOLORS.white,
+      cback: timerData.cback
+    })
+    
+    drawText(ctx, {
+      left: 450, top: 28, width: 124, height: 32, 
+      text: text, 
+      fontSize: 25, 
+      textColor: JSCOLORS.white});
+
+    if (this.hoveredIndexRect !== null) {      
+      this.canvasRef.style.cursor = 'pointer';
+    } else {
+      this.canvasRef.style.cursor = '';
+    }
+    
+    cs.mainGamer.entourage = this.clickIndexRect === 0
+      ? 'modern'
+      : this.clickIndexRect === 1
+       ? 'england'
+       : 'fantasy';
+
+    const arrEntourage: TMainGamer['entourage'][] = [
+      'modern', 'england', 'fantasy'
+    ]
+    arrEntourage.forEach((
+      entourage,
+      index
+    ) => {
+      const {
+        left, top, width, height
+      } = hoverRects[NAMESCENES.selectWishEntourage][index]
+
+      drawImgBorderText(ctx, source.memory[entourage], {
+        left: left + 5,
+        top: top + 5,
+        width: width - 10,
+        height: height - 10,
+        color: JSCOLORS.black,
+        borderPadding: 5,
+        borderColor: this.clickIndexRect === index
+        ? 'rgb(100,255,100)'
+        : this.helperBorderColor(entourage),
+        shadowOn: 
+          this.hoveredIndexRect === index
+          || this.clickIndexRect === index,
+        radius: 5
+      })
+    })
+  }
+
+  sceneWinEntourage() {
+    const ctx = this.canvasCtx;
+    const data = CanvasScenes.mainGamer;
+        
+    const entourage = data.entourage
+    drawText(ctx, {
+      left: 450, top: 28, width: 124, height: 32, 
+      text: `${data.numsVoicesWinEntourage} из ${data.numsRivals+1} проголосовали за антураж "${data.nameEntourage}"!`, 
+      fontSize: 25, 
+      textColor: JSCOLORS.white});
+    drawImgBorderText(ctx, source.memory[entourage], {
+      left: 150, top: 132, width: 715, height: 364,
+      color: JSCOLORS.black,
+      borderPadding: 10,
+      borderColor: this.helperBorderColor(entourage),
+      radius: 10,
+      shadowOn: true
+    })
+  }
+
   sceneSelect(
     text: string,
     indexForSelect: number[],
@@ -461,13 +502,14 @@ export class CanvasScenes {
     timerData: TTimerData
   ) {
     const ctx = this.canvasCtx;
-    CanvasScenes.rectsForScene = hoverRects[NAMESCENES.select];
+    const cs = CanvasScenes;
+    cs.rectsForScene = hoverRects[NAMESCENES.select];
 
     // запускаем таймер
     this.helperDrawTimer(ctx, {
       nameTimer: timerData.nameId,
       numsSeconds: timerData.seconds,
-      left: 487,
+      left: 477,
       top: 304,
       width: 70,
       height: 35,
@@ -482,55 +524,56 @@ export class CanvasScenes {
       fontSize: 25, 
       textColor: JSCOLORS.white});
 
-    drawImgBorderText(ctx, profOrSecrets[indexForSelect[0]], {
-      left: 90,
-      top: 85,
-      width: 347,
-      height: 526,
-      color: this.clickIndexRect === 0
-        ? JSCOLORS.green
-        : JSCOLORS.black,
-      borderPadding: 5,
-      borderColor: JSCOLORS.orange,
-      shadowOn: 
-        this.hoveredIndexRect === 0
-        || this.clickIndexRect === 0,
-      radius: 5
-    })
-
     if (this.hoveredIndexRect !== null) {      
       this.canvasRef.style.cursor = 'pointer';
     } else {
       this.canvasRef.style.cursor = '';
     }
-    
-    drawImgBorderText(ctx, profOrSecrets[indexForSelect[1]], {
-      left: 577,
-      top: 85,
-      width: 347,
-      height: 526,
-      color: this.clickIndexRect === 1
-        ? JSCOLORS.green
-        : JSCOLORS.black,
-      borderPadding: 5,
-      borderColor: JSCOLORS.orange,
-      shadowOn:
-        this.hoveredIndexRect === 1
-        || this.clickIndexRect === 1,
-      radius: 5
-    })
+
+    for (const index of [0,1]) {
+      const {
+        left, top, width, height
+      } = hoverRects[NAMESCENES.select][index]
+      drawImgBorderText(ctx, profOrSecrets[indexForSelect[index]], {
+        left: left + 5,
+        top: top + 5,
+        width: width - 10,
+        height: height - 10,
+        color: this.clickIndexRect === index
+          ? JSCOLORS.green
+          : JSCOLORS.black,
+        borderPadding: 5,
+        borderColor: this.helperBorderColor(cs.mainGamer.entourage),
+        shadowOn: 
+          this.hoveredIndexRect === index
+          || this.clickIndexRect === index,
+        radius: 5
+      })
+    }
   }
 
-  sceneFiveQuestions(
-    arrQuestions: TCardQuestion[]
-  ){
+  private static counterFiveQuestions = {
+    openFive: 0,
+    open: false
+  }  
+  private static arrCardBack = [
+    {left: 32, top: 110, width: 300, height: 197, src: source.cards.back[0]},
+    {left: 360, top: 110, width: 300, height: 197, src: source.cards.back[1]},
+    {left: 688, top: 110, width: 300, height: 197, src: source.cards.back[0]},
+    {left: 200, top: 340, width: 300, height: 197, src: source.cards.back[1]},
+    {left: 533, top: 340, width: 300, height: 197, src: source.cards.back[1]},
+  ]
+
+  sceneFiveQuestions() {
     const ctx = this.canvasCtx;
+    const cs = CanvasScenes;
+    const arrQuest = cs.dataFiveQuestions;
 
     CanvasScenes.arrCardBack.forEach((elem, index) => {
       drawImgBorderText(
         ctx, 
-        arrQuestions[index].open
-          ? source[`q${arrQuestions[index].type}`] 
+        arrQuest[index].open
+          ? source[`q${arrQuest[index].type}`] 
           : elem.src, 
         {
         left: elem.left,
@@ -539,10 +582,12 @@ export class CanvasScenes {
         height: elem.height,
         color: JSCOLORS.black,
         borderPadding: 1,
-        borderColor: this.helperBorderColor(arrQuestions[index].type),
+        borderColor: this.helperBorderColor(arrQuest[index].type),
         radius: 5
         }, {
-        text: arrQuestions[index].open ? questions[ arrQuestions[index].type ][ arrQuestions[index].index ] : ''
+        text: arrQuest[index].open
+          ? questions[ arrQuest[index].type ][ arrQuest[index].index ]
+          : ''
       })
     })    
   }
@@ -559,9 +604,9 @@ export class CanvasScenes {
       nameTimer: timerData.nameId,
       numsSeconds: timerData.seconds,
       left: 477,
-      top: 474,
+      top: 472,
       width: 70,
-      height: 30,
+      height: 25,
       fontSize: 25,
       textColor: JSCOLORS.white,
       cback: timerData.cback
@@ -653,7 +698,7 @@ export class CanvasScenes {
     // в usersAndAnswer сюда c предыдущей сцены должен прийти ответ с объектом в формате {имя Соперника: егоОтвет}
     const usersAndAnswer: {[key in string]: string} = cs.answersOfGamers;
     const myAnswers = cs.mainGamer.notes;
-    const type = cs.mainGamer.antourage;
+    const type = cs.mainGamer.entourage;
 
     // запускаем таймер
     this.helperDrawTimer(ctx, {
@@ -891,7 +936,7 @@ export class CanvasScenes {
     // на самом деле из usersAndAnswer в сцене нужны только имена (объект из предыдущих сцен в формате {имя Соперника: егоОтвет})
     const usersAndAnswer: {[key in string]: string} = cs.answersOfGamers;
     const myAnswers = cs.mainGamer.notes;
-    const type = cs.mainGamer.antourage;
+    const type = cs.mainGamer.entourage;
 
     // запускаем таймер
     this.helperDrawTimer(ctx, {
@@ -1110,7 +1155,7 @@ export class CanvasScenes {
   helperBorderColor(what: string){
     const color = what === JSCOLORS.black ? JSCOLORS.white
       : what === 'fantasy' ? JSCOLORS.yellow
-      : what === 'modern' ? JSCOLORS.grey
+      : what === 'modern' ? JSCOLORS.blue
       : JSCOLORS.orange;
     return color;
   }
@@ -1231,5 +1276,61 @@ export class CanvasScenes {
     }
 
     return lines.join('\n');
+  }
+
+  static checkOnEvents = false;
+  static indexElem: number | null = null;
+  public objText: TObjParamsDrawText = {};
+  public setObjText = (objText: TObjParamsDrawText) => {
+    this.objText = objText;
+    this.setFrameRender(Math.random()) // рандомное число для запуска ререндера
+  };
+  public hoveredIndexRect: number | null = null;
+  public setHoveredIndexRect = (index: number | null) => {
+    if (this.hoveredIndexRect !== index) {
+      this.hoveredIndexRect = index;
+      this.setFrameRender(Math.random());
+      if (index !== null) console.log('зашли на ' + index)
+        else console.log('ушли с элемента')
+    }
+  };
+  public clickIndexRect: number | null = null;
+  public setClickIndexRect = (index: number | null) => {
+    if (this.clickIndexRect !== index) {
+      this.clickIndexRect = index;
+      this.setFrameRender(Math.random());
+    }
+    if (index !== null) console.log('клик по ' + index)
+  }
+  
+  handlerMouseMove = (e: MouseEvent) => {
+    settingHover(
+      CanvasScenes.rectsForScene, e, 
+      this.hoveredIndexRect, 
+      this.setHoveredIndexRect
+    );
+  }
+
+  handlerClick = (e: MouseEvent) => {
+    CanvasScenes.indexElem = settingHover(
+      CanvasScenes.rectsForScene, e,
+      this.hoveredIndexRect,
+      this.setHoveredIndexRect
+    ) ?? null,
+    this.setClickIndexRect(CanvasScenes.indexElem)
+  }
+
+  handlerKeyDown = (e: KeyboardEvent) => {
+    if (CanvasScenes.indexElem !== null) {
+      const text = writingsText(
+        this.canvasCtx, e, 
+        {
+          objText: this.objText, 
+          set: this.setObjText 
+        }, 
+        CanvasScenes.rectsForScene[CanvasScenes.indexElem]);
+      console.log(text);
+      console.log(this.objText);
+    }
   }
 }
