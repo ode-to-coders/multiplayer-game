@@ -4,7 +4,7 @@ import { ProfileMain } from 'features/ProfileMain';
 
 import { PAGES } from 'app/lib/routes.types';
 
-import { UserInfoResponse } from 'app/store/api/auth/authApi';
+import { UserInfoResponse } from 'app/store/api/auth/types';
 
 type ProfileConfig = {
   [key: string]: {
@@ -21,9 +21,7 @@ export const profileConfig: ProfileConfig = {
     hoverAvatar: false,
   },
   [PAGES.EDIT_PASSWORD]: {
-    getComponent: () => (
-      <ProfileEditPasswordForm />
-    ),
+    getComponent: () => <ProfileEditPasswordForm />,
     linkBack: PAGES.PROFILE,
     hoverAvatar: false,
   },
