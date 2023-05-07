@@ -112,6 +112,26 @@ function start() {
           };
           break;
 
+        case 'chooseProfession':
+          result = {
+            type: 'selectedProfession',
+            payload: {
+              vote: params.payload.profession,
+              login: params.payload.login,
+            },
+          };
+          break;
+
+        case 'choiceSecret':
+          result = {
+            type: 'selectedSecret',
+            payload: {
+              vote: params.payload.secret,
+              login: params.payload.login,
+            },
+          };
+          break;
+
         default:
           result = {
             type: 'logout',

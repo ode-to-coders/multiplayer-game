@@ -112,10 +112,12 @@ export const StartPage = () => {
               login: user,
               id: i,
               enthourage: '',
+              profession: '',
+              secret: '',
             }
           });
           dispatch(setGameMemebers(users));
-          navigate(`/game/${gameId}/enthourage`);
+          navigate(`/game/${gameId}`);
         }
         break;
 

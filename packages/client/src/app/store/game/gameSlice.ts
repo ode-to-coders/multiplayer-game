@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { UserChoice, Voice } from './types';
+import { UserChoice, Voice, Prof } from './types';
 import { IReducer } from '../reducer';
 
 const initialState = {
@@ -37,6 +37,16 @@ const gamers = createSlice({
     ) {
       const currentUser: UserChoice = state.users.gameMembers.filter((member: UserChoice) => member.login === action.payload.login)[0];
       currentUser.enthourage = action.payload.vote;
+    },
+    setProfession(
+      state,
+      action: {
+        type: string,
+        payload: Prof
+      }
+    ) {
+      const currentUser: UserChoice = state.users.gameMembers.filter((member: UserChoice) => member.login === action.payload.login)[0];
+      currentUser.profession = action.payload.profession;
     }
   },
 });

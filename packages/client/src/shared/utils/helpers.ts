@@ -36,5 +36,7 @@ export const getWinnerEnthourage = (votes: IUserVote[]): Record<string, unknown>
 }
 
 export function isOpen(ws: any) {
+  console.log(ws.readyState, 'red');
+  console.log(ws.OPEN, 'open');
   return ws.readyState === ws.OPEN 
 }

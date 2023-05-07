@@ -8,6 +8,7 @@ export type payloadType = {
   canStart?: boolean;
   count?: number;
   vote?: string,
+  profession?: string,
 };
 
 export type resultType = {

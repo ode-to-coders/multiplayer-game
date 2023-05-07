@@ -1,9 +1,14 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import { IRectsWriteAndHover, TObjParamsDrawText } from 'shared/utils/canvas/types';
 import { cards, questions, source } from 'shared/const/gameLibrary/dataLibrary';
 import { drawRoundedRect, drawText, drawImgBorderText, settingHover, writingsText } from 'shared/utils/canvas/utilsDrawCanvas';
-import { Dispatch, SetStateAction } from 'react';
+
 import { TMainGamer, TCardQuestion, TScenes, TTimerData } from './types';
 import { JSCOLORS, GAMESCENES, NAMESCENES, TIMESCENES, FONTS } from './const';
+
+import gameData from '../../mocks/gameData.json';
+
 
 const hoverRects: {[key in string]: IRectsWriteAndHover[]}  = {
   [NAMESCENES.selectWishEntourage]: [
@@ -26,7 +31,9 @@ const hoverRects: {[key in string]: IRectsWriteAndHover[]}  = {
   ],
 }
 
-export class CanvasScenes {
+class CanvasScenes {
+  public ws: WebSocket;
+  static gameId: number;
 
   static rectsForScene: IRectsWriteAndHover[] = [];
   public static scenes: TScenes = {
@@ -38,14 +45,17 @@ export class CanvasScenes {
 
   public canvasRef!: HTMLCanvasElement;
   public canvasCtx!: CanvasRenderingContext2D;
+  public handleChoose: any;
   constructor(
     setScene: Dispatch<SetStateAction<number>>,
     setShowModal: Dispatch<SetStateAction<boolean>>,
     setFrameRender: Dispatch<SetStateAction<number>>,
+    handleChoose: (type: string, vote: string, key: string) => void,
   ) {
     CanvasScenes.scenes.set = setScene;
     this.setShowModalResult = setShowModal;
     this.setFrameRender = setFrameRender;
+    this.handleChoose = handleChoose;
   }
 
   public static cardsForSelect = {
@@ -217,11 +227,11 @@ export class CanvasScenes {
         nameId: scene,
         seconds: TIMESCENES.selectProf,
         cback: () => {  
-            
           const arrSelected = cs.mainGamer.selectedCards
           if (this.clickIndexRect !== null) {
-            // const num = cs.cardsForSelect.prof[this.clickIndexRect];
-            // console.log(mock[0]['england'].profession[num-1]);
+            const num = cs.cardsForSelect.prof[this.clickIndexRect];
+            this.handleChoose('choiceSecret', gameData[0]['england'].secret[num-1], 'secret');
+  
             arrSelected[0] = cs.cardsForSelect.prof[this.clickIndexRect];
             arrSelected[2] = cs.cardsForSelect.prof[this.clickIndexRect === 0 ? 1 : 0]
           } else {
@@ -238,6 +248,7 @@ export class CanvasScenes {
         }
       }
       cs.scenes.active = scene;
+
       this.sceneSelect(
         'Выберите профессию',
         cs.cardsForSelect.prof,
@@ -254,6 +265,11 @@ export class CanvasScenes {
         cback: () => {
           const arrSelected = cs.mainGamer.selectedCards
           if (this.clickIndexRect !== null) {
+            arrSelected[1] = cs.cardsForSelect.secret[this.clickIndexRect];
+            arrSelected[3] = cs.cardsForSelect.secret[this.clickIndexRect === 0 ? 1 : 0];
+
+            const num = cs.cardsForSelect.prof[this.clickIndexRect];
+            this.handleChoose('choiceSecret', gameData[0]['england'].secret[num-1], 'secret');
             // const num = cs.cardsForSelect.prof[this.clickIndexRect];
             // console.log(mock[0]['england'].profession[num-1]);
             arrSelected[1] = cs.cardsForSelect.secret[this.clickIndexRect];
@@ -323,6 +339,14 @@ export class CanvasScenes {
             'Sherlock': 'Вы думаете, у меня не бывает неудач? Еще как'
           }
           cs.answersOfGamers = mockAnswersOfGamers;
+
+          console.log(this.objText[`${NAMESCENES.myAnswer}${cs.counterFiveQuestions.openFive-1}`].text, 'text');
+
+          this.handleChoose(
+            'answersOnQwestions',
+            this.objText[`${NAMESCENES.myAnswer}${cs.counterFiveQuestions.openFive-1}`].text,
+            'answer1',
+          )
           const next = true;
           // ...
           this.clickIndexRect = null;
@@ -501,6 +525,7 @@ export class CanvasScenes {
     profOrSecrets: string[],
     timerData: TTimerData
   ) {
+    console.log(text, 'profOrSecrets');
     const ctx = this.canvasCtx;
     const cs = CanvasScenes;
     cs.rectsForScene = hoverRects[NAMESCENES.select];
@@ -1277,7 +1302,6 @@ export class CanvasScenes {
 
     return lines.join('\n');
   }
-
   static checkOnEvents = false;
   static indexElem: number | null = null;
   public objText: TObjParamsDrawText = {};
@@ -1334,3 +1358,5 @@ export class CanvasScenes {
     }
   }
 }
+
+export default CanvasScenes;

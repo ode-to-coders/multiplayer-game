@@ -16,3 +16,8 @@ export type Voice = {
   login: string,
   vote: string,
 }
+
+export type Prof = {
+  login: string,
+  profession: string
+}
