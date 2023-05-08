@@ -1,14 +1,14 @@
 
-import { StyledButton } from 'shared/ui/Styled';
+import { StyledButton } from '../../shared/ui/Styled';
 
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import { useChangeUserProfileMutation } from 'app/store/api/users/usersApi';
+import { useChangeUserProfileMutation } from '../../app/store/api/users/usersApi';
 
-import { yupSchemaProfileEditForm as schema } from 'shared/const/validate';
+import { yupSchemaProfileEditForm as schema } from '../../shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { PAGES } from 'app/lib/routes.types';
+import { PAGES } from '../../app/lib/routes.types';
 
 import { helpingDataInputs } from './helpingDataInputs';
 
@@ -75,7 +75,7 @@ export const ProfileEditForm = ({ profileData }: Props) => {
           )}
         </div>
       ))}
-      <StyledButton type="submit" extendClass={styles.btnSubmit}>
+      <StyledButton type="submit" extendсlass={styles.btnSubmit}>
         Сохранить
       </StyledButton>
     </form>

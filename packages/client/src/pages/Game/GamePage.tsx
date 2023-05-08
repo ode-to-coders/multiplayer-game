@@ -10,7 +10,7 @@ export const GamePage = () => {
     <StyledContainer
       maxWidth={false}
       disableGutters
-      extendClass={style.container}>
+      extendсlass={style.container}>
       <MainPage></MainPage>
     </StyledContainer>
   );

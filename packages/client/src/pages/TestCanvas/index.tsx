@@ -2,8 +2,8 @@ import { KeyboardEvent, MouseEvent, RefObject, useEffect, useMemo, useRef, useSt
 
 import { mockRects } from './canvasScenes';
 
-import { settingHover, writingsText } from 'shared/utils/canvas/utilsDrawCanvas';
-import { paramsDrawText } from 'shared/utils/canvas/types';
+import { settingHover, writingsText } from '../../shared/utils/canvas/utilsDrawCanvas';
+import { paramsDrawText } from '../../shared/utils/canvas/types';
 import { CanvasScenes } from './canvasScenes';
 
 import s from './index.module.scss';

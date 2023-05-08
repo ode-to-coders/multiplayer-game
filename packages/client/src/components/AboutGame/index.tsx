@@ -1,6 +1,6 @@
 import Grid from '@mui/material/Grid';
 
-import { StyledDescribe, StyledGridItem } from '@/shared/ui/Styled';
+import { StyledDescribe, StyledGridItem } from '../../shared/ui/Styled';
 
 import { ReactComponent as Watch } from '../../images/watch.svg';
 import { ReactComponent as Group } from '../../images/group.svg';
@@ -20,15 +20,15 @@ function AboutGame() {
           className={styles.gridContainer}
           justifyContent="center"
           rowSpacing={1}>
-          <StyledGridItem item xs={4} extendClass={styles.icon}>
+          <StyledGridItem item xs={4} extendсlass={styles.icon}>
             <Group />
             <StyledDescribe>1-6</StyledDescribe>
           </StyledGridItem>
-          <StyledGridItem item xs={4} extendClass={styles.icon}>
+          <StyledGridItem item xs={4} extendсlass={styles.icon}>
             <Watch />
             <StyledDescribe>30-45</StyledDescribe>
           </StyledGridItem>
-          <StyledGridItem item xs={4} extendClass={styles.icon}>
+          <StyledGridItem item xs={4} extendсlass={styles.icon}>
             <Stroller />
             <StyledDescribe>13+</StyledDescribe>
           </StyledGridItem>

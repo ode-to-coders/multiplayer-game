@@ -4,14 +4,14 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledContainerProps = {
-  extendClass?: string;
+  extendсlass?: string;
 } & ContainerProps;
 
 export const StyledContainer: FC<
   PropsWithChildren<StyledContainerProps>
 > = props => (
   <StyledEngineProvider injectFirst>
-    <Container className={cn(style.container, props.extendClass)} {...props}>
+    <Container className={cn(style.container, props.extendсlass)} {...props}>
       {props.children}
     </Container>
   </StyledEngineProvider>

@@ -1,5 +1,5 @@
 import { Dispatch, KeyboardEvent, MouseEvent, SetStateAction } from 'react';
-import { KEYS } from 'shared/const/constants';
+import { KEYS } from '../../const/constants';
 import { IRect, TText, TImgBord, paramsDrawText, IobjLogWritingsText, TWritingsTextParams, IobjLogBack, IobjHelpOffset } from './types'
 /**
  * Функция установки State при наведении на объект в канвасе (например, тени при наведении)

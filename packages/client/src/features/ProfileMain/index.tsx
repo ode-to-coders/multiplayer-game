@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { MouseEventHandler, useCallback } from 'react';
 
-import { useLogoutMutation } from '@/app/store/api/auth/authApi';
+import { useLogoutMutation } from '../../app/store/api/auth/authApi';
 
-import { PAGES } from 'app/lib/routes.types';
+import { PAGES } from '../../app/lib/routes.types';
 
 import { arrHelpingData } from './helpingData';
 

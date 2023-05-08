@@ -10,12 +10,12 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledTitleProps = {
-  extendClass?: string;
+  extendсlass?: string;
 } & TypographyProps;
 
 export const StyledTitle: FC<PropsWithChildren<StyledTitleProps>> = props => (
   <StyledEngineProvider injectFirst>
-    <Typography className={cn(style.tableTitle, props.extendClass)} {...props}>
+    <Typography className={cn(style.tableTitle, props.extendсlass)} {...props}>
       {props.children}
     </Typography>
   </StyledEngineProvider>

@@ -14,7 +14,7 @@ export function LeaderBoardPage(props: LeaderBoardT) {
   if(!users || users.length < 0) return null;
 
   return (
-    <StyledContainer extendClass={styles.mainContainer}>
+    <StyledContainer extendсlass={styles.mainContainer}>
       <div className={styles.leaderboard}>
         <style jsx="true">{`
           .${styles.table} {

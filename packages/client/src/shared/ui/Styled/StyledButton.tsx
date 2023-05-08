@@ -5,12 +5,12 @@ import { FC, PropsWithChildren } from 'react';
 import styles from './index.module.scss';
 
 type StyledButtonProps = {
-  extendClass?: string;
+  extendсlass?: string;
 } & ButtonProps;
 
 export const StyledButton: FC<PropsWithChildren<StyledButtonProps>> = props => (
   <StyledEngineProvider injectFirst>
-    <Button className={cn(styles.button, props.extendClass)} {...props}>
+    <Button className={cn(styles.button, props.extendсlass)} {...props}>
       {props.children}
     </Button>
   </StyledEngineProvider>

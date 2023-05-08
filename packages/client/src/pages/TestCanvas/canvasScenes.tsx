@@ -1,6 +1,6 @@
-import { paramsDrawText } from 'shared/utils/canvas/types';
-import { questions, source } from 'shared/const/gameLibrary/dataLibrary';
-import { drawRoundedRect, drawText, drawImgBorderText } from 'shared/utils/canvas/utilsDrawCanvas';
+import { paramsDrawText } from '../../shared/utils/canvas/types';
+import { questions, source } from '../../shared/const/gameLibrary/dataLibrary';
+import { drawRoundedRect, drawText, drawImgBorderText } from '../../shared/utils/canvas/utilsDrawCanvas';
 
 export const mockRects = [
   {key: '0', left: 74, top: 30, width: 390, height: 570, radius: 20, color: '#242729', borderColor: 'yellow'},

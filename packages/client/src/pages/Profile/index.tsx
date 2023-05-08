@@ -1,9 +1,9 @@
 import s from './index.module.scss';
 
-import { useGetUserInfoQuery } from 'app/store/api/auth/authApi';
-import { DataLoader } from 'shared/ui/DataLoader/DataLoader';
+import { useGetUserInfoQuery } from '../../app/store/api/auth/authApi';
+import { DataLoader } from '../../shared/ui/DataLoader/DataLoader';
 import { ProfileContent } from './features/ProfileContent/ProfileContent';
-import { PAGES } from 'app/lib/routes.types';
+import { PAGES } from '../../app/lib/routes.types';
 
 type Props = {
   page: PAGES;
