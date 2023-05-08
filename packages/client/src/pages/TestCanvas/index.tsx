@@ -5,6 +5,8 @@ import { CanvasScenes } from './canvasScenes';
 import s from './index.module.scss';
 import { EndPage } from '../EndPage/EndPage';
 
+const canvasSize = {width: 1280  , height: 768}; // в будущем при запуске.. внести в компонент и динамически решать какие нужны размеры взависимости от экрана клиента
+
 // компонент только для Тестирования командой
 
 export const TestCanvas = () => {
@@ -17,7 +19,8 @@ export const TestCanvas = () => {
     return new CanvasScenes(
       setScene,
       setShowModalResult,
-      goFrameRender
+      goFrameRender,
+      {width: canvasSize.width, height: canvasSize.height}
     );
   }, [])
 
@@ -61,8 +64,8 @@ export const TestCanvas = () => {
         <canvas
           ref={canvasRef}
           className={s.canvas}
-          width='1024'
-          height='640'
+          width={canvasSize.width}
+          height={canvasSize.height}
         />
       </div>
       {showModalResult && <EndPage />}

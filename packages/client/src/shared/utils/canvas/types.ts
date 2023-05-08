@@ -33,7 +33,7 @@ export interface paramsDrawText {
   top: number, 
   width?: number, 
   height?: number, 
-  text: string, 
+  text: string | number | null, 
   textColor?: string, 
   fontSize?: number,
   textAlign?: 'left' | 'center'
@@ -55,6 +55,7 @@ export type TWritingsTextParams = {
   height: number,
   fontSize?: number,
   textColor?: string,
+  validate?: RegExp
 }
 export interface IRectsWriteAndHover extends TWritingsTextParams {
   radius?: number,
@@ -80,4 +81,26 @@ export type IhelpOffset = {
 
 export interface IobjHelpOffset {
   [key: string]: IhelpOffset
+}
+
+export type TTimerWithCback = {
+  nameTimer: string | number,
+  numsSeconds: number,
+  left: number, 
+  top: number, 
+  width: number, 
+  height: number,
+  fontSize?: number, 
+  textColor?: string,
+  countFloatNumbers?: 0 | 1 | 2,
+  cback?: () => void,
+}
+
+export type TTimerCash = {
+  [key in string]: {
+    timer: NodeJS.Timer | null, 
+    counter: number, 
+    checkEnd: boolean,
+    checkCback: boolean
+  }
 }

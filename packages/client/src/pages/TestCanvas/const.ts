@@ -1,12 +1,12 @@
 // таймеры (время показа) сцен в секундах
 export enum TIMESCENES { 
-  selectWishEntourage = 15,
-  winEntourage = 4,
-  selectProf = 15,
-  selectSecret = 15,
+  selectWishEntourage = 12,
+  winEntourage = 3,
+  selectProf = 5,
+  selectSecret = 5,
   fiveClose = 2,
   fiveOpen = 2,
-  myAnswer = 30,
+  myAnswer = 15,
   gamersAnswers = 30,
   finalAnswer = 30,
   finalResult = 15
@@ -40,17 +40,19 @@ export enum NAMESCENES {
 
 export enum JSCOLORS {
   null = 'transparent',
+  modern = 'blue',
+  england = 'orange',
+  fantasy = 'yellow',
   black = 'black',
   black_40 = 'rgba(0, 0, 0, 0.4)',
   white = 'white',
   green = 'green',
+  lightGreen = 'rgb(100,255,100)',
   green_05 = 'rgba(0, 255, 0, 0.05)',
   green_30 = 'rgba(146, 252, 12, 0.3)',
   red = 'red',
   orange = 'orange',
   orange_20 = 'rgba(252, 146, 12, 0.2)',
-  yellow = 'yellow',
-  blue = 'blue',
   grey = 'grey',
   manyGrey = '#242729'
 }

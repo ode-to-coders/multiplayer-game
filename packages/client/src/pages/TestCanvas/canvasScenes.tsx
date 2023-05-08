@@ -1,92 +1,77 @@
-import { IRectsWriteAndHover, TObjParamsDrawText } from 'shared/utils/canvas/types';
-import { cards, questions, source } from 'shared/const/gameLibrary/dataLibrary';
-import { drawRoundedRect, drawText, drawImgBorderText, settingHover, writingsText } from 'shared/utils/canvas/utilsDrawCanvas';
 import { Dispatch, SetStateAction } from 'react';
-import { TMainGamer, TCardQuestion, TScenes, TTimerData } from './types';
-import { JSCOLORS, GAMESCENES, NAMESCENES, TIMESCENES, FONTS } from './const';
+import { ssd } from './storeSessionData';
 
-const hoverRects: {[key in string]: IRectsWriteAndHover[]}  = {
-  [NAMESCENES.selectWishEntourage]: [
-    {key: 'entourageLeft', left: 30, top: 85, width: 450, height: 229},
-    {key: 'entourageBottom', left: 287, top: 380, width: 450, height: 229},
-    {key: 'entourageRight', left: 544, top: 85, width: 450, height: 229}
-  ],
-  [NAMESCENES.select]: [
-    {key: 'selectLeft', left: 85, top: 80, width: 357, height: 536},
-    {key: 'selectRight', left: 572, top: 80, width: 357, height: 536}
-  ],
-  [NAMESCENES.myAnswer]: [ // разворачивается динамически
-    {key: '', left: 50, top: 515, width: 924, height: 105}
-  ],
-  [NAMESCENES.gamersAnswers]: [ // разворачивается динамически
-    {key: '', left: 473, top: 458, width: 50.5, height: 19.5}
-  ],
-  [NAMESCENES.finalAnswer]: [ // разворачивается динамически
-    {key: '', left: 48, top: 163, width: 52.8, height: 20.2}
-  ],
-}
+import { SelectWishEntourage, WinEntourage, SelectCard, FiveQuestions, WriteAnswer, AnswersAndThink, FinalThink } from './scenes';
+import { writingsText, drawText, drawImgBorderText, settingHover } from 'shared/utils/canvas';
+import { source } from 'shared/const/gameLibrary/dataLibrary';
+import { JSCOLORS, GAMESCENES, NAMESCENES, TIMESCENES } from './const';
 
+import { TObjParamsDrawText } from 'shared/utils/canvas/types';
+import { TMainGamer, TScenes } from './types';
+
+/**
+ * множитель под динамический размер канваса
+ */
+let m: number;
+/**
+ * левый сдвиг под динамический размер канваса
+ */
+let lofs: number;
 export class CanvasScenes {
 
-  static rectsForScene: IRectsWriteAndHover[] = [];
-  public static scenes: TScenes = {
+  public scenes: TScenes = {
     set: null,
-    active: 0
+    active: 0,    
+    selectWishEntourage: new SelectWishEntourage(this),
+    winEntourage: new WinEntourage(this),
+    selectCard: new SelectCard(this),
+    fiveQuestions: new FiveQuestions(this),
+    writeAnswer: new WriteAnswer(this),
+    answersAndThink: new AnswersAndThink(this),
+    finalThink: new FinalThink(this)
   };
   private setShowModalResult!: Dispatch<SetStateAction<boolean>>
   private setFrameRender!: Dispatch<SetStateAction<number>>
 
   public canvasRef!: HTMLCanvasElement;
   public canvasCtx!: CanvasRenderingContext2D;
+
   constructor(
     setScene: Dispatch<SetStateAction<number>>,
     setShowModal: Dispatch<SetStateAction<boolean>>,
     setFrameRender: Dispatch<SetStateAction<number>>,
+    ratio: {width: number, height: number}
   ) {
-    CanvasScenes.scenes.set = setScene;
+
+    this.scenes.set = setScene;
     this.setShowModalResult = setShowModal;
     this.setFrameRender = setFrameRender;
+
+    ssd.reset();
+    m = ssd.ratio.multiple = ratio.height/640;
+    lofs = ssd.ratio.leftOffset = (ratio.width-1024*m)/2;
+    if (!ssd.ratio.checkSuccessCalc) {
+      // важный объект ssd.hoverRects сразу пересчитываем под динамический канвас
+      // поэтому в сценах уже пересчитывать не нужно
+      for (const key in ssd.hoverRects) {
+        for (let i = 0; i < ssd.hoverRects[key].length; i++) {
+          ssd.hoverRects[key][i].left = (ssd.hoverRects[key][i].left *m) + lofs;
+          ssd.hoverRects[key][i].top *= m;
+          ssd.hoverRects[key][i].width *= m;
+          ssd.hoverRects[key][i].height *= m;
+        }
+      }
+      ssd.ratio.checkSuccessCalc = true;
+    }
   }
 
-  public static cardsForSelect = {
-    prof: [0, 1],  // сюда придут от бека индексы (TODO или номера) карт профессий и секретов для выбора игроку
-    secret: [0, 1]
-  }
-  // сюда записываются выбранный антураж и данные выбора игрока для блокнота
-  public static mainGamer: TMainGamer = {
-    entourage: 'england', // этот антураж-мок можно оставить здесь, он все равно поменяется
-    nameEntourage: 'Викторианская Англия', // аналогично
-    numsVoicesWinEntourage: 0,
-    numsRivals: 0, // количество соперников . если 0 - значит есть только сам игрок
-    namesRivals: [], // имена соперников
-    selectedCards: [ // индексы (TODO или номера) выбранных карт: [выбранная профессия, тайна, невыбранная профессия, тайна]
-      0, 0, 1, 1
-    ],
-    // TODO приходить должно количество игроков.. и в зависимости от этого создавать размеры массивов (1 игрок = 2 местам)
-    notes: [ // блокнот игрока сюда помещать массивы при инициализации - один массив - одна строка блокнота.
-    // (первые 5 строк-массивов в блокноте беку не нужно пулять)
-    // в notes[5] массив c 5 индексом пишутся - окончательные ответы игрока - их нужно отправить на бек для сверки в конце
-    // в notes[6] массив принимаются в конце правильно или неправильно угадал игрок [false, true, false....]
-    ]
-  }
-  public static dataFiveQuestions: TCardQuestion[] = [
-    {open: false, type: 'black', index: 0},
-    {open: false, type: 'england', index: 1},
-    {open: false, type: 'fantasy', index: 2},
-    {open: false, type: 'black', index: 5},
-    {open: false, type: 'modern', index: 2},
-  ]
-
-  private static answersOfGamers = {};
-
-  static checkanim = 0;
+  public checkanim = 0;
   startGame(
     canvas: HTMLCanvasElement | null,
     scene: number
   ) {
     // console.log('РЕРЕНДЕР КАНВАСА: пуск')
     /* let */const next = false;
-    const cs = CanvasScenes;
 
     if (!canvas) return next;
     if (!this.canvasRef) this.canvasRef = canvas;    
@@ -95,11 +80,11 @@ export class CanvasScenes {
     if (!this.canvasCtx) this.canvasCtx = ctx;
 
     // подписка на события канваса
-    if (!CanvasScenes.checkOnEvents) {
+    if (!this.checkOnEvents) {
       canvas.addEventListener('click', this.handlerClick)
       canvas.addEventListener('keydown', this.handlerKeyDown)
       canvas.addEventListener('mousemove', this.handlerMouseMove)
-      CanvasScenes.checkOnEvents = true;
+      this.checkOnEvents = true;
     }
 
     canvas.setAttribute('tabIndex', '0');
@@ -107,8 +92,8 @@ export class CanvasScenes {
     
     /* ctx.fillStyle = 'rgba(52, 55, 57, 5%)';
     ctx.fillRect(0, 0, canvas.width, canvas.height)
-    if (CanvasScenes.checkanim <= 100) {
-      CanvasScenes.checkanim++
+    if (this.checkanim <= 100) {
+      this.checkanim++
       return true
     }
     else {cs.checkanim = 0} */
@@ -116,20 +101,20 @@ export class CanvasScenes {
     
     // лого Тест
     drawImgBorderText(ctx, source.logo, {
-      left: 950,
-      top: 20,
-      width: 53,
-      height: 43, 
+      left: canvas.width - 73 *m,
+      top: 20 *m,
+      width: 53 *m,
+      height: 43 *m, 
       color: JSCOLORS.black,
-      borderPadding: 10,
-      radius: 10
+      borderPadding: 10 *m,
+      radius: 10 *m,
     })
-    drawText(ctx, {left: 790, top: 0, width: 100, height: 75, text: 'Testing Draw\nby @odetocoders', fontSize: 25, textColor: JSCOLORS.orange});
+    drawText(ctx, {left: canvas.width - 230 *m, top: 0, width: 100 *m, height: 75 *m, text: 'Testing Draw\nby @odetocoders', fontSize: 25 *m, textColor: JSCOLORS.orange});
     
     // console.log(`СЦЕНА ${scene}: отрисовка`)
     
-    // СЦЕНА ВЫБОРА ЖЕЛАЕМОГО АНТУРАЖА  ------------------------------------------
     if (scene === GAMESCENES.selectWishEntourage) {
+    // СЦЕНА ВЫБОРА ЖЕЛАЕМОГО АНТУРАЖА  ------------------------------------------
       const returnEntourage = (index: number) => {
         return index === 0
           ? 'modern'
@@ -165,25 +150,25 @@ export class CanvasScenes {
           const mockResNumsRivals = 5;
           const mockResNamesRivals = ['Bibi', 'Macarena', 'MoveIt', 'Дед', 'Sherlock'];
 
-          cs.mainGamer.entourage = mockResWinEntourage;
-          switch (cs.mainGamer.entourage) {
+          ssd.mainGamer.entourage = mockResWinEntourage;
+          switch (ssd.mainGamer.entourage) {
             case 'england':
-              cs.mainGamer.nameEntourage = 'Викторианская Англия'
+              ssd.mainGamer.nameEntourage = 'Викторианская Англия'
               break;
             case 'modern':
-              cs.mainGamer.nameEntourage = 'Современность'
+              ssd.mainGamer.nameEntourage = 'Современность'
               break;
             case 'fantasy':
-              cs.mainGamer.nameEntourage = 'Фэнтези'
+              ssd.mainGamer.nameEntourage = 'Фэнтези'
               break;
             default:              
               break;
           }
-          cs.mainGamer.numsVoicesWinEntourage = mockRecNumsVoicesWinEntourage;
-          cs.mainGamer.numsRivals = mockResNumsRivals;
-          cs.mainGamer.namesRivals = mockResNamesRivals;
+          ssd.mainGamer.numsVoicesWinEntourage = mockRecNumsVoicesWinEntourage;
+          ssd.mainGamer.numsRivals = mockResNumsRivals;
+          ssd.mainGamer.namesRivals = mockResNamesRivals;
           for (let i = 0; i < 7; i++) { // разворачиваем 7 массивчиков для отрисовки и возможности заполнять блокнот в след сценах
-            cs.mainGamer.notes.push(new Array(cs.mainGamer.numsRivals*2))
+            ssd.mainGamer.notes.push(new Array(ssd.mainGamer.numsRivals*2))
           }
 
           const next = true; // можно продолжать
@@ -191,77 +176,78 @@ export class CanvasScenes {
           this.clickIndexRect = null;
           this.hoveredIndexRect = null;
           this.canvasRef.style.cursor = '';
-          if (next) cs.scenes.set?.(GAMESCENES.winEntourage) // ок, продолжаем
+          if (next) this.scenes.set?.(GAMESCENES.winEntourage) // ок, продолжаем
         }
       }
-      cs.scenes.active = scene;
-      this.sceneSelectWishEntourage(
+      this.scenes.active = scene;
+      this.scenes.selectWishEntourage.render(
         'Голосование за антураж',
         timerData
       )
     
-    // ПРОМЕЖУТОЧНАЯ СЦЕНА ПОКАЗА ВЫИГРАВШЕГО АНТУРАЖА  -------------------------
     } else if (scene === GAMESCENES.winEntourage) {
+    // ПРОМЕЖУТОЧНАЯ СЦЕНА ПОКАЗА ВЫИГРАВШЕГО АНТУРАЖА  -------------------------
 
-      this.sceneWinEntourage();
+      this.scenes.active = scene;
+      this.scenes.winEntourage.render();
 
       setTimeout(() => { // здесь хватает обычного таймаута
-        cs.scenes.set?.(GAMESCENES.selectProf)
+        this.scenes.set?.(GAMESCENES.selectProf)
       }, TIMESCENES.winEntourage * 1000
       )
     
-    // СЦЕНА ВЫБОРА ПРОФЕССИИ  ------------------------------------------
     } else if (scene === GAMESCENES.selectProf) {
+    // СЦЕНА ВЫБОРА ПРОФЕССИИ  ------------------------------------------
       
       const timerData = {
         nameId: scene,
         seconds: TIMESCENES.selectProf,
         cback: () => {  
             
-          const arrSelected = cs.mainGamer.selectedCards
+          const arrSelected = ssd.mainGamer.selectedCards
           if (this.clickIndexRect !== null) {
-            // const num = cs.cardsForSelect.prof[this.clickIndexRect];
+            // const num = ssd.cardsForSelect.prof[this.clickIndexRect];
             // console.log(mock[0]['england'].profession[num-1]);
-            arrSelected[0] = cs.cardsForSelect.prof[this.clickIndexRect];
-            arrSelected[2] = cs.cardsForSelect.prof[this.clickIndexRect === 0 ? 1 : 0]
+            arrSelected[0] = ssd.cardsForSelect.prof[this.clickIndexRect];
+            arrSelected[2] = ssd.cardsForSelect.prof[this.clickIndexRect === 0 ? 1 : 0]
           } else {
             const num = Math.random() < 0.5 ? 0 : 1;
-            arrSelected[0] = cs.cardsForSelect.prof[num];
-            arrSelected[2] = cs.cardsForSelect.prof[num === 1 ? 0 : 1];
+            arrSelected[0] = ssd.cardsForSelect.prof[num];
+            arrSelected[2] = ssd.cardsForSelect.prof[num === 1 ? 0 : 1];
           }
 
           // колбек по окончании сцены (таймера), здесь место для отправки выбора игрока и получения разрешения от сервера продолжать
           const next = true;
           // ...
           this.clickIndexRect = null; // очистка лога клика
-          if (next) cs.scenes.set?.(GAMESCENES.selectSecret) // можно продолжать? продолжаем
+          if (next) this.scenes.set?.(GAMESCENES.selectSecret) // можно продолжать? продолжаем
         }
       }
-      cs.scenes.active = scene;
-      this.sceneSelect(
+      this.scenes.active = scene;
+      this.scenes.selectCard.render(
         'Выберите профессию',
-        cs.cardsForSelect.prof,
-        source.cards[cs.mainGamer.entourage].profession,
+        ssd.cardsForSelect.prof,
+        source.cards[ssd.mainGamer.entourage].profession,
         timerData
       )
     
-    // СЦЕНА ВЫБОРА ТАЙНЫ   --------------------------------------------
     } else if (scene === GAMESCENES.selectSecret) {
+    // СЦЕНА ВЫБОРА ТАЙНЫ   --------------------------------------------
       
       const timerData = {
         nameId: scene,
         seconds: TIMESCENES.selectSecret,
         cback: () => {
-          const arrSelected = cs.mainGamer.selectedCards
+          const arrSelected = ssd.mainGamer.selectedCards
           if (this.clickIndexRect !== null) {
-            // const num = cs.cardsForSelect.prof[this.clickIndexRect];
+            // const num = ssd.cardsForSelect.prof[this.clickIndexRect];
             // console.log(mock[0]['england'].profession[num-1]);
-            arrSelected[1] = cs.cardsForSelect.secret[this.clickIndexRect];
-            arrSelected[3] = cs.cardsForSelect.secret[this.clickIndexRect === 0 ? 1 : 0]
+            arrSelected[1] = ssd.cardsForSelect.secret[this.clickIndexRect];
+            arrSelected[3] = ssd.cardsForSelect.secret[this.clickIndexRect === 0 ? 1 : 0]
           } else {
             const num = Math.random() < 0.5 ? 0 : 1;
-            arrSelected[1] = cs.cardsForSelect.secret[num];
-            arrSelected[3] = cs.cardsForSelect.secret[num === 1 ? 0 : 1];
+            arrSelected[1] = ssd.cardsForSelect.secret[num];
+            arrSelected[3] = ssd.cardsForSelect.secret[num === 1 ? 0 : 1];
           }
           // колбек по окончании сцены (таймера), здесь место для отправки выбора игрока, получения данных выбранных вопросов для следующей сцены и разрешения от сервера продолжать
           const next = true;
@@ -269,51 +255,51 @@ export class CanvasScenes {
 
           this.clickIndexRect = null;
           this.hoveredIndexRect = null; // очистка лога наведения
-          cs.rectsForScene = [];
+          ssd.rectsForScene = [];
           this.canvasRef.style.cursor = '';
-          if (next) cs.scenes.set?.(GAMESCENES.fiveClose) // можно продолжать? продолжаем
+          if (next) this.scenes.set?.(GAMESCENES.fiveClose) // можно продолжать? продолжаем
         }
       }
-      cs.scenes.active = scene;
-      this.sceneSelect(
+      this.scenes.active = scene;
+      this.scenes.selectCard.render(
         'Выберите тайну',
-        cs.cardsForSelect.secret,
-        source.cards[cs.mainGamer.entourage].secrets,
+        ssd.cardsForSelect.secret,
+        source.cards[ssd.mainGamer.entourage].secrets,
         timerData
       )
 
-    // ПРОМЕЖУТОЧНАЯ СЦЕНА ПЯТИ ВОПРОСОВ (колбеки здесь не нужны) (запускается 10 раз за игру - каждый вопрос закрыт/открыт)  --------------------
     } else if (scene === GAMESCENES.fiveClose || scene === GAMESCENES.fiveOpen) {
+    // ПРОМЕЖУТОЧНАЯ СЦЕНА ПЯТИ ВОПРОСОВ (колбеки здесь не нужны) (запускается 10 раз за игру - каждый вопрос закрыт/открыт)  --------------------
       
-      const counter = cs.counterFiveQuestions;
+      const counter = ssd.counterFiveQuestions;
 
-      this.sceneFiveQuestions();
+      this.scenes.fiveQuestions.render();
 
-      if (cs.scenes.active !== scene) {
-        cs.scenes.active = scene;
+      if (this.scenes.active !== scene) {
+        this.scenes.active = scene;
         if (counter.open) {
           counter.openFive++
         };
         counter.open = !counter.open
         setTimeout(() => { // здесь хватает обычного таймаута
-          if (cs.dataFiveQuestions[counter.openFive]) {
-            cs.dataFiveQuestions[counter.openFive].open = counter.open;
+          if (ssd.dataFiveQuestions[counter.openFive]) {
+            ssd.dataFiveQuestions[counter.openFive].open = counter.open;
           }
-          cs.scenes.set?.(scene === GAMESCENES.fiveClose ? GAMESCENES.fiveOpen : GAMESCENES.myAnswer)
+          this.scenes.set?.(scene === GAMESCENES.fiveClose ? GAMESCENES.fiveOpen : GAMESCENES.myAnswer)
         }, scene === GAMESCENES.fiveClose 
           ? TIMESCENES.fiveClose * 1000
           : TIMESCENES.fiveOpen * 1000
         )
       }
 
-    // СЦЕНА ОТВЕТА НА КАЖДЫЙ ОТДЕЛЬНЫЙ ВОПРОС ИЗ ПЯТИ (запускается пять раз за игру) ------------------
     } else if (scene === GAMESCENES.myAnswer) {
+    // СЦЕНА ОТВЕТА НА КАЖДЫЙ ОТДЕЛЬНЫЙ ВОПРОС ИЗ ПЯТИ (запускается пять раз за игру) ------------------
 
       const timerData = {
         nameId: scene,
         seconds: TIMESCENES.myAnswer,
         cback: () => {
-          console.log(this.objText[`${NAMESCENES.myAnswer}${cs.counterFiveQuestions.openFive-1}`]?.text)
+          console.log(ssd.objText[`${NAMESCENES.myAnswer}${ssd.counterFiveQuestions.openFive-1}`]?.text)
           // колбек по окончании сцены, здесь место для отправки ответа игрока и получения ответов игроков с сервера и разрешения продолжать
           const mockAnswersOfGamers = {
             'Bibi': 'Живу в лесу, люблю есть мухоморы, иногда встречаю лакомые поганки, иногда приходится быть на диете и пить одну только воду',
@@ -322,18 +308,19 @@ export class CanvasScenes {
             'Дед': 'Я Завулон, Маг и Великий Воин в одном лице, Вы никогда не догадаетесь, откуда я пришел и куда иду',
             'Sherlock': 'Вы думаете, у меня не бывает неудач? Еще как'
           }
-          cs.answersOfGamers = mockAnswersOfGamers;
+          ssd.answersOfGamers = mockAnswersOfGamers;
           const next = true;
           // ...
           this.clickIndexRect = null;
           this.hoveredIndexRect = null;
-          if (next) cs.scenes.set?.(GAMESCENES.gamersAnswers) // можно продолжать, все получили? продолжаем
+          if (next) this.scenes.set?.(GAMESCENES.gamersAnswers) // можно продолжать, все получили? продолжаем
         }
       }
-      this.sceneWriteAnswer(NAMESCENES.myAnswer, timerData);
+      this.scenes.active = scene;
+      this.scenes.writeAnswer.render(NAMESCENES.myAnswer, timerData);
 
-    // СЦЕНА ОБДУМЫВАНИЯ ОТВЕТОВ ИГРОКОВ НА ВОПРОС И ЗАПОЛНЕНИЯ БЛОКНОТА (запускается пять раз за игру) -----------------      
     } else if (scene === GAMESCENES.gamersAnswers) {
+    // СЦЕНА ОБДУМЫВАНИЯ ОТВЕТОВ ИГРОКОВ НА ВОПРОС И ЗАПОЛНЕНИЯ БЛОКНОТА (запускается пять раз за игру) -----------------      
 
       const timerData = {
         nameId: scene,
@@ -344,29 +331,30 @@ export class CanvasScenes {
           // ...
           
           if (next) { // можно продолжать? все получили? продолжаем
-            if (cs.counterFiveQuestions.openFive < 5) {
+            if (ssd.counterFiveQuestions.openFive < 5) {
               // очистка таймеров для нового круга вопросов
-              delete cs.timers[GAMESCENES.myAnswer];
-              delete cs.timers[GAMESCENES.gamersAnswers];
+              delete ssd.timers[GAMESCENES.myAnswer];
+              delete ssd.timers[GAMESCENES.gamersAnswers];
               this.clickIndexRect = null;
               this.hoveredIndexRect = null;
               this.canvasRef.style.cursor = '';
-              cs.rectsForScene = [];
+              ssd.rectsForScene = [];
               
-              cs.scenes.set?.(GAMESCENES.fiveClose)
+              this.scenes.set?.(GAMESCENES.fiveClose)
             } else {
               this.clickIndexRect = null;
               this.hoveredIndexRect = null;
 
-              cs.scenes.set?.(GAMESCENES.finalAnswer)
+              this.scenes.set?.(GAMESCENES.finalAnswer)
             }
           }
         }
       }
-      this.sceneAnswersAndThink(NAMESCENES.gamersAnswers, timerData)
+      this.scenes.active = scene;
+      this.scenes.answersAndThink.render(NAMESCENES.gamersAnswers, timerData)
 
-    // ФИНАЛЬНАЯ СЦЕНА ОБДУМЫВАНИЯ И ОКОНЧАТЕЛЬНОГО ОТВЕТА -----------------      
     } else if (scene === GAMESCENES.finalAnswer || scene === GAMESCENES.finalResult) {
+    // ФИНАЛЬНАЯ СЦЕНА ОБДУМЫВАНИЯ И ОКОНЧАТЕЛЬНОГО ОТВЕТА -----------------      
       
       const timerData = {
         nameId: scene,
@@ -375,20 +363,21 @@ export class CanvasScenes {
           : TIMESCENES.finalResult,
         cback: () => {
           if (scene === GAMESCENES.finalAnswer) {// колбек по окончании сцены, здесь место для отправки итогового ответа игрока и получение итоговых результатов и true для продолжения       
+            console.log('итоговые массив ответов ', ssd.mainGamer.notes[5])
             const result = [true, false, false, true, true, false, false, false, true, true]
             result.forEach((check, index) => {
-              cs.mainGamer.notes[6][index] = check ? '✔' : '✖'
+              ssd.mainGamer.notes[6][index] = check ? '✔' : '✖'
             })
             const next = true;
             // ...
             if (next) { // можно продолжать? все получили? продолжаем переход
-              cs.scenes.set?.(GAMESCENES.finalResult)
+              this.scenes.set?.(GAMESCENES.finalResult)
             }
           } else { // иначе это финальный экран с результатами, поэтому подчищаем игру за собой и делаем перерендер компонента с модальным окном с результатами
-            // cs.timers = {};
-            cs.counterFiveQuestions.openFive = 0;
-            cs.counterFiveQuestions.open = false;
-            cs.dataFiveQuestions.forEach(card => {
+            // ssd.timers = {};
+            ssd.counterFiveQuestions.openFive = 0;
+            ssd.counterFiveQuestions.open = false;
+            ssd.dataFiveQuestions.forEach(card => {
               card.open = false;
             })
             
@@ -401,888 +390,16 @@ export class CanvasScenes {
       const nameScene = scene === GAMESCENES.finalAnswer
         ? NAMESCENES.finalAnswer
         : NAMESCENES.finalResult
-      this.sceneFinalThink(nameScene, timerData)
+      this.scenes.finalThink.render(nameScene, timerData)
     }
 
     return next;
   }
 
-  sceneSelectWishEntourage(
-    text: string,
-    timerData: TTimerData
-  ) {
-    const ctx = this.canvasCtx;
-    const cs = CanvasScenes;
-    cs.rectsForScene = hoverRects[NAMESCENES.selectWishEntourage];
-
-    // запускаем таймер
-    this.helperDrawTimer(ctx, {
-      nameTimer: timerData.nameId,
-      numsSeconds: timerData.seconds,
-      left: 480,
-      top: 324,
-      width: 65,
-      height: 35,
-      fontSize: 32,
-      textColor: JSCOLORS.white,
-      cback: timerData.cback
-    })
-    
-    drawText(ctx, {
-      left: 450, top: 28, width: 124, height: 32, 
-      text: text, 
-      fontSize: 25, 
-      textColor: JSCOLORS.white});
-
-    if (this.hoveredIndexRect !== null) {      
-      this.canvasRef.style.cursor = 'pointer';
-    } else {
-      this.canvasRef.style.cursor = '';
-    }
-    
-    cs.mainGamer.entourage = this.clickIndexRect === 0
-      ? 'modern'
-      : this.clickIndexRect === 1
-       ? 'england'
-       : 'fantasy';
-
-    const arrEntourage: TMainGamer['entourage'][] = [
-      'modern', 'england', 'fantasy'
-    ]
-    arrEntourage.forEach((
-      entourage,
-      index
-    ) => {
-      const {
-        left, top, width, height
-      } = hoverRects[NAMESCENES.selectWishEntourage][index]
-
-      drawImgBorderText(ctx, source.memory[entourage], {
-        left: left + 5,
-        top: top + 5,
-        width: width - 10,
-        height: height - 10,
-        color: JSCOLORS.black,
-        borderPadding: 5,
-        borderColor: this.clickIndexRect === index
-        ? 'rgb(100,255,100)'
-        : this.helperBorderColor(entourage),
-        shadowOn: 
-          this.hoveredIndexRect === index
-          || this.clickIndexRect === index,
-        radius: 5
-      })
-    })
-  }
-
-  sceneWinEntourage() {
-    const ctx = this.canvasCtx;
-    const data = CanvasScenes.mainGamer;
-        
-    const entourage = data.entourage
-    drawText(ctx, {
-      left: 450, top: 28, width: 124, height: 32, 
-      text: `${data.numsVoicesWinEntourage} из ${data.numsRivals+1} проголосовали за антураж "${data.nameEntourage}"!`, 
-      fontSize: 25, 
-      textColor: JSCOLORS.white});
-    drawImgBorderText(ctx, source.memory[entourage], {
-      left: 150, top: 132, width: 715, height: 364,
-      color: JSCOLORS.black,
-      borderPadding: 10,
-      borderColor: this.helperBorderColor(entourage),
-      radius: 10,
-      shadowOn: true
-    })
-  }
-
-  sceneSelect(
-    text: string,
-    indexForSelect: number[],
-    profOrSecrets: string[],
-    timerData: TTimerData
-  ) {
-    const ctx = this.canvasCtx;
-    const cs = CanvasScenes;
-    cs.rectsForScene = hoverRects[NAMESCENES.select];
-
-    // запускаем таймер
-    this.helperDrawTimer(ctx, {
-      nameTimer: timerData.nameId,
-      numsSeconds: timerData.seconds,
-      left: 477,
-      top: 304,
-      width: 70,
-      height: 35,
-      fontSize: 32,
-      textColor: JSCOLORS.white,
-      cback: timerData.cback
-    })
-    
-    drawText(ctx, {
-      left: 450, top: 28, width: 124, height: 32, 
-      text: text, 
-      fontSize: 25, 
-      textColor: JSCOLORS.white});
-
-    if (this.hoveredIndexRect !== null) {      
-      this.canvasRef.style.cursor = 'pointer';
-    } else {
-      this.canvasRef.style.cursor = '';
-    }
-
-    for (const index of [0,1]) {
-      const {
-        left, top, width, height
-      } = hoverRects[NAMESCENES.select][index]
-      drawImgBorderText(ctx, profOrSecrets[indexForSelect[index]], {
-        left: left + 5,
-        top: top + 5,
-        width: width - 10,
-        height: height - 10,
-        color: this.clickIndexRect === index
-          ? JSCOLORS.green
-          : JSCOLORS.black,
-        borderPadding: 5,
-        borderColor: this.helperBorderColor(cs.mainGamer.entourage),
-        shadowOn: 
-          this.hoveredIndexRect === index
-          || this.clickIndexRect === index,
-        radius: 5
-      })
-    }
-  }
-
-  private static counterFiveQuestions = {
-    openFive: 0,
-    open: false
-  }  
-  private static arrCardBack = [
-    {left: 32, top: 110, width: 300, height: 197, src: source.cards.back[0]},
-    {left: 360, top: 110, width: 300, height: 197, src: source.cards.back[1]},
-    {left: 688, top: 110, width: 300, height: 197, src: source.cards.back[0]},
-    {left: 200, top: 340, width: 300, height: 197, src: source.cards.back[1]},
-    {left: 533, top: 340, width: 300, height: 197, src: source.cards.back[1]},
-  ]
-
-  sceneFiveQuestions() {
-    const ctx = this.canvasCtx;
-    const cs = CanvasScenes;
-    const arrQuest = cs.dataFiveQuestions;
-
-    CanvasScenes.arrCardBack.forEach((elem, index) => {
-      drawImgBorderText(
-        ctx, 
-        arrQuest[index].open
-          ? source[`q${arrQuest[index].type}`] 
-          : elem.src, 
-        {
-        left: elem.left,
-        top: elem.top,
-        width: elem.width,
-        height: elem.height,
-        color: JSCOLORS.black,
-        borderPadding: 1,
-        borderColor: this.helperBorderColor(arrQuest[index].type),
-        radius: 5
-        }, {
-        text: arrQuest[index].open
-          ? questions[ arrQuest[index].type ][ arrQuest[index].index ]
-          : ''
-      })
-    })    
-  }
-
-  sceneWriteAnswer(
-    nameScene: string,
-    timerData: TTimerData
-  ){
-    const ctx = this.canvasCtx
-    const cs = CanvasScenes;
-    const cardQuestion = cs.dataFiveQuestions[cs.counterFiveQuestions.openFive - 1];
-
-    this.helperDrawTimer(ctx, {
-      nameTimer: timerData.nameId,
-      numsSeconds: timerData.seconds,
-      left: 477,
-      top: 472,
-      width: 70,
-      height: 25,
-      fontSize: 25,
-      textColor: JSCOLORS.white,
-      cback: timerData.cback
-    })
-
-    drawImgBorderText(ctx, source[`q${cardQuestion.type}`], {
-      left: 222,
-      top: 85,
-      width: 580,
-      height: 362,
-      color: JSCOLORS.black,
-      borderPadding: 20,
-      borderColor: this.helperBorderColor(cardQuestion.type),
-      radius: 30
-    },{
-      text: questions[ cardQuestion.type ][ cardQuestion.index ]
-    })
-
-    // логика наведения и кликов на инпуте -------------------------
-    const numAnswer = cs.counterFiveQuestions.openFive-1;
-    
-    if (hoverRects[`${nameScene}${numAnswer}`] === undefined) {
-      const {
-        left, top, width, height
-      } = hoverRects[NAMESCENES.myAnswer][0];
-      
-      hoverRects[`${nameScene}${numAnswer}`] = [{
-        key: `${nameScene}${numAnswer}`,
-        left: left,
-        top: top,
-        width: width,
-        height: height,
-        fontSize: 35 // этот размер шрифта не используется, но влияет на расчет количества строк и символов в строке
-      }]
-    }
-
-    if (this.hoveredIndexRect !== null) {      
-      this.canvasRef.style.cursor = 'text';
-    } else {
-      this.canvasRef.style.cursor = '';
-    }
-    
-    cs.rectsForScene = hoverRects[`${nameScene}${numAnswer}`];
-
-    drawRoundedRect(
-      ctx, {
-        ...cs.rectsForScene[0],
-        radius: 10,
-        color: JSCOLORS.manyGrey,
-        borderColor: this.helperBorderColor(cardQuestion.type)
-      }, 
-      this.hoveredIndexRect === 0
-    );
-    if (this.clickIndexRect === 0) {
-      drawRoundedRect(
-        ctx, {
-          ...cs.rectsForScene[0],
-          radius: 10,
-          color: JSCOLORS.green_05
-        }
-      );
-    }
-    if (this.objText[`${nameScene}${numAnswer}`]) {
-      drawText(
-        ctx, {
-          ...this.objText[`${nameScene}${numAnswer}`], 
-          fontSize: 30
-        }
-      );
-    } // -------------------------------------
-  }
-  
-  private static arrPlaceUsersAnswer = {
-    topName: 70, topOffset: 110,
-    left: 52, top: 100, width: 370, height: 72
-  }
-  private static objCoordsNotes = {
-    topName: 430,
-    left: 473, top: 475, width: 50.4, height: 19.5
-  }
-
-  sceneAnswersAndThink(
-    nameScene: string,
-    timerData: TTimerData
-  ){
-    const ctx = this.canvasCtx;
-    const cs = CanvasScenes;
-    const userCoords = cs.arrPlaceUsersAnswer; 
-    // в usersAndAnswer сюда c предыдущей сцены должен прийти ответ с объектом в формате {имя Соперника: егоОтвет}
-    const usersAndAnswer: {[key in string]: string} = cs.answersOfGamers;
-    const myAnswers = cs.mainGamer.notes;
-    const type = cs.mainGamer.entourage;
-
-    // запускаем таймер
-    this.helperDrawTimer(ctx, {
-      nameTimer: timerData.nameId,
-      numsSeconds: timerData.seconds,
-      left: 487,
-      top: 45,
-      width: 85,
-      height: 35,
-      fontSize: 25,
-      textColor: JSCOLORS.white,
-      cback: timerData.cback
-    })
-
-    // отрисовка памятки
-    drawImgBorderText(ctx, source.memory['england'], {
-      left: 460,
-      top: 105,
-      width: 530,
-      height: 265,
-      color: JSCOLORS.null,
-      borderPadding: 5,
-      borderColor: this.helperBorderColor(type),
-      radius: 5
-    })
-
-    // КОЛБЕК для отрисовки текста поверх блокнота--------------------------------
-    const textTopNotebook = () => {
-      Object.keys(usersAndAnswer).forEach((nameGamer, index) => {
-        // имяИгроков на блокноте
-        drawText(ctx, {
-          left: cs.objCoordsNotes.left + (2*cs.objCoordsNotes.width*index), 
-          top: cs.objCoordsNotes.topName,
-          width: 2*cs.objCoordsNotes.width,
-          fontSize: 16,
-          textColor: JSCOLORS.black,
-          text: nameGamer
-        })
-      })
-
-      // логика наведения и кликов
-      // подготовка массива с координатами и размерами полей 'инпутов' (создается один раз на игру)
-      if (hoverRects[nameScene][1] === undefined) { // если только первый запуск (есть только элемент [0] с данными для разворачивания)
-        const {
-          left, top, width, height
-        } = hoverRects[nameScene][0] // достаем начальные данные
-        hoverRects[nameScene] = []; // подготавливаем его (очищаем)
-        const lengthLine = cs.mainGamer.notes[0].length
-        for (let indexLine = 0; indexLine < 6; indexLine++) { // разворачиваем данные (запушиваем массив 'инпутов')
-          for (let i = 0; i < lengthLine; i++) {
-            hoverRects[nameScene].push({
-              key: `notebook${i + indexLine*lengthLine}`,
-              left: left + width*i,
-              top: top + height*indexLine,
-              width: width,
-              height: indexLine === 5 ? height*2 : height,
-              validate: /^[1-9]\d?$|Backspace$/ // можно только 2 цифры и удалять
-            })
-          }
-        }
-      }
-      // можно и без ифа - так как внутри просто передача ссылки на массив (так себе оптимизация)
-      if (cs.rectsForScene[0].left !== hoverRects[nameScene][0].left) {
-        cs.rectsForScene = hoverRects[nameScene]
-      }
-      // наведение и клики на 'инпуты' в блокноте
-      this.canvasRef.style.cursor = '';
-      // если клик
-      if (this.clickIndexRect !== null) {
-        let {left, top, width, height} = cs.rectsForScene[this.clickIndexRect];
-        let radius = 2;
-        if (this.clickIndexRect >= cs.rectsForScene.length/6*5) {
-          height /= 2,
-          left += (width/2 - height/2),
-          width = height,
-          top += 7,
-          radius = 10
-        }
-        drawRoundedRect(ctx, {
-          left: left,
-          top: top,
-          width: width,
-          height: height,
-          radius: radius,
-          color: JSCOLORS.green_30,
-          borderColor: JSCOLORS.green
-          }, true
-        )
-        if (
-          this.objText[`notebook${this.clickIndexRect}`]?.text === undefined
-          && this.clickIndexRect < cs.rectsForScene.length/6*5
-        ) {
-          drawText(ctx, {
-            left: left,
-            top: top,
-            width: width,
-            height: height,
-            text: 'число',
-            fontSize: 12,
-            textColor: JSCOLORS.black_40
-          })
-        }
-      }
-      // если наведение
-      if (this.hoveredIndexRect !== null) {
-        this.canvasRef.style.cursor = 'text';
-        if (this.hoveredIndexRect !== this.clickIndexRect) {
-          let {left, top, width, height} = cs.rectsForScene[this.hoveredIndexRect];
-          let radius = 2;
-          if (this.hoveredIndexRect >= cs.rectsForScene.length/6*5) {
-            height /= 2,
-            left += (width/2 - height/2),
-            width = height,
-            top += 7,
-            radius = 10
-          }
-          drawRoundedRect(ctx, {
-            left: left,
-            top: top,
-            width: width,
-            height: height,
-            radius: radius,
-            color: JSCOLORS.orange_20,
-            borderColor: JSCOLORS.black
-            }, true
-          )
-        }
-      }
-
-      // вставка набранного текста в объект
-      if (this.clickIndexRect !== null) {
-        const obj = this.objText[`notebook${this.clickIndexRect}`];
-        const indexLine = Math.floor( this.clickIndexRect / myAnswers[0].length );
-        const index = this.clickIndexRect % myAnswers[0].length;
-        myAnswers[indexLine][index] = obj?.text
-      }
-
-      // ответы игрока на блокноте
-      myAnswers.forEach((line, indexLine) => {
-        line.forEach((answer, index) => {
-          if (!answer) return;
-          const odd = index % 2 !== 0 ? true : false;          
-          const color = 
-            answer === '✔'
-            ? JSCOLORS.green
-            : answer === '✖' 
-              ? JSCOLORS.red
-              : JSCOLORS.black;
-          drawText(ctx, {
-            left: cs.objCoordsNotes.left
-              + (cs.objCoordsNotes.width*index)
-              + (indexLine === 6
-                ? odd
-                  ? -13 
-                  : 13
-                : 0),
-            top: cs.objCoordsNotes.top
-              + (cs.objCoordsNotes.height*indexLine)
-              + (indexLine === 5 ? 5 : 0) 
-              + (indexLine === 6 ? -1 : 0),
-            width: cs.objCoordsNotes.width,
-            fontSize: 16,
-            textColor: color,
-            text: answer.toString()
-          })
-        })
-      })
-    } //------------------------------------------------------------
-
-    // отрисовка блокнота
-    drawImgBorderText(ctx, source.notebookSmall2, {
-      left: 460,
-      top: 400,
-      width: 530,
-      height: 205,
-      color: JSCOLORS.null,
-      borderPadding: 5,
-      borderColor: this.helperBorderColor(type),
-      radius: 5,
-      cback: textTopNotebook // колбек для отрисовки текста поверх
-    })
-
-    Object.keys(usersAndAnswer).forEach((nameGamer, index) => {
-      // область сообщения игроков
-      drawRoundedRect(ctx, {
-        left: userCoords.left - 20,
-        top: userCoords.top + userCoords.topOffset*index,
-        width: userCoords.width + 40,
-        height: userCoords.height,
-        borderColor: this.helperBorderColor(type),
-        radius: 10
-      })
-      // текст сообщения игроков
-      drawText(ctx, {
-        left: userCoords.left, 
-        top: userCoords.top + userCoords.topOffset*index, 
-        width: userCoords.width, 
-        height: userCoords.height,
-        fontSize: 15,
-        text: this.transformStrByWidth(
-          ctx, 
-          usersAndAnswer[nameGamer], 
-          userCoords.width,
-          15
-        )
-      })
-      // имяИгроков вверху сообщения
-      drawText(ctx, {
-        left: userCoords.left, 
-        top: userCoords.topName + userCoords.topOffset*index,
-        // width: user.width,
-        height: userCoords.top - userCoords.topName,
-        fontSize: 20,
-        text: nameGamer
-      })
-    })
-  }
-
-  private static objFinalCoordsNotes = {
-    topName: 135,
-    left: 48, top: 181, width: 52.8, height: 20.3,
-    topProfAndSecrets: 331, offsetProfAndSecrets: 135
-  }
-  private static objFinalCoordsCards = {
-    offset: 144,
-    left: 32, top: 410, width: 129, height: 196
-  }
-
-  sceneFinalThink(
-    nameScene: string,
-    timerData: TTimerData
-  ){
-    const ctx = this.canvasCtx;
-    const cs = CanvasScenes;
-    // на самом деле из usersAndAnswer в сцене нужны только имена (объект из предыдущих сцен в формате {имя Соперника: егоОтвет})
-    const usersAndAnswer: {[key in string]: string} = cs.answersOfGamers;
-    const myAnswers = cs.mainGamer.notes;
-    const type = cs.mainGamer.entourage;
-
-    // запускаем таймер
-    this.helperDrawTimer(ctx, {
-      nameTimer: timerData.nameId,
-      numsSeconds: timerData.seconds, // нужное количество секунд
-      left: 487,
-      top: 45,
-      width: 70,
-      height: 35,
-      fontSize: 25,
-      textColor: JSCOLORS.white,
-      cback: timerData.cback
-    })
-    
-    // КОЛБЕК для отрисовки текста поверх блокнота -------------------------------------
-    const textTopNotebook = () => {
-      Object.keys(usersAndAnswer).forEach((nameGamer, index) => {      
-        // имяИгроков на блокноте
-        drawText(ctx, {
-          left: cs.objFinalCoordsNotes.left + (2*cs.objFinalCoordsNotes.width*index), 
-          top: cs.objFinalCoordsNotes.topName,
-          width: 2*cs.objFinalCoordsNotes.width,
-          fontSize: 16,
-          textColor: JSCOLORS.black,
-          text: nameGamer
-        })
-      })      
-      
-      this.canvasRef.style.cursor = '';
-      if (nameScene === NAMESCENES.finalAnswer) {
-        // логика наведения и кликов
-        // подготовка массива с координатами и размерами полей 'инпутов' (создается один раз на игру)
-        if (hoverRects[nameScene][1] === undefined) { // если только первый запуск (есть только элемент [0] с данными для разворачивания)
-          const {
-            left, top, width, height
-          } = hoverRects[nameScene][0] // достаем начальные данные
-          hoverRects[nameScene] = []; // подготавливаем его (очищаем)
-          const lengthLine = cs.mainGamer.notes[0].length
-          for (let indexLine = 0; indexLine < 6; indexLine++) { // разворачиваем данные (запушиваем массив 'инпутов')
-            for (let i = 0; i < lengthLine; i++) {
-              hoverRects[nameScene].push({
-                key: `notebook${i + indexLine*lengthLine}`,
-                left: left + width*i,
-                top: top + height*indexLine,
-                width: width,
-                height: indexLine === 5 ? height*2 : height,
-                validate: /^[1-9]\d?$|Backspace$/ // можно только 2 цифры и удалять
-              })
-            }
-          }
-        }
-        // можно и без ифа - так как внутри просто передача ссылки на массив (так себе оптимизация)
-        if (!cs.rectsForScene[0] || cs.rectsForScene[0].left !== hoverRects[nameScene][0].left) {
-          cs.rectsForScene = hoverRects[nameScene]
-        }
-        // наведение и клики на 'инпуты' в блокноте
-        // если клик
-        if (this.clickIndexRect !== null) {
-          let {left, top, width, height} = cs.rectsForScene[this.clickIndexRect];
-          let radius = 2;
-          if (this.clickIndexRect >= cs.rectsForScene.length/6*5) {
-            height /= 2,
-            left += (width/2 - height/2),
-            width = height,
-            top += 7,
-            radius = 10
-          }
-          drawRoundedRect(ctx, {
-            left: left,
-            top: top,
-            width: width,
-            height: height,
-            radius: radius,
-            color: JSCOLORS.green_30,
-            borderColor: JSCOLORS.green
-            }, true
-          )
-          if (
-            this.objText[`notebook${this.clickIndexRect}`]?.text === undefined
-            && this.clickIndexRect < cs.rectsForScene.length/6*5
-          ) {
-            drawText(ctx, {
-              left: left,
-              top: top,
-              width: width,
-              height: height,
-              text: 'число',
-              fontSize: 12,
-              textColor: JSCOLORS.black_40
-            })
-          }
-        }
-        // если наведение
-        if (this.hoveredIndexRect !== null) {
-          this.canvasRef.style.cursor = 'text';
-          if (this.hoveredIndexRect !== this.clickIndexRect) {
-            let {
-              left, top, width, height
-            } = cs.rectsForScene[this.hoveredIndexRect];
-            let radius = 2;
-            if (this.hoveredIndexRect >= cs.rectsForScene.length/6*5) {
-              height /= 2,
-              left += (width/2 - height/2),
-              width = height,
-              top += 7,
-              radius = 10
-            }
-            drawRoundedRect(ctx, {
-              left: left,
-              top: top,
-              width: width,
-              height: height,
-              radius: radius,
-              color: JSCOLORS.orange_20,
-              borderColor: JSCOLORS.black
-              }, true
-            )
-          }
-        }
-        // вставка набранного текста в объект
-        if (this.clickIndexRect !== null) {
-          const obj = this.objText[`notebook${this.clickIndexRect}`];
-          const indexLine = Math.floor( this.clickIndexRect / myAnswers[0].length );
-          const index = this.clickIndexRect % myAnswers[0].length;
-          myAnswers[indexLine][index] = obj?.text
-        }
-      } else {
-        cs.rectsForScene = [];
-      }
-
-      // ответы игрока на блокноте
-      myAnswers.forEach((line, indexLine) => {
-        line.forEach((answer, index) => {
-          if (!answer) return;
-          const odd = index % 2 !== 0 ? true : false;          
-          const color = 
-            answer === '✔'
-            ? JSCOLORS.green
-            : answer === '✖' 
-              ? JSCOLORS.red
-              : JSCOLORS.black;
-          drawText(ctx, {
-            left: cs.objFinalCoordsNotes.left 
-              + (cs.objFinalCoordsNotes.width*index) 
-              + (indexLine === 6
-                ? odd
-                  ? -13 
-                  : 13
-                : 0),
-            top: cs.objFinalCoordsNotes.top
-              + (cs.objFinalCoordsNotes.height*indexLine)
-              + (indexLine === 5 ? 4 : 0)
-              + (indexLine === 6 ? -3 : 0),
-            width: cs.objFinalCoordsNotes.width,
-            fontSize: 16,
-            textColor: color,
-            text: answer.toString()
-          })
-        })
-      })
-      // выбранные и исключенные профессии и секреты игрока на блокноте
-      cs.mainGamer.selectedCards.forEach((card, index) => {
-        const typeCards = index % 2 === 0 ? 'profession' : 'secrets';
-        const color = index < 2 ? JSCOLORS.green : JSCOLORS.red;
-        drawText(ctx, {
-          left: cs.objFinalCoordsNotes.left + cs.objFinalCoordsNotes.offsetProfAndSecrets*index,
-          top: cs.objFinalCoordsNotes.topProfAndSecrets,
-          width: 124,
-          height: 50,
-          fontSize: 15,
-          textColor: color,
-          text: cards[type][typeCards][card]
-        })
-      })
-    } // -----------------------------------------------------------------------
-
-    drawImgBorderText(ctx, source.notebookSmall, {
-      left: 34,
-      top: 105,
-      width: 556,
-      height: 293,
-      color: JSCOLORS.null,
-      borderPadding: 4,
-      borderColor: this.helperBorderColor(type),
-      radius: 5,
-      cback: textTopNotebook // отдаем сюда колбек для отрисовки поверх блокнота
-    })
-
-    drawImgBorderText(ctx, source.memory[`${type}H`], {
-      left: 610,
-      top: 105,
-      width: 380,
-      height: 500,
-      color: JSCOLORS.null,
-      borderPadding: 5,
-      borderColor: this.helperBorderColor(type),
-      radius: 5
-    })
-
-    // отрисовка карт
-    cs.mainGamer.selectedCards.forEach((card, index) => {
-      const typeCards = index % 2 === 0 ? 'profession' : 'secrets';
-      const color = index < 2 ? JSCOLORS.green : JSCOLORS.red;
-      drawImgBorderText(ctx, source.cards[type][typeCards][card], {
-        left: cs.objFinalCoordsCards.left + cs.objFinalCoordsCards.offset*index,
-        top: cs.objFinalCoordsCards.top,
-        width: cs.objFinalCoordsCards.width,
-        height: cs.objFinalCoordsCards.height,
-        color: color,
-        borderPadding: 4,
-        radius: 5
-      })
-    })
-  }
-
-  helperBorderColor(what: string){
-    const color = what === JSCOLORS.black ? JSCOLORS.white
-      : what === 'fantasy' ? JSCOLORS.yellow
-      : what === 'modern' ? JSCOLORS.blue
-      : JSCOLORS.orange;
-    return color;
-  }
-
-  public static timers: {
-    [key in string]: {
-      timer: NodeJS.Timer | null, 
-      counter: number, 
-      checkEnd: boolean,
-      checkCback: boolean
-    }
-  } = {};
-
-  helperDrawTimer(ctx: CanvasRenderingContext2D, props: {
-    nameTimer: string | number,
-    numsSeconds: number,
-    left: number, 
-    top: number, 
-    width: number, 
-    height: number,
-    fontSize?: number, 
-    textColor?: string,
-    countFloatNumbers?: 0 | 1 | 2,
-    cback?: () => void,
-  }) {
-    const {nameTimer, numsSeconds, left, top, width, height, cback} = props;
-    const fontSize = props.fontSize ?? 20;
-    const textColor = props.textColor ?? JSCOLORS.white;
-    const fnums = props.countFloatNumbers ?? 0;
-    const decr = 1 / (10 ** fnums);
-    const fps = 1000 / (10 ** fnums);
-
-    if (!CanvasScenes.timers[nameTimer]) {
-      CanvasScenes.timers[nameTimer] = {
-        timer: null, // сам таймер, пока инициализируем в null
-        counter: numsSeconds,  // число секунд таймера
-        checkEnd: false, // проверка конца таймера
-        checkCback: false // проверка единственного вызова колбека
-      };
-      console.log(`инициализирован таймер ${nameTimer}`, CanvasScenes.timers)
-    }
-
-
-    const timerId = CanvasScenes.timers[nameTimer]; // делаем короткую ссылку на таймер
-
-    if (timerId.timer === null && !timerId.checkEnd) { // если таймер не создан и он не закончился, то создаем новый таймер
-      timerId.timer = setInterval(() => {
-        ctx.fillStyle = JSCOLORS.black; // TODO сделать возможность прямоугольников с таймером
-        ctx.clearRect(left, top, width, height);
-        timerId.counter-=decr;
-        drawText(ctx, {
-          left: left + 4, 
-          top: top + fontSize, 
-          text: `${timerId.counter <= 0
-              ? Math.round(timerId.counter / 60)
-              : Math.floor(timerId.counter / 60)
-            }:${(timerId.counter % 60).toFixed(fnums)}`,
-          fontSize: fontSize,
-
-          textColor: textColor
-        })
-        if (timerId.counter <= 0) {
-          if (timerId.timer !== null) {
-            clearInterval(timerId.timer);
-          }
-          timerId.checkEnd = true;
-          //delete CanvasScenes.timers[nameTimer]
-        }
-        if (timerId.counter <= 0 && cback && !timerId.checkCback) {
-          cback();
-          timerId.checkCback = true;
-        }
-        // console.log(timerId.counter)
-      }, fps);
-    } else {
-      ctx.fillStyle = JSCOLORS.black;
-      ctx.clearRect(left, top, width, height)
-      drawText(ctx, {
-        left: left + 4, 
-        top: top + fontSize,
-        text: `${
-          timerId.counter <= 0
-            ? '0'
-            : Math.floor(timerId.counter / 60)
-          }:${(timerId.counter % 60).toFixed(fnums)}`,
-        fontSize: fontSize,
-        textColor: textColor
-      })  
-      if (timerId.counter <= 0 && cback && !timerId.checkCback) {
-        cback();
-        timerId.checkCback = true;
-      } 
-    }
-  }
-
-  transformStrByWidth(ctx: CanvasRenderingContext2D, str: string, width: number, fontSize?: number) {
-    str = str.replace(/[\n\r]/g, '');
-    const arrWords = str.split(' ');
-    let line = '';
-    const lines = [];
-    const sizeText = fontSize ?? 20;
-    ctx.font = `bold ${sizeText}px ${FONTS.mainCanvas}`
-
-    arrWords.forEach(word => {
-      const checkLine = `${line}${word} `;
-      const checkWidth = ctx.measureText(checkLine).width;
-
-      if (checkWidth > width) {
-        lines.push(line.trim());
-        line = `${word} `;
-      } else {
-        line = checkLine;
-      }
-    })
-
-    if (line.trim()) {
-      lines.push(line.trim());
-    }
-
-    return lines.join('\n');
-  }
-
-  static checkOnEvents = false;
-  static indexElem: number | null = null;
-  public objText: TObjParamsDrawText = {};
+  public checkOnEvents = false;
+  public indexElem: number | null = null;
   public setObjText = (objText: TObjParamsDrawText) => {
-    this.objText = objText;
+    ssd.objText = objText;
     this.setFrameRender(Math.random()) // рандомное число для запуска ререндера
   };
   public hoveredIndexRect: number | null = null;
@@ -1305,32 +422,32 @@ export class CanvasScenes {
   
   handlerMouseMove = (e: MouseEvent) => {
     settingHover(
-      CanvasScenes.rectsForScene, e, 
+      ssd.rectsForScene, e, 
       this.hoveredIndexRect, 
       this.setHoveredIndexRect
     );
   }
 
   handlerClick = (e: MouseEvent) => {
-    CanvasScenes.indexElem = settingHover(
-      CanvasScenes.rectsForScene, e,
+    this.indexElem = settingHover(
+      ssd.rectsForScene, e,
       this.hoveredIndexRect,
       this.setHoveredIndexRect
     ) ?? null,
-    this.setClickIndexRect(CanvasScenes.indexElem)
+    this.setClickIndexRect(this.indexElem)
   }
 
   handlerKeyDown = (e: KeyboardEvent) => {
-    if (CanvasScenes.indexElem !== null) {
+    if (this.indexElem !== null) {
       const text = writingsText(
         this.canvasCtx, e, 
         {
-          objText: this.objText, 
+          objText: ssd.objText, 
           set: this.setObjText 
         }, 
-        CanvasScenes.rectsForScene[CanvasScenes.indexElem]);
+        ssd.rectsForScene[this.indexElem]);
       console.log(text);
-      console.log(this.objText);
+      // console.log(ssd.objText);
     }
   }
 }
