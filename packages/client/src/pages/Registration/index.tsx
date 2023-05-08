@@ -7,5 +7,5 @@ export const Registration = () => {
     <div className={s.wrapCont}>
       <RegForm />
     </div>
-  )
-}
+  );
+};

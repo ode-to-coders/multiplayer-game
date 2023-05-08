@@ -1,4 +1,3 @@
-
 import { StyledButton } from '../../shared/ui/Styled';
 
 import { useNavigate } from 'react-router-dom';
@@ -24,7 +23,7 @@ export const ProfileEditPasswordForm = () => {
     handleSubmit,
   } = useForm<IProfileEditPassword>({
     mode: 'onChange',
-    resolver: yupResolver(schema)
+    resolver: yupResolver(schema),
   });
 
   const onSubmit = async (data: IProfileEditPassword) => {
@@ -49,7 +48,7 @@ export const ProfileEditPasswordForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      autoComplete='off'
+      autoComplete="off"
       className={styles.myForm}>
       {helpingDataInputs.map(input => (
         <div key={input.name} className={styles.wrapLabelInputMsg}>
@@ -66,7 +65,9 @@ export const ProfileEditPasswordForm = () => {
             />
           </div>
           {errors[input.name]?.message && (
-            <div className={styles.msg}>{errors[input.name]?.message as string}</div>
+            <div className={styles.msg}>
+              {errors[input.name]?.message as string}
+            </div>
           )}
         </div>
       ))}

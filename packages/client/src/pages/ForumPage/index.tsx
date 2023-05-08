@@ -17,7 +17,6 @@ import { TopicsT, Subject } from './types';
 
 import styles from './index.module.scss';
 
-
 export function ForumPage(props: TopicsT) {
   const { topics } = props;
 

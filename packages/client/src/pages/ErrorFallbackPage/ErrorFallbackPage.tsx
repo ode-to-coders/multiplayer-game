@@ -11,8 +11,8 @@ import style from './index.module.scss';
 
 export const ErrorFallbackPage = () => {
   const { resetBoundary } = useErrorBoundary();
-  // const navigate = useNavigate();
-  //const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
   const ref = useRef(0);
 
   // при переходе на другую страницу, сбрасываем ошибку

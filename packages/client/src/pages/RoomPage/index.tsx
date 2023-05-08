@@ -21,7 +21,6 @@ import { RoomForm } from '../../features';
 
 import styles from './index.module.scss';
 
-
 export function RoomPage(props: RoomsT) {
   const { rooms } = props;
 
@@ -65,7 +64,7 @@ export function RoomPage(props: RoomsT) {
       setShowModal(true);
     }
   };
-  
+
   const startGame = () => {
     if (gameId) {
       navigate(`${gameId}`);

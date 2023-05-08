@@ -16,3 +16,4 @@ ReactDOM.hydrateRoot(
     </Provider>
   </React.StrictMode>
 );
+

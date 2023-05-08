@@ -7,11 +7,9 @@ import { StyledContainer } from '../../shared/ui/Styled';
 import styles from './index.module.scss';
 
 export function LeaderBoardPage(props: LeaderBoardT) {
-  const {
-    users,
-  } = props;
+  const { users } = props;
 
-  if(!users || users.length < 0) return null;
+  if (!users || users.length < 0) return null;
 
   return (
     <StyledContainer extendсlass={styles.mainContainer}>

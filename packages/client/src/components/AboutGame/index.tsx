@@ -8,7 +8,6 @@ import { ReactComponent as Stroller } from '../../images/stroller.svg';
 
 import styles from './index.module.scss';
 
-
 function AboutGame() {
   return (
     <div className={styles.container}>

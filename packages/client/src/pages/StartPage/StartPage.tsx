@@ -13,7 +13,6 @@ import logo from './logo.png';
 import { DataLoader } from '../../shared/ui/DataLoader/DataLoader';
 
 export const StartPage = () => {
-  
   const { data, isError, isFetching } = useGetUserInfoQuery();
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [gamers, setGamers] = useState([]);
@@ -76,7 +75,6 @@ export const StartPage = () => {
         })
       );
     };
-
   }, []);
 
   // const handleChangeButton = () => {

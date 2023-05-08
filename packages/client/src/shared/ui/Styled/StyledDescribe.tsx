@@ -11,7 +11,9 @@ type StyledDescribeProps = {
   extendсlass?: string;
 } & TypographyProps;
 
-export const StyledDescribe: FC<PropsWithChildren<StyledDescribeProps>> = props => (
+export const StyledDescribe: FC<
+  PropsWithChildren<StyledDescribeProps>
+> = props => (
   <StyledEngineProvider injectFirst>
     <Typography className={cn(style.describe, props.extendсlass)} {...props}>
       {props.children}

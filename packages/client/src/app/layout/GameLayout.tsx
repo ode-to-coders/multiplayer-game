@@ -3,7 +3,6 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { PAGES } from '../lib/routes.types';
 import { StyledContainer, StyledGridItem } from '../../shared/ui/Styled';
 
-
 import styles from './index.module.scss';
 
 export const GameLayout = () => {

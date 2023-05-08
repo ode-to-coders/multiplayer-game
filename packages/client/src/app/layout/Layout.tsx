@@ -6,12 +6,12 @@ import styles from './index.module.scss';
 
 export const Layout: React.FC<React.PropsWithChildren> = props => {
   return (
-    <StyledContainer
-      maxWidth={false}
-      disableGutters
-      extendсlass={styles.container}>
-      {props.children}
-      <Outlet />
-    </StyledContainer>
+      <StyledContainer
+        maxWidth={false}
+        disableGutters
+        extendсlass={styles.container}>
+          {props.children}
+          <Outlet />
+      </StyledContainer>
   );
 };

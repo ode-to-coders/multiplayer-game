@@ -1,20 +1,29 @@
 import { Dispatch, KeyboardEvent, MouseEvent, SetStateAction } from 'react';
 import { KEYS } from '../../const/constants';
-import { IRect, TText, TImgBord, paramsDrawText, IobjLogWritingsText, TWritingsTextParams, IobjLogBack, IobjHelpOffset } from './types'
+import {
+  IRect,
+  TText,
+  TImgBord,
+  paramsDrawText,
+  IobjLogWritingsText,
+  TWritingsTextParams,
+  IobjLogBack,
+  IobjHelpOffset,
+} from './types';
 /**
  * Функция установки State при наведении на объект в канвасе (например, тени при наведении)
  * Помещать в обработчик onMouseMove канваса.
- * @param arrHovered 
- * @param e 
+ * @param arrHovered
+ * @param e
  * @param state ?
  * @param setState ?
  * @return индекс объекта из массива, на котором сейчас мышка
  */
 
 export const settingHover = (
-  arrRect: IRect[], 
-  e: MouseEvent<HTMLCanvasElement>, 
-  state?: number | null, 
+  arrRect: IRect[],
+  e: MouseEvent<HTMLCanvasElement>,
+  state?: number | null,
   setState?: Dispatch<SetStateAction<number | null>>
 ) => {
   const target = e.target as HTMLCanvasElement;
@@ -24,28 +33,22 @@ export const settingHover = (
   for (let i = 0; i < arrRect.length; i++) {
     const item = arrRect[i];
     if (
-      x > item.left 
-      && x < (item.left+item.width) 
-      && y > item.top 
-      && y < (item.top+item.height)
+      x > item.left &&
+      x < item.left + item.width &&
+      y > item.top &&
+      y < item.top + item.height
     ) {
-      if (
-        setState 
-        && state !== i
-      ) {
-        setState(i)
+      if (setState && state !== i) {
+        setState(i);
       }
       checkHovered = true;
       return i;
     }
   }
-  if (
-    setState 
-    && !checkHovered
-  ) {
+  if (setState && !checkHovered) {
     setState(null);
   }
-}
+};
 
 /**
  * Нарисовать прямоугольник на канвасе (скругленные углы опционально)
@@ -56,13 +59,12 @@ export const settingHover = (
  */
 
 export const drawRoundedRect = (
-  ctx: CanvasRenderingContext2D, 
-  rect: IRect, 
-  checkShadow = false, 
+  ctx: CanvasRenderingContext2D,
+  rect: IRect,
+  checkShadow = false,
   shadowColor?: string
-) => {  
-  const 
-    l = rect.left,
+) => {
+  const l = rect.left,
     t = rect.top,
     w = rect.width,
     h = rect.height,
@@ -92,26 +94,26 @@ export const drawRoundedRect = (
   ctx.closePath();
   ctx.fill();
   ctx.stroke();
-  
+
   if (checkShadow) {
     ctx.shadowColor = 'transparent';
   }
-}
+};
 
 export const drawImageOnload = (
-  ctx: CanvasRenderingContext2D, 
-  src: string, 
-  left: number, 
-  top: number, 
-  width = 0, 
+  ctx: CanvasRenderingContext2D,
+  src: string,
+  left: number,
+  top: number,
+  width = 0,
   height = 0
 ) => {
   const img = new Image();
   img.src = src;
   img.onload = () => {
-    ctx.drawImage(img, left, top, width, height)
-  }
-}
+    ctx.drawImage(img, left, top, width, height);
+  };
+};
 
 /**
  * Отрисовка изображения. Опционально - рамка и текст
@@ -122,42 +124,52 @@ export const drawImageOnload = (
  */
 
 export const drawImgBorderText = (
-  ctx: CanvasRenderingContext2D, 
-  src: string, 
-  rect: TImgBord, 
+  ctx: CanvasRenderingContext2D,
+  src: string,
+  rect: TImgBord,
   textObj?: TText
 ) => {
-  const {left, top, width, height, radius, color, borderColor, shadowOn, shadowColor} = rect;
+  const {
+    left,
+    top,
+    width,
+    height,
+    radius,
+    color,
+    borderColor,
+    shadowOn,
+    shadowColor,
+  } = rect;
   const padding = rect.borderPadding ?? 0;
   const img = new Image();
   img.src = src;
   ctx.drawImage(img, left, top, width, height);
   //return new Promise(resolve => {
-  if (img.complete) {     
-      //resolve(() => {
-        drawRoundedRect(
-            ctx, 
-            {
-              left: left-padding,
-              top: top-padding,
-              width: width+(2*padding),
-              height: height+(2*padding),
-              radius,
-              color,
-              borderColor
-            }, 
-            shadowOn,
-            shadowColor
-        );
-        ctx.drawImage(img, left, top, width, height);
-        if (textObj) {
-          const {text, textColor, fontSize} = textObj;
-          drawText(ctx, {left, top, width, height, text, textColor, fontSize});
-        }
-      //});
+  if (img.complete) {
+    //resolve(() => {
+    drawRoundedRect(
+      ctx,
+      {
+        left: left - padding,
+        top: top - padding,
+        width: width + 2 * padding,
+        height: height + 2 * padding,
+        radius,
+        color,
+        borderColor,
+      },
+      shadowOn,
+      shadowColor
+    );
+    ctx.drawImage(img, left, top, width, height);
+    if (textObj) {
+      const { text, textColor, fontSize } = textObj;
+      drawText(ctx, { left, top, width, height, text, textColor, fontSize });
     }
+    //});
+  }
   //})
-}
+};
 
 /**
  * Отрисовка текста по центру поля заданных размеров
@@ -167,34 +179,60 @@ export const drawImgBorderText = (
  */
 
 export const drawText = (
-  ctx: CanvasRenderingContext2D, 
+  ctx: CanvasRenderingContext2D,
   params: paramsDrawText
 ) => {
-  const {left, top, width, height, text} = params;
+  const { left, top, width, height, text } = params;
 
-  const sizeText = params.fontSize ?? width/18;
+  const sizeText = params.fontSize ?? width / 18;
   ctx.fillStyle = params.textColor ?? 'white';
   ctx.font = `bold ${sizeText}px Arial Narrow`;
-  
+
   const arrTxt = text.split('\n');
-  const topText = top + height/2 + 0.3*sizeText - ((arrTxt.length-1)*0.5*sizeText)
+  const topText =
+    top + height / 2 + 0.3 * sizeText - (arrTxt.length - 1) * 0.5 * sizeText;
   for (let i = 0; i < arrTxt.length; i++)
     ctx.fillText(
-      arrTxt[i], 
-      left + width/2 - ctx.measureText(arrTxt[i]).width/2, 
-      topText + (i*sizeText)
+      arrTxt[i],
+      left + width / 2 - ctx.measureText(arrTxt[i]).width / 2,
+      topText + i * sizeText
     );
-}
+};
 
 const logWritings: IobjLogWritingsText = {};
 const notWriteKeys: string[] = [
-  KEYS.Control, KEYS.Shift, KEYS.Alt, KEYS.Meta, KEYS.Win,
-  KEYS.PageUp, KEYS.PageDown, KEYS.Home, KEYS.End,
-  KEYS.Delete, KEYS.Insert, 
-  KEYS.F1, KEYS.F2, KEYS.F3, KEYS.F4, KEYS.F5, KEYS.F6,
-  KEYS.F7, KEYS.F8, KEYS.F9, KEYS.F10, KEYS.F11, KEYS.F12, 
-  KEYS.PrintScreen, KEYS.Scroll, KEYS.Escape, KEYS.CapsLock,
-  KEYS.Tab, KEYS.Left, KEYS.Right, KEYS.Up, KEYS.Down
+  KEYS.Control,
+  KEYS.Shift,
+  KEYS.Alt,
+  KEYS.Meta,
+  KEYS.Win,
+  KEYS.PageUp,
+  KEYS.PageDown,
+  KEYS.Home,
+  KEYS.End,
+  KEYS.Delete,
+  KEYS.Insert,
+  KEYS.F1,
+  KEYS.F2,
+  KEYS.F3,
+  KEYS.F4,
+  KEYS.F5,
+  KEYS.F6,
+  KEYS.F7,
+  KEYS.F8,
+  KEYS.F9,
+  KEYS.F10,
+  KEYS.F11,
+  KEYS.F12,
+  KEYS.PrintScreen,
+  KEYS.Scroll,
+  KEYS.Escape,
+  KEYS.CapsLock,
+  KEYS.Tab,
+  KEYS.Left,
+  KEYS.Right,
+  KEYS.Up,
+  KEYS.Down,
 ];
 
 /**
@@ -203,20 +241,20 @@ const notWriteKeys: string[] = [
  * @param setState получает сеттер нужного стейта для изменения
  * @param e keyboardEvent
  * @param params принимает разные параметры области для отображения (см.типы)
- * @returns 
+ * @returns
  */
 
 export const writingsText = (
-  ctx: CanvasRenderingContext2D, 
-  setState: Dispatch<SetStateAction<paramsDrawText | null>>, 
-  e: KeyboardEvent<HTMLCanvasElement>, 
+  ctx: CanvasRenderingContext2D,
+  setState: Dispatch<SetStateAction<paramsDrawText | null>>,
+  e: KeyboardEvent<HTMLCanvasElement>,
   params: TWritingsTextParams
 ) => {
-
-  if (notWriteKeys.includes(e.key)) { // исключаем логические клавиши клавиатуры
+  if (notWriteKeys.includes(e.key)) {
+    // исключаем логические клавиши клавиатуры
     return -1;
   }
-  const {key, left, top, width, height} = params;
+  const { key, left, top, width, height } = params;
   const fontSize = params.fontSize ?? 20;
   const textColor = params.textColor ?? 'white';
 
@@ -225,69 +263,68 @@ export const writingsText = (
   }
   let text = logWritings[key];
   ctx.font = `bold ${fontSize}px Arial Narrow`;
-  
+
   if (e.key === KEYS.Backspace) {
     if (!text) {
       return -1;
     }
-    text = text.slice(0, text.length-1)
+    text = text.slice(0, text.length - 1);
     logWritings[key] = text;
-    setState({left, top, width, height, text, textColor, fontSize})
+    setState({ left, top, width, height, text, textColor, fontSize });
     return text;
   }
-  
+
   const arrTxt = text.split('\n');
 
   if (e.key === KEYS.Enter) {
-    if (fontSize*(arrTxt.length + 1) > height) {
+    if (fontSize * (arrTxt.length + 1) > height) {
       return -1;
     }
     text += '\n';
     logWritings[key] = text;
-    setState({left, top, width, height, text, textColor, fontSize})
+    setState({ left, top, width, height, text, textColor, fontSize });
     return text;
   }
-  
-  const widthLastStr = ctx.measureText(arrTxt[arrTxt.length-1] + e.key).width;
-  
+
+  const widthLastStr = ctx.measureText(arrTxt[arrTxt.length - 1] + e.key).width;
+
   if (widthLastStr > width) {
-    if (fontSize*(arrTxt.length + 1) < height) {
+    if (fontSize * (arrTxt.length + 1) < height) {
       text += `\n${e.key}`;
     }
   } else text += e.key;
-  
+
   logWritings[key] = text;
-  setState({left, top, width, height, text, textColor, fontSize})
+  setState({ left, top, width, height, text, textColor, fontSize });
   return text;
-}
+};
 
 const logBack: IobjLogBack = {};
-const helpOffset: IobjHelpOffset = {}
+const helpOffset: IobjHelpOffset = {};
 
 // функция, если нужно написать что-то временно (сотрется при перерендере)
 
 export const tempWritingsText = (
-  ctx: CanvasRenderingContext2D, 
-  e: KeyboardEvent, 
+  ctx: CanvasRenderingContext2D,
+  e: KeyboardEvent,
   params: TWritingsTextParams
 ) => {
-  
   if (notWriteKeys.includes(e.key)) {
     return;
   }
-  const {key, left, top, width, height} = params;
+  const { key, left, top, width, height } = params;
   const fontSize = params.fontSize ?? 20;
-  
+
   if (!helpOffset[key]) {
     helpOffset[key] = {
       left: null,
-      top: null
-    }
+      top: null,
+    };
   }
   const offset = helpOffset[key];
   offset.left = offset.left ?? left;
-  offset.top = offset.top ?? top+fontSize;  
-  
+  offset.top = offset.top ?? top + fontSize;
+
   if (e.key === 'Backspace') {
     if (!logBack[key]) {
       return;
@@ -296,46 +333,46 @@ export const tempWritingsText = (
     if (!objImage) {
       return;
     }
-    offset.left = objImage.l, offset.top = objImage.t;
+    (offset.left = objImage.l), (offset.top = objImage.t);
     ctx.putImageData(objImage.img, objImage.l, objImage.h);
     return;
   }
 
-  if (offset.top >= top+height) {
+  if (offset.top >= top + height) {
     return;
   }
-  
+
   ctx.font = `${fontSize}px Arial Narrow`;
   ctx.fillStyle = 'white';
   const widthSymbol = ctx.measureText(e.key).width;
 
   const savedBeforeWrite = ctx.getImageData(
-    offset.left, 
-    offset.top - fontSize, 
-    1.2*widthSymbol, 
-    fontSize + fontSize*0.4
-  )
+    offset.left,
+    offset.top - fontSize,
+    1.2 * widthSymbol,
+    fontSize + fontSize * 0.4
+  );
 
   if (!logBack[key]) {
     logBack[key] = [];
   }
   logBack[key].push({
-    img: savedBeforeWrite, 
-    l: offset.left, 
-    t: offset.top, 
-    h: offset.top - fontSize, 
+    img: savedBeforeWrite,
+    l: offset.left,
+    t: offset.top,
+    h: offset.top - fontSize,
   });
   if (logBack[key].length > 300) {
     logBack[key][logBack[key].length - 300] = null;
   }
 
-  ctx.fillText(e.key, offset.left, offset.top)
-  offset.top = (
-    offset.left+3*widthSymbol >= left+width) 
-    ? offset.top += fontSize 
-    : offset.top;
-  offset.left = (
-    offset.left+3*widthSymbol >= left+width) 
-    ? left 
-    : offset.left += 1.1*widthSymbol;
-}
+  ctx.fillText(e.key, offset.left, offset.top);
+  offset.top =
+    offset.left + 3 * widthSymbol >= left + width
+      ? (offset.top += fontSize)
+      : offset.top;
+  offset.left =
+    offset.left + 3 * widthSymbol >= left + width
+      ? left
+      : (offset.left += 1.1 * widthSymbol);
+};

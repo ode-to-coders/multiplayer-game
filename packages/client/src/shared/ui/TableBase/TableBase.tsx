@@ -33,16 +33,12 @@ export const TableBase = (props: TableBaseProps) => {
         <TableBody>
           {rows.map((row, idx) => (
             <TableRow key={row.id}>
-              <StyledTableCell align="center">
-                {idx+1}
-              </StyledTableCell>
+              <StyledTableCell align="center">{idx + 1}</StyledTableCell>
               <StyledTableCell align="center">
                 <img className={style.image} src={avatar} />
                 {row.login}
               </StyledTableCell>
-              <StyledTableCell align="center">
-                {row.score}
-              </StyledTableCell>
+              <StyledTableCell align="center">{row.score}</StyledTableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -14,7 +14,6 @@ import { PAGES } from '../../app/lib/routes.types';
 
 import styles from './index.module.scss';
 
-
 export const AuthForm = () => {
   const [isFocused, setIsFocused] = useState([false, '']);
   const [isEmpty, setIsEmpty] = useState<Record<string, boolean>>({});
@@ -77,7 +76,7 @@ export const AuthForm = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit as any)}
-      autoComplete='off'
+      autoComplete="off"
       className={styles.myForm}>
       <h2 className={styles.head}>Вход</h2>
       {arrInputsData.map(input => (

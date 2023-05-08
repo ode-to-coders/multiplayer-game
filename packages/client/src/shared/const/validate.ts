@@ -88,9 +88,7 @@ export const yupSchemaProfileEditForm = yup.object().shape({
 });
 
 export const yupSchemaProfileEditPasswordForm = yup.object().shape({
-  oldpassword: yup
-    .string()
-    .required('Введите старый пароль'),
+  oldpassword: yup.string().required('Введите старый пароль'),
   password: yup
     .string()
     .required('Введите новый пароль')

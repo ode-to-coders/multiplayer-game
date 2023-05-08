@@ -6,13 +6,12 @@ import {
   ChangeUserPasswordRequestBody,
   ChangeUserProfileRequestBody,
   ChangeUserProfileResponse,
-  UserInfoResponse
+  UserInfoResponse,
 } from './types';
 
 const USER_PROFILE_API_PATH = '/user/profile';
 const USER_CHANGE_PASSWORD_API_PATH = '/user/password';
 const USER_CHANGE_AVATAR_API_PATH = '/user/profile/avatar';
-
 
 export const usersApi = baseApi.injectEndpoints({
   endpoints: builder => ({

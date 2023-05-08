@@ -40,12 +40,8 @@ export const ProfileMain = ({ profileData }: Props) => {
         ))}
       </div>
       <div className={styles.wrapLinks}>
-        <Link to={PAGES.EDIT_PROFILE}>
-          Изменить данные
-        </Link>
-        <Link to={PAGES.EDIT_PASSWORD}>
-          Изменить пароль
-        </Link>
+        <Link to={PAGES.EDIT_PROFILE}>Изменить данные</Link>
+        <Link to={PAGES.EDIT_PASSWORD}>Изменить пароль</Link>
         <Link to={PAGES.MAIN} onClick={handleExit}>
           Выйти
         </Link>

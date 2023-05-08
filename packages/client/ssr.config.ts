@@ -3,7 +3,6 @@ import react from '@vitejs/plugin-react';
 import * as path from 'path';
 import svgr from 'vite-plugin-svgr';
 
-
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
@@ -18,5 +17,5 @@ export default defineConfig({
       },
     },
   },
-  plugins: [react({ jsxImportSource: '@emotion/react' }), svgr()],
+  plugins: [react(), svgr()],
 });
