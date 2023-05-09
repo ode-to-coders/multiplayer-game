@@ -1,8 +1,9 @@
+import { ReactNode } from 'react';
 import { RouteObject } from 'react-router-dom';
 
 export type Route = RouteObject & {
   path: string;
-  Component: React.FC;
+  Component: () => ReactNode;
 };
 
 export type Routes = Route[];
