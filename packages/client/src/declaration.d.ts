@@ -21,7 +21,9 @@ declare module '*.svg' {
 }
 
 declare module '*.png';
-
 declare module '*.jpg';
-
 declare module '*.gif';
+
+declare module 'react-alert';
+declare module 'redux-logger';
+declare module 'react-alert-template-basic';

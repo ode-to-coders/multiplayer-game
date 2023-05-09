@@ -1,4 +1,3 @@
-import React from 'react';
 import { combineReducers } from '@reduxjs/toolkit';
 import { CombinedState } from '@reduxjs/toolkit/dist/query/core/apiState';
 
