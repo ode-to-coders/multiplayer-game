@@ -18,23 +18,21 @@ function App() {
   const { hasMounted } = useMounted();
   const { isFetching, isAuth } = useAuth();
 
+  if (!hasMounted) {
+    return <></>;
+  }
+
   if (isFetching) {
     return (
-      hasMounted && (
-        <Layout>
-          <Grid container className={styles.fullScreenLoader}>
-            <CircularProgress />
-          </Grid>
-        </Layout>
-      )
+      <Layout>
+        <Grid container className={styles.fullScreenLoader}>
+          <CircularProgress />
+        </Grid>
+      </Layout>
     );
   }
 
-  if (isAuth) {
-    return hasMounted && <AuthenticatedApp />;
-  } else {
-    return hasMounted && <UnauthenticatedApp />;
-  }
+  return isAuth ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 }
 
 export default withProviders(App);

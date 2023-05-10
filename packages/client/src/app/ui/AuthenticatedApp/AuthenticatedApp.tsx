@@ -8,7 +8,7 @@ import { GameLayout } from '../../layout/GameLayout';
 export const AuthenticatedApp = () => {
   useEffect(() => {
     const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}/api`;
+      const url = __CLIENT_URL__;
       const response = await fetch(url);
       const data = await response.json();
       console.log(data);
