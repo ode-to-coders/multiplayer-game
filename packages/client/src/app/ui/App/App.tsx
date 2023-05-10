@@ -12,28 +12,24 @@ import { UnauthenticatedApp } from '../UnauthenticatedApp/UnauthenticatedApp';
 import '../../styles/vars.scss';
 import '../../styles/global.scss';
 import styles from './index.module.scss';
-import { useMounted } from '../../hooks/useMounted';
 
 function App() {
-  const { hasMounted } = useMounted();
   const { isFetching, isAuth } = useAuth();
 
   if (isFetching) {
     return (
-      hasMounted && (
-        <Layout>
-          <Grid container className={styles.fullScreenLoader}>
-            <CircularProgress />
-          </Grid>
-        </Layout>
-      )
+      <Layout>
+        <Grid container className={styles.fullScreenLoader}>
+          <CircularProgress />
+        </Grid>
+      </Layout>
     );
   }
 
   if (isAuth) {
-    return hasMounted && <AuthenticatedApp />;
+    return <AuthenticatedApp />;
   } else {
-    return hasMounted && <UnauthenticatedApp />;
+    return <UnauthenticatedApp />;
   }
 }
 
