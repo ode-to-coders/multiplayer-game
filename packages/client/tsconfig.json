@@ -27,6 +27,6 @@
       "widgets/*": ["src/widgets/*"]
     }
   },
-  "include": ["src", "setupTests.ts"],
+  "include": ["src", "setupTests.ts", "ssr.tsx"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
