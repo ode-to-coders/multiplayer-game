@@ -13,6 +13,9 @@ const SIGN_UP_API_PATH = '/auth/signup';
 const LOGOUT_API_PATH = '/auth/logout';
 const USER_INFO_API_PATH = '/auth/user';
 
+const OAUTH_SERVICE_ID_API_PATH = '/oauth/yandex/service-id';
+const OAUTH_YANDEX_API_PATH = '/oauth/yandex';
+
 export const authApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     signIn: builder.mutation<void, SignInRequestBody>({
@@ -44,6 +47,29 @@ export const authApi = baseApi.injectEndpoints({
       query: () => USER_INFO_API_PATH,
       providesTags: [{ type: 'USER_INFO', id: 'INFO' }],
     }),
+    getServiceId: builder.query<
+      { service_id: string },
+      { redirect_uri: string }
+    >({
+      query: ({ redirect_uri }) => ({
+        url: `${OAUTH_SERVICE_ID_API_PATH}?redirect_uri=${redirect_uri}`,
+        method: HTTP_METHOD.GET,
+      }),
+    }),
+    signInYandex: builder.mutation<
+      SignUpResponse,
+      {
+        code: string;
+        redirect_uri: string;
+      }
+    >({
+      query: credentials => ({
+        url: OAUTH_YANDEX_API_PATH,
+        method: HTTP_METHOD.POST,
+        body: credentials,
+      }),
+      invalidatesTags: [{ type: 'USER_INFO', id: 'INFO' }],
+    }),
   }),
 });
 
@@ -52,4 +78,6 @@ export const {
   useSignUpMutation,
   useGetUserInfoQuery,
   useLogoutMutation,
+  useGetServiceIdQuery,
+  useSignInYandexMutation,
 } = authApi;

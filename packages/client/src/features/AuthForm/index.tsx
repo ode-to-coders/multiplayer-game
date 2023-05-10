@@ -5,21 +5,50 @@ import { StyledButton } from 'shared/ui/Styled';
 import { MuiMemoInputBase } from 'shared/ui/MuiMemoInputBase';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { useSignInMutation } from 'app/store/api/auth/authApi';
+import {
+  useGetServiceIdQuery,
+  useSignInMutation,
+  useSignInYandexMutation,
+} from 'app/store/api/auth/authApi';
 import { yupSchemaSigninForm as schema } from 'shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PAGES } from 'app/lib/routes.types';
 
 import styles from './index.module.scss';
 
+const OAUTH_REDIRECT_API_PATH =
+  'https://oauth.yandex.ru/authorize?response_type=code';
+const APP_PATH = 'https://multiplayer-game-6e3r.onrender.com/';
 
 export const AuthForm = () => {
   const [isFocused, setIsFocused] = useState([false, '']);
   const [isEmpty, setIsEmpty] = useState<Record<string, boolean>>({});
 
   const [signIn] = useSignInMutation();
+  const [signInYandex] = useSignInYandexMutation();
+
+  const refRender = useRef(0);
+
+  // 8b8477c92e63451e865fa076669edd10
+
+  const { data } = useGetServiceIdQuery({
+    redirect_uri: 'multiplayer-game-6e3r.onrender.com/',
+  });
+
+  // useEffect(() => {
+  //   refRender.current += 1;
+
+  //   if (refRender.current < 2) {
+  //     signInYandex({
+  //       code: '8b8477c92e63451e865fa076669edd10',
+  //       redirect_uri: 'multiplayer-game-6e3r.onrender.com/',
+  //     });
+  //   }
+  // }, []);
+
+  console.log('data', data);
 
   const arrInputsData = useMemo(
     () => [
@@ -73,11 +102,18 @@ export const AuthForm = () => {
     }
   };
 
+  const handleClick = () => {
+    //&redirect_uri=${APP_PATH}
+    const actualRedirectPath = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${data?.service_id}`;
+
+    window.open(actualRedirectPath);
+  };
+
   // TODO типизация
   return (
     <form
       onSubmit={handleSubmit(onSubmit as any)}
-      autoComplete='off'
+      autoComplete="off"
       className={styles.myForm}>
       <h2 className={styles.head}>Вход</h2>
       {arrInputsData.map(input => (
@@ -115,6 +151,12 @@ export const AuthForm = () => {
       ))}
       <StyledButton type="submit" extendClass={styles.btnSubmit}>
         Авторизоваться
+      </StyledButton>
+      <StyledButton
+        onClick={handleClick}
+        type="button"
+        extendClass={styles.btnSubmit}>
+        Авторизоваться через Яндекс
       </StyledButton>
       <Link to={PAGES.REGISTRATION} className={styles.link}>
         Нет аккаунта?
