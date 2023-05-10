@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import cn from 'classnames';
-import { yupSchemaRoomForm as schema } from 'shared/const/validate';
+import { yupSchemaRoomForm as schema } from '../../shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';

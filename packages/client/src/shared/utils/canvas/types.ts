@@ -1,18 +1,18 @@
 export interface IRect {
-  left: number, 
-  top: number,
-  width: number, 
-  height: number,
-  radius?: number,
-  color?: string,
-  borderColor?: string
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  radius?: number;
+  color?: string;
+  borderColor?: string;
 }
 
 export type TText = {
-  text: string,
-  textColor?: string,
-  fontSize?: number
-}
+  text: string;
+  textColor?: string;
+  fontSize?: number;
+};
 
 export type TImgBord = {
   left: number;
@@ -25,48 +25,48 @@ export type TImgBord = {
   borderColor?: string;
   shadowOn?: boolean;
   shadowColor?: string;
-}
+};
 
 export interface paramsDrawText {
-  left: number, 
-  top: number, 
-  width: number, 
-  height: number, 
-  text: string, 
-  textColor?: string, 
-  fontSize?: number
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  text: string;
+  textColor?: string;
+  fontSize?: number;
 }
 
 export interface IobjLogWritingsText {
-  [key: string]: string
+  [key: string]: string;
 }
 
 export type TWritingsTextParams = {
-  key: string,
-  left: number,
-  top: number,
-  width: number,
-  height: number,
-  fontSize?: number,
-  textColor?: string
-}
+  key: string;
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+  fontSize?: number;
+  textColor?: string;
+};
 
 export type IlogBack = {
-  img: ImageData,
-  l: number,
-  t: number,
-  h: number
-} | null
+  img: ImageData;
+  l: number;
+  t: number;
+  h: number;
+} | null;
 
 export interface IobjLogBack {
-  [key: string]: IlogBack[]
+  [key: string]: IlogBack[];
 }
 
 export type IhelpOffset = {
-  left: number | null,
-  top: number | null
-}
+  left: number | null;
+  top: number | null;
+};
 
 export interface IobjHelpOffset {
-  [key: string]: IhelpOffset
+  [key: string]: IhelpOffset;
 }

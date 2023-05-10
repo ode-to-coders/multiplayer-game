@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { routesConfig } from 'app/lib/routes.config';
-import { PAGES } from 'app/lib/routes.types';
-import { GameLayout } from '@/app/layout/GameLayout';
-
+import { routesConfig } from '../../lib/routes.config';
+import { PAGES } from '../../lib/routes.types';
+import { GameLayout } from '../../layout/GameLayout';
 
 export const AuthenticatedApp = () => {
   useEffect(() => {
@@ -20,7 +19,7 @@ export const AuthenticatedApp = () => {
 
   return (
     <Routes>
-      <Route path='*' element={<Navigate to={`${PAGES.NOTFOUND}`} />} />
+      <Route path="*" element={<Navigate to={`${PAGES.NOTFOUND}`} />} />
       {routesConfig.map((route, idx) => (
         <Route element={<GameLayout />} key={idx}>
           <Route

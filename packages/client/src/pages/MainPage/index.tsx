@@ -2,7 +2,7 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { Grid } from '@mui/material';
 
-import { PAGES } from 'app/lib/routes.types';
+import { PAGES } from '../../app/lib/routes.types';
 
 import AboutGame from '../../components/AboutGame';
 import Video from '../../components/Video';
@@ -11,8 +11,7 @@ import { StyledButton } from '../../shared/ui/Styled/StyledButton';
 import logo from '../../images/logo.png';
 
 import styles from './index.module.scss';
-import { useAuth } from '@/app/hooks/useAuth';
-
+import { useAuth } from '../../app/hooks/useAuth';
 
 export function MainPage() {
   const aboutAnchor = useRef<HTMLDivElement>(null);

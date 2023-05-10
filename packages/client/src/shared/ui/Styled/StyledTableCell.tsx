@@ -5,13 +5,13 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledTableCellProps = {
-  extendClass?: string;
+  extendсlass?: string;
 } & TableCellProps;
 
 export const StyledTableCell: FC<PropsWithChildren<StyledTableCellProps>> =
   React.memo(props => (
     <StyledEngineProvider injectFirst>
-      <TableCell className={cn(style.tableCell, props.extendClass)} {...props}>
+      <TableCell className={cn(style.tableCell, props.extendсlass)} {...props}>
         {props.children}
       </TableCell>
     </StyledEngineProvider>

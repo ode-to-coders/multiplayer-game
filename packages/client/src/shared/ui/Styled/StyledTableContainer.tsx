@@ -8,7 +8,7 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledTableContainerProps = {
-  extendClass?: string;
+  extendсlass?: string;
 } & TableContainerProps;
 
 export const StyledTableContainer: FC<
@@ -16,7 +16,7 @@ export const StyledTableContainer: FC<
 > = props => (
   <StyledEngineProvider injectFirst>
     <TableContainer
-      className={cn(style.tableContainer, props.extendClass)}
+      className={cn(style.tableContainer, props.extendсlass)}
       {...props}>
       {props.children}
     </TableContainer>

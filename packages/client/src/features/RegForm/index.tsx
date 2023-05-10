@@ -1,20 +1,19 @@
 import classNames from 'classnames';
 
 import { Link } from 'react-router-dom';
-import { StyledButton } from 'shared/ui/Styled';
-import { MuiMemoInputBase } from 'shared/ui/MuiMemoInputBase';
+import { StyledButton } from '../../shared/ui/Styled';
+import { MuiMemoInputBase } from '../../shared/ui/MuiMemoInputBase';
 
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useCallback, useMemo, useState } from 'react';
 
-import { yupSchemaRegForm as schema } from 'shared/const/validate';
+import { yupSchemaRegForm as schema } from '../../shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { PAGES } from 'app/lib/routes.types';
+import { PAGES } from '../../app/lib/routes.types';
 
 import s from './index.module.scss';
-import { useSignUpMutation } from 'app/store/api/auth/authApi';
-
+import { useSignUpMutation } from '../../app/store/api/auth/authApi';
 
 export const RegForm = () => {
   const [isFocused, setIsFocused] = useState([false, '']);
@@ -55,7 +54,7 @@ export const RegForm = () => {
     []
   );
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const {
     register,
@@ -96,7 +95,7 @@ export const RegForm = () => {
     const isError = 'error' in response;
 
     if (!isError) {
-      navigate(PAGES.GAME);
+      // navigate(PAGES.GAME);
     } else {
       //TODO Переделать на CustomNotification
       alert('что-то пошло не так, попробуйте еще раз');
@@ -142,7 +141,7 @@ export const RegForm = () => {
           </div>
         </div>
       ))}
-      <StyledButton type="submit" extendClass={s.btnSubmit}>
+      <StyledButton type="submit" extendсlass={s.btnSubmit}>
         Зарегистрироваться
       </StyledButton>
       <Link to={PAGES.SIGNIN} className={s.link}>

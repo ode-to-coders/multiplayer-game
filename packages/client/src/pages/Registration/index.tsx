@@ -1,4 +1,4 @@
-import { RegForm } from 'features/RegForm';
+import { RegForm } from '../../features/RegForm';
 
 import s from './index.module.scss';
 
@@ -7,5 +7,5 @@ export const Registration = () => {
     <div className={s.wrapCont}>
       <RegForm />
     </div>
-  )
-}
+  );
+};

@@ -40,5 +40,5 @@ export const enum KEYS {
   Up = 'ArrowUp',
   Down = 'ArrowDown',
   Backspace = 'Backspace',
-  Enter = 'Enter'
+  Enter = 'Enter',
 }

@@ -1,12 +1,17 @@
 import { IUserVote } from 'pages/Entourage/types';
 
-export const getWinnerEnthourage = (votes: IUserVote[]): Record<string, unknown> | undefined => {
-  const countVotes = votes.reduce((result: Record<string, number>, vote: IUserVote) => {
-    if (vote.votes) {
-      result[vote.votes] = result[vote.votes] ? result[vote.votes] + 1 : 1;
-    }
-    return result;
-  }, {});
+export const getWinnerEnthourage = (
+  votes: IUserVote[]
+): Record<string, unknown> | undefined => {
+  const countVotes = votes.reduce(
+    (result: Record<string, number>, vote: IUserVote) => {
+      if (vote.votes) {
+        result[vote.votes] = result[vote.votes] ? result[vote.votes] + 1 : 1;
+      }
+      return result;
+    },
+    {}
+  );
 
   let maxValue = 0;
 
@@ -17,10 +22,10 @@ export const getWinnerEnthourage = (votes: IUserVote[]): Record<string, unknown>
       maxValue = value;
       winner = {
         name,
-        value
-      }
-    };
+        value,
+      };
+    }
   });
 
   return winner;
-}
+};

@@ -13,8 +13,8 @@ export const ModalBase: FC<PropsWithChildren<ModalBaseProps>> = props => {
   const [open, setOpen] = React.useState(true);
 
   const handleClose = () => {
-    setOpen(false)
-    if (setOpenCback) setOpenCback(false)
+    setOpen(false);
+    if (setOpenCback) setOpenCback(false);
   };
 
   return (

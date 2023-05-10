@@ -1,4 +1,4 @@
-import { HTTP_METHOD } from 'shared/const/constants';
+import { HTTP_METHOD } from '../../../../shared/const/constants';
 import { baseApi } from '../baseApi';
 
 import {

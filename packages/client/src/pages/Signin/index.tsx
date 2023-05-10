@@ -1,4 +1,4 @@
-import { AuthForm } from 'features/AuthForm';
+import { AuthForm } from '../../features/AuthForm/index';
 
 import s from './index.module.scss';
 

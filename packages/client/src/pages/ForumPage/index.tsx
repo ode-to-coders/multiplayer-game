@@ -11,12 +11,11 @@ import TablePagination, {
 } from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
-import { StyledContainer } from '@/shared/ui/Styled';
+import { StyledContainer } from '../../shared/ui/Styled';
 
 import { TopicsT, Subject } from './types';
 
 import styles from './index.module.scss';
-
 
 export function ForumPage(props: TopicsT) {
   const { topics } = props;
@@ -52,7 +51,7 @@ export function ForumPage(props: TopicsT) {
   };
 
   return (
-    <StyledContainer extendClass={styles.mainContainer}>
+    <StyledContainer extendсlass={styles.mainContainer}>
       <Paper className={styles.paper}>
         <TableContainer className={styles.container}>
           <Table stickyHeader aria-label="sticky table">

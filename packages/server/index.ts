@@ -29,31 +29,24 @@ type payloadType = {
   canStart?: boolean;
   count?: number;
 };
-
 type resultType = {
   type: string;
   payload: payloadType;
 };
-
 type requestType = {
   event: string;
   gameId: string;
   payload: payloadType;
 };
-
 type clientType = {
   login: string;
 } & WebSocket;
-
 type gamesType = Record<string, Array<clientType>>;
-
 const games: gamesType = {};
-
 function start() {
   const wss = new WebSocket.Server({ port: 3002 }, () => {
     console.log('WebSocket server started');
   });
-
   wss.on('connection', (wsClient: clientType) => {
     wsClient.on('message', async message => {
       const request = JSON.parse(message.toString());
@@ -70,7 +63,6 @@ function start() {
       broadcast(request);
     });
   });
-
   function initGame(ws: clientType, gameId: string) {
     if (!games[gameId]) {
       games[gameId] = [ws];
@@ -83,12 +75,9 @@ function start() {
       games[gameId] = games[gameId].filter(wsc => wsc.login !== ws.login);
     }
   }
-
   function broadcast(params: requestType) {
     let result: resultType;
-
     const { gameId } = params.payload as requestType;
-
     games[gameId].forEach((client: clientType) => {
       switch (params.event) {
         case 'connect':
@@ -130,5 +119,4 @@ function start() {
     });
   }
 }
-
 start();

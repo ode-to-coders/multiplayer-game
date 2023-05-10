@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 
 import { Link } from 'react-router-dom';
-import { StyledButton } from 'shared/ui/Styled';
-import { MuiMemoInputBase } from 'shared/ui/MuiMemoInputBase';
+import { StyledButton } from '../../shared/ui/Styled';
+import { MuiMemoInputBase } from '../../shared/ui/MuiMemoInputBase';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -14,7 +14,7 @@ import {
 } from 'app/store/api/auth/authApi';
 import { yupSchemaSigninForm as schema } from 'shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { PAGES } from 'app/lib/routes.types';
+import { PAGES } from '../../app/lib/routes.types';
 
 import styles from './index.module.scss';
 
@@ -149,7 +149,7 @@ export const AuthForm = () => {
           </div>
         </div>
       ))}
-      <StyledButton type="submit" extendClass={styles.btnSubmit}>
+      <StyledButton type="submit" extendсlass={styles.btnSubmit}>
         Авторизоваться
       </StyledButton>
       <StyledButton

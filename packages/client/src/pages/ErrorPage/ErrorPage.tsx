@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 import { PAGES } from '../../app/lib/routes.types';
@@ -18,11 +19,11 @@ export const ErrorPage = (props: ErrorPageProps) => {
   const { code, text } = props;
   return (
     <StyledContainer
-      extendClass={style.container}
+      extendсlass={style.container}
       maxWidth={false}
       disableGutters>
-      <StyledTitle variant='h1'>{code}</StyledTitle>
-      <StyledDescribe variant='body1' extendClass={style.describe}>
+      <StyledTitle variant="h1">{code}</StyledTitle>
+      <StyledDescribe variant="body1" extendсlass={style.describe}>
         {text}
       </StyledDescribe>
       <Link className={style.link} to={PAGES.MAIN}>

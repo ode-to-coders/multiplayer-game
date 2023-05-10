@@ -9,7 +9,7 @@ export const Layout: React.FC<React.PropsWithChildren> = props => {
     <StyledContainer
       maxWidth={false}
       disableGutters
-      extendClass={styles.container}>
+      extendсlass={styles.container}>
       {props.children}
       <Outlet />
     </StyledContainer>

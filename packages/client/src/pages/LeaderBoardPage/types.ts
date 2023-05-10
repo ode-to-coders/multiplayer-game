@@ -6,10 +6,10 @@ export type User = {
   avatar: string;
   phone: string;
   email: string;
-  percent: number,
-  count_game?: number
+  percent: number;
+  count_game?: number;
 };
 
 export type LeaderBoardT = {
-  users: User[]
-}
+  users: User[];
+};
