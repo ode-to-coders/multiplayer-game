@@ -9,9 +9,6 @@ dotenv.config();
 import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-// import { createClientAndConnect } from './db';
-
-// createClientAndConnect();
 
 type payloadType = {
   success?: boolean;
@@ -148,7 +145,6 @@ async function startServer() {
     res.json('👋 Howdy from the server :)');
   });
 
-  //createClientAndConnect(); // подключение к БД
   if (!isDev()) {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')));
   }
