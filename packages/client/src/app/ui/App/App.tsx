@@ -1,5 +1,5 @@
-import React from 'react';
-import { CircularProgress, Grid } from '@mui/material';
+import React, { useEffect } from 'react';
+import { CircularProgress,  Grid } from '@mui/material';
 
 import { Layout } from '../../layout/Layout';
 
@@ -9,19 +9,25 @@ import { AuthenticatedApp } from '../AuthenticatedApp/AuthenticatedApp';
 import { useAuth } from '../../hooks/useAuth';
 import { UnauthenticatedApp } from '../UnauthenticatedApp/UnauthenticatedApp';
 
-import { useMounted } from '../../hooks/useMounted';
 import '../../styles/vars.scss';
 import '../../styles/global.scss';
 import styles from './index.module.scss';
 
 function App() {
-  const { hasMounted } = useMounted();
+  
+   useEffect(() => {
+     const fetchServerData = async () => {
+       const url = __CLIENT_URL__;
+       const response = await fetch(url);
+       const data = await response.json();
+       console.log(data);
+     };
+
+     fetchServerData();
+   }, []);
+
   const { isFetching, isAuth } = useAuth();
-
-  if (!hasMounted) {
-    return <></>;
-  }
-
+  
   if (isFetching) {
     return (
       <Layout>
