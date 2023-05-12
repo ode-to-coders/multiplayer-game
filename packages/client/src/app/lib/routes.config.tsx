@@ -20,6 +20,7 @@ import topics from '../../mocks/topics.json';
 import rooms from '../../mocks/rooms.json';
 import topic from '../../mocks/topic.json';
 import ratings from '../../mocks/ratings.json';
+import { TestCanvas } from '@/pages/TestCanvas';
 
 /**
  * Роуты главной страницы, до авторизации
@@ -38,7 +39,8 @@ const MAIN_ROUTES: Routes = [
 const GAME_ROUTES: Routes = [
   {
     path: PAGES.GAME,
-    Component: () => <GamePage />,
+    // Component: () => <GamePage />,
+    Component: () => <TestCanvas />,
   },
   {
     path: PAGES.START_GAME,
