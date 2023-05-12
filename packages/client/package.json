@@ -4,8 +4,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview",
+    "build": "tsc && yarn build:ssr && vite build --config vite.config.ts",
+    "build:ssr": "tsc && vite build --config ssr.config.ts",
+    "preview": "vite preview --config vite.config.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "jest ./"
@@ -27,10 +28,12 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "11.10.6",
-    "@emotion/styled": "11.10.6",
+    "@emotion/cache": "11.11.0",
+    "@emotion/react": "11.11.0",
+    "@emotion/server": "11.11.0",
+    "@emotion/styled": "11.11.0",
     "@hookform/resolvers": "3.0.0",
-    "@mui/material": "5.11.14",
+    "@mui/material": "5.13.0",
     "@reduxjs/toolkit": "1.9.3",
     "classnames": "2.3.2",
     "dotenv": "16.0.2",
