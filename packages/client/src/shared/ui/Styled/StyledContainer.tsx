@@ -7,7 +7,9 @@ type StyledContainerProps = {
   extendсlass?: string;
 } & ContainerProps;
 
-export const StyledContainer: FC<PropsWithChildren<StyledContainerProps>> = props => (
+export const StyledContainer: FC<
+  PropsWithChildren<StyledContainerProps>
+> = props => (
   <StyledEngineProvider injectFirst>
     <Container className={cn(style.container, props.extendсlass)} {...props}>
       {props.children}
