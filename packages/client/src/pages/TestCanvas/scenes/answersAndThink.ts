@@ -1,7 +1,7 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawRoundedRect, drawText, helperBorderColor, transformStrByWidth } from 'shared/utils/canvas';
+import { drawAndStartTimer, drawImgBorderText, drawRoundedRect, drawText, helperBorderColor, transformStrByWidth } from 'pages/TestCanvas/utils';
 
 import { source } from 'shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS } from '../const';
@@ -51,12 +51,12 @@ export class AnswersAndThink {
     })
 
     // отрисовка памятки
-    drawImgBorderText(ctx, source.memory[type], {
+    drawImgBorderText(ctx, source.game.memory[type], {
       left: 460 *m+lofs,
       top: 105 *m,
       width: 530 *m,
       height: 265 *m,
-      color: JSCOLORS.null,
+      color: JSCOLORS.black_40,
       borderPadding: 5 *m,
       borderColor: helperBorderColor(type),
       radius: 5 *m
@@ -210,12 +210,12 @@ export class AnswersAndThink {
     } //------------------------------------------------------------
 
     // отрисовка блокнота
-    drawImgBorderText(ctx, source.notebookSmall2, {
+    drawImgBorderText(ctx, source.game.notebook.small2, {
       left: 460 *m+lofs,
       top: 400 *m,
       width: 530 *m,
       height: 205 *m,
-      color: JSCOLORS.null,
+      color: JSCOLORS.black_40,
       borderPadding: 5 *m,
       borderColor: helperBorderColor(type),
       radius: 5 *m,
@@ -229,6 +229,7 @@ export class AnswersAndThink {
         top: (userCoords.top + userCoords.topOffset*index) *m,
         width: (userCoords.width + 40) *m,
         height: userCoords.height *m,
+        color: JSCOLORS.black_40,
         borderColor: helperBorderColor(type),
         radius: 10 *m
       })

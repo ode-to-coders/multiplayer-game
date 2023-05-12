@@ -2,11 +2,11 @@ import { Dispatch, SetStateAction } from 'react';
 import { ssd } from './storeSessionData';
 
 import { SelectWishEntourage, WinEntourage, SelectCard, FiveQuestions, WriteAnswer, AnswersAndThink, FinalThink } from './scenes';
-import { writingsText, drawText, drawImgBorderText, settingHover } from 'shared/utils/canvas';
+import { writingsText, drawText, drawImgBorderText, settingHover, loadImagesInCash, firstDownloader } from 'pages/TestCanvas/utils';
 import { source } from 'shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS, GAMESCENES, NAMESCENES, TIMESCENES } from './const';
 
-import { TObjParamsDrawText } from 'shared/utils/canvas/types';
+import { TObjParamsDrawText } from 'pages/TestCanvas/utils/types';
 import { TMainGamer, TScenes } from './types';
 
 /**
@@ -17,6 +17,8 @@ let m: number;
  * левый сдвиг под динамический размер канваса
  */
 let lofs: number;
+
+
 export class CanvasScenes {
 
   public scenes: TScenes = {
@@ -98,9 +100,34 @@ export class CanvasScenes {
     }
     else {cs.checkanim = 0} */
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    // предзагрузка в кеш изображений
+    if (!ssd.checkLoadedImgFunc) {
+      ssd.checkLoadedImgFunc = true;
+      loadImagesInCash(source.game);
+    }
+    // загрузчик перед игрой
+    if (ssd.arrLoadedImgSrc.length < 103) {
+      return firstDownloader(ctx, canvas, 103);      
+    }
+
+    // фон
+    if (scene === GAMESCENES.selectWishEntourage) {
+      if(this.clickIndexRect !== null) {
+        ssd.mainGamer.entourage = this.returnEntourage(this.clickIndexRect)
+      }
+    }
+    drawImgBorderText(ctx, source.game.bg[
+      scene === GAMESCENES.selectWishEntourage
+      && this.clickIndexRect === null
+        ? 'base'
+        : ssd.mainGamer.entourage
+      ], {
+      left: 0, top: 0, width: canvas.width, height: canvas.height
+    })
     
     // лого Тест
-    drawImgBorderText(ctx, source.logo, {
+    drawImgBorderText(ctx, source.game.logo, {
       left: canvas.width - 73 *m,
       top: 20 *m,
       width: 53 *m,
@@ -115,17 +142,6 @@ export class CanvasScenes {
     
     if (scene === GAMESCENES.selectWishEntourage) {
     // СЦЕНА ВЫБОРА ЖЕЛАЕМОГО АНТУРАЖА  ------------------------------------------
-      const returnEntourage = (index: number) => {
-        return index === 0
-          ? 'modern'
-          : index === 1
-            ? 'england'
-            : 'fantasy'
-      }
-      const randomIndex012 = () => {        
-        const index = Math.random();
-        return index < 1/3 ? 0 : index < 2/3 ? 1 : 2;
-      }
 
       const timerData = {
         nameId: scene,
@@ -135,9 +151,9 @@ export class CanvasScenes {
           let entourage: TMainGamer['entourage'];
           // запись желаемого антуража в временный entourage
           if (this.clickIndexRect !== null) {
-            entourage = returnEntourage(this.clickIndexRect)
+            entourage = this.returnEntourage(this.clickIndexRect)
           } else {
-            entourage = returnEntourage(randomIndex012())
+            entourage = this.returnEntourage(this.randomIndex012())
           }
 
           // WEBSOCKET место для отправки entourage на бек
@@ -227,7 +243,7 @@ export class CanvasScenes {
       this.scenes.selectCard.render(
         'Выберите профессию',
         ssd.cardsForSelect.prof,
-        source.cards[ssd.mainGamer.entourage].profession,
+        source.game.cards[ssd.mainGamer.entourage].profession,
         timerData
       )
     
@@ -264,7 +280,7 @@ export class CanvasScenes {
       this.scenes.selectCard.render(
         'Выберите тайну',
         ssd.cardsForSelect.secret,
-        source.cards[ssd.mainGamer.entourage].secrets,
+        source.game.cards[ssd.mainGamer.entourage].secrets,
         timerData
       )
 
@@ -407,8 +423,8 @@ export class CanvasScenes {
     if (this.hoveredIndexRect !== index) {
       this.hoveredIndexRect = index;
       this.setFrameRender(Math.random());
-      if (index !== null) console.log('зашли на ' + index)
-        else console.log('ушли с элемента')
+      // if (index !== null) console.log('зашли на ' + index)
+      //   else console.log('ушли с элемента')
     }
   };
   public clickIndexRect: number | null = null;
@@ -417,7 +433,7 @@ export class CanvasScenes {
       this.clickIndexRect = index;
       this.setFrameRender(Math.random());
     }
-    if (index !== null) console.log('клик по ' + index)
+    // if (index !== null) console.log('клик по ' + index)
   }
   
   handlerMouseMove = (e: MouseEvent) => {
@@ -439,15 +455,28 @@ export class CanvasScenes {
 
   handlerKeyDown = (e: KeyboardEvent) => {
     if (this.indexElem !== null) {
-      const text = writingsText(
+      /* const text = */ writingsText(
         this.canvasCtx, e, 
         {
           objText: ssd.objText, 
           set: this.setObjText 
         }, 
         ssd.rectsForScene[this.indexElem]);
-      console.log(text);
+      // console.log(text);
       // console.log(ssd.objText);
     }
+  }
+
+  returnEntourage = (index: number) => {
+    return index === 0
+      ? 'modern'
+      : index === 1
+        ? 'england'
+        : 'fantasy'
+  }
+  
+  randomIndex012 = () => {        
+    const index = Math.random();
+    return index < 1/3 ? 0 : index < 2/3 ? 1 : 2;
   }
 }

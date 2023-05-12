@@ -2,13 +2,13 @@
 export enum TIMESCENES { 
   selectWishEntourage = 12,
   winEntourage = 3,
-  selectProf = 5,
+  selectProf = 29,
   selectSecret = 5,
   fiveClose = 2,
   fiveOpen = 2,
-  myAnswer = 15,
-  gamersAnswers = 30,
-  finalAnswer = 30,
+  myAnswer = 3,
+  gamersAnswers = 4,
+  finalAnswer = 5,
   finalResult = 15
 }
 
@@ -44,6 +44,7 @@ export enum JSCOLORS {
   england = 'orange',
   fantasy = 'yellow',
   black = 'black',
+  black_85 = 'rgba(0, 0, 0, 0.85)',
   black_40 = 'rgba(0, 0, 0, 0.4)',
   white = 'white',
   green = 'green',

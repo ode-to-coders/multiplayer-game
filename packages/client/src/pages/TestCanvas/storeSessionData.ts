@@ -1,4 +1,4 @@
-import { IRectsWriteAndHover, IobjLogWritingsText, TObjParamsDrawText, TTimerCash } from 'shared/utils/canvas/types';
+import { IRectsWriteAndHover, IobjLogWritingsText, TObjParamsDrawText, TTimerCash } from '@/pages/TestCanvas/utils/types';
 import { NAMESCENES } from './const';
 import { TCardQuestion, TMainGamer } from './types';
 import { source } from 'shared/const/gameLibrary/dataLibrary';
@@ -62,11 +62,11 @@ class SessionData {
     open: false
   }  
   private baseArrCardBack = [
-    {left: 32, top: 110, width: 300, height: 197, src: source.cards.back[0]},
-    {left: 360, top: 110, width: 300, height: 197, src: source.cards.back[1]},
-    {left: 688, top: 110, width: 300, height: 197, src: source.cards.back[0]},
-    {left: 200, top: 340, width: 300, height: 197, src: source.cards.back[1]},
-    {left: 533, top: 340, width: 300, height: 197, src: source.cards.back[1]},
+    {left: 32, top: 110, width: 300, height: 197, src: source.game.cards.back[0]},
+    {left: 360, top: 110, width: 300, height: 197, src: source.game.cards.back[1]},
+    {left: 688, top: 110, width: 300, height: 197, src: source.game.cards.back[0]},
+    {left: 200, top: 340, width: 300, height: 197, src: source.game.cards.back[1]},
+    {left: 533, top: 340, width: 300, height: 197, src: source.game.cards.back[1]},
   ]
 
   private baseArrPlaceUsersAnswer = {
@@ -99,6 +99,7 @@ class SessionData {
   private baseObjText: TObjParamsDrawText = {};
   private baseArrLoadedImgSrc: string[] = [];
   private baseArrLoadedImg: HTMLImageElement[] = [];
+  private baseCheckLoadedImgFunc = false;
   
   public mainGamer = this.baseMainGamer;
   public timers = this.baseTimers; // {}
@@ -119,6 +120,7 @@ class SessionData {
   // Кеш изображений
   public arrLoadedImgSrc = this.baseArrLoadedImgSrc; // []
   public arrLoadedImg = this.baseArrLoadedImg; // []
+  public checkLoadedImgFunc = this.baseCheckLoadedImgFunc; // boolean
   /**
    * объект с множителем и сдвигом для корректного расчёта соотношения сторон канваса
    * @prop m - множитель
@@ -162,6 +164,7 @@ class SessionData {
     if (what?.cashImg) {      
       this.arrLoadedImgSrc = [];
       this.arrLoadedImg = [];
+      this.checkLoadedImgFunc = false;
     }
     this.ratio = this.baseRatio;
   }

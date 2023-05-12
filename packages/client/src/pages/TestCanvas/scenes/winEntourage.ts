@@ -1,7 +1,7 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawImgBorderText, drawText, helperBorderColor } from 'shared/utils/canvas';
+import { drawImgBorderText, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
 
 import { source } from 'shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS } from '../const';
@@ -34,7 +34,7 @@ export class WinEntourage {
       text: `${data.numsVoicesWinEntourage} из ${data.numsRivals+1} проголосовали за антураж "${data.nameEntourage}"!`, 
       fontSize: 25 *m,
       textColor: JSCOLORS.white});
-    drawImgBorderText(ctx, source.memory[entourage], {
+    drawImgBorderText(ctx, source.game.memory[entourage], {
       left: 150 *m+lofs, top: 132 *m, width: 715 *m, height: 364 *m,
       color: JSCOLORS.black,
       borderPadding: 10 *m,

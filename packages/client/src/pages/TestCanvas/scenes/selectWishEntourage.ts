@@ -1,7 +1,7 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawText, helperBorderColor } from 'shared/utils/canvas';
+import { drawAndStartTimer, drawImgBorderText, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
 
 import { source } from 'shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS, NAMESCENES } from '../const';
@@ -38,9 +38,9 @@ export class SelectWishEntourage {
     drawAndStartTimer(ctx, {
       nameTimer: timerData.nameId,
       numsSeconds: timerData.seconds,
-      left: 480 *m+lofs,
+      left: this.that.canvasRef.width / 2 - 35 *m,
       top: 324 *m,
-      width: 65 *m,
+      width: 64 *m,
       height: 35 *m,
       fontSize: 32 *m,
       textColor: JSCOLORS.white,
@@ -76,7 +76,7 @@ export class SelectWishEntourage {
         left, top, width, height
       } = ssd.hoverRects[NAMESCENES.selectWishEntourage][index]
 
-      drawImgBorderText(ctx, source.memory[entourage], {
+      drawImgBorderText(ctx, source.game.memory[entourage], {
         left: left + 5 *m,
         top: top + 5 *m,
         width: width - 10 *m,
@@ -86,7 +86,7 @@ export class SelectWishEntourage {
         borderColor: this.that.clickIndexRect === index
         ? JSCOLORS.lightGreen
         : helperBorderColor(entourage),
-        shadowOn: 
+        shadowOn:
           this.that.hoveredIndexRect === index
           || this.that.clickIndexRect === index,
         radius: 5 *m

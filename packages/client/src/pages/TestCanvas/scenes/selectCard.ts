@@ -1,7 +1,7 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawText, helperBorderColor } from 'shared/utils/canvas';
+import { drawAndStartTimer, drawImgBorderText, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
 
 import { JSCOLORS, NAMESCENES } from '../const';
 
@@ -38,7 +38,7 @@ export class SelectCard {
     drawAndStartTimer(ctx, {
       nameTimer: timerData.nameId,
       numsSeconds: timerData.seconds,
-      left: 477 *m+lofs,
+      left: this.that.canvasRef.width / 2 - 45 *m,
       top: 304 *m,
       width: 70 *m,
       height: 35 *m,

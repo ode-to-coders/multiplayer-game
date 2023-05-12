@@ -1,7 +1,7 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawRoundedRect, drawText, helperBorderColor } from 'shared/utils/canvas';
+import { drawAndStartTimer, drawImgBorderText, drawRoundedRect, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
 
 import { questions, source } from 'shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS, NAMESCENES } from '../const';
@@ -36,7 +36,7 @@ export class WriteAnswer {
     drawAndStartTimer(ctx, {
       nameTimer: timerData.nameId,
       numsSeconds: timerData.seconds,
-      left: 477 *m+lofs,
+      left: this.that.canvasRef.width / 2 - 35 *m,
       top: 472 *m,
       width: 70 *m,
       height: 25 *m,
@@ -45,12 +45,12 @@ export class WriteAnswer {
       cback: timerData.cback
     })
 
-    drawImgBorderText(ctx, source[`q${cardQuestion.type}`], {
+    drawImgBorderText(ctx, source.game.question[`${cardQuestion.type}`], {
       left: 222 *m+lofs,
       top: 85 *m,
       width: 580 *m,
       height: 362 *m,
-      color: JSCOLORS.black,
+      color: JSCOLORS.black_85,
       borderPadding: 20 *m,
       borderColor: helperBorderColor(cardQuestion.type),
       radius: 30 *m

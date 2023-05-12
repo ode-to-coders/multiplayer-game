@@ -1,7 +1,7 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawImgBorderText, helperBorderColor } from 'shared/utils/canvas';
+import { drawImgBorderText, helperBorderColor } from 'pages/TestCanvas/utils';
 
 import { questions, source } from 'shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS } from '../const';
@@ -32,7 +32,7 @@ export class FiveQuestions {
       drawImgBorderText(
         ctx, 
         arrQuest[index].open
-          ? source[`q${arrQuest[index].type}`] 
+          ? source.game.question[`${arrQuest[index].type}`] 
           : elem.src, 
         {
         left: elem.left *m+lofs,

@@ -1,54 +1,138 @@
 export const source = {
-  logo: '../src/images/logo.png',
-  cardFantasyMage: '../src/app/assets/cardFantasyMage.png',
-  qblack: '../src/app/assets/qBlackBg.png',
-  qengland: '../src/app/assets/qEnglandBg.png',
-  qmodern: '../src/app/assets/qModernBg.png',
-  qfantasy: '../src/app/assets/qFantasyBg.png',
-  notebookSmall: '../src/app/assets/notebookSmall.png',
-  notebookSmall2: '../src/app/assets/notebookSmall2.png',
-  memory: {
-    england: '../src/app/assets/memoryEngland.png',
-    englandH: '../src/app/assets/memoryEnglandH.png',
-    fantasy: '../src/app/assets/memoryFantasy.png',
-    fantasyH: '../src/app/assets/_____?.png',
-    modern: '../src/app/assets/memoryModern.png',
-    modernH: '../src/app/assets/_____?.png',
-  },
-  cards: {
-    back: [
-      '../src/app/assets/cards/back/backQ13.png',
-      '../src/app/assets/cards/back/backQ245.png'
-    ],
-    england: {
-      profession: [
-        '../src/app/assets/cards/england/profession/01.jpg',
-        '../src/app/assets/cards/england/profession/06.png',
-      ],
-      secrets: [
-        '../src/app/assets/cards/england/secrets/01.png',
-        '../src/app/assets/cards/england/secrets/02.png',
-      ]
+  cardFantasyMage: '../src/app/assets/cardFantasyMageTest.png',
+  game: {
+    logo: '../src/images/logo.png',
+    notebook: {
+      small: '../src/app/assets/game/notebook/small.jpg',
+      small2: '../src/app/assets/game/notebook/small2.jpg',
     },
-    modern: {
-      profession: [
-        '../src/app/assets/cards/england/profession/01.jpg',
-        '../src/app/assets/cards/england/profession/06.png',
-      ],
-      secrets: [
-        '../src/app/assets/cards/england/secrets/01.png',
-        '../src/app/assets/cards/england/secrets/02.png',
-      ]
+    question: {
+      black: '../src/app/assets/game/question/qBlackBg.png',
+      england: '../src/app/assets/game/question/qEnglandBg.png',
+      modern: '../src/app/assets/game/question/qModernBg.png',
+      fantasy: '../src/app/assets/game/question/qFantasyBg.png',
     },
-    fantasy: {
-      profession: [
-        '../src/app/assets/cards/england/profession/01.jpg',
-        '../src/app/assets/cards/england/profession/06.png',
+    bg: {
+      base: '../src/app/assets/game/bg/bgBase.jpg',
+      england: '../src/app/assets/game/bg/bgEngland.jpg',
+      fantasy: '../src/app/assets/game/bg/bgFantasy.jpg',
+      modern: '../src/app/assets/game/bg/bgModern.jpg',
+    },
+    memory: {
+      england: '../src/app/assets/game/memory/england.png',
+      englandH: '../src/app/assets/game/memory/englandH.png',
+      fantasy: '../src/app/assets/game/memory/fantasy.png',
+      fantasyH: '../src/app/assets/game/memory/fantasyH.png',
+      modern: '../src/app/assets/game/memory/modern.png',
+      modernH: '../src/app/assets/game/memory/modernH.png',
+    },
+    cards: {
+      back: [
+        '../src/app/assets/game/cards/back/backQ13.png',
+        '../src/app/assets/game/cards/back/backQ245.png'
       ],
-      secrets: [
-        '../src/app/assets/cards/england/secrets/01.png',
-        '../src/app/assets/cards/england/secrets/02.png',
-      ]
+      england: {
+        profession: [
+          '../src/app/assets/game/cards/england/profession/1.jpg',
+          '../src/app/assets/game/cards/england/profession/2.jpg',
+          '../src/app/assets/game/cards/england/profession/3.jpg',
+          '../src/app/assets/game/cards/england/profession/4.jpg',
+          '../src/app/assets/game/cards/england/profession/5.jpg',
+          '../src/app/assets/game/cards/england/profession/6.jpg',
+          '../src/app/assets/game/cards/england/profession/7.jpg',
+          '../src/app/assets/game/cards/england/profession/8.jpg',
+          '../src/app/assets/game/cards/england/profession/9.jpg',
+          '../src/app/assets/game/cards/england/profession/10.jpg',
+          '../src/app/assets/game/cards/england/profession/11.jpg',
+          '../src/app/assets/game/cards/england/profession/12.jpg',
+          '../src/app/assets/game/cards/england/profession/13.jpg',
+          '../src/app/assets/game/cards/england/profession/14.jpg',
+        ],
+        secrets: [
+          '../src/app/assets/game/cards/england/secrets/1.jpg',
+          '../src/app/assets/game/cards/england/secrets/2.jpg',
+          '../src/app/assets/game/cards/england/secrets/3.jpg',
+          '../src/app/assets/game/cards/england/secrets/4.jpg',
+          '../src/app/assets/game/cards/england/secrets/5.jpg',
+          '../src/app/assets/game/cards/england/secrets/6.jpg',
+          '../src/app/assets/game/cards/england/secrets/7.jpg',
+          '../src/app/assets/game/cards/england/secrets/8.jpg',
+          '../src/app/assets/game/cards/england/secrets/9.jpg',
+          '../src/app/assets/game/cards/england/secrets/10.jpg',
+          '../src/app/assets/game/cards/england/secrets/11.jpg',
+          '../src/app/assets/game/cards/england/secrets/12.jpg',
+          '../src/app/assets/game/cards/england/secrets/13.jpg',
+          '../src/app/assets/game/cards/england/secrets/14.jpg',
+        ]
+      },
+      fantasy: {
+        profession: [
+          '../src/app/assets/game/cards/fantasy/profession/1.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/2.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/3.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/4.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/5.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/6.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/7.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/8.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/9.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/10.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/11.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/12.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/13.jpg',
+          '../src/app/assets/game/cards/fantasy/profession/14.jpg',
+        ],
+        secrets: [
+          '../src/app/assets/game/cards/fantasy/secrets/1.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/2.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/3.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/4.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/5.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/6.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/7.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/8.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/9.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/10.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/11.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/12.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/13.jpg',
+          '../src/app/assets/game/cards/fantasy/secrets/14.jpg',
+        ]
+      },
+      modern: {
+        profession: [
+          '../src/app/assets/game/cards/modern/profession/1.jpg',
+          '../src/app/assets/game/cards/modern/profession/2.jpg',
+          '../src/app/assets/game/cards/modern/profession/3.jpg',
+          '../src/app/assets/game/cards/modern/profession/4.jpg',
+          '../src/app/assets/game/cards/modern/profession/5.jpg',
+          '../src/app/assets/game/cards/modern/profession/6.jpg',
+          '../src/app/assets/game/cards/modern/profession/7.jpg',
+          '../src/app/assets/game/cards/modern/profession/8.jpg',
+          '../src/app/assets/game/cards/modern/profession/9.jpg',
+          '../src/app/assets/game/cards/modern/profession/10.jpg',
+          '../src/app/assets/game/cards/modern/profession/11.jpg',
+          '../src/app/assets/game/cards/modern/profession/12.jpg',
+          '../src/app/assets/game/cards/modern/profession/13.jpg',
+          '../src/app/assets/game/cards/modern/profession/14.jpg',
+        ],
+        secrets: [
+          '../src/app/assets/game/cards/modern/secrets/1.jpg',
+          '../src/app/assets/game/cards/modern/secrets/2.jpg',
+          '../src/app/assets/game/cards/modern/secrets/3.jpg',
+          '../src/app/assets/game/cards/modern/secrets/4.jpg',
+          '../src/app/assets/game/cards/modern/secrets/5.jpg',
+          '../src/app/assets/game/cards/modern/secrets/6.jpg',
+          '../src/app/assets/game/cards/modern/secrets/7.jpg',
+          '../src/app/assets/game/cards/modern/secrets/8.jpg',
+          '../src/app/assets/game/cards/modern/secrets/9.jpg',
+          '../src/app/assets/game/cards/modern/secrets/10.jpg',
+          '../src/app/assets/game/cards/modern/secrets/11.jpg',
+          '../src/app/assets/game/cards/modern/secrets/12.jpg',
+          '../src/app/assets/game/cards/modern/secrets/13.jpg',
+          '../src/app/assets/game/cards/modern/secrets/14.jpg',
+        ]
+      }
     }
   }
 }

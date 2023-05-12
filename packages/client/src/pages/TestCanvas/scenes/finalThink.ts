@@ -1,7 +1,7 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawRoundedRect, drawText, helperBorderColor } from 'shared/utils/canvas';
+import { drawAndStartTimer, drawImgBorderText, drawRoundedRect, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
 
 import { cards, source } from 'shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS, NAMESCENES } from '../const';
@@ -219,7 +219,7 @@ export class FinalThink {
     } // -----------------------------------------------------------------------
 
     // отрисовка блокнота
-    drawImgBorderText(ctx, source.notebookSmall, {
+    drawImgBorderText(ctx, source.game.notebook.small, {
       left: 34 *m+lofs,
       top: 105 *m,
       width: 556 *m,
@@ -232,7 +232,7 @@ export class FinalThink {
     })
 
     // отрисовка памятки
-    drawImgBorderText(ctx, source.memory[`${type}H`], {
+    drawImgBorderText(ctx, source.game.memory[`${type}H`], {
       left: 610 *m+lofs,
       top: 105 *m,
       width: 380 *m,
@@ -247,14 +247,17 @@ export class FinalThink {
     ssd.mainGamer.selectedCards.forEach((card, index) => {
       const typeCards = index % 2 === 0 ? 'profession' : 'secrets';
       const color = index < 2 ? JSCOLORS.green : JSCOLORS.red;
-      drawImgBorderText(ctx, source.cards[type][typeCards][card], {
+      drawImgBorderText(ctx, source.game.cards[type][typeCards][card], {
         left: (ssd.objFinalCoordsCards.left + ssd.objFinalCoordsCards.offset*index) *m+lofs,
         top: ssd.objFinalCoordsCards.top *m,
         width: ssd.objFinalCoordsCards.width *m,
         height: ssd.objFinalCoordsCards.height *m,
         color: color,
-        borderPadding: 4 *m,
-        radius: 5 *m
+        borderColor: color,
+        borderPadding: 2 *m,
+        radius: 5 *m,
+        shadowOn: true,
+        shadowColor: color
       })
     })
   }
