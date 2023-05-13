@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
-import { Navigate, Route, Routes, useSearchParams } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { PAGES } from '../../lib/routes.types';
 import { Layout } from '../../layout/Layout';
 import { AUTH_ROUTES } from '../../lib/routes.config';
 
 export const UnauthenticatedApp = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-
   useEffect(() => {
     const fetchServerData = async () => {
       const url = `http://localhost:${__SERVER_PORT__}/api`;
@@ -15,11 +13,6 @@ export const UnauthenticatedApp = () => {
       const data = await response.json();
       console.log(data);
     };
-
-    setTimeout(() => {
-      searchParams.set('code', '312312');
-      setSearchParams(searchParams);
-    }, 5000);
 
     fetchServerData();
   }, []);
