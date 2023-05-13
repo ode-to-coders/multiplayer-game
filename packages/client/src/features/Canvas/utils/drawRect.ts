@@ -6,8 +6,8 @@
  * @param shadowColor опционально цвет тени ?? цвет border ?? 'transparent'
  */
 
-import { JSCOLORS } from 'pages/TestCanvas/const';
-import { IRect } from './types';
+import { JSCOLORS } from '../const';
+import { IRect } from '../types';
 
 export const drawRoundedRect = (
   ctx: CanvasRenderingContext2D, 

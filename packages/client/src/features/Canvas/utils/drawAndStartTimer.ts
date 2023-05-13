@@ -1,8 +1,8 @@
-import { ssd } from '@/pages/TestCanvas/storeSessionData';
-import { JSCOLORS } from 'pages/TestCanvas/const';
+import { ssd } from '../storeSessionData';
+import { JSCOLORS } from '../const';
 import { drawText } from './drawText';
 
-import { TTimerWithCback } from './types';
+import { TTimerWithCback } from '../types';
 
 /**
  * Запускает и рисует на канвасе таймер нужной длительности с опциональным колбеком
@@ -13,7 +13,12 @@ export const drawAndStartTimer = (
   ctx: CanvasRenderingContext2D, 
   props: TTimerWithCback
 ) => {
-  const {nameTimer, numsSeconds, left, top, width, height, cback} = props;
+  const {nameTimer, numsSeconds, cback} = props;
+  const left = props.left ?? 0;
+  const top = props.top ?? 0;
+  const width = props.width ?? 0;
+  const height = props.height ?? 0;
+  const drawOff = props.drawOff ?? false;
   const fontSize = props.fontSize ?? 20;
   const textColor = props.textColor ?? JSCOLORS.white;
   const fnums = props.countFloatNumbers ?? 0;
@@ -28,32 +33,34 @@ export const drawAndStartTimer = (
       checkCback: false, // проверка единственного вызова колбека
       bgImg: null
     };
-    console.log(`инициализирован таймер ${nameTimer}`, ssd.timers)
   }
 
   const timerId = ssd.timers[nameTimer]; // делаем короткую ссылку на таймер
 
   if (timerId.timer === null && !timerId.checkEnd) { // если таймер не создан и он не закончился, то создаем новый таймер
-    timerId.bgImg = ctx.getImageData(left, top, width, height)
+    if (!drawOff) {
+      timerId.bgImg = ctx.getImageData(left, top, width, height)
+    }
     timerId.timer = setInterval(() => {
-      // ctx.fillStyle = JSCOLORS.black; // TODO сделать возможность прямоугольников с таймером
-      // ctx.clearRect(left, top, width, height);
-      if (timerId.bgImg) {
-        ctx.putImageData(timerId.bgImg, left, top);
-      }
       timerId.counter-=decr;
-      drawText(ctx, {
-        left: left + 4, 
-        top: top + fontSize,
-        width: width,
-        text: `${timerId.counter <= 0
-            ? Math.round(timerId.counter / 60)
-            : Math.floor(timerId.counter / 60)
-          }:${(timerId.counter % 60).toFixed(fnums)}`,
-        fontSize: fontSize,
-
-        textColor: textColor
-      })
+      if (!drawOff) {
+        // ctx.fillStyle = JSCOLORS.black; // TODO сделать возможность прямоугольников с таймером
+        // ctx.clearRect(left, top, width, height);
+        if (timerId.bgImg) {
+          ctx.putImageData(timerId.bgImg, left, top);
+        }
+        drawText(ctx, {
+          left: left + 4, 
+          top: top + fontSize,
+          width: width,
+          text: `${timerId.counter <= 0
+              ? Math.round(timerId.counter / 60)
+              : Math.floor(timerId.counter / 60)
+            }:${(timerId.counter % 60).toFixed(fnums)}`,
+          fontSize: fontSize,
+          textColor: textColor
+        })
+      }
       if (timerId.counter <= 0) {
         if (timerId.timer !== null) {
           clearInterval(timerId.timer);
@@ -62,32 +69,34 @@ export const drawAndStartTimer = (
         //delete ssd.timers[nameTimer]
       }
       if (timerId.counter <= 0 && cback && !timerId.checkCback) {
-        cback();
         timerId.checkCback = true;
+        cback();
       }
     }, fps);
   } else {
-    // ctx.fillStyle = JSCOLORS.black;
-    // ctx.clearRect(left, top, width, height)
-    timerId.bgImg = ctx.getImageData(left, top, width, height)
-    if (timerId.bgImg) {
-      ctx.putImageData(timerId.bgImg, left, top);
+    if (!drawOff) {
+      // ctx.fillStyle = JSCOLORS.black;
+      // ctx.clearRect(left, top, width, height)
+      timerId.bgImg = ctx.getImageData(left, top, width, height)
+      if (timerId.bgImg) {
+        ctx.putImageData(timerId.bgImg, left, top);
+      }
+      drawText(ctx, {
+        left: left + 4, 
+        top: top + fontSize,
+        width: width,
+        text: `${
+          timerId.counter <= 0
+            ? '0'
+            : Math.floor(timerId.counter / 60)
+          }:${(timerId.counter % 60).toFixed(fnums)}`,
+        fontSize: fontSize,
+        textColor: textColor
+      })
     }
-    drawText(ctx, {
-      left: left + 4, 
-      top: top + fontSize,
-      width: width,
-      text: `${
-        timerId.counter <= 0
-          ? '0'
-          : Math.floor(timerId.counter / 60)
-        }:${(timerId.counter % 60).toFixed(fnums)}`,
-      fontSize: fontSize,
-      textColor: textColor
-    })  
     if (timerId.counter <= 0 && cback && !timerId.checkCback) {
-      cback();
       timerId.checkCback = true;
+      cback();
     } 
   }
 }

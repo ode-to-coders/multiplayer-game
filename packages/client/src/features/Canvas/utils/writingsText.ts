@@ -1,9 +1,9 @@
-import { ssd } from '@/pages/TestCanvas/storeSessionData';
-import { KEYS } from 'shared/const/constants';
+import { ssd } from '../storeSessionData';
+import { KEYS } from '../../../shared/const/constants';
 
-import { FONTS, JSCOLORS } from 'pages/TestCanvas/const';
+import { FONTS, JSCOLORS } from '../const';
 
-import { IobjHelpOffset, IobjLogBack, TObjParamsDrawText, TWritingsTextParams } from './types';
+import { IobjHelpOffset, IobjLogBack, TObjParamsDrawText, TWritingsTextParams } from '../types';
 
 const notWriteKeys: string[] = [
   KEYS.Control, KEYS.Shift, KEYS.Alt, KEYS.Meta, KEYS.Win,
@@ -85,7 +85,6 @@ export const writingsText = (
   
   if (widthLastStr > width) {
     if (fontSize*(arrTxt.length + 1) <= height) {
-      console.log('c')
       text += `\n${e.key}`;
     }
   } else text += e.key;

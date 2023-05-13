@@ -1,13 +1,28 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ssd } from './storeSessionData';
 
-import { SelectWishEntourage, WinEntourage, SelectCard, FiveQuestions, WriteAnswer, AnswersAndThink, FinalThink } from './scenes';
-import { writingsText, drawText, drawImgBorderText, settingHover, loadImagesInCash, firstDownloader } from 'pages/TestCanvas/utils';
-import { source } from 'shared/const/gameLibrary/dataLibrary';
-import { JSCOLORS, GAMESCENES, NAMESCENES, TIMESCENES } from './const';
+import {
+  SelectWishEntourage,
+  WinEntourage,
+  SelectCard,
+  FiveQuestions,
+  WriteAnswer,
+  AnswersAndThink,
+  FinalThink
+} from './scenes';
+import {
+  writingsText,
+  drawImgBorderText,
+  settingHover,
+  loadImagesInCash,
+  firstDownloader,
+  helperBorderColor,
+  drawAndStartTimer
+} from './utils';
+import { source } from '../../shared/const/gameLibrary/dataLibrary';
+import { GAMESCENES, NAMESCENES, TIMESCENES } from './const';
 
-import { TObjParamsDrawText } from 'pages/TestCanvas/utils/types';
-import { TMainGamer, TScenes } from './types';
+import { TMainGamer, TScenes, TObjParamsDrawText, TCardQuestion } from './types';
 
 /**
  * множитель под динамический размер канваса
@@ -21,17 +36,7 @@ let lofs: number;
 
 export class CanvasScenes {
 
-  public scenes: TScenes = {
-    set: null,
-    active: 0,    
-    selectWishEntourage: new SelectWishEntourage(this),
-    winEntourage: new WinEntourage(this),
-    selectCard: new SelectCard(this),
-    fiveQuestions: new FiveQuestions(this),
-    writeAnswer: new WriteAnswer(this),
-    answersAndThink: new AnswersAndThink(this),
-    finalThink: new FinalThink(this)
-  };
+  public scenes!: TScenes;
   private setShowModalResult!: Dispatch<SetStateAction<boolean>>
   private setFrameRender!: Dispatch<SetStateAction<number>>
 
@@ -44,8 +49,6 @@ export class CanvasScenes {
     setFrameRender: Dispatch<SetStateAction<number>>,
     ratio: {width: number, height: number}
   ) {
-
-    this.scenes.set = setScene;
     this.setShowModalResult = setShowModal;
     this.setFrameRender = setFrameRender;
 
@@ -65,14 +68,23 @@ export class CanvasScenes {
       }
       ssd.ratio.checkSuccessCalc = true;
     }
+    this.scenes = {
+      set: setScene,
+      active: 0,    
+      selectWishEntourage: new SelectWishEntourage(this),
+      winEntourage: new WinEntourage(this),
+      selectCard: new SelectCard(this),
+      fiveQuestions: new FiveQuestions(this),
+      writeAnswer: new WriteAnswer(this),
+      answersAndThink: new AnswersAndThink(this),
+      finalThink: new FinalThink(this)
+    }
   }
 
-  public checkanim = 0;
   startGame(
     canvas: HTMLCanvasElement | null,
     scene: number
   ) {
-    // console.log('РЕРЕНДЕР КАНВАСА: пуск')
     /* let */const next = false;
 
     if (!canvas) return next;
@@ -91,14 +103,7 @@ export class CanvasScenes {
 
     canvas.setAttribute('tabIndex', '0');
     canvas.focus();
-    
-    /* ctx.fillStyle = 'rgba(52, 55, 57, 5%)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    if (this.checkanim <= 100) {
-      this.checkanim++
-      return true
-    }
-    else {cs.checkanim = 0} */
+
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     // предзагрузка в кеш изображений
@@ -111,35 +116,8 @@ export class CanvasScenes {
       return firstDownloader(ctx, canvas, 103);      
     }
 
-    // фон
-    if (scene === GAMESCENES.selectWishEntourage) {
-      if(this.clickIndexRect !== null) {
-        ssd.mainGamer.entourage = this.returnEntourage(this.clickIndexRect)
-      }
-    }
-    drawImgBorderText(ctx, source.game.bg[
-      scene === GAMESCENES.selectWishEntourage
-      && this.clickIndexRect === null
-        ? 'base'
-        : ssd.mainGamer.entourage
-      ], {
-      left: 0, top: 0, width: canvas.width, height: canvas.height
-    })
-    
-    // лого Тест
-    drawImgBorderText(ctx, source.game.logo, {
-      left: canvas.width - 73 *m,
-      top: 20 *m,
-      width: 53 *m,
-      height: 43 *m, 
-      color: JSCOLORS.black,
-      borderPadding: 10 *m,
-      radius: 10 *m,
-    })
-    drawText(ctx, {left: canvas.width - 230 *m, top: 0, width: 100 *m, height: 75 *m, text: 'Testing Draw\nby @odetocoders', fontSize: 25 *m, textColor: JSCOLORS.orange});
-    
-    // console.log(`СЦЕНА ${scene}: отрисовка`)
-    
+    this.drawBackground(scene);
+
     if (scene === GAMESCENES.selectWishEntourage) {
     // СЦЕНА ВЫБОРА ЖЕЛАЕМОГО АНТУРАЖА  ------------------------------------------
 
@@ -157,14 +135,22 @@ export class CanvasScenes {
           }
 
           // WEBSOCKET место для отправки entourage на бек
-          console.log('желаемый антураж ', entourage)
 
           // с бека получаем выигравший антураж и количество голосов за него
-          const mockResWinEntourage = entourage // пока закинем желаемый
+          const mockResWinEntourage = entourage // пока закинем желаемый как мок
           const mockRecNumsVoicesWinEntourage = 4;
           // получаем также количество [1-5] соперников в сессии игры для целей отрисовки и их имена
           const mockResNumsRivals = 5;
-          const mockResNamesRivals = ['Bibi', 'Macarena', 'MoveIt', 'Дед', 'Sherlock'];
+          const mockResNamesRivals = ['Bibi', 'Macarena', 'MoveIt', 'Wolf', 'Sherlock'];
+          // здесь (или позже?) получаем также 5 вопросов для сцен в формате {тип вопроса, индекс}[]
+          // по типу и индексу в нужных сценах достаются строки-вопросы из библиотеки questions ('../../shared/const/gameLibrary/dataLibrary')
+          const mockFiveAnswers: TCardQuestion[] = [
+            {type: 'black', index: 0},
+            {type: 'england', index: 1},
+            {type: 'modern', index: 2},
+            {type: 'black', index: 5},
+            {type: 'fantasy', index: 2},
+          ]
 
           ssd.mainGamer.entourage = mockResWinEntourage;
           switch (ssd.mainGamer.entourage) {
@@ -183,7 +169,11 @@ export class CanvasScenes {
           ssd.mainGamer.numsVoicesWinEntourage = mockRecNumsVoicesWinEntourage;
           ssd.mainGamer.numsRivals = mockResNumsRivals;
           ssd.mainGamer.namesRivals = mockResNamesRivals;
-          for (let i = 0; i < 7; i++) { // разворачиваем 7 массивчиков для отрисовки и возможности заполнять блокнот в след сценах
+          mockFiveAnswers.forEach((answer, index) => {
+            ssd.dataFiveQuestions[index] = {open: false, ...answer}
+          })
+          ssd.dataFiveQuestions
+          for (let i = 0; i < 8; i++) { // разворачиваем 8 массивчиков для отрисовки и возможности заполнять блокнот в след сценах
             ssd.mainGamer.notes.push(new Array(ssd.mainGamer.numsRivals*2))
           }
 
@@ -223,7 +213,7 @@ export class CanvasScenes {
           const arrSelected = ssd.mainGamer.selectedCards
           if (this.clickIndexRect !== null) {
             // const num = ssd.cardsForSelect.prof[this.clickIndexRect];
-            // console.log(mock[0]['england'].profession[num-1]);
+            // console.log(mock[0]['england'].profession[num]);
             arrSelected[0] = ssd.cardsForSelect.prof[this.clickIndexRect];
             arrSelected[2] = ssd.cardsForSelect.prof[this.clickIndexRect === 0 ? 1 : 0]
           } else {
@@ -257,7 +247,7 @@ export class CanvasScenes {
           const arrSelected = ssd.mainGamer.selectedCards
           if (this.clickIndexRect !== null) {
             // const num = ssd.cardsForSelect.prof[this.clickIndexRect];
-            // console.log(mock[0]['england'].profession[num-1]);
+            // console.log(mock[0]['england'].profession[num]);
             arrSelected[1] = ssd.cardsForSelect.secret[this.clickIndexRect];
             arrSelected[3] = ssd.cardsForSelect.secret[this.clickIndexRect === 0 ? 1 : 0]
           } else {
@@ -297,15 +287,19 @@ export class CanvasScenes {
           counter.openFive++
         };
         counter.open = !counter.open
-        setTimeout(() => { // здесь хватает обычного таймаута
-          if (ssd.dataFiveQuestions[counter.openFive]) {
-            ssd.dataFiveQuestions[counter.openFive].open = counter.open;
+        drawAndStartTimer(ctx, {
+          nameTimer: `${scene}${counter.openFive}`,
+          numsSeconds: scene === GAMESCENES.fiveClose 
+            ? TIMESCENES.fiveClose
+            : TIMESCENES.fiveOpen,
+          drawOff: true,
+          cback: () => {
+            if (ssd.dataFiveQuestions[counter.openFive]) {
+              ssd.dataFiveQuestions[counter.openFive].open = counter.open;
+            }
+            this.scenes.set?.(scene === GAMESCENES.fiveClose ? GAMESCENES.fiveOpen : GAMESCENES.myAnswer)
           }
-          this.scenes.set?.(scene === GAMESCENES.fiveClose ? GAMESCENES.fiveOpen : GAMESCENES.myAnswer)
-        }, scene === GAMESCENES.fiveClose 
-          ? TIMESCENES.fiveClose * 1000
-          : TIMESCENES.fiveOpen * 1000
-        )
+        })
       }
 
     } else if (scene === GAMESCENES.myAnswer) {
@@ -318,11 +312,11 @@ export class CanvasScenes {
           console.log(ssd.objText[`${NAMESCENES.myAnswer}${ssd.counterFiveQuestions.openFive-1}`]?.text)
           // колбек по окончании сцены, здесь место для отправки ответа игрока и получения ответов игроков с сервера и разрешения продолжать
           const mockAnswersOfGamers = {
-            'Bibi': 'Живу в лесу, люблю есть мухоморы, иногда встречаю лакомые поганки, иногда приходится быть на диете и пить одну только воду',
-            'Macarena': 'Ношу, ношу, уже устал, ох, как же так, и нет ни конца, ни начала этим письмам',
-            'MoveIt': 'Встретил я однажды золотую монетку, с тех пор с золотом не расстаюсь, люблю его как самого себя',
-            'Дед': 'Я Завулон, Маг и Великий Воин в одном лице, Вы никогда не догадаетесь, откуда я пришел и куда иду',
-            'Sherlock': 'Вы думаете, у меня не бывает неудач? Еще как'
+            Bibi: 'Живу в лесу, люблю есть мухоморы, иногда встречаю лакомые поганки, иногда приходится быть на диете и пить одну только воду',
+            Macarena: 'Ношу, ношу, уже устал, ох, как же так, и нет ни конца, ни начала этим письмам',
+            MoveIt: 'Встретил я однажды золотую монетку, с тех пор с золотом не расстаюсь, люблю его как самого себя',
+            Wolf: 'Я Завулон, Маг и Великий Воин в одном лице, Вы никогда не догадаетесь, откуда я пришел и куда иду',
+            Sherlock: 'Вы думаете, у меня не бывает неудач? Еще как'
           }
           ssd.answersOfGamers = mockAnswersOfGamers;
           const next = true;
@@ -377,28 +371,31 @@ export class CanvasScenes {
         seconds: scene === GAMESCENES.finalAnswer 
           ? TIMESCENES.finalAnswer
           : TIMESCENES.finalResult,
+        drawOff: scene === GAMESCENES.finalAnswer 
+        ? false : false,
         cback: () => {
           if (scene === GAMESCENES.finalAnswer) {// колбек по окончании сцены, здесь место для отправки итогового ответа игрока и получение итоговых результатов и true для продолжения       
             console.log('итоговые массив ответов ', ssd.mainGamer.notes[5])
-            const result = [true, false, false, true, true, false, false, false, true, true]
-            result.forEach((check, index) => {
+            const resultMock = [true, false, false, true, true, false, false, false, true, true] // результаты под кругами
+            const resultMock2 = [true, true, false, null, null, true, false, true, null, null] // второй ряд результатов (в самом низу) - в моке 3,4,8,9 индексы null, если, например 3 соперника.
+            resultMock.forEach((check, index) => {
               ssd.mainGamer.notes[6][index] = check ? '✔' : '✖'
+            })
+            resultMock2.forEach((check, index) => {
+              ssd.mainGamer.notes[7][index] =
+                check 
+                ? '✔' 
+                : check === false
+                  ? '✖'
+                  : ''
             })
             const next = true;
             // ...
             if (next) { // можно продолжать? все получили? продолжаем переход
               this.scenes.set?.(GAMESCENES.finalResult)
             }
-          } else { // иначе это финальный экран с результатами, поэтому подчищаем игру за собой и делаем перерендер компонента с модальным окном с результатами
-            // ssd.timers = {};
-            ssd.counterFiveQuestions.openFive = 0;
-            ssd.counterFiveQuestions.open = false;
-            ssd.dataFiveQuestions.forEach(card => {
-              card.open = false;
-            })
-            
-            //
-            alert('ПОКАЗЫВАЕМ МОДАЛЬНОЕ ОКНО РЕЗУЛЬТАТОВ')
+          } else {
+            // иначе это финальный экран с результатами, показываем модальное окно с результатами
             this.setShowModalResult(true)
           }
         }
@@ -423,8 +420,6 @@ export class CanvasScenes {
     if (this.hoveredIndexRect !== index) {
       this.hoveredIndexRect = index;
       this.setFrameRender(Math.random());
-      // if (index !== null) console.log('зашли на ' + index)
-      //   else console.log('ушли с элемента')
     }
   };
   public clickIndexRect: number | null = null;
@@ -433,7 +428,6 @@ export class CanvasScenes {
       this.clickIndexRect = index;
       this.setFrameRender(Math.random());
     }
-    // if (index !== null) console.log('клик по ' + index)
   }
   
   handlerMouseMove = (e: MouseEvent) => {
@@ -462,8 +456,6 @@ export class CanvasScenes {
           set: this.setObjText 
         }, 
         ssd.rectsForScene[this.indexElem]);
-      // console.log(text);
-      // console.log(ssd.objText);
     }
   }
 
@@ -478,5 +470,24 @@ export class CanvasScenes {
   randomIndex012 = () => {        
     const index = Math.random();
     return index < 1/3 ? 0 : index < 2/3 ? 1 : 2;
+  }
+
+  drawBackground = (scene: number) => {    
+    if (scene === GAMESCENES.selectWishEntourage) {
+      if (this.clickIndexRect !== null) {
+        ssd.mainGamer.entourage = this.returnEntourage(this.clickIndexRect)
+      }
+    }
+    drawImgBorderText(this.canvasCtx, source.game.bg[
+      scene === GAMESCENES.selectWishEntourage
+      && this.clickIndexRect === null
+        ? 'base'
+        : ssd.mainGamer.entourage
+      ], {
+      left: 0, top: 0, width: this.canvasRef.width, height: this.canvasRef.height
+    })
+    if (scene === GAMESCENES.winEntourage) {
+      this.canvasRef.style.borderColor = helperBorderColor( ssd.mainGamer.entourage )
+    }
   }
 }

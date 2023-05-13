@@ -1,9 +1,14 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
+import {
+  drawAndStartTimer,
+  drawImgBorderText,
+  drawText,
+  helperBorderColor
+} from '../utils';
 
-import { source } from 'shared/const/gameLibrary/dataLibrary';
+import { source } from '../../../shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS, NAMESCENES } from '../const';
 
 import { TMainGamer, TTimerData } from '../types';
@@ -33,7 +38,6 @@ export class SelectWishEntourage {
     const ctx = this.that.canvasCtx;
     ssd.rectsForScene = ssd.hoverRects[NAMESCENES.selectWishEntourage];
 
-    console.log(ssd.ratio.multiple)
     // запускаем таймер
     drawAndStartTimer(ctx, {
       nameTimer: timerData.nameId,

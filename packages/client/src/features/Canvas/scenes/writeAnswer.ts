@@ -1,9 +1,15 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawRoundedRect, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
+import {
+  drawAndStartTimer,
+  drawImgBorderText,
+  drawRoundedRect,
+  drawText,
+  helperBorderColor
+} from '../utils';
 
-import { questions, source } from 'shared/const/gameLibrary/dataLibrary';
+import { questions, source } from '../../../shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS, NAMESCENES } from '../const';
 
 import { TTimerData } from '../types';
@@ -50,10 +56,11 @@ export class WriteAnswer {
       top: 85 *m,
       width: 580 *m,
       height: 362 *m,
-      color: JSCOLORS.black_85,
+      color: JSCOLORS.black_95,
       borderPadding: 20 *m,
       borderColor: helperBorderColor(cardQuestion.type),
-      radius: 30 *m
+      radius: 30 *m,
+      shadowOn: true
     },{
       text: questions[ cardQuestion.type ][ cardQuestion.index ]
     })

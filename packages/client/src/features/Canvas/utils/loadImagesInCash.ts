@@ -1,4 +1,4 @@
-import { ssd } from 'pages/TestCanvas/storeSessionData';
+import { ssd } from '../storeSessionData';
 
 type TObjLibrary = {
   [key in string]: string | string[] | TObjLibrary
@@ -10,8 +10,6 @@ const saveImgInCash = (src: string) => {
   img.onload = () => {
     ssd.arrLoadedImgSrc.push(src);
     ssd.arrLoadedImg.push(img);
-    console.log(src);
-    console.log(ssd.arrLoadedImgSrc.length)
   }
 }
 

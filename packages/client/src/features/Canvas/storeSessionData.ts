@@ -1,7 +1,7 @@
-import { IRectsWriteAndHover, IobjLogWritingsText, TObjParamsDrawText, TTimerCash } from '@/pages/TestCanvas/utils/types';
+import { source } from '../../shared/const/gameLibrary/dataLibrary';
 import { NAMESCENES } from './const';
-import { TCardQuestion, TMainGamer } from './types';
-import { source } from 'shared/const/gameLibrary/dataLibrary';
+
+import { TCardQuestion, TMainGamer, IRectsWriteAndHover, IobjLogWritingsText, TObjParamsDrawText, TTimerCash } from './types';
 
 class SessionData {
 
@@ -92,7 +92,19 @@ class SessionData {
     leftOffset: 0,
     checkSuccessCalc: false
   }
-  private baseTimers: TTimerCash = {};
+  get baseTimers() {
+    if (this.timers !== undefined) {
+      const arrTimers = Object.keys(this.timers);
+      if (arrTimers.length !== 0) {
+        arrTimers.forEach(nameTimer => {
+          const timer = this.timers[nameTimer].timer;
+          if (timer !== null) clearInterval(timer);
+        })
+      }
+    }
+    return {}
+  }
+  
   private baseRectsForScene: IRectsWriteAndHover[] = [];
   private baseAnswersOfGamers = {};
   private baseLogWritings: IobjLogWritingsText = {};
@@ -100,14 +112,14 @@ class SessionData {
   private baseArrLoadedImgSrc: string[] = [];
   private baseArrLoadedImg: HTMLImageElement[] = [];
   private baseCheckLoadedImgFunc = false;
-  
-  public mainGamer = this.baseMainGamer;
-  public timers = this.baseTimers; // {}
+ 
+  public mainGamer: TMainGamer = {...this.baseMainGamer, namesRivals: [], notes: []};
+  public timers: TTimerCash = this.baseTimers; // {}
   public hoverRects = this.baseHoverRects;
   public rectsForScene = this.baseRectsForScene; // []
   public cardsForSelect = this.baseCardsForSelect;
-  public dataFiveQuestions = this.baseDataFiveQuestions;
-  public counterFiveQuestions = this.baseCounterFiveQuestions;
+  public dataFiveQuestions = [...this.baseDataFiveQuestions];
+  public counterFiveQuestions = {...this.baseCounterFiveQuestions};
   public arrCardBack = this.baseArrCardBack;
   public answersOfGamers = this.baseAnswersOfGamers; // {}
   public arrPlaceUsersAnswer = this.baseArrPlaceUsersAnswer;
@@ -146,13 +158,13 @@ class SessionData {
   public reset = (what?: {
     cashImg?: boolean
   }) => {
-    this.mainGamer = this.baseMainGamer;
-    this.timers = {};
+    this.mainGamer = {...this.baseMainGamer, namesRivals: [], notes: []};    
+    this.timers = this.baseTimers;
     this.hoverRects = this.baseHoverRects;
     this.rectsForScene = [];
     this.cardsForSelect = this.baseCardsForSelect;
-    this.dataFiveQuestions = this.baseDataFiveQuestions;
-    this.counterFiveQuestions = this.baseCounterFiveQuestions;
+    this.dataFiveQuestions = [...this.baseDataFiveQuestions];
+    this.counterFiveQuestions = {...this.baseCounterFiveQuestions};
     this.arrCardBack = this.baseArrCardBack;
     this.answersOfGamers = {};
     this.arrPlaceUsersAnswer = this.baseArrPlaceUsersAnswer;

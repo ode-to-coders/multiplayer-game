@@ -1,9 +1,15 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawRoundedRect, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
+import {
+  drawAndStartTimer,
+  drawImgBorderText,
+  drawRoundedRect,
+  drawText,
+  helperBorderColor
+} from '../utils';
 
-import { cards, source } from 'shared/const/gameLibrary/dataLibrary';
+import { cards, source } from '../../../shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS, NAMESCENES } from '../const';
 
 import { TTimerData } from '../types';
@@ -40,6 +46,7 @@ export class FinalThink {
     drawAndStartTimer(ctx, {
       nameTimer: timerData.nameId,
       numsSeconds: timerData.seconds, // нужное количество секунд
+      drawOff: timerData.drawOff,
       left: 487 *m+lofs,
       top: 45 *m,
       width: 70 *m,
@@ -86,10 +93,7 @@ export class FinalThink {
             }
           }
         }
-        // можно и без ифа - так как внутри просто передача ссылки на массив (так себе оптимизация)
-        if (!ssd.rectsForScene[0] || ssd.rectsForScene[0].left !== ssd.hoverRects[nameScene][0].left) {
-          ssd.rectsForScene = ssd.hoverRects[nameScene]
-        }
+        ssd.rectsForScene = ssd.hoverRects[nameScene]
         // наведение и клики на 'инпуты' в блокноте
         // если клик
         if (this.that.clickIndexRect !== null) {
@@ -185,12 +189,19 @@ export class FinalThink {
                   ? -13 
                   : 13
                 : 0)
-            ) *m+lofs,
+              + (indexLine === 7
+                ? index < 5
+                  ? 87 
+                  : 169
+                : 0)
+            ) * (indexLine === 7 ? 0.365 : 1)
+            *m+lofs,
             top: (
               ssd.objFinalCoordsNotes.top
               + (ssd.objFinalCoordsNotes.height*indexLine)
               + (indexLine === 5 ? 4 : 0)
               + (indexLine === 6 ? -3 : 0)
+              + (indexLine === 7 ? 69 : 0)
             ) *m,
             width: ssd.objFinalCoordsNotes.width *m,
             fontSize: 16 *m,

@@ -5,7 +5,8 @@
   .canvas {
     border: 1px solid orange;
     border-radius: 20px;
-    margin: auto;
+    margin: auto;    
+    transition: border-color 0.1s ease-in-out;
 
     &:focus {
       outline: none;

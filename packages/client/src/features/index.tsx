@@ -5,3 +5,4 @@ export { ProfileMain } from './ProfileMain';
 export { ProfileEditForm } from './ProfileEditForm';
 export { ProfileEditPasswordForm } from './ProfileEditPasswordForm';
 export { RoomForm } from './RoomForm';
+export { Canvas } from './Canvas';

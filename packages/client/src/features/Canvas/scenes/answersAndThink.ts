@@ -1,9 +1,16 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawRoundedRect, drawText, helperBorderColor, transformStrByWidth } from 'pages/TestCanvas/utils';
+import {
+  drawAndStartTimer,
+  drawImgBorderText,
+  drawRoundedRect,
+  drawText,
+  helperBorderColor,
+  transformStrByWidth
+} from '../utils';
 
-import { source } from 'shared/const/gameLibrary/dataLibrary';
+import { source } from '../../../shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS } from '../const';
 
 import { TTimerData } from '../types';
@@ -97,10 +104,7 @@ export class AnswersAndThink {
           }
         }
       }
-      // можно и без ифа - так как внутри просто передача ссылки на массив (так себе оптимизация)
-      if (ssd.rectsForScene[0].left !== ssd.hoverRects[nameScene][0].left) {
-        ssd.rectsForScene = ssd.hoverRects[nameScene]
-      }
+      ssd.rectsForScene = ssd.hoverRects[nameScene]
       // наведение и клики на 'инпуты' в блокноте
       this.that.canvasRef.style.cursor = '';
       // если клик
@@ -251,7 +255,7 @@ export class AnswersAndThink {
       drawText(ctx, {
         left: userCoords.left *m+lofs, 
         top: (userCoords.topName + userCoords.topOffset*index) *m,
-        // width: user.width *m,
+        // width: user.width *m, // если надо выровнять по центру
         height: (userCoords.top - userCoords.topName) *m,
         fontSize: 20 *m,
         text: nameGamer

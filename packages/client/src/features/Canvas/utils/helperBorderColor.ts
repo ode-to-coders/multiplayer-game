@@ -1,4 +1,4 @@
-import { JSCOLORS } from 'pages/TestCanvas/const';
+import { JSCOLORS } from '../const';
 
 export const helperBorderColor = (what: string) => {
   const color = what === JSCOLORS.black ? JSCOLORS.white

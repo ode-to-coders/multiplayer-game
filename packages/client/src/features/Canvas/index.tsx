@@ -3,13 +3,11 @@ import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
 import { CanvasScenes } from './canvasScenes';
 
 import s from './index.module.scss';
-import { EndPage } from '../EndPage/EndPage';
+import { EndPage } from '../../pages/EndPage/EndPage';
 
-const canvasSize = {width: 1280  , height: 768}; // в будущем при запуске.. внести в компонент и динамически решать какие нужны размеры взависимости от экрана клиента
+const canvasSize = {width: 1280  , height: 768}; // TODO в будущем при запуске.. внести в компонент и динамически решать какие нужны размеры взависимости от экрана клиента
 
-// компонент только для Тестирования командой
-
-export const TestCanvas = () => {
+export const Canvas = () => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
   const [scene, setScene] = useState(1);
   const [showModalResult, setShowModalResult] = useState(false);

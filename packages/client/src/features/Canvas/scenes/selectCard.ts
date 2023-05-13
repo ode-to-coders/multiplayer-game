@@ -1,7 +1,12 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawAndStartTimer, drawImgBorderText, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
+import {
+  drawAndStartTimer,
+  drawImgBorderText,
+  drawText,
+  helperBorderColor
+} from '../utils';
 
 import { JSCOLORS, NAMESCENES } from '../const';
 

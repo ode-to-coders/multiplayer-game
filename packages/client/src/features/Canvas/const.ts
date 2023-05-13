@@ -1,18 +1,17 @@
 // таймеры (время показа) сцен в секундах
 export enum TIMESCENES { 
-  selectWishEntourage = 12,
+  selectWishEntourage = 7,
   winEntourage = 3,
-  selectProf = 29,
-  selectSecret = 5,
+  selectProf = 7,
+  selectSecret = 7,
   fiveClose = 2,
   fiveOpen = 2,
   myAnswer = 3,
-  gamersAnswers = 4,
+  gamersAnswers = 5,
   finalAnswer = 5,
   finalResult = 15
 }
 
-// порядок сцен
 export enum GAMESCENES {
   selectWishEntourage = 1,
   winEntourage = 2,
@@ -44,6 +43,7 @@ export enum JSCOLORS {
   england = 'orange',
   fantasy = 'yellow',
   black = 'black',
+  black_95 = 'rgba(0, 0, 0, 0.95)',
   black_85 = 'rgba(0, 0, 0, 0.85)',
   black_40 = 'rgba(0, 0, 0, 0.4)',
   white = 'white',

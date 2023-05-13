@@ -1,8 +1,8 @@
 
-import { ssd } from '@/pages/TestCanvas/storeSessionData';
+import { ssd } from '../storeSessionData';
 import { drawRoundedRect } from './drawRect';
 import { drawText } from './drawText';
-import { TText, TImgBord } from './types'
+import { TText, TImgBord } from '../types'
 
 export const drawImageOnload = (
   ctx: CanvasRenderingContext2D, 
@@ -41,7 +41,6 @@ export const drawImgBorderText = (
     if (ssd.arrLoadedImgSrc[i] === src) {
       img = ssd.arrLoadedImg[i];
       checkCashImage = true;
-      // console.log(`Изображение ${src} уже есть в кеше`);
       break;
     }
   }
@@ -67,13 +66,13 @@ export const drawImgBorderText = (
       drawText(ctx, {left, top, width, height, text, textColor, fontSize});
     }
     if (cback) {
-      cback() // в колбек можно добавить постпрорисовки, если что-то надо поверх еще нарисовать/сделать, то есть так можно бесконечно создавать слой на слое
+      // в колбек можно добавить постпрорисовки, если что-то надо поверх еще нарисовать/сделать, то есть так можно бесконечно создавать слой на слое
+      cback()
     }
-    // console.log(`отрисовка ${src}`)
   } 
 
   if (checkCashImage) {    
-    // console.log('Прямой запуск отрисовки')
+    // отрисовка из кеша
     draw()
   } else {
     img = new Image();
@@ -81,7 +80,7 @@ export const drawImgBorderText = (
     img.onload = () => {  
       ssd.arrLoadedImgSrc.push(src);
       ssd.arrLoadedImg.push(img);
-      // console.log('Onload запуск отрисовки')      
+      // Onload отрисовка  
       draw();
     }
   }

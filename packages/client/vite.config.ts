@@ -29,5 +29,5 @@ export default defineConfig({
       widgets: resolve(__dirname, 'src/widgets/'),
     },
   },
-  plugins: [react(), svgr()],
+  plugins: [react(), svgr()]
 });

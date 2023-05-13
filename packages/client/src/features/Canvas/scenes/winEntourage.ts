@@ -1,9 +1,13 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawImgBorderText, drawText, helperBorderColor } from 'pages/TestCanvas/utils';
+import {
+  drawImgBorderText,
+  drawText,
+  helperBorderColor
+} from '../utils';
 
-import { source } from 'shared/const/gameLibrary/dataLibrary';
+import { source } from '../../../shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS } from '../const';
 
 /**

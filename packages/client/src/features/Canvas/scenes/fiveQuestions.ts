@@ -1,9 +1,9 @@
 import { CanvasScenes } from '../canvasScenes';
 import { ssd } from '../storeSessionData';
 
-import { drawImgBorderText, helperBorderColor } from 'pages/TestCanvas/utils';
+import { drawImgBorderText, helperBorderColor } from '../utils';
 
-import { questions, source } from 'shared/const/gameLibrary/dataLibrary';
+import { questions, source } from '../../../shared/const/gameLibrary/dataLibrary';
 import { JSCOLORS } from '../const';
 
 /**
@@ -39,10 +39,11 @@ export class FiveQuestions {
         top: elem.top *m,
         width: elem.width *m,
         height: elem.height *m,
-        color: JSCOLORS.black,
-        borderPadding: 1 *m,
+        color: JSCOLORS.black_95,
+        borderPadding: 5 *m,
         borderColor: helperBorderColor(arrQuest[index].type),
-        radius: 5 *m
+        radius: 15 *m,
+        shadowOn: arrQuest[index].open
         }, {
         text: arrQuest[index].open
           ? questions[ arrQuest[index].type ][ arrQuest[index].index ]

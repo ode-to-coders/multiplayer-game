@@ -1,7 +1,7 @@
-import { FONTS } from 'pages/TestCanvas/const';
+import { FONTS } from '../const';
 
   /**
-   * Трансформация строки под заданную ширину (встраивание в строку \n)
+   * Трансформация строки под заданную ширину (вставка в строку \n)
    * @param ctx контекст канваса
    * @param str строка
    * @param width требуемая ширина

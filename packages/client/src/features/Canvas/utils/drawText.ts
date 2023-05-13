@@ -1,6 +1,6 @@
-import { FONTS, JSCOLORS } from 'pages/TestCanvas/const';
+import { FONTS, JSCOLORS } from '../const';
 
-import { paramsDrawText } from './types';
+import { paramsDrawText } from '../types';
 
 /**
  * Отрисовка текста по центру поля заданных размеров
