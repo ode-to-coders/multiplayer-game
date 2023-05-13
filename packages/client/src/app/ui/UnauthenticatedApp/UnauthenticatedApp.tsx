@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { PAGES } from '../../lib/routes.types';
@@ -6,17 +6,6 @@ import { Layout } from '../../layout/Layout';
 import { AUTH_ROUTES } from '../../lib/routes.config';
 
 export const UnauthenticatedApp = () => {
-  useEffect(() => {
-    const fetchServerData = async () => {
-      const url = `http://localhost:${__SERVER_PORT__}/api`;
-      const response = await fetch(url);
-      const data = await response.json();
-      console.log(data);
-    };
-
-    fetchServerData();
-  }, []);
-
   return (
     <Routes>
       <Route path="*" element={<Navigate to={`${PAGES.SIGNIN}`} />} />
