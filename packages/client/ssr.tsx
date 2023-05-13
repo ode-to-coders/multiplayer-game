@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { CacheProvider } from '@emotion/react';
 import { StaticRouter } from 'react-router-dom/server';
