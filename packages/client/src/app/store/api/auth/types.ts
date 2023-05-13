@@ -26,3 +26,16 @@ export type UserInfoResponse = {
   phone: string;
   avatar: string | null;
 };
+
+export type ServiceIdResponse = {
+  service_id: string;
+};
+
+export type ServiceIdParams = {
+  redirect_uri: string;
+};
+
+export type SignInYandexRequestBody = {
+  code: string;
+  redirect_uri: string;
+};
