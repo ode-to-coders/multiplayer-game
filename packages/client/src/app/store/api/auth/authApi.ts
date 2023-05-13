@@ -1,4 +1,3 @@
-import { defaultMethod } from 'react-router-dom/dist/dom';
 import { HTTP_METHOD } from '../../../../shared/const/constants';
 import { baseApi } from '../baseApi';
 
