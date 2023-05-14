@@ -27,3 +27,5 @@ export function render(url: string, cache: any) {
     </CacheProvider>
   );
 }
+
+export { store };

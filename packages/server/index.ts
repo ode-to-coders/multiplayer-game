@@ -171,13 +171,22 @@ async function startServer() {
       }
 
       let render: (url: string, cache: any) => Promise<string>;
+      let store: { getState: () => unknown };
 
       if (!isDev) {
         render = (await import(ssrClientPath)).render;
+        store = (await import(ssrClientPath)).store;
       } else {
         render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
           .render;
+        store = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
+          .store
       }
+
+      const appStore = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
+        store.getState()
+      )}</script>`
+
       const cache = createCache({ key: 'css' });
 
       const { extractCriticalToChunks, constructStyleTagsFromChunks } =
@@ -190,6 +199,7 @@ async function startServer() {
 
       const html = template
         .replace('<!--ssr-outlet-->', appHtml)
+        .replace('<!--ssr-store-->', appStore)
         .replace('<!--ssr-style-->', emotionCss);
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
