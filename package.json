@@ -25,6 +25,7 @@
     "lerna": "5.4.3"
   },
   "dependencies": {
+    "@emotion/server": "^11.11.0",
     "@types/react-alert": "7.0.2",
     "react-alert": "7.0.3",
     "react-alert-template-basic": "1.0.2",
