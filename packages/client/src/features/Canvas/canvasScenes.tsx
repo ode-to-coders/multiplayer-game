@@ -11,9 +11,7 @@ import {
   FinalThink
 } from './scenes';
 import {
-  writingsText,
   drawImgBorderText,
-  settingHover,
   loadImagesInCash,
   firstDownloader,
   helperBorderColor,
@@ -23,6 +21,7 @@ import { source } from '../../shared/const/gameLibrary/dataLibrary';
 import { GAMESCENES, NAMESCENES, TIMESCENES } from './const';
 
 import { TMainGamer, TScenes, TObjParamsDrawText, TCardQuestion } from './types';
+import { HandlerEvents } from './utils/handlerEvents';
 
 /**
  * множитель под динамический размер канваса
@@ -36,7 +35,8 @@ let lofs: number;
 
 export class CanvasScenes {
 
-  public scenes!: TScenes;
+  public scenes: TScenes;
+  private handlerEvents: HandlerEvents;
   private setShowModalResult!: Dispatch<SetStateAction<boolean>>
   private setFrameRender!: Dispatch<SetStateAction<number>>
 
@@ -79,6 +79,7 @@ export class CanvasScenes {
       answersAndThink: new AnswersAndThink(this),
       finalThink: new FinalThink(this)
     }
+    this.handlerEvents = new HandlerEvents(this);
   }
 
   startGame(
@@ -95,9 +96,7 @@ export class CanvasScenes {
 
     // подписка на события канваса
     if (!this.checkOnEvents) {
-      canvas.addEventListener('click', this.handlerClick)
-      canvas.addEventListener('keydown', this.handlerKeyDown)
-      canvas.addEventListener('mousemove', this.handlerMouseMove)
+      this.handlerEvents.addEventsListener();
       this.checkOnEvents = true;
     }
 
@@ -179,8 +178,10 @@ export class CanvasScenes {
 
           const next = true; // можно продолжать
           // ...
+          this.indexElem = null;
           this.clickIndexRect = null;
           this.hoveredIndexRect = null;
+          ssd.rectsForScene = [];
           this.canvasRef.style.cursor = '';
           if (next) this.scenes.set?.(GAMESCENES.winEntourage) // ок, продолжаем
         }
@@ -225,6 +226,7 @@ export class CanvasScenes {
           // колбек по окончании сцены (таймера), здесь место для отправки выбора игрока и получения разрешения от сервера продолжать
           const next = true;
           // ...
+          this.indexElem = null;
           this.clickIndexRect = null; // очистка лога клика
           if (next) this.scenes.set?.(GAMESCENES.selectSecret) // можно продолжать? продолжаем
         }
@@ -259,6 +261,7 @@ export class CanvasScenes {
           const next = true;
           // ...
 
+          this.indexElem = null;
           this.clickIndexRect = null;
           this.hoveredIndexRect = null; // очистка лога наведения
           ssd.rectsForScene = [];
@@ -297,6 +300,11 @@ export class CanvasScenes {
             if (ssd.dataFiveQuestions[counter.openFive]) {
               ssd.dataFiveQuestions[counter.openFive].open = counter.open;
             }
+            if (scene === GAMESCENES.fiveOpen) {
+              this.indexElem = 0,
+              this.clickIndexRect = 0,
+              this.hoveredIndexRect = 0
+            }
             this.scenes.set?.(scene === GAMESCENES.fiveClose ? GAMESCENES.fiveOpen : GAMESCENES.myAnswer)
           }
         })
@@ -321,7 +329,8 @@ export class CanvasScenes {
           ssd.answersOfGamers = mockAnswersOfGamers;
           const next = true;
           // ...
-          this.clickIndexRect = null;
+          this.indexElem = 0;
+          this.clickIndexRect = 0;
           this.hoveredIndexRect = null;
           if (next) this.scenes.set?.(GAMESCENES.gamersAnswers) // можно продолжать, все получили? продолжаем
         }
@@ -345,6 +354,7 @@ export class CanvasScenes {
               // очистка таймеров для нового круга вопросов
               delete ssd.timers[GAMESCENES.myAnswer];
               delete ssd.timers[GAMESCENES.gamersAnswers];
+              this.indexElem = null;
               this.clickIndexRect = null;
               this.hoveredIndexRect = null;
               this.canvasRef.style.cursor = '';
@@ -352,7 +362,9 @@ export class CanvasScenes {
               
               this.scenes.set?.(GAMESCENES.fiveClose)
             } else {
-              this.clickIndexRect = null;
+              const index = ssd.mainGamer.numsRivals*2*5
+              this.indexElem = index;
+              this.clickIndexRect = index;
               this.hoveredIndexRect = null;
 
               this.scenes.set?.(GAMESCENES.finalAnswer)
@@ -400,6 +412,7 @@ export class CanvasScenes {
           }
         }
       }
+      this.scenes.active = scene;
       const nameScene = scene === GAMESCENES.finalAnswer
         ? NAMESCENES.finalAnswer
         : NAMESCENES.finalResult
@@ -410,7 +423,7 @@ export class CanvasScenes {
   }
 
   public checkOnEvents = false;
-  public indexElem: number | null = null;
+  public indexElem: number | null = 0;
   public setObjText = (objText: TObjParamsDrawText) => {
     ssd.objText = objText;
     this.setFrameRender(Math.random()) // рандомное число для запуска ререндера
@@ -427,35 +440,6 @@ export class CanvasScenes {
     if (this.clickIndexRect !== index) {
       this.clickIndexRect = index;
       this.setFrameRender(Math.random());
-    }
-  }
-  
-  handlerMouseMove = (e: MouseEvent) => {
-    settingHover(
-      ssd.rectsForScene, e, 
-      this.hoveredIndexRect, 
-      this.setHoveredIndexRect
-    );
-  }
-
-  handlerClick = (e: MouseEvent) => {
-    this.indexElem = settingHover(
-      ssd.rectsForScene, e,
-      this.hoveredIndexRect,
-      this.setHoveredIndexRect
-    ) ?? null,
-    this.setClickIndexRect(this.indexElem)
-  }
-
-  handlerKeyDown = (e: KeyboardEvent) => {
-    if (this.indexElem !== null) {
-      /* const text = */ writingsText(
-        this.canvasCtx, e, 
-        {
-          objText: ssd.objText, 
-          set: this.setObjText 
-        }, 
-        ssd.rectsForScene[this.indexElem]);
     }
   }
 
