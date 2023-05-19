@@ -9,7 +9,7 @@ import { authSlice } from './auth/authSlice';
   typeof window !== 'undefined'
     ? window.__PRELOADED_STATE__
     : {
-      auth: authSlice.getInitialState(),
+        auth: authSlice.getInitialState(),
       };
 
 const createStore = (preloadedState = {}) => {
