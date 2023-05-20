@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
 
-import { useSignInMutation } from 'app/store/api/auth/authApi';
-import { yupSchemaSigninForm as schema } from 'shared/const/validate';
+import { useSignInMutation } from '../../app/store/api/auth/authApi';
+import { yupSchemaSigninForm as schema } from '../../shared/const/validate';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PAGES } from '../../app/lib/routes.types';
 
