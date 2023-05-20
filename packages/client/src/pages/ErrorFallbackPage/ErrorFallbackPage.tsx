@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';

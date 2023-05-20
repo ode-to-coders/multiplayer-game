@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { StyledContainer } from '../../shared/ui/Styled';
 
 import style from './index.module.scss';
