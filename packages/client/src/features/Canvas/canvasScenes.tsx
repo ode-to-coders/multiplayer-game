@@ -12,7 +12,7 @@ import {
 } from './scenes';
 import {
   drawImgBorderText,
-  loadImagesInCash,
+  loadImagesInCache,
   firstDownloader,
   helperBorderColor,
   drawAndStartTimer
@@ -22,6 +22,7 @@ import { GAMESCENES, NAMESCENES, TIMESCENES } from './const';
 
 import { TMainGamer, TScenes, TObjParamsDrawText, TCardQuestion } from './types';
 import { HandlerEvents } from './utils/handlerEvents';
+import { SoundPlayer } from './soundPlayer';
 
 /**
  * множитель под динамический размер канваса
@@ -36,6 +37,8 @@ let lofs: number;
 export class CanvasScenes {
 
   public scenes: TScenes;
+  public audio: SoundPlayer;
+  public checkOnSounds = false;
   private handlerEvents: HandlerEvents;
   private setShowModalResult!: Dispatch<SetStateAction<boolean>>
   private setFrameRender!: Dispatch<SetStateAction<number>>
@@ -80,6 +83,8 @@ export class CanvasScenes {
       finalThink: new FinalThink(this)
     }
     this.handlerEvents = new HandlerEvents(this);
+    this.audio = new SoundPlayer();
+    this.audio.stopAll();
   }
 
   startGame(
@@ -105,16 +110,21 @@ export class CanvasScenes {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    // предзагрузка в кеш изображений
-    if (!ssd.checkLoadedImgFunc) {
-      ssd.checkLoadedImgFunc = true;
-      loadImagesInCash(source.game);
+    // предзагрузка в кеш изображений и звуков
+    if (!ssd.checkLoaded) {
+      ssd.checkLoaded = true;
+      loadImagesInCache(source.game);
+      this.audio.loadSoundsInCache(source.sounds);
     }
     // загрузчик перед игрой
-    if (ssd.arrLoadedImgSrc.length < 103) {
-      return firstDownloader(ctx, canvas, 103);      
+    if ((ssd.arrLoadedImgSrc.length + ssd.audioStore.size) < 106) {
+      return firstDownloader(ctx, canvas, 103 + 3);     
     }
-
+    if (!this.checkOnSounds) {
+      this.audio.play(source.sounds.bgMain, true);
+      this.checkOnSounds = true;
+    }
+    
     this.drawBackground(scene);
 
     if (scene === GAMESCENES.selectWishEntourage) {

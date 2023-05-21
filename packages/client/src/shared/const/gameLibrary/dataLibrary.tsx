@@ -1,5 +1,10 @@
 export const source = {
   cardFantasyMage: '/assets/cardFantasyMageTest.png',
+  sounds: {
+    bgMain: '/assets/sounds/gameOST.mp3',
+    click: '/assets/sounds/selectClick.mp3',
+    clickKey: '/assets/sounds/keyboardInput.mp3'
+  },
   game: {
     logo: '/assets/game/logo.png',
     notebook: {
