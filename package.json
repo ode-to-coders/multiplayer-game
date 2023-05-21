@@ -22,10 +22,7 @@
   },
   "devDependencies": {
     "@evilmartians/lefthook": "1.1.1",
-    "lerna": "5.4.3",
-    "react-alert": "^7.0.3",
-    "react-alert-template-basic": "^1.0.2",
-    "redux-logger": "^3.0.6"
+    "lerna": "5.4.3"
   },
   "dependencies": {
     "@emotion/server": "^11.11.0"
