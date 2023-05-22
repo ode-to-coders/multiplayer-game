@@ -11,6 +11,8 @@ dotenv.config();
 import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import { dbConnect } from './db';
+import { routes } from './src/routes/topic.routes';
 
 type payloadType = {
   success?: boolean;
@@ -40,7 +42,13 @@ type gamesType = Record<string, Array<clientType>>;
 
 const games: gamesType = {};
 
+export const app = express();
+
 function start() {
+  dbConnect().then(res => console.log('res', res));
+
+  routes(app);
+
   const wss = new WebSocket.Server({ port: 3002 }, () => {
     console.log('WebSocket server started');
   });
@@ -124,7 +132,6 @@ function start() {
 const isDev = process.env.NODE_ENV === 'development';
 
 async function startServer() {
-  const app = express();
   app.use(cors());
   const port = Number(process.env.SERVER_PORT) || 3001;
 
