@@ -9,5 +9,5 @@ const enum TOPIC_ROUTES {
 
 export const routes = (app: Express) => {
   app.get(TOPIC_ROUTES.GET_TOPICS, getTopics);
-  app.post(TOPIC_ROUTES.GET_TOPICS, createTopic);
+  app.post(TOPIC_ROUTES.CREATE_TOPIC, createTopic);
 };

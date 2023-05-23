@@ -150,6 +150,8 @@ async function startServer() {
     app.use(vite.middlewares);
   }
 
+  routes(app);
+
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)');
   });
