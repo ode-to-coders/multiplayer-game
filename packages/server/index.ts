@@ -128,12 +128,15 @@ async function startServer() {
   app.use(cors());
   const port = Number(process.env.SERVER_PORT) || 3001;
 
+  let distPath = '';
+  let srcPath = '';
+  let ssrClientPath = '';
+
   let vite: ViteDevServer | undefined;
-  const distPath = path.dirname(require.resolve('client/dist/index.html'));
-  const srcPath = path.dirname(require.resolve('client'));
-  const ssrClientPath = require.resolve('client/ssr-dist/client.cjs');
+
 
   if (isDev) {
+    srcPath = path.dirname(require.resolve('client'));
     vite = await createViteServer({
       server: { middlewareMode: true },
       root: srcPath,
@@ -141,6 +144,10 @@ async function startServer() {
     });
 
     app.use(vite.middlewares);
+  } else {
+      distPath = path.dirname(require.resolve('../../client/dist/index.html'));
+
+      ssrClientPath = require.resolve('../../client/ssr-dist/client.cjs');
   }
 
   app.get('/api', (_, res) => {
