@@ -111,7 +111,8 @@ class SessionData {
   private baseObjText: TObjParamsDrawText = {};
   private baseArrLoadedImgSrc: string[] = [];
   private baseArrLoadedImg: HTMLImageElement[] = [];
-  private baseCheckLoadedImgFunc = false;
+  private baseAudioStore: Map<string, AudioBuffer> = new Map();
+  private baseCheckLoaded = false;
  
   public mainGamer: TMainGamer = {...this.baseMainGamer, namesRivals: [], notes: []};
   public timers: TTimerCash = this.baseTimers; // {}
@@ -132,7 +133,8 @@ class SessionData {
   // Кеш изображений
   public arrLoadedImgSrc = this.baseArrLoadedImgSrc; // []
   public arrLoadedImg = this.baseArrLoadedImg; // []
-  public checkLoadedImgFunc = this.baseCheckLoadedImgFunc; // boolean
+  public audioStore = this.baseAudioStore;
+  public checkLoaded = this.baseCheckLoaded; // boolean
   /**
    * объект с множителем и сдвигом для корректного расчёта соотношения сторон канваса
    * @prop m - множитель
@@ -156,7 +158,7 @@ class SessionData {
    * @param obj - объект с уточнением доп.очищения (кеш изображений)
    */
   public reset = (what?: {
-    cashImg?: boolean
+    cacheSources?: boolean
   }) => {
     this.mainGamer = {...this.baseMainGamer, namesRivals: [], notes: []};    
     this.timers = this.baseTimers;
@@ -173,10 +175,11 @@ class SessionData {
     this.objFinalCoordsCards = this.baseObjFinalCoordsCards;
     this.logWritings = {};
     this.objText = {};
-    if (what?.cashImg) {      
+    if (what?.cacheSources) {      
       this.arrLoadedImgSrc = [];
       this.arrLoadedImg = [];
-      this.checkLoadedImgFunc = false;
+      this.audioStore.clear();
+      this.checkLoaded = false;
     }
     this.ratio = this.baseRatio;
   }
