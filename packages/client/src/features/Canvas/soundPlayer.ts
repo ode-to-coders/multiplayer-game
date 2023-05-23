@@ -43,11 +43,9 @@ export class SoundPlayer {
   public setVolume = (volume: number) => {
     if (volume === -10 && this.volume >= 0.1) {
       this.volume -= 0.1;
-      console.log(this.volume)
       this.gainNode.gain.value = this.volume;
     } else if (volume === 10 && this.volume <= 0.9) {
       this.volume += 0.1;
-      console.log(this.volume)
       this.gainNode.gain.value = this.volume;
     } else if (volume >= 0 && volume <= 1){
       this.gainNode.gain.value = volume;
