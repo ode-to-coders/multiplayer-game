@@ -25,6 +25,21 @@ export function MainPage() {
     }
   };
 
+  const test = async () => {
+    fetch(`${__CLIENT_URL__}/topics/create`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: 'first',
+        owner_name: 'second',
+      }),
+    });
+  };
+
+  test();
+
   return (
     <div className={styles.container}>
       <Grid container spacing={2} className={styles.grid}>

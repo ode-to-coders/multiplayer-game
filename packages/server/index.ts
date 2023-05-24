@@ -133,6 +133,9 @@ const isDev = process.env.NODE_ENV === 'development';
 
 async function startServer() {
   app.use(cors());
+  app.use(express.urlencoded());
+  app.use(express.json());
+
   const port = Number(process.env.SERVER_PORT) || 3001;
 
   let vite: ViteDevServer | undefined;
