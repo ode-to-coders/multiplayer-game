@@ -12,7 +12,7 @@ import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
 import { dbConnect } from './db';
-import { routes } from './src/routes/topic.routes';
+import { commentRoutes, routes } from './src/routes/topic.routes';
 
 type payloadType = {
   success?: boolean;
@@ -46,8 +46,6 @@ export const app = express();
 
 function start() {
   dbConnect().then(res => console.log('res', res));
-
-  routes(app);
 
   const wss = new WebSocket.Server({ port: 3002 }, () => {
     console.log('WebSocket server started');
@@ -154,6 +152,7 @@ async function startServer() {
   }
 
   routes(app);
+  commentRoutes(app);
 
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)');

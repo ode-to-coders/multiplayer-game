@@ -25,20 +25,34 @@ export function MainPage() {
     }
   };
 
-  const test = async () => {
-    fetch(`${__CLIENT_URL__}/topics/create`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: 'first',
-        owner_name: 'second',
-      }),
-    });
-  };
+  //TODO DELETE
+  // const test = async () => {
+  //   fetch(`${__CLIENT_URL__}/topics/create`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       name: 'first',
+  //       author: 'Mark',
+  //     }),
+  //   });
 
-  test();
+  //   fetch(`${__CLIENT_URL__}/topics/update`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       id: 1,
+  //       reactions: [{ raction: 'smile', count: 1 }],
+  //     }),
+  //   });
+
+  //   fetch(`${__CLIENT_URL__}/topics`);
+  // };
+
+  // test();
 
   return (
     <div className={styles.container}>

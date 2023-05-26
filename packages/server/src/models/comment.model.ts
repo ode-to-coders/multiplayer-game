@@ -4,8 +4,9 @@ import { ModelAttributes } from 'sequelize/types/model';
 export interface IComment {
   id: number;
   topic_id: number;
-  comment: string;
-  owner_name: string;
+  parent_id: number;
+  content: string;
+  author: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,11 +21,15 @@ export const commentModel: ModelAttributes<Model, IComment> = {
     type: DataType.INTEGER,
     allowNull: false,
   },
-  owner_name: {
+  parent_id: {
+    type: DataType.INTEGER,
+    allowNull: false,
+  },
+  author: {
     type: DataType.STRING,
     allowNull: false,
   },
-  comment: {
+  content: {
     type: DataType.STRING,
     allowNull: false,
   },

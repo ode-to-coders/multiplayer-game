@@ -4,10 +4,14 @@ import { ModelAttributes } from 'sequelize/types/model';
 export interface ITopic {
   id: number;
   name: string;
-  owner_name: string;
+  author: string;
   comments_count: number;
   createdAt: Date;
   updatedAt: Date;
+  reactions: {
+    reaction: string;
+    count: number;
+  }[];
 }
 
 export const topicModel: ModelAttributes<Model, ITopic> = {
@@ -20,7 +24,7 @@ export const topicModel: ModelAttributes<Model, ITopic> = {
     type: DataType.STRING,
     allowNull: false,
   },
-  owner_name: {
+  author: {
     type: DataType.STRING,
     allowNull: false,
   },
@@ -34,5 +38,8 @@ export const topicModel: ModelAttributes<Model, ITopic> = {
   },
   updatedAt: {
     type: DataType.DATE,
+  },
+  reactions: {
+    type: DataType.ARRAY(DataType.JSON),
   },
 };

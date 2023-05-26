@@ -3,15 +3,23 @@ import { Request, Response } from 'express';
 import { Topic } from '../../db';
 
 export const createTopic = (req: Request, res: Response) => {
-  const { name, owner_name } = req.body;
+  const { name, author } = req.body;
 
-  if (!name || !owner_name) {
+  if (!name || !author) {
     return res
       .status(400)
-      .send({ message: 'name/owner_name обязательные параметры' });
+      .send({ message: 'name и author обязательные параметры' });
   }
-  return res.send(200);
-  // return Topic.create();
+
+  return Topic.create({ name, author })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || 'Произошла ошибка при создании темы',
+      });
+    });
 };
 
 export const getTopics = (_req: Request, res: Response) => {
@@ -22,6 +30,25 @@ export const getTopics = (_req: Request, res: Response) => {
     .catch(err => {
       res.status(500).send({
         message: err.message || 'Произошла ошибка при получении тем форума',
+      });
+    });
+};
+
+export const updateTopicReactions = (req: Request, res: Response) => {
+  const { id, reactions } = req.body;
+
+  Topic.update(
+    { reactions },
+    {
+      where: { id },
+    }
+  )
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || 'Произошла ошибка при обновлении темы форума',
       });
     });
 };
