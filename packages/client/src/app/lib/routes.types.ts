@@ -18,7 +18,7 @@ export const enum PAGES {
   ENDGAME = '/end',
   LEADERBOARD = '/leaderboard',
   FORUM = '/forum',
-  TOPIC = '/topic',
+  TOPIC = '/topic/:id',
   ROOMS = '/rooms',
   SIGNIN = '/signin',
   REGISTRATION = '/registration',
