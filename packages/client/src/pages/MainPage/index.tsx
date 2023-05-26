@@ -27,7 +27,7 @@ export function MainPage() {
 
   //TODO DELETE
   // const test = async () => {
-  //   fetch(`${__CLIENT_URL__}/topics/create`, {
+  //   fetch('http://localhost:3001/api/topics/create', {
   //     method: 'POST',
   //     headers: {
   //       'content-type': 'application/json',
@@ -38,18 +38,27 @@ export function MainPage() {
   //     }),
   //   });
 
-  //   fetch(`${__CLIENT_URL__}/topics/update`, {
+  //   fetch('http://localhost:3001/api/topics/update', {
   //     method: 'PUT',
   //     headers: {
   //       'content-type': 'application/json',
   //     },
   //     body: JSON.stringify({
   //       id: 1,
-  //       reactions: [{ raction: 'smile', count: 1 }],
+  //       author: 'DDDD',
+  //       name: 'TTTT',
+  //       reactions: [],
   //     }),
   //   });
 
-  //   fetch(`${__CLIENT_URL__}/topics`);
+  //   fetch('http://localhost:3001/api/topics/delete/10', {
+  //     method: 'DELETE',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //     },
+  //   });
+
+  //   fetch('http://localhost:3001/api/topics');
   // };
 
   // test();
