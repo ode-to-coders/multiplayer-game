@@ -22,4 +22,34 @@ export const createComment = (req: Request, res: Response) => {
     });
 };
 
-// export const getComments = (_req: Request, res: Response) => {};
+export const getComments = (req: Request, res: Response) => {
+  const { depth, topicId: topic_id } = req.params;
+
+  Comment.findAll({
+    where: { topic_id, depth },
+  })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || 'Произошла ошибка при получении комментариев',
+      });
+    });
+};
+
+export const deleteComment = (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  Comment.destroy({
+    where: { id },
+  })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || 'Произошла ошибка при удалении комментария',
+      });
+    });
+};

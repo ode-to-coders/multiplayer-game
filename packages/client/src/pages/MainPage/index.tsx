@@ -26,31 +26,31 @@ export function MainPage() {
   };
 
   //TODO DELETE
-  const test = async () => {
-    fetch(`${__CLIENT_URL__}/topics/create`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: 'first',
-        author: 'Mark',
-      }),
-    });
+  // const test = async () => {
+  //   fetch(`${__CLIENT_URL__}/topics/create`, {
+  //     method: 'POST',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       name: 'first',
+  //       author: 'Mark',
+  //     }),
+  //   });
 
-    fetch(`${__CLIENT_URL__}/topics/update`, {
-      method: 'PUT',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({
-        id: 1,
-        reactions: [{ raction: 'smile', count: 1 }],
-      }),
-    });
+  //   fetch(`${__CLIENT_URL__}/topics/update`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       'content-type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       id: 1,
+  //       reactions: [{ raction: 'smile', count: 1 }],
+  //     }),
+  //   });
 
-    fetch(`${__CLIENT_URL__}/topics`);
-  };
+  //   fetch(`${__CLIENT_URL__}/topics`);
+  // };
 
   // test();
 

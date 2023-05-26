@@ -34,6 +34,25 @@ export const getTopics = (_req: Request, res: Response) => {
     });
 };
 
+export const updateTopic = (req: Request, res: Response) => {
+  const { name, author, reactions, id } = req.body;
+
+  Topic.update(
+    { name, author, reactions },
+    {
+      where: { id },
+    }
+  )
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || 'Произошла ошибка при обновлении темы форума',
+      });
+    });
+};
+
 export const updateTopicReactions = (req: Request, res: Response) => {
   const { id, reactions } = req.body;
 
@@ -48,7 +67,24 @@ export const updateTopicReactions = (req: Request, res: Response) => {
     })
     .catch(err => {
       res.status(500).send({
-        message: err.message || 'Произошла ошибка при обновлении темы форума',
+        message:
+          err.message || 'Произошла ошибка при обновлении реакций темы форума',
+      });
+    });
+};
+
+export const deleteTopic = (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  Topic.destroy({
+    where: { id },
+  })
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || 'Произошла ошибка при удалении топика',
       });
     });
 };
