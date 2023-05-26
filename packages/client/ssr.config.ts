@@ -20,7 +20,7 @@ export default defineConfig({
   define: {
     __CLIENT_URL: `${process.env.CLIENT_URL}` || '',
     __APP_PATH__: `${process.env.APP_PATH}` || '',
-    YANDEX_OAUTH_REDIRECT_PATH:
+    __YANDEX_OAUTH_REDIRECT_PATH__:
       `${process.env.YANDEX_OAUTH_REDIRECT_PATH}` || '',
   },
   plugins: [react(), svgr()],
