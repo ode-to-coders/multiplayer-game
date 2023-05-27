@@ -23,10 +23,14 @@ Topic.hasMany(Comment, {
   foreignKey: 'topic_id',
 });
 
-Comment.belongsTo(Topic);
-
-Comment.belongsTo(Comment, { as: 'parent', foreignKey: 'parent_id' });
-Comment.hasMany(Comment, { as: 'children', foreignKey: 'parent_id' });
+Comment.belongsTo(Comment, {
+  as: 'parent',
+  foreignKey: 'parent_id',
+});
+Comment.hasMany(Comment, {
+  as: 'children',
+  foreignKey: 'parent_id',
+});
 
 export async function dbConnect() {
   try {

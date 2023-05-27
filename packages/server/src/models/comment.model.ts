@@ -35,7 +35,7 @@ export const commentModel: ModelAttributes<Model, IComment> = {
     allowNull: false,
   },
   depth: {
-    type: DataType.NUMBER,
+    type: DataType.INTEGER,
     defaultValue: 0,
     allowNull: false,
   },
