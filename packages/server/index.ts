@@ -12,7 +12,7 @@ import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
 import { dbConnect } from './db';
-import { routes } from './src/routes/topic.routes';
+import { commentRoutes, routes } from './src/routes/topic.routes';
 
 type payloadType = {
   success?: boolean;
@@ -46,8 +46,6 @@ export const app = express();
 
 function start() {
   dbConnect().then(res => console.log('res', res));
-
-  routes(app);
 
   const wss = new WebSocket.Server({ port: 3002 }, () => {
     console.log('WebSocket server started');
@@ -138,12 +136,15 @@ async function startServer() {
 
   const port = Number(process.env.SERVER_PORT) || 3001;
 
+  let distPath = '';
+  let srcPath = '';
+  let ssrClientPath = '';
+
   let vite: ViteDevServer | undefined;
-  const distPath = path.dirname(require.resolve('client/dist/index.html'));
-  const srcPath = path.dirname(require.resolve('client'));
-  const ssrClientPath = require.resolve('client/ssr-dist/client.cjs');
+
 
   if (isDev) {
+    srcPath = path.dirname(require.resolve('client'));
     vite = await createViteServer({
       server: { middlewareMode: true },
       root: srcPath,
@@ -151,9 +152,14 @@ async function startServer() {
     });
 
     app.use(vite.middlewares);
+  } else {
+      distPath = path.dirname(require.resolve('../../client/dist/index.html'));
+
+      ssrClientPath = require.resolve('../../client/ssr-dist/client.cjs');
   }
 
   routes(app);
+  commentRoutes(app);
 
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)');
@@ -183,13 +189,22 @@ async function startServer() {
       }
 
       let render: (url: string, cache: any) => Promise<string>;
+      let store: { getState: () => unknown };
 
       if (!isDev) {
         render = (await import(ssrClientPath)).render;
+        store = (await import(ssrClientPath)).store;
       } else {
         render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
           .render;
+        store = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
+          .store
       }
+
+      const appStore = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
+        store.getState()
+      )}</script>`
+
       const cache = createCache({ key: 'css' });
 
       const { extractCriticalToChunks, constructStyleTagsFromChunks } =
@@ -202,6 +217,7 @@ async function startServer() {
 
       const html = template
         .replace('<!--ssr-outlet-->', appHtml)
+        .replace('<!--ssr-store-->', appStore)
         .replace('<!--ssr-style-->', emotionCss);
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
