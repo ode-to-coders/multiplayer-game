@@ -54,7 +54,7 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.FORUM,
-    Component: () => <ForumPage topics={topics} />,
+    Component: () => <ForumPage />,
   },
   {
     path: PAGES.TOPIC,
