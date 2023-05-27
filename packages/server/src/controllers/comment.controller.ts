@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Comment } from '../../db';
 
 export const createComment = (req: Request, res: Response) => {
-  const { topic_id, author, content, parent_id } = req.body;
+  const { topic_id, author, content, parent_id, depth } = req.body;
 
   if (!topic_id || !author || !content) {
     return res
@@ -11,7 +11,7 @@ export const createComment = (req: Request, res: Response) => {
       .send({ message: 'name и author и content обязательные параметры' });
   }
 
-  return Comment.create({ topic_id, author, content, parent_id })
+  return Comment.create({ topic_id, author, content, parent_id, depth })
     .then(data => {
       res.send(data);
     })
@@ -50,6 +50,25 @@ export const deleteComment = (req: Request, res: Response) => {
     .catch(err => {
       res.status(500).send({
         message: err.message || 'Произошла ошибка при удалении комментария',
+      });
+    });
+};
+
+export const updateComment = (req: Request, res: Response) => {
+  const { topic_id, author, content, parent_id, depth, id } = req.body;
+
+  Comment.update(
+    { topic_id, author, content, parent_id, depth },
+    {
+      where: { id },
+    }
+  )
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err.message || 'Произошла ошибка при обновлении комментария',
       });
     });
 };

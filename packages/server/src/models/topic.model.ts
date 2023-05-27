@@ -5,6 +5,7 @@ export interface ITopic {
   id: number;
   name: string;
   author: string;
+  content: string;
   comments_count: number;
   createdAt: Date;
   updatedAt: Date;
@@ -27,6 +28,9 @@ export const topicModel: ModelAttributes<Model, ITopic> = {
   author: {
     type: DataType.STRING,
     allowNull: false,
+  },
+  content: {
+    type: DataType.STRING,
   },
   // Разобраться как подсчитывать автоматом
   comments_count: {

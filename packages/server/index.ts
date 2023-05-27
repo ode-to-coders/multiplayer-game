@@ -12,7 +12,7 @@ import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
 import { dbConnect } from './db';
-import { commentRoutes, routes } from './src/routes/topic.routes';
+import routes from './src/routes/routes';
 
 type payloadType = {
   success?: boolean;
@@ -142,7 +142,6 @@ async function startServer() {
 
   let vite: ViteDevServer | undefined;
 
-
   if (isDev) {
     srcPath = path.dirname(require.resolve('client'));
     vite = await createViteServer({
@@ -153,13 +152,12 @@ async function startServer() {
 
     app.use(vite.middlewares);
   } else {
-      distPath = path.dirname(require.resolve('../../client/dist/index.html'));
+    distPath = path.dirname(require.resolve('../../client/dist/index.html'));
 
-      ssrClientPath = require.resolve('../../client/ssr-dist/client.cjs');
+    ssrClientPath = require.resolve('../../client/ssr-dist/client.cjs');
   }
 
   routes(app);
-  commentRoutes(app);
 
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)');
@@ -198,12 +196,12 @@ async function startServer() {
         render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
           .render;
         store = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
-          .store
+          .store;
       }
 
       const appStore = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         store.getState()
-      )}</script>`
+      )}</script>`;
 
       const cache = createCache({ key: 'css' });
 

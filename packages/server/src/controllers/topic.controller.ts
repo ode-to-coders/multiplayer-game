@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import { Topic } from '../../db';
 
 export const createTopic = (req: Request, res: Response) => {
-  const { name, author } = req.body;
+  const { name, author, content } = req.body;
 
   if (!name || !author) {
     return res
@@ -11,7 +11,7 @@ export const createTopic = (req: Request, res: Response) => {
       .send({ message: 'name и author обязательные параметры' });
   }
 
-  return Topic.create({ name, author })
+  return Topic.create({ name, author, content })
     .then(data => {
       res.send(data);
     })
@@ -35,10 +35,10 @@ export const getTopics = (_req: Request, res: Response) => {
 };
 
 export const updateTopic = (req: Request, res: Response) => {
-  const { name, author, reactions, id } = req.body;
+  const { name, author, reactions, content, id } = req.body;
 
   Topic.update(
-    { name, author, reactions },
+    { name, author, reactions, content },
     {
       where: { id },
     }
