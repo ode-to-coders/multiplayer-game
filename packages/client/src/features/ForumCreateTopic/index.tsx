@@ -7,19 +7,18 @@ import { StyledButton } from '../../shared/ui/Styled';
 import styles from './index.module.scss';
 
 import { PAGES } from '../../app/lib/routes.types';
-import { ITopic } from '../../app/store/api/forum/types';
 
 type TProps = {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
   author: string;
-}
+};
 
 export const CreateTopic = (props: TProps) => {
   const { setModal, author } = props;
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [content, setContent] = useState('');  
-  const [ createTopic, { data, isError, isSuccess }] = useCreateTopicMutation();
+  const [ createTopic, { data, isError, isSuccess, isLoading }] = useCreateTopicMutation();
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
@@ -30,12 +29,16 @@ export const CreateTopic = (props: TProps) => {
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();    
+    e.preventDefault();
+    if (isLoading || isSuccess) {
+      return;
+    };
+
     createTopic({
       name,
       author,
       content
-    });    
+    });
   };
 
   useEffect(() => {

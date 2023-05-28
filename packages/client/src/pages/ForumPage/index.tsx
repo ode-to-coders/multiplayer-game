@@ -30,8 +30,15 @@ export function ForumPage() {
   const { data } = useGetTopicsQuery();
   
   const [ deleteTopic ] = useDeleteTopicMutation();
-  const handleDelete = (idTopic: number) => {
-    deleteTopic(idTopic.toString());
+  const [ isLoadingDelete, setIsLoadingDelete ] = useState(false);
+  const handleDelete = async (idTopic: number) => {
+    if (isLoadingDelete) {
+      return;
+    }
+    setIsLoadingDelete(true);
+
+    await deleteTopic(idTopic.toString());
+    setIsLoadingDelete(false);
   }
   
   const navigate = useNavigate();
