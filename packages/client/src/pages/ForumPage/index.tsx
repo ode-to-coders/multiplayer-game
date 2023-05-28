@@ -1,5 +1,11 @@
 import * as React from 'react';
+
+import { CreateTopic } from '../../features';
 import { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useGetTopicsQuery, useDeleteTopicMutation } from '../../app/store/api/forum/forumApi';
+import { useGetUserInfoQuery } from '../../app/store/api/auth/authApi';
+import { ModalBase } from '../../shared/ui';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -11,43 +17,31 @@ import TablePagination, {
 } from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 
-import { StyledContainer } from '../../shared/ui/Styled';
+import { StyledButton, StyledContainer } from '../../shared/ui/Styled';
 
 import styles from './index.module.scss';
 
-import { useGetTopicsQuery, useCreateTopicMutation, useDeleteTopicMutation } from '../../app/store/api/forum/forumApi';
-import { useGetUserInfoQuery } from '../../app/store/api/auth/authApi';
 import { ITopic } from '../../app/store/api/forum/types';
+import { PAGES } from '../../app/lib/routes.types';
 
 export function ForumPage() {
 
-  const { data, isError: dataTopicIsError, isLoading: dataTopicIsLoading } = useGetTopicsQuery();
-  const [ createTopic ] = useCreateTopicMutation();
-  const [input, setInput] = useState('name')
-  const handleSetInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(e.target.value)
-    console.log(input)
-  }  
-
   const { data: userData, isError, isFetching } = useGetUserInfoQuery();
-  const handleCreateTopic = async (newTopic: {name: string, author: string, content: string}) => {
-    try {
-      const response = await createTopic(newTopic);
-      console.log(response)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const handleCreate = () => {
-    handleCreateTopic({
-      name: input,
-      author: userData?.display_name ?? 'anonim',
-      content: 'lorem ipsum dolor sit amet, consectetur adipisicing elit'
-    })
-  }
+  const { data } = useGetTopicsQuery();
+  
   const [ deleteTopic ] = useDeleteTopicMutation();
-  const handleDelete = (topic: ITopic) => {
-    deleteTopic(topic.id)
+  const handleDelete = (idTopic: number) => {
+    deleteTopic(idTopic.toString());
+  }
+  
+  const navigate = useNavigate();
+  const handleClickTopic = (
+    e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
+    idTopic: number
+  ) => {
+    if ((e.target as HTMLElement).tagName === 'BUTTON') return;
+    const PATH = PAGES.TOPIC.replace(':id', idTopic.toString());
+    navigate(PATH);
   }
 
   const [page, setPage] = useState(0);
@@ -80,7 +74,10 @@ export function ForumPage() {
     return pages;
   };
 
-  // data.map((item, index) => console.log(item, index))
+  const [showModal, setShowModal] = useState(false);
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
 
   return (
     <>
@@ -95,7 +92,12 @@ export function ForumPage() {
                   <TableCell className={styles.cell}>Создатель</TableCell>
                   <TableCell className={styles.cell}>Дата</TableCell>
                   <TableCell className={styles.cell}>
-                    <button onClick={handleCreate}>Cоздать<br/>тему</button>
+                    <StyledButton
+                      onClick={handleOpenModal}
+                      extendсlass={styles.buttonCreate}
+                    >
+                      Cоздать<br/>тему
+                    </StyledButton>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -107,6 +109,7 @@ export function ForumPage() {
                       hover role="checkbox"
                       tabIndex={-1}
                       className={styles.row}
+                      onClick={(e) => handleClickTopic(e, item.id)}
                     >
                       <TableCell className={styles.cell}>
                         {item.name}
@@ -123,7 +126,12 @@ export function ForumPage() {
                       <TableCell className={styles.cell}>
                         {
                           item.author === userData?.display_name &&
-                          <button onClick={() => handleDelete(item)}>удалить<br/>тему</button>
+                          <StyledButton
+                            onClick={() => handleDelete(item.id)}
+                            extendсlass={styles.button}
+                          >
+                            удалить<br/>тему
+                          </StyledButton>                          
                         }                      
                       </TableCell>                    
                     </TableRow>
@@ -136,7 +144,7 @@ export function ForumPage() {
             className={styles.pagination}
             rowsPerPageOptions={[10, 25, 100]}
             component="div"
-            count={data?.length as number}
+            count={data ? data.length : 0}
             rowsPerPage={rowsPerPage}
             page={page}
             labelRowsPerPage="Всего страниц"
@@ -144,33 +152,16 @@ export function ForumPage() {
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
           />
-        </Paper>
-      <input value={input} onChange={handleSetInput} />
-      <button onClick={handleCreate}>Создать тему</button>
-      <input value={input} onChange={(e) => {console.log(e)}} />
-      
+        </Paper>      
       </StyledContainer>
-      {/* {showModal && (
-        <ModalBase title="Загрузите файл" setOpenCback={setShowModal}>
-          <div className={s.modalWrap}>
-            <label className={s.inputFileWrap}>
-              <input
-                className={s.inputFile}
-                type="file"
-                id="inputAvatar"
-                onChange={handleSetTextSelectFile}
-              />
-              <span className={s.inputFileText}>{textSelectFile}</span>
-            </label>
-
-            <FormButton
-              className={s.modalButton}
-              onClick={handleClickButtonSetAvatar}>
-              Поменять
-            </FormButton>
-          </div>
+      {showModal && (
+        <ModalBase title="Новая тема" setOpenCback={setShowModal}>
+          <CreateTopic
+            setModal={setShowModal}
+            author={userData?.display_name ?? 'anonim'}  
+          />
         </ModalBase>
-      )}  */}
+      )} 
     </>
   );
 }

@@ -8,22 +8,33 @@ import { TopicT, Comment } from './types';
 
 import styles from './index.module.scss';
 
+import { useParams } from 'react-router-dom';
+import { useGetTopicsQuery } from '../../app/store/api/forum/forumApi';
+import { useMemo } from 'react';
+
 export function TopicPage(props: TopicT) {
-  const { topic } = props;
+  const { topic: topicMock } = props;
+
+  
+  const { description, subject, user, comments } = topicMock;
+  
+  
+  const { data, isError, isLoading } = useGetTopicsQuery();
+  const { id } = useParams();
+  const topic = useMemo(() => {
+    return data?.find(topic => topic.id === Number(id))
+  }, [data])
 
   if (!topic) return null;
-
-  const { description, subject, user, comments } = topic;
-
+  
   return (
     <div className={styles.topic}>
       <CssBaseline />
       <Container maxWidth="md" className={styles.container}>
-        <h1>{subject}</h1>
-        <div className={styles.user}>{user.name}</div>
-        <div className={styles.description}>{description}</div>
+        <h1>{topic.name}</h1>
+        <div className={styles.user}>{topic.author}</div>
+        <div className={styles.description}>{topic.content}</div>
         <Divider className={styles.divider} />
-
         {comments.map((comment: Comment, index: number) => (
           <Box className={styles.comment} key={index}>
             <Avatar />

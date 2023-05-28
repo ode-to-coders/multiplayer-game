@@ -8,7 +8,7 @@ import { forumApi } from './api/forum/forumApi';
 export interface IReducer {
   baseApi: CombinedState<Record<never, never>, 'USER_INFO', 'baseApi'>;
   auth: AuthState;
-  forumApi: CombinedState<Record<never, never>, never, 'forumApi'>;
+  forumApi: CombinedState<Record<never, never>, 'FORUM_DATA', 'forumApi'>;
 }
 
 export const reducer = combineReducers<IReducer>({

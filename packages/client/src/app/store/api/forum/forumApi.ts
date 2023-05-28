@@ -1,8 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+
 import { HTTP_METHOD } from '../../../../shared/const/constants';
 
 import {
-  ITopic
+  IComment,
+  ICreateComment,
+  ICreateTopic,
+  IGetComments,
+  ITopic,
+  IUpdateComment,
+  IUpdateReactionsTopic,
+  IUpdateTopic
 } from './types';
 
 const enum FORUM_TOPIC {
@@ -10,37 +18,46 @@ const enum FORUM_TOPIC {
   UPDATE_REACTIONS = '/topics/reactions/update',
   UPDATE = '/topics/update',
   CREATE = '/topics/create',
-  DELETE = '/topics/delete',
-  FORUM_GET_COMMENTS = '/comments',
-  FORUM_CREATE_COMMENTS = '/comments/create',
+  DELETE = '/topics/delete'
 }
 
 const enum FORUM_COMMENTS {
   GET = '/comments',
   CREATE = '/comments/create',
-  DELETE = '/comments/delete'
+  DELETE = '/comments/delete',
+  UPDATE = '/comments/update'
 }
 
 const baseQuery = fetchBaseQuery({ baseUrl: __CLIENT_URL__ })
 
 export const forumApi = createApi({
   reducerPath: 'forumApi',
+  tagTypes: ['FORUM_DATA'],
   baseQuery,
   endpoints: builder => ({
 
-    getTopics: builder.query<ITopic[], void | Record<never, never>>({
+    getTopics: builder.query<ITopic[], void>({
       query: () => FORUM_TOPIC.GET,
+      providesTags: result => result
+        ? [
+            ...result.map(({ id }) => (
+              { type: 'FORUM_DATA' as const, id }
+              )),
+            { type: 'FORUM_DATA', id: 'LIST' },
+          ]
+        : [{ type: 'FORUM_DATA', id: 'LIST' }],
     }),
 
-    updateTopic: builder.mutation({
+    updateTopic: builder.mutation<ITopic, IUpdateTopic>({
       query: updateTopic => ({
         url: FORUM_TOPIC.UPDATE,
         method: HTTP_METHOD.PUT,
         body: updateTopic
-      })
+      }),
+      invalidatesTags: [{ type: 'FORUM_DATA', id: 'LIST' }]
     }),
 
-    updateReactions: builder.mutation({
+    updateReactions: builder.mutation<ITopic, IUpdateReactionsTopic>({
       query: updateReactions => ({
         url: FORUM_TOPIC.UPDATE_REACTIONS,
         method: HTTP_METHOD.PUT,
@@ -48,26 +65,28 @@ export const forumApi = createApi({
       })
     }),
 
-    createTopic: builder.mutation({
+    createTopic: builder.mutation<ITopic, ICreateTopic>({
       query: newTopic => ({
         url: FORUM_TOPIC.CREATE,
         method: HTTP_METHOD.POST,
         body: newTopic
-      })
+      }),
+      invalidatesTags: [{ type: 'FORUM_DATA', id: 'LIST' }]
     }),
 
-    deleteTopic: builder.mutation({
+    deleteTopic: builder.mutation<string, string>({
       query: id => ({
         url: `${FORUM_TOPIC.DELETE}/${id}`,
         method: HTTP_METHOD.DELETE
-      })
+      }),
+      invalidatesTags: [{ type: 'FORUM_DATA', id: 'LIST' }]
     }),
 
-    getComments: builder.query({
+    getComments: builder.query<IComment, IGetComments>({
       query: ({id, depth}) => `${FORUM_COMMENTS.GET}/${id}/${depth}`,
     }),
 
-    createComment: builder.mutation({
+    createComment: builder.mutation<IComment, ICreateComment>({
       query: newComment => ({
         url: FORUM_COMMENTS.CREATE,
         method: HTTP_METHOD.POST,
@@ -75,10 +94,18 @@ export const forumApi = createApi({
       })
     }),
 
-    deleteComment: builder.mutation({
+    deleteComment: builder.mutation<string, string>({
       query: id => ({
         url: `${FORUM_COMMENTS.DELETE}/${id}`,
         method: HTTP_METHOD.DELETE
+      })
+    }),
+
+    updateComment: builder.mutation<IComment, IUpdateComment>({
+      query: updatedComment => ({
+        url: FORUM_COMMENTS.UPDATE,
+        method: HTTP_METHOD.PUT,
+        body: updatedComment
       })
     })
   })
@@ -92,5 +119,6 @@ export const {
   useDeleteTopicMutation,
   useGetCommentsQuery,
   useCreateCommentMutation,
-  useDeleteCommentMutation
+  useDeleteCommentMutation,
+  useUpdateCommentMutation
 } = forumApi;

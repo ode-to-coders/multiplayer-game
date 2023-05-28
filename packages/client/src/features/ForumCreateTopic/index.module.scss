@@ -1,0 +1,28 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  width: 75vh;
+
+  & > div {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    
+    .content, .inputName {
+      width: 100%;
+      font-size: 1.5rem;
+      background-color: var(--color-darkestGrey);
+      border-radius: 2px;
+      color: var(--color-white);
+    }
+
+    .content {
+      resize: vertical;      
+      min-height: 100px;
+    }
+  }
+
+  .btnSubmit {
+    margin: auto;
+  }
+}
