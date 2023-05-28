@@ -26,12 +26,19 @@ import { PAGES } from '../../app/lib/routes.types';
 
 export function ForumPage() {
 
-  const { data: userData, isError, isFetching } = useGetUserInfoQuery();
+  const { data: userData } = useGetUserInfoQuery();
   const { data } = useGetTopicsQuery();
   
   const [ deleteTopic ] = useDeleteTopicMutation();
-  const handleDelete = (idTopic: number) => {
-    deleteTopic(idTopic.toString());
+  const [ isLoadingDelete, setIsLoadingDelete ] = useState(false);
+  const handleDelete = async (idTopic: number) => {
+    if (isLoadingDelete) {
+      return;
+    }
+    setIsLoadingDelete(true);
+
+    await deleteTopic(idTopic.toString());
+    setIsLoadingDelete(false);
   }
   
   const navigate = useNavigate();
@@ -39,7 +46,9 @@ export function ForumPage() {
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
     idTopic: number
   ) => {
-    if ((e.target as HTMLElement).tagName === 'BUTTON') return;
+    if ((e.target as HTMLElement).tagName === 'BUTTON') {
+      return;
+    }
     const PATH = PAGES.TOPIC.replace(':id', idTopic.toString());
     navigate(PATH);
   }
@@ -132,7 +141,7 @@ export function ForumPage() {
                           >
                             удалить<br/>тему
                           </StyledButton>                          
-                        }                      
+                        }            
                       </TableCell>                    
                     </TableRow>
                   );

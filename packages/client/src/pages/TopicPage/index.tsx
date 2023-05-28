@@ -20,6 +20,10 @@ export function TopicPage(props: TopicT) {
   const { topic: topicMock } = props;
 
   const [ updateTopicReactions ] = useUpdateReactionsMutation();
+  
+  const { comments } = topicMock;  
+  
+  const { data } = useGetTopicsQuery();
   const { id } = useParams();
 
   const { data } = useGetTopicsQuery();
