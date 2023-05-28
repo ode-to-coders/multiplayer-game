@@ -19,14 +19,10 @@ import styles from './index.module.scss';
 export function TopicPage(props: TopicT) {
   const { topic: topicMock } = props;
 
-  const [ updateTopicReactions ] = useUpdateReactionsMutation();
-  
-  const { comments } = topicMock;  
+  const [ updateTopicReactions ] = useUpdateReactionsMutation(); 
   
   const { data } = useGetTopicsQuery();
   const { id } = useParams();
-
-  const { data } = useGetTopicsQuery();
 
   const { comments } = topicMock;
 
