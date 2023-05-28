@@ -9,6 +9,7 @@
 
   .divider {
     border-color: var(--color-divider);
+    margin-top: 20px;
   }
 }
 
@@ -44,4 +45,16 @@
 .text {
   font-size: 14px;
   line-height: 20px;
+}
+
+.comments {
+  margin-top: 20px;
+}
+
+.form {
+  display: flex;
+}
+
+.divider {
+  margin-bottom: 10px;
 }

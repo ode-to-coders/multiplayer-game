@@ -1,34 +1,31 @@
-import { useState } from 'react';
-
 import styles from './index.module.scss';
 
-const Emoji = (props: any) => (
-  <span
-    className="emoji"
-    role="img"
-    aria-label={props.label ? props.label : ''}
-    aria-hidden={props.label ? 'false' : 'true'}
-  >
-    {props.symbol}
-  </span>
-);
-
-const emojis = [
-  '🐑', '😀', '😍', '😭', '😫', '💪',
+const EMOJIS = [
+  '😀', '👍', '💪', '👏', ' 👎', ' 💖', '🐬'
 ];
 
-function EmojiWrapper() {
-  const [selectedEmoji, setChosenEmoji] = useState([]);
+const Emoji = (props: any) => {
+  const {
+    onEmojiClick,
+  } = props;
 
   return (
     <div className={styles.wrapper}>
-      {
-        emojis.map((em, index) => (
-          <Emoji symbol={em} key={index} />
+      {EMOJIS.map((symbol, index) => (
+        <span
+          onClick={() => onEmojiClick(symbol)}
+          key={index}
+          className={styles.emoji}
+          role="img"
+          aria-label=''
+          aria-hidden='true'
+        >
+          {symbol}
+        </span>
         ))
       }
     </div>
   )
-}
+};
 
-export default EmojiWrapper;
+export default Emoji;
