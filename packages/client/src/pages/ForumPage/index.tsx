@@ -46,7 +46,9 @@ export function ForumPage() {
     e: React.MouseEvent<HTMLTableRowElement, MouseEvent>,
     idTopic: number
   ) => {
-    if ((e.target as HTMLElement).tagName === 'BUTTON') return;
+    if ((e.target as HTMLElement).tagName === 'BUTTON') {
+      return;
+    }
     const PATH = PAGES.TOPIC.replace(':id', idTopic.toString());
     navigate(PATH);
   }
@@ -139,7 +141,7 @@ export function ForumPage() {
                           >
                             удалить<br/>тему
                           </StyledButton>                          
-                        }                      
+                        }            
                       </TableCell>                    
                     </TableRow>
                   );

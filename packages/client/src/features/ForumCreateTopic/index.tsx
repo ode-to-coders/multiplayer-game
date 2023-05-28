@@ -44,7 +44,7 @@ export const CreateTopic = (props: TProps) => {
   useEffect(() => {
     if (isError) {
       setModal(false);
-    } else if (isSuccess && data){
+    } else if (isSuccess && data) {
       setName('');
       setContent('');
       const PATH = PAGES.TOPIC.replace(':id', data.id.toString());
