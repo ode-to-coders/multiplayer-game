@@ -13,5 +13,11 @@
       "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit...",
       "avatar": ""
     }
+  ],
+  "reactions": [
+    {
+      "reaction": "👎",
+      "count": 0
+    }
   ]
 }
