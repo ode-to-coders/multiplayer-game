@@ -16,34 +16,6 @@ import { TopicT, Comment, TEmoji } from './types';
 import styles from './index.module.scss';
 
 
-const emojiList = [
-  {
-    reaction:  '😀',
-    count: 0
-  },
-  {
-    reaction:  '👍',
-    count: 0
-  },
-  {
-    reaction: '💪',
-    count: 0
-  },
-  {
-    reaction: '👏',
-    count: 0
-  },
-  {
-    reaction: ' 💖',
-    count: 0
-  },
-  {
-    reaction: ' 👎',
-    count: 0
-  }
-];
-
-
 export function TopicPage(props: TopicT) {
   const { topic: topicMock } = props;
 
@@ -58,13 +30,9 @@ export function TopicPage(props: TopicT) {
     return data?.find((topic: any) => topic.id === Number(id))
   }, [data]);
 
-  const {
-    reactions,
-  } = topic || {};
+  const [reactions, setReactions] = useState<TEmoji[] | undefined>(topic?.reactions);
 
-  const [emojis, updateEmojis] = useState(reactions || emojiList);
-
-  const onEmojiClick = (symbol: TEmoji) => {
+  const onEmojiClick = async(symbol: TEmoji, emojis: TEmoji[]) => {
     const emojiIndex = emojis.findIndex(({ reaction }) => reaction === symbol.reaction);
     
     if (emojiIndex !== -1) {
@@ -78,18 +46,13 @@ export function TopicPage(props: TopicT) {
         ...emojis.slice(emojiIndex + 1)
       ];
   
-      updateEmojis(newEmojis);
+      setReactions(newEmojis);
 
-      if (topic) {
-        try {
-          updateTopicReactions({
-            ...topic,
-            reactions: newEmojis,
-          });
-        } catch(error) {
-          console.log(error);
-        }
-      }
+      await updateTopicReactions({
+        id: Number(id),
+        reactions: newEmojis,
+      });
+
     }
   };
   
@@ -101,7 +64,7 @@ export function TopicPage(props: TopicT) {
         <div className={styles.user}>{topic?.author}</div>
         <div className={styles.description}>{topic?.content}</div>
 
-        <Emoji onEmojiClick={onEmojiClick} reactions={emojis} />
+        <Emoji onEmojiClick={onEmojiClick} reactions={topic?.reactions || reactions} />
 
         <Divider className={styles.divider} />
         {comments.map((comment: Comment, index: number) => (
