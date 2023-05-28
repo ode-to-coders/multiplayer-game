@@ -26,7 +26,7 @@ import { PAGES } from '../../app/lib/routes.types';
 
 export function ForumPage() {
 
-  const { data: userData, isError, isFetching } = useGetUserInfoQuery();
+  const { data: userData } = useGetUserInfoQuery();
   const { data } = useGetTopicsQuery();
   
   const [ deleteTopic ] = useDeleteTopicMutation();

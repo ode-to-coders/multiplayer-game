@@ -14,12 +14,10 @@ import { useMemo } from 'react';
 
 export function TopicPage(props: TopicT) {
   const { topic: topicMock } = props;
-
   
-  const { description, subject, user, comments } = topicMock;
+  const { comments } = topicMock;  
   
-  
-  const { data, isError, isLoading } = useGetTopicsQuery();
+  const { data } = useGetTopicsQuery();
   const { id } = useParams();
   const topic = useMemo(() => {
     return data?.find(topic => topic.id === Number(id))

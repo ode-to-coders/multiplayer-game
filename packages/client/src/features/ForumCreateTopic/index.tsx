@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { isRouteErrorResponse, useNavigate } from 'react-router-dom';
 import { useCreateTopicMutation } from '../../app/store/api/forum/forumApi';
 
 import { StyledButton } from '../../shared/ui/Styled';
@@ -7,6 +7,7 @@ import { StyledButton } from '../../shared/ui/Styled';
 import styles from './index.module.scss';
 
 import { PAGES } from '../../app/lib/routes.types';
+import { ITopic } from '../../app/store/api/forum/types';
 
 type TProps = {
   setModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +19,7 @@ export const CreateTopic = (props: TProps) => {
   const navigate = useNavigate();
   const [name, setName] = useState('');
   const [content, setContent] = useState('');  
-  const [ createTopic ] = useCreateTopicMutation();
+  const [ createTopic, { data, isError, isSuccess }] = useCreateTopicMutation();
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value)
@@ -28,28 +29,25 @@ export const CreateTopic = (props: TProps) => {
     setContent(e.target.value)
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const response = await createTopic({
-        name: name,
-        author: author,
-        content: content
-      });
-      if ('error' in response) {
-        console.log(response.error);
-        setModal(false);
-      } else {
-        setName('');
-        setContent('');
-        const PATH = PAGES.TOPIC.replace(':id', response.data.id.toString());
-        navigate(PATH)
-      }
-    } catch (error) {
-      console.log(error)
-      setModal(false);
-    }
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();    
+    createTopic({
+      name,
+      author,
+      content
+    });    
   };
+
+  useEffect(() => {
+    if (isError) {
+      setModal(false);
+    } else if (isSuccess && data){
+      setName('');
+      setContent('');
+      const PATH = PAGES.TOPIC.replace(':id', data.id.toString());
+      navigate(PATH)
+    }
+  }, [isError, isSuccess, data])
 
   return (
     <form
