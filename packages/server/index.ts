@@ -11,6 +11,8 @@ dotenv.config();
 import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import { dbConnect } from './db';
+import routes from './src/routes/routes';
 
 type payloadType = {
   success?: boolean;
@@ -40,7 +42,11 @@ type gamesType = Record<string, Array<clientType>>;
 
 const games: gamesType = {};
 
+export const app = express();
+
 function start() {
+  dbConnect().then(res => console.log('res', res));
+
   const wss = new WebSocket.Server({ port: 3002 }, () => {
     console.log('WebSocket server started');
   });
@@ -124,8 +130,10 @@ function start() {
 const isDev = process.env.NODE_ENV === 'development';
 
 async function startServer() {
-  const app = express();
   app.use(cors());
+  app.use(express.urlencoded());
+  app.use(express.json());
+
   const port = Number(process.env.SERVER_PORT) || 3001;
 
   let distPath = '';
@@ -133,7 +141,6 @@ async function startServer() {
   let ssrClientPath = '';
 
   let vite: ViteDevServer | undefined;
-
 
   if (isDev) {
     srcPath = path.dirname(require.resolve('client'));
@@ -145,10 +152,12 @@ async function startServer() {
 
     app.use(vite.middlewares);
   } else {
-      distPath = path.dirname(require.resolve('../../client/dist/index.html'));
+    distPath = path.dirname(require.resolve('../../client/dist/index.html'));
 
-      ssrClientPath = require.resolve('../../client/ssr-dist/client.cjs');
+    ssrClientPath = require.resolve('../../client/ssr-dist/client.cjs');
   }
+
+  routes(app);
 
   app.get('/api', (_, res) => {
     res.json('👋 Howdy from the server :)');
@@ -187,12 +196,12 @@ async function startServer() {
         render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
           .render;
         store = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
-          .store
+          .store;
       }
 
       const appStore = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
         store.getState()
-      )}</script>`
+      )}</script>`;
 
       const cache = createCache({ key: 'css' });
 
