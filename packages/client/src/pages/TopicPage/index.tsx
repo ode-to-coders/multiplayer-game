@@ -32,7 +32,7 @@ export function TopicPage(props: TopicT) {
 
   const [reactions, setReactions] = useState<TEmoji[] | undefined>(topic?.reactions);
 
-  const onEmojiClick = async(symbol: TEmoji, emojis: TEmoji[]) => {
+  const onEmojiClick = async (symbol: TEmoji, emojis: TEmoji[]) => {
     const emojiIndex = emojis.findIndex(({ reaction }) => reaction === symbol.reaction);
     
     if (emojiIndex !== -1) {

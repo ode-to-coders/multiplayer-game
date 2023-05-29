@@ -16,7 +16,7 @@ export type Theme = {
   user: User;
   description: string;
   comments: Comment[];
-  reactions: TEmoji[] | null;
+  reactions?: TEmoji[];
 };
 
 export type TopicT = {
