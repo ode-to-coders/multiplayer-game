@@ -53,7 +53,7 @@ export interface IComment {
 };
 
 export interface IGetComments {
-  id: string;
+  topic_id: number;
   depth: number;
 };
 

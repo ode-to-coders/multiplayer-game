@@ -82,8 +82,16 @@ export const forumApi = createApi({
       invalidatesTags: [{ type: 'FORUM_DATA', id: 'LIST' }]
     }),
 
-    getComments: builder.query<IComment, IGetComments>({
-      query: ({id, depth}) => `${FORUM_COMMENTS.GET}/${id}/${depth}`,
+    getComments: builder.query<IComment[], IGetComments>({
+      query: ({topic_id, depth}) => `${FORUM_COMMENTS.GET}/${topic_id}/${depth}`,
+      providesTags: result => result
+        ? [
+            ...result.map(({ id }) => (
+              { type: 'FORUM_DATA' as const, id }
+              )),
+            { type: 'FORUM_DATA', id: 'COMMENTS' },
+          ]
+        : [{ type: 'FORUM_DATA', id: 'COMMENTS' }],
     }),
 
     createComment: builder.mutation<IComment, ICreateComment>({
@@ -91,14 +99,16 @@ export const forumApi = createApi({
         url: FORUM_COMMENTS.CREATE,
         method: HTTP_METHOD.POST,
         body: newComment
-      })
+      }),
+      invalidatesTags: [{ type: 'FORUM_DATA', id: 'COMMENTS' }]
     }),
 
-    deleteComment: builder.mutation<string, string>({
+    deleteComment: builder.mutation<string, number>({
       query: id => ({
         url: `${FORUM_COMMENTS.DELETE}/${id}`,
         method: HTTP_METHOD.DELETE
-      })
+      }),
+      invalidatesTags: [{ type: 'FORUM_DATA', id: 'COMMENTS' }]
     }),
 
     updateComment: builder.mutation<IComment, IUpdateComment>({
@@ -106,7 +116,8 @@ export const forumApi = createApi({
         url: FORUM_COMMENTS.UPDATE,
         method: HTTP_METHOD.PUT,
         body: updatedComment
-      })
+      }),
+      invalidatesTags: [{ type: 'FORUM_DATA', id: 'COMMENTS' }]
     })
   })
 })

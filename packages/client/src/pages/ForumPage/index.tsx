@@ -134,10 +134,11 @@ export function ForumPage() {
                       </TableCell>
                       <TableCell className={styles.cell}>
                         {
-                          item.author === userData?.display_name &&
+                          (item.author === userData?.display_name ||
+                          item.author === userData?.login) &&
                           <StyledButton
                             onClick={() => handleDelete(item.id)}
-                            extendсlass={styles.button}
+                            extendсlass={styles.buttonDelete}
                           >
                             удалить<br/>тему
                           </StyledButton>                          
@@ -167,7 +168,7 @@ export function ForumPage() {
         <ModalBase title="Новая тема" setOpenCback={setShowModal}>
           <CreateTopic
             setModal={setShowModal}
-            author={userData?.display_name ?? 'anonim'}  
+            author={userData?.display_name ?? userData?.login ?? 'anonymous'}  
           />
         </ModalBase>
       )} 

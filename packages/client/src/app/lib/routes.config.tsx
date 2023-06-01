@@ -17,7 +17,6 @@ import {
 import { PAGES, Routes } from './routes.types';
 
 import rooms from '../../mocks/rooms.json';
-import topic from '../../mocks/topic.json';
 import ratings from '../../mocks/ratings.json';
 
 /**
@@ -57,7 +56,7 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.TOPIC,
-    Component: () => <TopicPage topic={topic} />,
+    Component: () => <TopicPage />,
   },
   {
     path: PAGES.ROOMS,
