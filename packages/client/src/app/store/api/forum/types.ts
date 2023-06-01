@@ -24,8 +24,8 @@ export interface ICreateTopic {
 
 export interface IUpdateTopic {
   id: number,
-  name: string,
-  author: string,
+  name: string | undefined,
+  author: string | undefined,
   content: string,
   reactions?: {
     reaction: string;

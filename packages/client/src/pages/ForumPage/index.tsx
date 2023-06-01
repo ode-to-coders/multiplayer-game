@@ -134,15 +134,15 @@ export function ForumPage() {
                       </TableCell>
                       <TableCell className={styles.cell}>
                         {
-                          (item.author === userData?.display_name ||
-                          item.author === userData?.login) &&
-                          <StyledButton
-                            onClick={() => handleDelete(item.id)}
-                            extendсlass={styles.buttonDelete}
-                          >
-                            удалить<br/>тему
-                          </StyledButton>                          
-                        }            
+                            (item.author === userData?.display_name ||
+                            item.author === userData?.login) &&
+                            <StyledButton
+                              onClick={() => handleDelete(item.id)}
+                              extendсlass={styles.buttonDelete}
+                            >
+                              удалить<br/>тему
+                            </StyledButton>                          
+                          }                
                       </TableCell>                    
                     </TableRow>
                   );

@@ -6,9 +6,9 @@ import { Dispatch, SetStateAction } from 'react';
 
 type TProps = {
   topic_id: number;
-  author: string;
-  old_content: string;
-  old_name: string;
+  author: string | undefined;
+  old_content: string | undefined;
+  old_name: string | undefined;
   setShowUpdateTopic: Dispatch<SetStateAction<boolean>>
 }
 
