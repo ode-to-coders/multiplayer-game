@@ -8,7 +8,7 @@ import { GameLayout } from '../../layout/GameLayout';
 export const AuthenticatedApp = () => {
   return (
     <Routes>
-      <Route path="*" element={<Navigate to={`${PAGES.MAIN}`} />} />
+      <Route path="*" element={<Navigate to={`${PAGES.SIGNIN}`} />} />
       {routesConfig.map((route, idx) => (
         <Route element={<GameLayout />} key={idx}>
           <Route
