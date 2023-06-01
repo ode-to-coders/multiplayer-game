@@ -28,7 +28,7 @@ const enum FORUM_COMMENTS {
   UPDATE = '/comments/update'
 }
 
-const baseQuery = fetchBaseQuery({ baseUrl: __CLIENT_URL__ })
+const baseQuery = fetchBaseQuery({ baseUrl: __CLIENT_URL__ });
 
 export const forumApi = createApi({
   reducerPath: 'forumApi',
