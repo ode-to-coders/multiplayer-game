@@ -16,9 +16,7 @@ import {
 
 import { PAGES, Routes } from './routes.types';
 
-import topics from '../../mocks/topics.json';
 import rooms from '../../mocks/rooms.json';
-import topic from '../../mocks/topic.json';
 import ratings from '../../mocks/ratings.json';
 import { Canvas } from '../../features/Canvas';
 
@@ -56,11 +54,11 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.FORUM,
-    Component: () => <ForumPage topics={topics} />,
+    Component: () => <ForumPage />,
   },
   {
     path: PAGES.TOPIC,
-    Component: () => <TopicPage topic={topic} />,
+    Component: () => <TopicPage />,
   },
   {
     path: PAGES.ROOMS,

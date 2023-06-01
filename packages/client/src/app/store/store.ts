@@ -3,12 +3,26 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 import { baseApi } from './api/baseApi';
 import { reducer } from './reducer';
+import { authSlice } from './auth/authSlice';
+import { forumApi } from './api/forum/forumApi';
 
-export const store = configureStore({
-  reducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware().concat(baseApi.middleware),
-});
+  const initialState =
+  typeof window !== 'undefined'
+    ? window.__PRELOADED_STATE__
+    : {
+        auth: authSlice.getInitialState(),
+      };
+
+const createStore = (preloadedState = {}) => {
+  return configureStore({
+    reducer,
+    middleware: getDefaultMiddleware =>
+      getDefaultMiddleware().concat(baseApi.middleware, forumApi.middleware),
+    preloadedState,
+  });  
+}
+
+export const store = createStore(initialState);
 
 export type IAppDispatch = typeof store.dispatch;
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { CircularProgress, Grid } from '@mui/material';
 
 import { Layout } from '../../layout/Layout';
@@ -21,7 +21,7 @@ function App() {
       const data = await response.json();
       console.log(data);
     };
-
+    
     fetchServerData();
   }, []);
 

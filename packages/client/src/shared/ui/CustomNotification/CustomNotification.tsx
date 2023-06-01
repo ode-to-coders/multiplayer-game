@@ -8,7 +8,7 @@ import { NOTIFICATION_TYPE } from './lib/types';
 
 export interface ICustomNotificationProps {
   timeout?: number;
-  isUninitialized: boolean;
+  isUninitialized?: boolean;
   isSuccess?: boolean;
   isError?: boolean;
   isLoading?: boolean;

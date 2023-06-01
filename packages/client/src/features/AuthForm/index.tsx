@@ -5,7 +5,7 @@ import { StyledButton } from '../../shared/ui/Styled';
 import { MuiMemoInputBase } from '../../shared/ui/MuiMemoInputBase';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useCallback, useMemo, useState } from 'react';
+import { PropsWithChildren, useCallback, useMemo, useState } from 'react';
 
 import { useSignInMutation } from '../../app/store/api/auth/authApi';
 import { yupSchemaSigninForm as schema } from '../../shared/const/validate';
@@ -14,7 +14,7 @@ import { PAGES } from '../../app/lib/routes.types';
 
 import styles from './index.module.scss';
 
-export const AuthForm = () => {
+export const AuthForm = (props: PropsWithChildren) => {
   const [isFocused, setIsFocused] = useState([false, '']);
   const [isEmpty, setIsEmpty] = useState<Record<string, boolean>>({});
 
@@ -115,6 +115,7 @@ export const AuthForm = () => {
       <StyledButton type="submit" extendсlass={styles.btnSubmit}>
         Авторизоваться
       </StyledButton>
+      {props.children}
       <Link to={PAGES.REGISTRATION} className={styles.link}>
         Нет аккаунта?
       </Link>

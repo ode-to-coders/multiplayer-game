@@ -6,7 +6,7 @@
   margin: 3.1rem auto 3.1rem;
   margin-top: 0;
   padding-top: 6rem;
-  max-width: 50rem;
+  max-width: 55rem;
   overflow: hidden;
   border-radius: 1rem;
   width: 100%;
@@ -35,8 +35,27 @@
   }
 }
 
+.row {
+  cursor: pointer;
+  &:hover {
+    background-color: var(--color-darkestGrey) !important;
+  }
+}
+
+.buttonCreate, .buttonDelete {
+  width: 5.8rem;
+  padding: 0.5rem 1.8rem;  
+}
+
+.buttonCreate:hover {
+  background-color: var(--color-success);    
+}
+
+.buttonDelete:hover {
+  background-color: var(--color-error);    
+}
+
 .cell {
-  background: var(--color-layout);
   color: var(--color-primary);
   text-align: center;
 }
@@ -45,5 +64,6 @@
   .cell {
     border-bottom: 1px solid var(--color-layout);
     min-width: 10.7rem;
+    background: var(--color-layout);
   }
 }
