@@ -1,10 +1,10 @@
-import { ProfileEditForm } from 'features/ProfileEditForm';
-import { ProfileEditPasswordForm } from 'features/ProfileEditPasswordForm';
-import { ProfileMain } from 'features/ProfileMain';
+import { ProfileEditForm } from '../../features/ProfileEditForm';
+import { ProfileEditPasswordForm } from '../../features/ProfileEditPasswordForm';
+import { ProfileMain } from '../../features/ProfileMain';
 
-import { PAGES } from 'app/lib/routes.types';
+import { PAGES } from '../../app/lib/routes.types';
 
-import { UserInfoResponse } from 'app/store/api/auth/types';
+import { UserInfoResponse } from '../../app/store/api/auth/types';
 
 type ProfileConfig = {
   [key: string]: {

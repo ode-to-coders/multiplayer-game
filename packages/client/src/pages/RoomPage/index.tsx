@@ -21,7 +21,6 @@ import { RoomForm } from '../../features';
 
 import styles from './index.module.scss';
 
-
 export function RoomPage(props: RoomsT) {
   const { rooms } = props;
 
@@ -65,7 +64,7 @@ export function RoomPage(props: RoomsT) {
       setShowModal(true);
     }
   };
-  
+
   const startGame = () => {
     if (gameId) {
       navigate(`${gameId}`);
@@ -73,13 +72,13 @@ export function RoomPage(props: RoomsT) {
   };
 
   return (
-    <StyledContainer extendClass={styles.mainContainer}>
+    <StyledContainer extendсlass={styles.mainContainer}>
       {showModal && (
         <ModalBase title="Создание комнаты" setOpenCback={setShowModal}>
           <RoomForm />
         </ModalBase>
       )}
-      <StyledButton extendClass={styles.create} onClick={handleChangeShowModal}>
+      <StyledButton extendсlass={styles.create} onClick={handleChangeShowModal}>
         Создать комнату
       </StyledButton>
       <Paper className={styles.paper}>
@@ -112,7 +111,7 @@ export function RoomPage(props: RoomsT) {
                         disabled={
                           item.maxPlayers === item.players ? true : undefined
                         }
-                        extendClass={styles.button}>
+                        extendсlass={styles.button}>
                         Войти
                       </StyledButton>
                     </TableCell>

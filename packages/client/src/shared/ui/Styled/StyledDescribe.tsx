@@ -8,12 +8,14 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledDescribeProps = {
-  extendClass?: string;
+  extendсlass?: string;
 } & TypographyProps;
 
-export const StyledDescribe: FC<PropsWithChildren<StyledDescribeProps>> = props => (
+export const StyledDescribe: FC<
+  PropsWithChildren<StyledDescribeProps>
+> = props => (
   <StyledEngineProvider injectFirst>
-    <Typography className={cn(style.describe, props.extendClass)} {...props}>
+    <Typography className={cn(style.describe, props.extendсlass)} {...props}>
       {props.children}
     </Typography>
   </StyledEngineProvider>

@@ -1,8 +1,9 @@
+import { ReactNode } from 'react';
 import { RouteObject } from 'react-router-dom';
 
 export type Route = RouteObject & {
   path: string;
-  Component: React.FC;
+  Component: () => ReactNode;
 };
 
 export type Routes = Route[];
@@ -17,7 +18,7 @@ export const enum PAGES {
   ENDGAME = '/end',
   LEADERBOARD = '/leaderboard',
   FORUM = '/forum',
-  TOPIC = '/topic',
+  TOPIC = '/topic/:id',
   ROOMS = '/rooms',
   SIGNIN = '/signin',
   REGISTRATION = '/registration',

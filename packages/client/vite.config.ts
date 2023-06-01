@@ -11,8 +11,14 @@ export default defineConfig({
   server: {
     port: Number(process.env.CLIENT_PORT) || 3000,
   },
+  preview: {
+    port: Number(process.env.CLIENT_PORT) || 3000,
+  },
   define: {
-    __SERVER_PORT__: process.env.SERVER_PORT,
+    __CLIENT_URL__: `'${process.env.CLIENT_URL}'` || '',
+    __APP_PATH__: `'${process.env.APP_PATH}'` || '',
+    __YANDEX_OAUTH_REDIRECT_PATH__:
+      `'${process.env.YANDEX_OAUTH_REDIRECT_PATH}'` || '',
   },
   resolve: {
     alias: {

@@ -1,5 +1,6 @@
+import React from 'react';
 import { Fragment, useCallback, useEffect, useState } from 'react';
-import {StyledDescribe, StyledTitle } from '../../shared/ui/Styled';
+import { StyledDescribe, StyledTitle } from '../../shared/ui/Styled';
 
 import { getWinnerEnthourage } from '../../utils';
 
@@ -12,7 +13,6 @@ import victorian from '../../images/victorian.jpg';
 import { IUserVote } from './types';
 
 import styles from './index.module.scss';
-
 
 const enthourageVariants = [
   {
@@ -29,13 +29,15 @@ const enthourageVariants = [
     id: 2,
     name: 'Викторианская Англия',
     src: victorian,
-  }
+  },
 ];
 
 //Todo. Карточки будут отрисованы на канвасе.
 
 export function Enthourage() {
-  const [winnerEnthourage, setWinnerEnthourage] = useState<Record<string, unknown> | undefined >();
+  const [winnerEnthourage, setWinnerEnthourage] = useState<
+    Record<string, unknown> | undefined
+  >();
   const [winnerSrc, updateWinnerSrc] = useState('');
   const members = participants;
   const currentUser = 'Ringo Starr';
@@ -43,17 +45,22 @@ export function Enthourage() {
   const [timer, setTimer] = useState(45);
   const [over, setOver] = useState(false);
 
-  const handleClick = useCallback((vote: string) => {
-    const user = members.filter(enthourage => enthourage.name === currentUser);
-    if (user.length > 0) {
-      user[0].votes = vote;
-    }
+  const handleClick = useCallback(
+    (vote: string) => {
+      const user = members.filter(
+        enthourage => enthourage.name === currentUser
+      );
+      if (user.length > 0) {
+        user[0].votes = vote;
+      }
 
-    const winner = getWinnerEnthourage(members);
+      const winner = getWinnerEnthourage(members);
 
-    setWinnerEnthourage(winner);
-    setOver(true);
-  }, [members]);
+      setWinnerEnthourage(winner);
+      setOver(true);
+    },
+    [members]
+  );
 
   useEffect(() => {
     if (over) return;
@@ -69,15 +76,20 @@ export function Enthourage() {
     if (timer === 0) {
       setOver(true);
 
-      const randomIndex = Math.floor(Math.random() * (enthourageVariants.length - 1));
+      const randomIndex = Math.floor(
+        Math.random() * (enthourageVariants.length - 1)
+      );
       handleClick(enthourageVariants[randomIndex].name);
     }
   }, [timer, handleClick]);
 
   useEffect(() => {
     if (winnerEnthourage) {
-      updateWinnerSrc(enthourageVariants.filter((enthourage: IUserVote) =>
-        enthourage.name === winnerEnthourage.name)[0].src);
+      updateWinnerSrc(
+        enthourageVariants.filter(
+          (enthourage: IUserVote) => enthourage.name === winnerEnthourage.name
+        )[0].src
+      );
     }
   }, [winnerEnthourage]);
 
@@ -94,7 +106,7 @@ export function Enthourage() {
                 <Fragment>
                   <label className={styles.label} key={variant.id}>
                     <input
-                      type='radio'
+                      type="radio"
                       className={styles.input}
                       onInput={() => handleClick(variant.name)}
                     />
@@ -103,27 +115,26 @@ export function Enthourage() {
                     </div>
                   </label>
                   {!index && (
-                    <StyledDescribe variant="body1" extendClass={styles.timer}>
+                    <StyledDescribe variant="body1" extendсlass={styles.timer}>
                       {timer}
                     </StyledDescribe>
                   )}
                 </Fragment>
-              )
+              );
             })}
           </div>
         </Fragment>
       )}
       {over && (
         <Fragment>
-          <StyledTitle variant='h5' className={styles.headline}>
+          <StyledTitle variant="h5" className={styles.headline}>
             {winnerEnthourage &&
               `${winnerEnthourage.value} из ${participants.length}
-              игроков проголосовали за антураж ${winnerEnthourage.name}!`
-            }
+              игроков проголосовали за антураж ${winnerEnthourage.name}!`}
           </StyledTitle>
-            <div className={styles.enthourage}>
-              <img src={winnerSrc} />
-            </div>
+          <div className={styles.enthourage}>
+            <img src={winnerSrc} />
+          </div>
         </Fragment>
       )}
     </div>

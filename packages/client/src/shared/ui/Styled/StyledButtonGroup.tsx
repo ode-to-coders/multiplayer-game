@@ -9,7 +9,7 @@ import { FC, PropsWithChildren } from 'react';
 import style from './index.module.scss';
 
 type StyledGroupProps = {
-  extendClass?: string;
+  extendсlass?: string;
 } & ButtonGroupProps;
 
 export const StyledButtonGroup: FC<
@@ -17,7 +17,7 @@ export const StyledButtonGroup: FC<
 > = props => (
   <StyledEngineProvider injectFirst>
     <ButtonGroup
-      className={cn(style.buttonGroup, props.extendClass)}
+      className={cn(style.buttonGroup, props.extendсlass)}
       {...props}>
       {props.children}
     </ButtonGroup>

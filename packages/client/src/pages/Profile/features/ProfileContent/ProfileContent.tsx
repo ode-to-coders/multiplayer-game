@@ -2,15 +2,15 @@ import { useMemo, useState } from 'react';
 import { Avatar } from '@mui/material';
 import { Link } from 'react-router-dom';
 
-import { ModalBase } from 'shared/ui';
-import { FormButton } from 'shared/ui/FormButton';
+import { ModalBase } from '../../../../shared/ui';
+import { FormButton } from '../../../../shared/ui/FormButton';
 
 import emptyAvatar from './avatar.png';
 import s from './index.module.scss';
 import { profileConfig } from '../../profileConfig';
-import { PAGES } from 'app/lib/routes.types';
-import { UserInfoResponse } from 'app/store/api/auth/types';
-import { useChangeUserAvatarMutation } from 'app/store/api/users/usersApi';
+import { PAGES } from '../../../../app/lib/routes.types';
+import { UserInfoResponse } from '../../../../app/store/api/auth/types';
+import { useChangeUserAvatarMutation } from '../../../../app/store/api/users/usersApi';
 
 export const ProfileContent = ({
   page,

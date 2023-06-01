@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { CircularProgress, Grid } from '@mui/material';
 
 import { Layout } from '../../layout/Layout';
@@ -13,6 +14,17 @@ import '../../styles/global.scss';
 import styles from './index.module.scss';
 
 function App() {
+  useEffect(() => {
+    const fetchServerData = async () => {
+      const url = __CLIENT_URL__;
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data);
+    };
+    
+    fetchServerData();
+  }, []);
+
   const { isFetching, isAuth } = useAuth();
 
   if (isFetching) {
@@ -25,11 +37,7 @@ function App() {
     );
   }
 
-  if (isAuth) {
-    return <AuthenticatedApp />;
-  } else {
-    return <UnauthenticatedApp />;
-  }
+  return isAuth ? <AuthenticatedApp /> : <UnauthenticatedApp />;
 }
 
 export default withProviders(App);

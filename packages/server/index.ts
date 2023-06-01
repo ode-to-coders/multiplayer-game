@@ -1,25 +1,18 @@
 import dotenv from 'dotenv';
 import cors from 'cors';
 import WebSocket from 'ws';
+import { createServer as createViteServer } from 'vite';
+import createCache from '@emotion/cache';
+import createEmotionServer from '@emotion/server/create-instance';
+import type { ViteDevServer } from 'vite';
 
 dotenv.config();
 
 import express from 'express';
-import { createClientAndConnect } from './db';
-
-const app = express();
-app.use(cors());
-const port = Number(process.env.SERVER_PORT) || 3001;
-
-createClientAndConnect();
-
-app.get('/', (_, res) => {
-  res.json('👋 Howdy from the server :)');
-});
-
-app.listen(port, () => {
-  console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
-});
+import * as fs from 'fs';
+import * as path from 'path';
+import { dbConnect } from './db';
+import routes from './src/routes/routes';
 
 type payloadType = {
   success?: boolean;
@@ -49,7 +42,11 @@ type gamesType = Record<string, Array<clientType>>;
 
 const games: gamesType = {};
 
+export const app = express();
+
 function start() {
+  dbConnect().then(res => console.log('res', res));
+
   const wss = new WebSocket.Server({ port: 3002 }, () => {
     console.log('WebSocket server started');
   });
@@ -130,5 +127,110 @@ function start() {
     });
   }
 }
+const isDev = process.env.NODE_ENV === 'development';
 
+async function startServer() {
+  app.use(cors());
+  app.use(express.urlencoded());
+  app.use(express.json());
+
+  const port = Number(process.env.SERVER_PORT) || 3001;
+
+  let distPath = '';
+  let srcPath = '';
+  let ssrClientPath = '';
+
+  let vite: ViteDevServer | undefined;
+
+  if (isDev) {
+    srcPath = path.dirname(require.resolve('client'));
+    vite = await createViteServer({
+      server: { middlewareMode: true },
+      root: srcPath,
+      appType: 'custom',
+    });
+
+    app.use(vite.middlewares);
+  } else {
+    distPath = path.dirname(require.resolve('../../client/dist/index.html'));
+
+    ssrClientPath = require.resolve('../../client/ssr-dist/client.cjs');
+  }
+
+  routes(app);
+
+  app.get('/api', (_, res) => {
+    res.json('👋 Howdy from the server :)');
+  });
+
+  if (!isDev) {
+    app.use('/assets', express.static(path.resolve(distPath, 'assets')));
+  }
+
+  app.use('*', async (req, res, next) => {
+    const url = req.originalUrl;
+
+    try {
+      let template: string;
+
+      if (!isDev) {
+        template = fs.readFileSync(
+          path.resolve(distPath, 'index.html'),
+          'utf-8'
+        );
+      } else {
+        template = fs.readFileSync(
+          path.resolve(srcPath, 'index.html'),
+          'utf-8'
+        );
+        template = await vite!.transformIndexHtml(url, template);
+      }
+
+      let render: (url: string, cache: any) => Promise<string>;
+      let store: { getState: () => unknown };
+
+      if (!isDev) {
+        render = (await import(ssrClientPath)).render;
+        store = (await import(ssrClientPath)).store;
+      } else {
+        render = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
+          .render;
+        store = (await vite!.ssrLoadModule(path.resolve(srcPath, 'ssr.tsx')))
+          .store;
+      }
+
+      const appStore = `<script>window.__PRELOADED_STATE__ = ${JSON.stringify(
+        store.getState()
+      )}</script>`;
+
+      const cache = createCache({ key: 'css' });
+
+      const { extractCriticalToChunks, constructStyleTagsFromChunks } =
+        createEmotionServer(cache);
+
+      const appHtml = await render(url, cache);
+
+      const emotionChunks = extractCriticalToChunks(appHtml);
+      const emotionCss = constructStyleTagsFromChunks(emotionChunks);
+
+      const html = template
+        .replace('<!--ssr-outlet-->', appHtml)
+        .replace('<!--ssr-store-->', appStore)
+        .replace('<!--ssr-style-->', emotionCss);
+
+      res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+    } catch (e) {
+      if (isDev) {
+        vite!.ssrFixStacktrace(e as Error);
+      }
+      next(e);
+    }
+  });
+
+  app.listen(port, () => {
+    console.log(`  ➜ 🎸 Server is listening on port: ${port}`);
+  });
+}
+
+startServer();
 start();

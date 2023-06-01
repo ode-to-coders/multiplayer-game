@@ -11,7 +11,7 @@
   .wrapLabelInputMsg {
     display: flex;
     flex-direction: column;
-    
+
     .myWrapInput {
       display: flex;
       flex-direction: row;
@@ -21,8 +21,9 @@
       height: 35px;
       border-bottom: 2px solid var(--color-lightGrey);
       transition: border-bottom-color 0.1s ease-in-out;
-      
-      &:focus-within, &:hover {
+
+      &:focus-within,
+      &:hover {
         border-bottom: 2px solid var(--color-blue);
       }
 
@@ -50,7 +51,7 @@
         background-color: inherit;
         width: 280px;
         height: 35px;
-        
+
         &::placeholder {
           color: var(--color-grey);
         }
@@ -58,7 +59,7 @@
         &:focus {
           outline: none;
         }
-      }      
+      }
     }
 
     .msg {
@@ -67,7 +68,7 @@
       align-self: center;
       position: absolute;
       margin-top: 18px;
-      background-color: var(--color-layout)
+      background-color: var(--color-layout);
     }
   }
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { PAGES } from '@/app/lib/routes.types';
-import { Layout } from '@/app/layout/Layout';
-import { AUTH_ROUTES } from 'app/lib/routes.config';
+import { PAGES } from '../../lib/routes.types';
+import { Layout } from '../../layout/Layout';
+import { AUTH_ROUTES } from '../../lib/routes.config';
 
 export const UnauthenticatedApp = () => {
   return (

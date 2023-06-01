@@ -2,15 +2,18 @@
   "name": "client-server-template-with-vite",
   "private": true,
   "scripts": {
-    "bootstrap": "yarn && node init.js && lerna clean && yarn && lerna bootstrap",
+    "bootstrap": "yarn && node init.js && lerna clean && yarn && lerna bootstrap && yarn link-ssr",
     "build": "lerna run build",
-    "dev:client": "lerna run dev  --scope=client",
+    "link-ssr": "cd packages/client && yarn link && cd ../server && yarn link client && cd ../..",
+    "dev:client": "lerna run dev --scope=client",
     "dev:server": "lerna run dev --scope=server",
     "dev": "lerna run dev",
     "test": "lerna run test",
     "lint": "lerna run lint",
     "format": "lerna run format",
-    "preview": "lerna run preview"
+    "preview": "lerna run preview",
+    "docker": "docker-compose -f docker-compose.yml up --build -d",
+    "docker:stop": "docker-compose -f docker-compose.yml stop"
   },
   "license": "MIT",
   "workspaces": [
@@ -22,5 +25,8 @@
   "devDependencies": {
     "@evilmartians/lefthook": "1.1.1",
     "lerna": "5.4.3"
+  },
+  "dependencies": {
+    "@emotion/server": "^11.11.0"
   }
 }

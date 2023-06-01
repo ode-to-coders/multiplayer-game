@@ -12,14 +12,13 @@ import {
   MainPage,
   RoomPage,
   Enthourage,
-} from '../../pages'
+} from '../../pages';
 
 import { PAGES, Routes } from './routes.types';
 
-import topics from '../../mocks/topics.json';
 import rooms from '../../mocks/rooms.json';
-import topic from '../../mocks/topic.json';
 import ratings from '../../mocks/ratings.json';
+import { Canvas } from '../../features/Canvas';
 
 /**
  * Роуты главной страницы, до авторизации
@@ -38,7 +37,8 @@ const MAIN_ROUTES: Routes = [
 const GAME_ROUTES: Routes = [
   {
     path: PAGES.GAME,
-    Component: () => <GamePage />,
+    // Component: () => <GamePage />,
+    Component: () => <Canvas />,
   },
   {
     path: PAGES.START_GAME,
@@ -54,11 +54,11 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.FORUM,
-    Component: () => <ForumPage topics={topics} />,
+    Component: () => <ForumPage />,
   },
   {
     path: PAGES.TOPIC,
-    Component: () => <TopicPage topic={topic} />,
+    Component: () => <TopicPage />,
   },
   {
     path: PAGES.ROOMS,
@@ -66,7 +66,7 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.ENTHOURAGE,
-    Component: () => <Enthourage />
+    Component: () => <Enthourage />,
   },
 ];
 /**
@@ -105,11 +105,11 @@ export const AUTH_ROUTES: Routes = [
 const ERROR_ROUTES: Routes = [
   {
     path: PAGES.NOTFOUND,
-    Component: () => <ErrorPage code={404} text='Не туда попали' />,
+    Component: () => <ErrorPage code={404} text="Не туда попали" />,
   },
   {
     path: PAGES.SERVER_ERROR,
-    Component: () => <ErrorPage code={500} text='Мы уже фиксим' />,
+    Component: () => <ErrorPage code={500} text="Мы уже фиксим" />,
   },
 ];
 

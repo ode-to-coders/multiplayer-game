@@ -1,10 +1,11 @@
+import React from 'react';
 import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useErrorBoundary } from 'react-error-boundary';
 
 import { StyledContainer, StyledDescribe } from '../../shared/ui/Styled';
-import { Layout } from 'app/layout/Layout';
-import { StyledButton } from 'shared/ui/Styled/StyledButton';
+import { Layout } from '../../app/layout/Layout';
+import { StyledButton } from '../../shared/ui/Styled/StyledButton';
 
 import style from './index.module.scss';
 
@@ -30,15 +31,13 @@ export const ErrorFallbackPage = () => {
   return (
     <Layout>
       <StyledContainer
-        extendClass={style.container}
+        extendсlass={style.container}
         maxWidth={false}
         disableGutters>
         <StyledDescribe variant="body1" className={style.describe}>
           Произошла непредвиденная ошибка
         </StyledDescribe>
-        <StyledButton onClick={() => navigate(-1)}>
-          Вернуться назад
-        </StyledButton>
+        <StyledButton>Вернуться назад</StyledButton>
       </StyledContainer>
     </Layout>
   );

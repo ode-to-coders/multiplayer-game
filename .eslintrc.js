@@ -4,6 +4,7 @@ module.exports = {
     es2020: true,
     node: true,
   },
+  ignorePatterns: ['**/dist/*', '/node_modules'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -16,6 +17,6 @@ module.exports = {
   plugins: ['@typescript-eslint'],
   rules: {
     '@typescript-eslint/ban-ts-comment': 0,
-    'quotes': [2, 'single', { 'avoidEscape': true }]
+    quotes: [2, 'single', { avoidEscape: true }],
   },
 };

@@ -3,13 +3,12 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { PAGES } from '../lib/routes.types';
 import { StyledContainer, StyledGridItem } from '../../shared/ui/Styled';
 
-
 import styles from './index.module.scss';
 
 export const GameLayout = () => {
   return (
     <StyledContainer maxWidth={false} disableGutters>
-      <StyledGridItem container spacing={2} extendClass={styles.grid}>
+      <StyledGridItem container spacing={2} extendсlass={styles.grid}>
         <StyledGridItem item>
           <NavLink
             className={({ isActive }) => (isActive ? 'active-link' : 'link')}
@@ -50,7 +49,7 @@ export const GameLayout = () => {
             <span />
           </NavLink>
         </StyledGridItem>
-        <StyledGridItem item extendClass={styles.gridLast}>
+        <StyledGridItem item extendсlass={styles.gridLast}>
           <NavLink
             className={({ isActive }) => (isActive ? 'active-link' : 'link')}
             to={PAGES.ROOMS}>
