@@ -62,7 +62,8 @@ export const forumApi = createApi({
         url: FORUM_TOPIC.UPDATE_REACTIONS,
         method: HTTP_METHOD.PUT,
         body: updateReactions
-      })
+      }),
+      invalidatesTags: [{ type: 'FORUM_DATA', id: 'LIST' }]
     }),
 
     createTopic: builder.mutation<ITopic, ICreateTopic>({
