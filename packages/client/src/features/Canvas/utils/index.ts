@@ -6,5 +6,5 @@ export { writingsText, tempWritingsText } from './writingsText';
 export { drawAndStartTimer } from './drawAndStartTimer';
 export { transformStrByWidth } from './transformStrByWidth';
 export { helperBorderColor } from './helperBorderColor';
-export { loadImagesInCash } from './loadImagesInCash';
+export { loadImagesInCache } from './loadImagesInCache';
 export { firstDownloader } from './downloader';
