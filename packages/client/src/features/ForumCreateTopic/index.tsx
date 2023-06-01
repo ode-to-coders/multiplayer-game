@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { isRouteErrorResponse, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useCreateTopicMutation } from '../../app/store/api/forum/forumApi';
 
 import { StyledButton } from '../../shared/ui/Styled';
