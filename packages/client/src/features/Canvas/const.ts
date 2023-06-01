@@ -1,14 +1,14 @@
 // таймеры (время показа) сцен в секундах
 export enum TIMESCENES { 
-  selectWishEntourage = 7,
-  winEntourage = 3,
-  selectProf = 7,
-  selectSecret = 7,
+  selectWishEntourage = 20,
+  winEntourage = 5,
+  selectProf = 15,
+  selectSecret = 15,
   fiveClose = 2,
   fiveOpen = 2,
-  myAnswer = 3,
-  gamersAnswers = 5,
-  finalAnswer = 5,
+  myAnswer = 15,
+  gamersAnswers = 30,
+  finalAnswer = 30,
   finalResult = 15
 }
 
