@@ -1,10 +1,10 @@
-import { source } from '@/shared/const/gameLibrary/dataLibrary';
+import { source } from '../../../shared/const/gameLibrary/dataLibrary';
 import { CanvasScenes } from '../canvasScenes';
 import { GAMESCENES } from '../const';
 import { ssd } from '../storeSessionData';
 import { settingHover } from './settingHover';
 import { writingsText } from './writingsText';
-import { KEYS } from '@/shared/const/constants';
+import { KEYS } from '../../../shared/const/constants';
 
 export class HandlerEvents {
   private that: CanvasScenes;
