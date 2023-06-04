@@ -10,7 +10,7 @@ import {
 const enum COMMENT_ROUTES {
   GET_COMMENTS = '/api/comments/:topicId/:depth',
   CREATE_COMMENT = '/api/comments/create',
-  DELETE_COMMENT = '/api/comments/delete/:id',
+  DELETE_COMMENT = '/api/comments/delete/:id/:topicId',
   UPDATE_COMMENT = '/api/comments/update',
 }
 
