@@ -6,11 +6,13 @@ import {
   useSignInYandexMutation,
 } from '../../../app/store/api/auth/authApi';
 
-// Пока захардкодил чтобы можно было проверить на рендере 
+// Пока захардкодил чтобы можно было проверить на рендере
 // В дальнейшем будут браться с env
+// TODO localhost only for local test
 const OAUTH_REDIRECT_API_PATH =
   'https://oauth.yandex.ru/authorize?response_type=code';
-const APP_PATH = 'https://multiplayer-game-6e3r.onrender.com/';
+// const APP_PATH = 'https://multiplayer-game-6e3r.onrender.com/';
+const APP_PATH = 'http://localhost:3000';
 
 const getYandexAuthRedirectLink = ({ clientId }: { clientId: string }) =>
   `${OAUTH_REDIRECT_API_PATH}&client_id=${clientId}&redirect_uri=${APP_PATH}`;
@@ -26,7 +28,7 @@ export const useYandexSignIn = () => {
   const authCode = searchParams.get('code');
 
   useEffect(() => {
-    if (authCode && !isError) {
+    if (authCode && authCode !== 'null' && !isError) {
       signInYandex({
         code: authCode,
         redirect_uri: APP_PATH,
