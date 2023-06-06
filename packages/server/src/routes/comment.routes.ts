@@ -8,9 +8,9 @@ import {
 } from '../controllers/comment.controller';
 
 const enum COMMENT_ROUTES {
-  GET_COMMENTS = '/api/comments/:topicId/:depth',
+  GET_COMMENTS = '/api/comments/:topicId',
   CREATE_COMMENT = '/api/comments/create',
-  DELETE_COMMENT = '/api/comments/delete/:id',
+  DELETE_COMMENT = '/api/comments/delete/:id/:topicId',
   UPDATE_COMMENT = '/api/comments/update',
 }
 

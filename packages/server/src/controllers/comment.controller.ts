@@ -1,7 +1,9 @@
 import { Request, Response } from 'express';
 
-import { Comment } from '../../db';
+import { Comment, Topic, sequelize } from '../../db';
 import { isMessageInError } from '../utils/is-message-in-error';
+import { getNestedComments } from '../utils/get-comments';
+import { IComment } from '../models/comment.model';
 
 export const createComment = async (req: Request, res: Response) => {
   const { topic_id, author, content, parent_id, depth } = req.body;
@@ -21,6 +23,11 @@ export const createComment = async (req: Request, res: Response) => {
       depth,
     });
 
+    await Topic.update(
+      { comments_count: sequelize.literal('comments_count + 1') },
+      { where: { id: topic_id } }
+    );
+
     res.send(data);
   } catch (err) {
     res.status(500).send({
@@ -32,14 +39,16 @@ export const createComment = async (req: Request, res: Response) => {
 };
 
 export const getComments = async (req: Request, res: Response) => {
-  const { depth, topicId: topic_id } = req.params;
+  const { topicId: topic_id } = req.params;
 
   try {
     const data = await Comment.findAll({
-      where: { topic_id, depth },
+      where: { topic_id },
     });
+    //@ts-ignore
+    const actualData = getNestedComments(data as IComment[], Number(topic_id));
 
-    res.send(data);
+    res.send(actualData);
   } catch (err) {
     res.status(500).send({
       message: isMessageInError(err)
@@ -50,12 +59,23 @@ export const getComments = async (req: Request, res: Response) => {
 };
 
 export const deleteComment = async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id, topicId } = req.params;
+
+  if (!id || !topicId) {
+    res
+      .status(400)
+      .send({ message: 'id и topicId должны присутствовать в queryParams' });
+  }
 
   try {
     await Comment.destroy({
       where: { id },
     });
+
+    await Topic.update(
+      { comments_count: sequelize.literal('comments_count - 1') },
+      { where: { id: topicId } }
+    );
 
     res.sendStatus(200);
   } catch (err) {
