@@ -38,12 +38,6 @@ export const createComment = async (req: Request, res: Response) => {
   }
 };
 
-/**
- * проходимся по данным, собираем все у которых нету парент ид, убираем эти итемы из итогового массива
- * проходимся по собранному массиву оставляем комменты с текущей глубиной
- * если есть парент ид то это в чилдрены этого коммента
- */
-
 export const getComments = async (req: Request, res: Response) => {
   const { topicId: topic_id } = req.params;
 
