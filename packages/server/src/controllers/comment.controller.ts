@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 
 import { Comment, Topic, sequelize } from '../../db';
 import { isMessageInError } from '../utils/is-message-in-error';
+import { getNestedComments } from '../utils/get-comments';
+import { IComment } from '../models/comment.model';
 
 export const createComment = async (req: Request, res: Response) => {
   const { topic_id, author, content, parent_id, depth } = req.body;
@@ -36,15 +38,23 @@ export const createComment = async (req: Request, res: Response) => {
   }
 };
 
+/**
+ * проходимся по данным, собираем все у которых нету парент ид, убираем эти итемы из итогового массива
+ * проходимся по собранному массиву оставляем комменты с текущей глубиной
+ * если есть парент ид то это в чилдрены этого коммента
+ */
+
 export const getComments = async (req: Request, res: Response) => {
-  const { depth, topicId: topic_id } = req.params;
+  const { topicId: topic_id } = req.params;
 
   try {
     const data = await Comment.findAll({
-      where: { topic_id, depth },
+      where: { topic_id },
     });
+    //@ts-ignore
+    const actualData = getNestedComments(data as IComment[], Number(topic_id));
 
-    res.send(data);
+    res.send(actualData);
   } catch (err) {
     res.status(500).send({
       message: isMessageInError(err)

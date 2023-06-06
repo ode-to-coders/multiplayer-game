@@ -82,8 +82,7 @@ export const forumApi = createApi({
     }),
 
     getComments: builder.query<IComment[], IGetComments>({
-      query: ({ topic_id, depth }) =>
-        `${FORUM_COMMENTS.GET}/${topic_id}/${depth}`,
+      query: ({ topic_id }) => `${FORUM_COMMENTS.GET}/${topic_id}`,
       providesTags: result =>
         result
           ? [

@@ -73,7 +73,6 @@ export function TopicPage() {
 
   const { data: comments } = useGetCommentsQuery({
     topic_id,
-    depth: 0,
   });
   const [deleteComment] = useDeleteCommentMutation();
 
