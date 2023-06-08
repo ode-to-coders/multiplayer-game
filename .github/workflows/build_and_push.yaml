@@ -5,6 +5,8 @@ on:
     branches:
       - feature/ODE-65
 
+  workflow_dispatch:
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
