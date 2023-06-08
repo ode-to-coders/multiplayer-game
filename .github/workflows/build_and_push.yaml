@@ -3,7 +3,7 @@ name: Push to GitHub Container Registry
 on:
   push:
     branches:
-      - main
+      - feature/ODE-65
 
 jobs:
   build-and-push:
