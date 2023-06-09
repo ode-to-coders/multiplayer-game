@@ -34,7 +34,7 @@ jobs:
           POSTGRES_DB: postgres
           POSTGRES_PORT: 5432
         run: |
-          docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG Dockerfile.server
+          docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -f Dockerfile.server .
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
 
 
