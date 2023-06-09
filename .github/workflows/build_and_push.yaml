@@ -3,7 +3,7 @@ name: Push to GitHub Container Registry
 on:
   push:
     branches:
-      - feature/ODE-65
+      - prod
 
   workflow_dispatch:
 
@@ -22,17 +22,9 @@ jobs:
       
       - name: Build, tag, and push image to Yandex Cloud Container Registry
         env:
-          CR_REGISTRY: crpunj11u18ujkuircm6
+          CR_REGISTRY: ${{ secrets.REGISTRY_ID }}
           CR_REPOSITORY: multiplayer-game
           IMAGE_TAG: ${{ github.sha }}
-          SERVER_PORT: 3001
-          PGADMIN_PORT: 80
-          PGADMIN_EMAIL: admin@mymail.ru
-          PGADMIN_PASSWORD: adminpassword
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-          POSTGRES_PORT: 5432
         run: |
           docker build -t cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG -f Dockerfile.server .
           docker push cr.yandex/$CR_REGISTRY/$CR_REPOSITORY:$IMAGE_TAG
