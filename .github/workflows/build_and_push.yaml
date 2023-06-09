@@ -27,7 +27,8 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
           SERVER_PORT: 3001
         run: |
-          docker build . -t cr.yandex/$CR_REGISTRY/$IMAGE_TAG
+          docker compose build
+          docker tag $IMAGE_TAG cr.yandex/$CR_REGISTRY/$IMAGE_TAG
           docker push cr.yandex/$CR_REGISTRY/$IMAGE_TAG
 
 
