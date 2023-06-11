@@ -22,7 +22,7 @@ jobs:
       
       - name: Build, tag, and push image to Yandex Cloud Container Registry
         env:
-          CR_REGISTRY: ${{ secrets.REGISTRY_ID }}
+          CR_REGISTRY: crpunj11u18ujkuircm6
           CR_REPOSITORY: multiplayer-game
           IMAGE_TAG: ${{ github.sha }}
         run: |
