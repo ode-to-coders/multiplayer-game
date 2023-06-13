@@ -1,0 +1,47 @@
+.button {
+  width: 1.3rem;
+  height: 1.3rem;
+  margin-right: 0.3rem;
+  padding: 0;
+  background-color: var(--color-darkestGrey);
+}
+
+.btnDelete {
+  color: var(--color-error);
+
+  &:hover {
+    background-color: var(--color-error);
+    color: var(--color-white);
+  }
+}
+  
+.btnUpdate:hover {
+  background-color: var(--color-success);
+}
+
+.comment__setup {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.3rem;
+}
+
+.comment {
+  display: flex;
+  margin-top: 20px;
+  align-items: center;
+}
+
+.info {
+  margin-left: 10px;
+}
+
+.username {
+  color: var(--color-grey);
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 20px;
+}

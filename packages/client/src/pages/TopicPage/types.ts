@@ -27,3 +27,5 @@ export type TEmoji = {
   reaction: string,
   count: number,
 }
+
+export type TUWState = { idComment: number, toogleUorW: 0 | 1 | 2 }
