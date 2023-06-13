@@ -66,28 +66,30 @@ export function Comments(props: TProps) {
               <div className={styles.text}>{comment.content}</div>
             </Box>
           </Box>
-          {(comment.author === userData?.display_name ||
-            comment.author === userData?.login) && (
             <Box className={styles.comment__setup}>
-              <StyledButton
-                extendсlass={cn(styles.button, styles.btnDelete)}
-                onClick={() =>
-                  handleDeleteComment(comment.id, Number(topic_id))
-                }>
-                ✖
-              </StyledButton>
-              <StyledButton
-                extendсlass={cn(styles.button, styles.btnUpdate)}
-                onClick={() => handleUpdateComment(comment.id)}>
-                🖋️
-              </StyledButton>
+              {(comment.author === userData?.display_name ||
+                comment.author === userData?.login) && (
+                  <>
+                    <StyledButton
+                      extendсlass={cn(styles.button, styles.btnDelete)}
+                      onClick={() =>
+                        handleDeleteComment(comment.id, Number(topic_id))
+                      }>
+                      ✖
+                    </StyledButton>
+                    <StyledButton
+                      extendсlass={cn(styles.button, styles.btnUpdate)}
+                      onClick={() => handleUpdateComment(comment.id)}>
+                      🖋️
+                    </StyledButton>
+                  </>
+              )}
               <StyledButton
                 extendсlass={cn(styles.button, styles.btnUpdate)}
                 onClick={() => {handleWriteComment(comment.id); console.log(comment.comments)}}>
                 📝
               </StyledButton>
             </Box>
-          )}
           {comment.id === stateUWComment.idComment && stateUWComment.toogleUorW === 1 && (
             <UpdateComment
               comment_id={comment.id}
