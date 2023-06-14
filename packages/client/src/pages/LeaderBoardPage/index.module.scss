@@ -33,7 +33,7 @@
 
 .row {
   display: grid;
-  grid-template-columns: 30% 50% 20%;
+  grid-template-columns: 30% 39% 15% 16%;
   &:last-child {
     border-bottom: none;
   }
@@ -52,8 +52,14 @@
 .col {
   display: flex;
   align-items: center;
+  // justify-content: center;
   padding: 12px;
   flex-shrink: 2;
+
+  .countGame {
+    margin-left: 2rem;
+    color: var(--color-primary)
+  }
 }
 
 .count {

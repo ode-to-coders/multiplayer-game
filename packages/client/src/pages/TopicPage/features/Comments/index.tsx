@@ -55,7 +55,7 @@ export function Comments(props: TProps) {
   return (
     <>  
       {children.map((comment: IComment) => (
-        <div key={comment.id} style={{marginLeft: 45}}>
+        <div key={comment.id} className={styles.wrap}>
           
           <Box className={styles.comment}>
             <Avatar
