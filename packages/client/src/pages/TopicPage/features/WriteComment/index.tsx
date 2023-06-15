@@ -4,7 +4,7 @@ import { useCreateCommentMutation } from '../../../../app/store/api/forum/forumA
 import { Dispatch, SetStateAction, useState } from 'react';
 import { StyledButton } from '../../../../shared/ui/Styled';
 
-import { TUWState } from '../../types';
+import { COMMENT_STATE, TCommentState } from '../../types';
 
 type TProps = {
   topic_id: number;
@@ -12,11 +12,11 @@ type TProps = {
   parent_id: number | null;
   depth: number;
   baseState?: boolean;
-  setStateUWComment?: Dispatch<SetStateAction<TUWState>>;
+  setStateComment?: Dispatch<SetStateAction<TCommentState>>;
 };
 
 export function WriteComment(props: TProps) {
-  const { author, topic_id, depth, parent_id, baseState, setStateUWComment } = props;
+  const { author, topic_id, depth, parent_id, baseState, setStateComment } = props;
 
   const [showTextAreaForComment, setShowTextAreaForComment] = useState(baseState ?? false);
 
@@ -46,9 +46,9 @@ export function WriteComment(props: TProps) {
     }
 
     setShowTextAreaForComment(false);
-    setStateUWComment && setStateUWComment({
-      idComment: -1,
-      toogleUorW: 0
+    setStateComment && setStateComment({
+      id: -1,
+      toogle: COMMENT_STATE.OFF
     });
   };
 

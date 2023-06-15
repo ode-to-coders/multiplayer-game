@@ -11,18 +11,17 @@ import { useDeleteCommentMutation } from '../../../../app/store/api/forum/forumA
 
 import { IComment } from '../../../../app/store/api/forum/types';
 import { WriteComment } from '../WriteComment';
-import { TUWState } from '../../types';
+import { COMMENT_STATE, TCommentState } from '../../types';
 
 
 type TProps = {
   topic_id: number;
   children: IComment[];
-  UWComment?: [TUWState, Dispatch<SetStateAction<TUWState>>];
+  useStateComment?: [TCommentState, Dispatch<SetStateAction<TCommentState>>];
 };
 
 export function Comments(props: TProps) {
-  console.log(props.children)
-  const [stateUWComment, setStateUWComment] = props.UWComment ?? useState<TUWState>({idComment: -1, toogleUorW: 0})
+  const [stateComment, setStateComment] = props.useStateComment ?? useState<TCommentState>({id: -1, toogle: COMMENT_STATE.OFF})
   
   const { children, topic_id } = props;
   const { data: userData } = useGetUserInfoQuery();
@@ -31,23 +30,23 @@ export function Comments(props: TProps) {
 
   const handleDeleteComment = (id: number, topicId: number) => {
     deleteComment({id, topicId});
-    setStateUWComment({
-      idComment: -1,
-      toogleUorW: 0
+    setStateComment({
+      id: -1,
+      toogle: COMMENT_STATE.OFF
     })
   }
 
-  const handleUpdateComment = (idComment: number) => {
-    setStateUWComment({
-      idComment,
-      toogleUorW: 1
+  const handleUpdateComment = (id: number) => {
+    setStateComment({
+      id,
+      toogle: COMMENT_STATE.UPDATE
     })
   };
 
-  const handleWriteComment = (idComment: number) => {
-    setStateUWComment({
-      idComment,
-      toogleUorW: 2
+  const handleWriteComment = (id: number) => {
+    setStateComment({
+      id,
+      toogle: COMMENT_STATE.WRITE
     })
   };
 
@@ -86,27 +85,27 @@ export function Comments(props: TProps) {
               )}
               <StyledButton
                 extendсlass={cn(styles.button, styles.btnUpdate)}
-                onClick={() => {handleWriteComment(comment.id); console.log(comment.comments)}}>
+                onClick={() => {handleWriteComment(comment.id)}}>
                 📝
               </StyledButton>
             </Box>
-          {comment.id === stateUWComment.idComment && stateUWComment.toogleUorW === 1 && (
+          {comment.id === stateComment.id && stateComment.toogle === COMMENT_STATE.UPDATE && (
             <UpdateComment
               comment_id={comment.id}
               topic_id={topic_id}
               author={comment.author}
               old_content={comment.content}
-              setStateUWComment={setStateUWComment}
+              setStateComment={setStateComment}
             />
           )}
-          {comment.id === stateUWComment.idComment && stateUWComment.toogleUorW === 2 && (
+          {comment.id === stateComment.id && stateComment.toogle === COMMENT_STATE.WRITE && (
             <WriteComment
               topic_id={topic_id}
               author={comment.author}
               parent_id={comment.id}
               depth={comment.depth + 1}
               baseState={true}
-              setStateUWComment={setStateUWComment}
+              setStateComment={setStateComment}
             />
           )}
           {(comment.comments.length !== 0) && (
@@ -114,7 +113,7 @@ export function Comments(props: TProps) {
               key={Math.random()}
               topic_id={topic_id}
               children={comment.comments}
-              UWComment={[stateUWComment, setStateUWComment]}
+              useStateComment={[stateComment, setStateComment]}
             />
           )}
           

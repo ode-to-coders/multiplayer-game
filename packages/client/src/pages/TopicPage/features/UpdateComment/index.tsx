@@ -4,7 +4,7 @@ import { useUpdateCommentMutation } from '../../../../app/store/api/forum/forumA
 import { Dispatch, SetStateAction } from 'react';
 import { StyledButton } from '../../../../shared/ui/Styled';
 
-import { TUWState } from '../../types';
+import { COMMENT_STATE, TCommentState } from '../../types';
 
 type TProps = {
   comment_id: number;
@@ -12,12 +12,12 @@ type TProps = {
   author: string;
   old_content: string;
   setUpdateCommentId?: Dispatch<SetStateAction<number>>;
-  setStateUWComment?: Dispatch<SetStateAction<TUWState>>;
+  setStateComment?: Dispatch<SetStateAction<TCommentState>>;
 }
 
 export function UpdateComment(props: TProps) {  
   const { 
-    comment_id, topic_id, author, old_content, setUpdateCommentId, setStateUWComment } = props;
+    comment_id, topic_id, author, old_content, setUpdateCommentId, setStateComment } = props;
   
   const [ updateComment, { isLoading: isLoadingUpdateComment }] = useUpdateCommentMutation();
 
@@ -40,9 +40,9 @@ export function UpdateComment(props: TProps) {
     }
 
     setUpdateCommentId && setUpdateCommentId(-1);
-    setStateUWComment && setStateUWComment({
-      idComment: -1,
-      toogleUorW: 0
+    setStateComment && setStateComment({
+      id: -1,
+      toogle: COMMENT_STATE.OFF
     });
   };
   
