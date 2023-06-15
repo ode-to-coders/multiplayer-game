@@ -1,17 +1,14 @@
 import cx from 'classnames';
 import Avatar from '@mui/material/Avatar';
 
-import { LeaderBoardT, User } from './types';
 import { StyledContainer } from '../../shared/ui/Styled';
 
 import styles from './index.module.scss';
 import { useGetLeaderboardQuery } from '../../app/store/api/leaderboard/leaderboardApi';
-import { ILeaderboard } from '@/app/store/api/leaderboard/types';
 
-export function LeaderBoardPage(props: LeaderBoardT) {
-  const { users } = props;
+import { ILeaderboard } from '../../app/store/api/leaderboard/types';
 
-  if (!users || users.length < 0) return null;
+export function LeaderBoardPage() {
 
   const { data: dataLeaders } = useGetLeaderboardQuery();
 
