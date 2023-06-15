@@ -22,7 +22,9 @@ services:
       - default
 
   postgres:
-    image: postgres:14
+    container_name: pg_container
+    image: postgres
+    restart: unless-stopped
     env_file:
       - .env
     ports:
@@ -32,10 +34,33 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - ./tmp/pgdata:/var/lib/postgresql/data
+      - postgres:/data/postgres
     networks:
       - default
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    env_file:
+      - .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+    ports:
+      - ${PGADMIN_PORT}:${PGADMIN_PORT}
+    networks:
+      - default
+    depends_on:
+      - postgres
+    restart: unless-stopped
 
 networks:
   default:
     driver: bridge
+
+volumes:
+    postgres:
+    pgadmin:
