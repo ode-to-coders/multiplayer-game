@@ -1,20 +1,25 @@
 import styles from './index.module.scss';
 
 import { useCreateCommentMutation } from '../../../../app/store/api/forum/forumApi';
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { StyledButton } from '../../../../shared/ui/Styled';
 
 import validateAndSanitizeCommentsForm from '../../../../shared/utils/validator';
+import { COMMENT_STATE, TCommentState } from '../../types';
 
 type TProps = {
   topic_id: number;
   author: string;
+  parent_id: number | null;
+  depth: number;
+  baseState?: boolean;
+  setStateComment?: Dispatch<SetStateAction<TCommentState>>;
 };
 
 export function WriteComment(props: TProps) {
-  const { author, topic_id } = props;
+  const { author, topic_id, depth, parent_id, baseState, setStateComment } = props;
 
-  const [showTextAreaForComment, setShowTextAreaForComment] = useState(false);
+  const [showTextAreaForComment, setShowTextAreaForComment] = useState(baseState ?? false);
 
   const [createComment, { isLoading: isLoadingCreateComment }] =
     useCreateCommentMutation();
@@ -35,14 +40,19 @@ export function WriteComment(props: TProps) {
         topic_id,
         author,
         content: commentFormValidationResult.sanitizedData,
+        depth,
         // Поменять на реальный id, если коментарий к топику то null
         // Если комментарий относится к другому комменту то parent_id это id коммента
         // на который отвечаем
-        parent_id: null,
+        parent_id
       });
     }
 
     setShowTextAreaForComment(false);
+    setStateComment && setStateComment({
+      id: -1,
+      toogle: COMMENT_STATE.OFF
+    });
   };
 
   const handleShowWriteComment = () => {
@@ -51,7 +61,7 @@ export function WriteComment(props: TProps) {
 
   return (
     <div className={styles.wrapWriteComment}>
-      {!showTextAreaForComment && (
+      {!baseState && !showTextAreaForComment && (
         <StyledButton
           onClick={handleShowWriteComment}
           extendсlass={styles.btnShowComment}>

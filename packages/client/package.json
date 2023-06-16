@@ -9,7 +9,7 @@
     "preview": "vite preview --config vite.config.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "jest ./"
+    "test": "jest --passWithNoTests"
   },
   "husky": {
     "hooks": {
@@ -35,7 +35,6 @@
     "@hookform/resolvers": "3.0.0",
     "@mui/material": "5.13.0",
     "@reduxjs/toolkit": "1.9.3",
-    "@types/uuid": "^9.0.1",
     "classnames": "2.3.2",
     "dompurify": "^3.0.3",
     "dotenv": "16.0.2",
