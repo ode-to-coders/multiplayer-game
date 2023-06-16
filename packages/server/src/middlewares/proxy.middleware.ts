@@ -1,12 +1,12 @@
 import { createProxyMiddleware, fixRequestBody } from 'http-proxy-middleware';
 
-import { YA_BASE_URL } from '../utils/constants';
+const { YANDEX_BASE_URL } = process.env;
 
 export const proxyMiddleware = () =>
   createProxyMiddleware({
     changeOrigin: true,
     cookieDomainRewrite: { '*': '' },
-    target: YA_BASE_URL,
+    target: YANDEX_BASE_URL,
     onError: error => {
       console.log('Error', error);
     },

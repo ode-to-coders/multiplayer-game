@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 
-import { YA_CHECK_AUTH_URL } from '../utils/constants';
+const { YANDEX_BASE_API_PATH } = process.env;
 
 export const authMiddleware = async (
   req: Request,
@@ -14,7 +14,7 @@ export const authMiddleware = async (
       throw new Error('Authentication failed');
     }
 
-    const checkAuth = await fetch(YA_CHECK_AUTH_URL, {
+    const checkAuth = await fetch(`${YANDEX_BASE_API_PATH}/auth/user`, {
       headers: {
         Cookie: `authCookie=${authCookie};uuid=${uuid}`,
       },
