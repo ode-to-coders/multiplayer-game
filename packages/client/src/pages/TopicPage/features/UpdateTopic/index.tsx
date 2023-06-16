@@ -26,7 +26,7 @@ export function UpdateTopic(props: TProps) {
       return;
     };
 
-    if (content) {
+    if (content && content !== old_content) {
       updateTopic({
         id: topic_id,
         name: old_name,

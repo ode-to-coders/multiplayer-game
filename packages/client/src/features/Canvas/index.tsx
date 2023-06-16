@@ -31,8 +31,8 @@ export const Canvas = () => {
       if(!canvasRef.current) {
         // Компонент был размонтирован
         return;
-      }     
-      
+      }
+
       // запуск!
       next = canvasScenes.startGame(canvasRef.current, scene);
       
