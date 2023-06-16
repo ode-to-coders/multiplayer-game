@@ -5,6 +5,7 @@ import { createServer as createViteServer } from 'vite';
 import createCache from '@emotion/cache';
 import createEmotionServer from '@emotion/server/create-instance';
 import type { ViteDevServer } from 'vite';
+import serialize from 'serialize-javascript';
 
 dotenv.config();
 
@@ -123,7 +124,7 @@ function start() {
           };
           break;
       }
-      client.send(JSON.stringify(result));
+      client.send(serialize(result, {isJSON: true}));
     });
   }
 }

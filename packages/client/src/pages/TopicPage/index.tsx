@@ -9,6 +9,8 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
 
+import { sanitize } from '../../shared/utils/sanitize';
+
 import { UpdateTopic, UpdateComment, WriteComment } from './features';
 
 import {
@@ -21,7 +23,7 @@ import { useGetUserInfoQuery } from '../../app/store/api/auth/authApi';
 
 import Emoji from '../../components/Emoji';
 
-import { Comment, TEmoji } from './types';
+import { TEmoji } from './types';
 
 import { IComment } from '../../app/store/api/forum/types';
 
@@ -133,8 +135,12 @@ export function TopicPage() {
                 src={`https://ya-praktikum.tech/api/v2/resources${userData?.avatar}`}
               />
               <Box className={styles.info}>
-                <div className={styles.username}>{comment.author}</div>
-                <div className={styles.text}>{comment.content}</div>
+                <div className={styles.username}
+                  dangerouslySetInnerHTML={{ __html: sanitize( comment.author ) } }
+                />
+                <div className={styles.text}
+                  dangerouslySetInnerHTML={{ __html: sanitize( comment.content ) } }
+                />
               </Box>
             </Box>
             {(comment.author === userData?.display_name ||
