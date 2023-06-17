@@ -13,6 +13,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { dbConnect } from './db';
 import routes from './src/routes/routes';
+import { csp } from './src/middlewares';
 
 type payloadType = {
   success?: boolean;
@@ -133,6 +134,7 @@ async function startServer() {
   app.use(cors());
   app.use(express.urlencoded());
   app.use(express.json());
+  app.use(csp());
 
   const port = Number(process.env.SERVER_PORT) || 3001;
 
@@ -167,7 +169,7 @@ async function startServer() {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')));
   }
 
-  app.use('*', async (req, res, next) => {
+  app.use('*', async (req: any, res, next) => {
     const url = req.originalUrl;
 
     try {
@@ -203,7 +205,7 @@ async function startServer() {
         store.getState()
       )}</script>`;
 
-      const cache = createCache({ key: 'css' });
+      const cache = createCache({ key: 'css', nonce: req.nonce});
 
       const { extractCriticalToChunks, constructStyleTagsFromChunks } =
         createEmotionServer(cache);
