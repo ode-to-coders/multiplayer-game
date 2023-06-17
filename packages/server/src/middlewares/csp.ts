@@ -1,4 +1,4 @@
-import { SELF, NONE, NONCE, INLINE, expressCspHeader } from 'express-csp-header';
+import { SELF, NONE, INLINE, expressCspHeader } from 'express-csp-header';
 
 export const csp = () => {
 
@@ -12,7 +12,7 @@ export const csp = () => {
         'https://fonts.gstatic.com/s/inter/v12/'
       ],
       'media-src': [SELF],
-      'style-src': [SELF, NONCE],
+      'style-src': [SELF, INLINE],
       'script-src': [SELF, INLINE],
       'object-src': [NONE],
       'child-src': [SELF, 'https://www.youtube.com'],
