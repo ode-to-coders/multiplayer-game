@@ -13,11 +13,37 @@ import logo from '../../images/logo.png';
 import styles from './index.module.scss';
 import { useAuth } from '../../app/hooks/useAuth';
 
+// Todo удалить
+import { useGetUserInfoQuery } from '../../app/store/api/auth/authApi';
+import { useGetThemesQuery } from '../../app/store/api/themes/themesApi';
+import {useCreateUserThemeMutation, useGetUserThemeQuery ,  useUpdateUserThemeMutation} from '../../app/store/api/userTheme';
+
 export function MainPage() {
   const aboutAnchor = useRef<HTMLDivElement>(null);
   const videoAnchor = useRef<HTMLDivElement>(null);
   const toPlay = useRef<HTMLDivElement>(null);
   const { isAuth } = useAuth();
+
+  const { data } = useGetUserInfoQuery();
+  const [ createUserTheme ] = useCreateUserThemeMutation();
+  const [updateUserTheme] = useUpdateUserThemeMutation();
+  const { data: theme } = useGetUserThemeQuery({
+    ownerId: data?.id
+  });
+
+  console.log(data, 'user');
+
+  console.log(useGetThemesQuery(), 'ff');
+  console.log(useGetUserThemeQuery({
+    ownerId: 1
+  }), 'currentTheme');
+
+  const handleClick = () => {
+    createUserTheme({
+      theme: 'light',
+      ownerId: data?.id
+    })
+  }
 
   const handleScroll = (element: HTMLDivElement | null) => {
     if (element) {
@@ -29,6 +55,7 @@ export function MainPage() {
     <div className={styles.container}>
       <Grid container spacing={2} className={styles.grid}>
         <Grid item>
+          <button onClick={handleClick}>создать тему</button>
           <div
             className={styles.item}
             onClick={() => handleScroll(aboutAnchor.current)}>
