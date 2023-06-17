@@ -169,7 +169,7 @@ async function startServer() {
     app.use('/assets', express.static(path.resolve(distPath, 'assets')));
   }
 
-  app.use('*', async (req: any, res, next) => {
+  app.use('*', async (req, res, next) => {
     const url = req.originalUrl;
 
     try {
@@ -205,7 +205,7 @@ async function startServer() {
         store.getState()
       )}</script>`;
 
-      const cache = createCache({ key: 'css', nonce: req.nonce});
+      const cache = createCache({ key: 'css' });
 
       const { extractCriticalToChunks, constructStyleTagsFromChunks } =
         createEmotionServer(cache);
