@@ -31,9 +31,6 @@ export function MainPage() {
     ownerId: data?.id
   });
 
-  console.log(data, 'user');
-
-  console.log(useGetThemesQuery(), 'ff');
   console.log(useGetUserThemeQuery({
     ownerId: 1
   }), 'currentTheme');
