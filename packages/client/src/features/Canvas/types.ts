@@ -145,3 +145,7 @@ export type TTimerCash = {
     bgImg: ImageData | null
   }
 }
+
+export type TAnswers = {
+  winEntourage: 'england' | 'modern' | 'fantasy',
+}

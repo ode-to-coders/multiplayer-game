@@ -79,7 +79,7 @@ export class FinalThink {
             left, top, width, height
           } = ssd.hoverRects[nameScene][0] // достаем начальные данные
           ssd.hoverRects[nameScene] = []; // подготавливаем его (очищаем)
-          const lengthLine = ssd.mainGamer.notes[0].length
+          const lengthLine = ssd.mainGamer.notes[0]?.length
           for (let indexLine = 0; indexLine < 6; indexLine++) { // разворачиваем данные (запушиваем массив 'инпутов')
             for (let i = 0; i < lengthLine; i++) {
               ssd.hoverRects[nameScene].push({

@@ -5,6 +5,7 @@ import { createServer as createViteServer } from 'vite';
 import createCache from '@emotion/cache';
 import createEmotionServer from '@emotion/server/create-instance';
 import type { ViteDevServer } from 'vite';
+import { getWinnerEnthourage } from './src/utils/winner';
 
 dotenv.config();
 
@@ -21,6 +22,9 @@ type payloadType = {
   gameId?: string;
   canStart?: boolean;
   count?: number;
+  userAnswers?: any,
+  answers?: any,
+  winEntourage?: string,
 };
 
 type resultType = {
@@ -32,15 +36,19 @@ type requestType = {
   event: string;
   gameId: string;
   payload: payloadType;
+  login: string;
 };
 
 type clientType = {
   login: string;
+  entourage: string;
 } & WebSocket;
 
 type gamesType = Record<string, Array<clientType>>;
 
 const games: gamesType = {};
+
+let userAnswers: any;
 
 export const app = express();
 
@@ -75,41 +83,112 @@ function start() {
     if (games[gameId] && games[gameId]?.length < 4) {
       games[gameId] = games[gameId].filter(wsc => wsc.login !== ws.login);
       games[gameId] = [...games[gameId], ws];
+
+      userAnswers = games[gameId].map((client, i) => {
+        return {
+          login: client.login,
+          id: i,
+          entourage: '',
+          profession: '',
+          secret: '',
+          answers: [],
+          votes: [],
+        }
+      });
     }
     if (games[gameId] && games[gameId]?.length === 4) {
       games[gameId] = games[gameId].filter(wsc => wsc.login !== ws.login);
     }
   }
 
+
   function broadcast(params: requestType) {
     let result: resultType;
 
-    const { gameId } = params.payload as requestType;
+    const {
+      gameId,
+      login
+    } = params.payload as requestType;
 
     games[gameId].forEach((client: clientType) => {
+      const rivals = games[gameId]
+      .filter((user: clientType) => user.login !== client.login)
+      ?.map(user => user.login);
+
       switch (params.event) {
-        case 'connect':
+        case 'connect': {
           result = {
             type: 'connectToPlay',
             payload: {
               success: true,
-              rivalName: games[gameId]
-                .filter((user: clientType) => user.login !== client.login)
-                ?.map(user => user.login),
+              rivalName: rivals,
               login: client.login,
               count: games[gameId].length,
             },
           };
           break;
-        case 'ready':
+        }
+
+        case 'ready': {
           result = {
             type: 'readyToPlay',
             payload: {
-              canStart: games[gameId].length > 3,
+              canStart: games[gameId].length > 1,
               login: client.login,
+              count: games[gameId].length,
+              rivalName: rivals,
             },
           };
           break;
+        }
+
+          case 'game': {
+            const currentUserIndex = userAnswers.findIndex((member: any) => member.login === client.login);
+            let currentUserAnswer;
+            let winEntourage;
+
+            // const currentUserAnswer = {
+            //   ...userAnswers[currentUserIndex],
+            //   ...params.payload.answers
+            // }
+
+            if (Object.keys(params.payload.answers)[0] === 'answers') {
+              currentUserAnswer = {
+                ...userAnswers[currentUserIndex],
+                answers: [...userAnswers[currentUserIndex].answers, Object.values(params.payload.answers)[0]]
+              };
+              console.log(currentUserAnswer);
+            } else {
+              currentUserAnswer = {
+                ...userAnswers[currentUserIndex],
+                ...params.payload.answers
+              };
+            };
+
+            userAnswers = [
+              ...userAnswers.slice(0, currentUserIndex),
+              currentUserAnswer,
+             ...userAnswers.slice(currentUserIndex + 1)
+            ];
+
+            const isWin = userAnswers.map((answer: any) => answer.entourage !== '');
+
+            if (isWin) {
+              winEntourage = getWinnerEnthourage(userAnswers).name;
+            }
+
+            result = {
+              type: 'play',
+              payload: {
+                login,
+                userAnswers,
+                winEntourage,
+              },
+            };
+
+            break;
+          }
+
         default:
           result = {
             type: 'logout',

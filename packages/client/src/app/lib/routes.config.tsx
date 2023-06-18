@@ -11,7 +11,6 @@ import {
   Profile,
   MainPage,
   RoomPage,
-  Enthourage,
 } from '../../pages';
 
 import { PAGES, Routes } from './routes.types';
@@ -63,10 +62,6 @@ const GAME_ROUTES: Routes = [
   {
     path: PAGES.ROOMS,
     Component: () => <RoomPage rooms={rooms} />,
-  },
-  {
-    path: PAGES.ENTHOURAGE,
-    Component: () => <Enthourage />,
   },
 ];
 /**

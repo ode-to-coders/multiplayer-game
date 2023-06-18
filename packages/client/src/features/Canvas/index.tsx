@@ -1,26 +1,81 @@
-import { RefObject, useEffect, useMemo, useRef, useState } from 'react';
+import { RefObject, useEffect, useMemo, useRef, useState, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
+
+import { EndPage } from '../../pages/EndPage/EndPage';
+import { ws } from '../../pages/StartPage/StartPage';
+
+import { useGetUserInfoQuery } from '../../app/store/api/auth/authApi';
+
+import { isOpen } from '../../shared/utils/helpers';
 
 import { CanvasScenes } from './canvasScenes';
 
-import s from './index.module.scss';
-import { EndPage } from '../../pages/EndPage/EndPage';
+import styles from './index.module.scss';
 
-const canvasSize = {width: 1280  , height: 768}; // TODO в будущем при запуске.. внести в компонент и динамически решать какие нужны размеры взависимости от экрана клиента
+
+
+// TODO в будущем при запуске.. внести в компонент и динамически решать какие нужны размеры взависимости от экрана клиента
+const canvasSize = {width: 1280  , height: 768};
 
 export const Canvas = () => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
   const [scene, setScene] = useState(1);
   const [showModalResult, setShowModalResult] = useState(false);
   const [frameRender, goFrameRender] = useState<number>(1);
+  const [winEntourage, setWinEntourage] = useState<'england' | 'modern' | 'fantasy'>('england');
+
+  const { gameId } = useParams();
+  const { data } = useGetUserInfoQuery();
+
+  const handleWin = useCallback(() => {
+    console.log(1);
+    return {
+      winEntourage,
+    }
+  }, [winEntourage]);
+
+  const handleChoose = useCallback(async(type: string, vote: string, key: string): Promise<void> => {
+    if (isOpen(ws)) {
+      await ws.send(
+        JSON.stringify({
+          event: type,
+          payload: {
+            gameId,
+            login: data?.login,
+            answers: {
+              [key]: vote
+            },
+          }
+        })
+      );
+    }
+  }, [gameId, data]);
+
+  ws.onmessage = function (response: any) {
+    const { type, payload } = JSON.parse(response.data);
+    console.log(payload);
+
+    switch (type) {
+      case 'play': {
+        setWinEntourage(payload.winEntourage);
+        break;
+      }
+
+      default:
+        break;
+    }
+  };
 
   const canvasScenes = useMemo(() => {
     return new CanvasScenes(
       setScene,
       setShowModalResult,
       goFrameRender,
-      {width: canvasSize.width, height: canvasSize.height}
+      {width: canvasSize.width, height: canvasSize.height},
+      handleChoose,
+      handleWin,
     );
-  }, [])
+  }, [handleChoose]);
 
   // основная логика отрисовки здесь
   useEffect(() => {
@@ -58,10 +113,10 @@ export const Canvas = () => {
 
   return (
     <div>
-      <div className={s.wrapCont}>
+      <div className={styles.wrapCont}>
         <canvas
           ref={canvasRef}
-          className={s.canvas}
+          className={styles.canvas}
           width={canvasSize.width}
           height={canvasSize.height}
         />
