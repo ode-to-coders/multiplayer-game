@@ -18,15 +18,9 @@ export const userThemeApi = createApi({
   baseQuery,
   endpoints: builder => ({
 
-    getUserTheme: builder.query<ITheme[], any>({
+    getUserTheme: builder.query<ITheme, any>({
       query: ({ ownerId }) => `${USER_THEME.GET}/${ownerId}`,
-      providesTags: result =>
-        result
-          ? [
-            ...result.map(({ id }) => ({ type: 'USER_THEME_DATA' as const, id })),
-              { type: 'USER_THEME_DATA', id: 'LIST' },
-            ]
-          : [{ type: 'USER_THEME_DATA', id: 'LIST' }],
+      providesTags: [{ type: 'USER_THEME_DATA', id: 'INFO' }],
     }),
 
     createUserTheme: builder.mutation<ITheme, ICreateUserTheme>({

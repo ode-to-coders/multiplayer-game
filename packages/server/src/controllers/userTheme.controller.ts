@@ -55,7 +55,6 @@ export const updateUserTheme = async (req: Request, res: Response) => {
 
 export const getUserTheme = async (req: Request, res: Response) => {
   const { ownerId } = req.params;
-  console.log(ownerId, 'iddd@@@@@');
 
   try {
     const data = await UserTheme.findOne({

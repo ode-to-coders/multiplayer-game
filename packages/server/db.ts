@@ -3,7 +3,6 @@ import { topicModel } from './src/models/topic.model';
 import { commentModel } from './src/models/comment.model';
 import { leaderboardModel } from './src/models/leaderboard.model';
 import { userThemeModel } from './src/models/userTheme.model';
-import { themeModel } from './src/models/theme.model';
 
 const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
   process.env;
@@ -23,7 +22,6 @@ export const Topic = sequelize.define('Topic', topicModel);
 export const Comment = sequelize.define('Comment', commentModel);
 export const Leaderboard = sequelize.define('Leaderboard', leaderboardModel);
 export const UserTheme = sequelize.define('UserTheme', userThemeModel);
-export const Theme = sequelize.define('Theme', themeModel);
 
 Topic.hasMany(Comment, {
   foreignKey: 'topic_id',

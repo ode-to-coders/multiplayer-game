@@ -12,7 +12,7 @@ const enum USER_THEME_ROUTES {
   CREATE_THEME = '/api/user-theme/create',
 }
 
-export const topicRoutes = (app: Express) => {
+export const userThemeRoutes = (app: Express) => {
   app.get(USER_THEME_ROUTES.GET_THEME, getUserTheme);
   app.put(USER_THEME_ROUTES.UPDATE_THEME, updateUserTheme);
   app.post(USER_THEME_ROUTES.CREATE_THEME, createUserTheme);
