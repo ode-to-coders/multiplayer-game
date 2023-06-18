@@ -50,6 +50,7 @@ export interface IComment {
   depth: number;
   createdAt: Date;
   updatedAt: Date;
+  comments: IComment[];
 }
 
 export interface IGetComments {

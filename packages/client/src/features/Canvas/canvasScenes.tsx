@@ -118,7 +118,9 @@ export class CanvasScenes {
     }
     // загрузчик перед игрой
     if ((ssd.arrLoadedImgSrc.length + ssd.audioStore.size) < 106) {
-      return firstDownloader(ctx, canvas, 103 + 3);     
+      firstDownloader(ctx, canvas, 103 + 3);
+      setTimeout(() => this.setFrameRender(Math.random()), 100);
+      return false;     
     }
     if (!this.checkOnSounds) {
       this.audio.play(source.sounds.bgMain, true);

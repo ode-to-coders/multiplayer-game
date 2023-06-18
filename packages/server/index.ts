@@ -14,8 +14,10 @@ dotenv.config();
 
 import { dbConnect } from './db';
 import routes from './src/routes/routes';
+
 import { proxyMiddleware } from './src/middlewares/proxy.middleware';
 import { authMiddleware } from './src/middlewares/auth.middleware';
+import { csp } from './src/middlewares';
 
 type payloadType = {
   success?: boolean;
@@ -147,6 +149,8 @@ async function startServer() {
    */
   app.use('/api/topics', authMiddleware);
   app.use('/api/comments', authMiddleware);
+
+  app.use(csp());
 
   const port = Number(process.env.SERVER_PORT) || 3001;
 
