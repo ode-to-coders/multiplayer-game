@@ -5,14 +5,18 @@ import { createServer as createViteServer } from 'vite';
 import createCache from '@emotion/cache';
 import createEmotionServer from '@emotion/server/create-instance';
 import type { ViteDevServer } from 'vite';
-
-dotenv.config();
-
 import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as cookieParser from 'cookie-parser';
+
+dotenv.config();
+
 import { dbConnect } from './db';
 import routes from './src/routes/routes';
+
+import { proxyMiddleware } from './src/middlewares/proxy.middleware';
+import { authMiddleware } from './src/middlewares/auth.middleware';
 import { csp } from './src/middlewares';
 
 type payloadType = {
@@ -132,8 +136,20 @@ const isDev = process.env.NODE_ENV === 'development';
 
 async function startServer() {
   app.use(cors());
-  app.use(express.urlencoded());
+  app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
+  app.use(cookieParser.default());
+
+  /**
+   * Проксируем основные ручки яндекса
+   */
+  app.use('/api/v2', proxyMiddleware());
+  /**
+   * Проверка авторизации для кастомных ручек
+   */
+  app.use('/api/topics', authMiddleware);
+  app.use('/api/comments', authMiddleware);
+
   app.use(csp());
 
   const port = Number(process.env.SERVER_PORT) || 3001;
