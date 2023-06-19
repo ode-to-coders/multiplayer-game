@@ -1,53 +1,53 @@
 import { DataType, Model } from 'sequelize-typescript';
 import { ModelAttributes } from 'sequelize/types/model';
 
-export interface IComment {
+export interface ILeaderboard {
   id: number;
-  topic_id: number;
-  parent_id: number | null;
-  content: string;
-  author: string;
-  depth: number;
+  avatar: string;
+  gamer: string;
+  winGames: number;
+  allGames: number;
+  winPercent: number;
+  points: number;
   createdAt: Date;
   updatedAt: Date;
-  comments: IComment[];
 }
 
-export const commentModel: ModelAttributes<Model, IComment> = {
+export const leaderboardModel: ModelAttributes<Model, ILeaderboard> = {
   id: {
     type: DataType.INTEGER,
     primaryKey: true,
-    autoIncrement: true,
-  },
-  topic_id: {
-    type: DataType.INTEGER,
     allowNull: false,
+    unique: true,
   },
-  parent_id: {
-    type: DataType.INTEGER,
+  avatar: {
+    type: DataType.STRING,
     allowNull: true,
   },
-  author: {
+  gamer: {
     type: DataType.STRING,
     allowNull: false,
   },
-  content: {
-    type: DataType.STRING,
-    allowNull: false,
-  },
-  depth: {
+  winGames: {
     type: DataType.INTEGER,
-    defaultValue: 0,
     allowNull: false,
   },
-  comments: {
-    type: DataType.ARRAY(DataType.JSON),
-    defaultValue: [],
+  allGames: {
+    type: DataType.INTEGER,
+    allowNull: false,
+  },
+  winPercent: {
+    type: DataType.INTEGER,
+    allowNull: false
+  },
+  points: {
+    type: DataType.INTEGER,
+    allowNull: false
   },
   createdAt: {
     type: DataType.DATE,
   },
   updatedAt: {
     type: DataType.DATE,
-  },
+  }
 };

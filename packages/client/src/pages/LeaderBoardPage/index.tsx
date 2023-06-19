@@ -1,15 +1,16 @@
 import cx from 'classnames';
 import Avatar from '@mui/material/Avatar';
 
-import { LeaderBoardT, User } from './types';
 import { StyledContainer } from '../../shared/ui/Styled';
 
 import styles from './index.module.scss';
+import { useGetLeaderboardQuery } from '../../app/store/api/leaderboard/leaderboardApi';
 
-export function LeaderBoardPage(props: LeaderBoardT) {
-  const { users } = props;
+import { ILeaderboard } from '../../app/store/api/leaderboard/types';
 
-  if (!users || users.length < 0) return null;
+export function LeaderBoardPage() {
+
+  const { data: dataLeaders } = useGetLeaderboardQuery();
 
   return (
     <StyledContainer extendсlass={styles.mainContainer}>
@@ -43,12 +44,15 @@ export function LeaderBoardPage(props: LeaderBoardT) {
             <div className={styles.col}>Позиция в рейтинге</div>
             <div className={styles.col}>Процент побед</div>
             <div className={styles.col}>Всего игр</div>
+            <div className={styles.col}>Всего очков</div>
           </li>
-          {users.map((user: User, i: number) => {
+          {dataLeaders?.map((user: ILeaderboard, i: number) => {
             const {
-              first_name: name,
-              percent,
-              count_game: countGame,
+              gamer,
+              avatar,
+              winPercent,
+              allGames,
+              points,
               id,
             } = user;
 
@@ -57,21 +61,27 @@ export function LeaderBoardPage(props: LeaderBoardT) {
                 <div className={styles.col}>
                   <div className={styles.count}>{i + 1}</div>
                   <div className={styles.userInfo}>
-                    <Avatar alt="avatar" src={user.avatar} />
-                    <div className={styles.name}>{name}</div>
+                    <Avatar 
+                      alt="?" 
+                      src={`https://ya-praktikum.tech/api/v2/resources${avatar}`}
+                    />
+                    <div className={styles.name}>{gamer}</div>
                   </div>
                 </div>
                 <div className={styles.col}>
                   <div className={styles.progressbar}>
                     <div
                       className={styles.progress}
-                      style={{ width: `${percent || 0}%` }}
+                      style={{ width: `${winPercent}%` }}
                     />
                   </div>
-                  <div className="percent">{percent}%</div>
+                  <div className="percent">{winPercent}%</div>
                 </div>
                 <div className={styles.col}>
-                  <div className="countGame">{countGame}</div>
+                  <div className={styles.countGame}>{allGames}</div>
+                </div>
+                <div className={styles.col}>
+                  <div className={styles.countGame}>{points}</div>
                 </div>
               </li>
             );
