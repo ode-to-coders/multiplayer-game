@@ -22,6 +22,7 @@ export default defineConfig({
     __APP_PATH__: `'${process.env.APP_PATH}'` || '',
     __YANDEX_OAUTH_REDIRECT_PATH__:
       `'${process.env.YANDEX_OAUTH_REDIRECT_PATH}'` || '',
+    __BASE_API_PATH__: `'${process.env.BASE_API_PATH}'` || '',
   },
   plugins: [react(), svgr()],
 });
