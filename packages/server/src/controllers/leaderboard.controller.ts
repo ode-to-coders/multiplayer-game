@@ -22,7 +22,7 @@ export const pushResult = async (req: Request, res: Response) => {
       
       await Leaderboard.create({
         id: idUser,
-        avatar: avatar,
+        avatar,
         gamer: gamer ?? 'аноним',
         winGames: resultGame ? 1 : 0,
         allGames: 1,
@@ -35,8 +35,8 @@ export const pushResult = async (req: Request, res: Response) => {
       const winPercent = Math.round((winGames / allGames) * 100);
       await Leaderboard.update(
         {
-          avatar: avatar,
-          gamer: gamer ?? 'аноним',
+          avatar,
+          gamer: gamer ?? dataGamer.gamer ?? 'аноним',
           winGames,
           allGames,
           winPercent,

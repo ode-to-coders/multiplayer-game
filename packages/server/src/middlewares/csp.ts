@@ -1,4 +1,4 @@
-import { SELF, NONE, NONCE, INLINE, expressCspHeader } from 'express-csp-header';
+import { SELF, NONE, INLINE, expressCspHeader } from 'express-csp-header';
 
 export const csp = () => {
 

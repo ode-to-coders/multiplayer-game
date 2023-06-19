@@ -123,7 +123,7 @@ export class CanvasScenes {
       return false;     
     }
     if (!this.checkOnSounds) {
-      this.audio.play(source.sounds.bgMain, true);
+      // this.audio.play(source.sounds.bgMain, true);
       this.checkOnSounds = true;
     }
     
@@ -179,7 +179,11 @@ export class CanvasScenes {
           }
           ssd.mainGamer.numsVoicesWinEntourage = mockRecNumsVoicesWinEntourage;
           ssd.mainGamer.numsRivals = mockResNumsRivals;
-          ssd.mainGamer.namesRivals = mockResNamesRivals;
+          ssd.mainGamer.namesRivals = mockResNamesRivals;          
+          ssd.cardsForSelect = {
+            prof: [2, 5],
+            secret: [4, 3]
+          }
           mockFiveAnswers.forEach((answer, index) => {
             ssd.dataFiveQuestions[index] = {open: false, ...answer}
           })
