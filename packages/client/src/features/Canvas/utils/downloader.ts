@@ -16,5 +16,4 @@ export const firstDownloader = (
     fontSize: 45,
     textColor: JSCOLORS.orange
   })
-  return true;
 }
