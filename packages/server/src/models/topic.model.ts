@@ -32,7 +32,7 @@ export const topicModel: ModelAttributes<Model, ITopic> = {
   content: {
     type: DataType.STRING,
   },
-  // Разобраться как подсчитывать автоматом
+  // Todo Разобраться как подсчитывать автоматом
   comments_count: {
     type: DataType.INTEGER,
     defaultValue: 0,

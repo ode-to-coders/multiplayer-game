@@ -6,6 +6,7 @@ import { reducer } from './reducer';
 import { authSlice } from './auth/authSlice';
 import { forumApi } from './api/forum/forumApi';
 import { leaderboardApi } from './api/leaderboard/leaderboardApi';
+import { userThemeApi } from './api/userTheme';
 
   const initialState =
   typeof window !== 'undefined'
@@ -18,7 +19,12 @@ const createStore = (preloadedState = {}) => {
   return configureStore({
     reducer,
     middleware: getDefaultMiddleware =>
-      getDefaultMiddleware().concat(baseApi.middleware, forumApi.middleware, leaderboardApi.middleware),
+      getDefaultMiddleware().concat(
+        baseApi.middleware,
+        forumApi.middleware,
+        leaderboardApi.middleware, 
+        userThemeApi.middleware,
+      ),
     preloadedState,
   });  
 }
