@@ -1,7 +1,6 @@
-import { SELF, NONE, NONCE, INLINE, expressCspHeader } from 'express-csp-header';
+import { SELF, NONE, INLINE, expressCspHeader } from 'express-csp-header';
 
 export const csp = () => {
-
   return expressCspHeader({
     directives: {
       'default-src': [
@@ -9,14 +8,14 @@ export const csp = () => {
         'http://localhost/',
         'ws://localhost:24678',
         'https://ya-praktikum.tech/api/v2/',
-        'https://fonts.gstatic.com/s/inter/v12/'
+        'https://fonts.gstatic.com/s/inter/v12/',
       ],
       'media-src': [SELF],
       'style-src': [SELF, INLINE],
       'script-src': [SELF, INLINE],
       'object-src': [NONE],
       'child-src': [SELF, 'https://www.youtube.com'],
-      'form-action': [SELF]
-    }
-  })
-}
+      'form-action': [SELF],
+    },
+  });
+};
