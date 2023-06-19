@@ -9,13 +9,20 @@
   position: absolute;
   display: flex;
   justify-content: right;
-  font-size: 20px;
+  align-items: center;
+  font-size: 1.25rem;
   font-weight: 500;
-  line-height: 20px;
-  gap: 27px;
-  padding-top: 10px;
+  line-height: 1.25rem;
+  gap: 1.688rem;
+  padding-top: 0.625rem;
 }
 
 .gridLast {
-  margin-right: 61px;
+  margin-right: 3.75rem;
+}
+
+.switch {
+  position: absolute;
+  right: 0;
+  margin-right: 3.75rem;
 }
