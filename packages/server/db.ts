@@ -4,15 +4,12 @@ import { commentModel } from './src/models/comment.model';
 import { leaderboardModel } from './src/models/leaderboard.model';
 import { userThemeModel } from './src/models/userTheme.model';
 
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
-  process.env;
-
 const sequelizeOptions: SequelizeOptions = {
   host: 'localhost',
-  port: Number(POSTGRES_PORT),
-  username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
-  database: POSTGRES_DB,
+  port: 5432,
+  username: 'postgres',
+  password: 'belka321',
+  database: 'postgres',
   dialect: 'postgres',
 };
 

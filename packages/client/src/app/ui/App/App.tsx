@@ -8,7 +8,6 @@ import { withProviders } from '../../providers/withProviders';
 import { AuthenticatedApp } from '../AuthenticatedApp/AuthenticatedApp';
 import { useAuth } from '../../hooks/useAuth';
 import { UnauthenticatedApp } from '../UnauthenticatedApp/UnauthenticatedApp';
-import { setStyleProperty } from '../../../utils/setStyleProperty';
 
 import '../../styles/vars.scss';
 import '../../styles/global.scss';
@@ -25,13 +24,6 @@ function App() {
       console.log(data);
     };
 
-    const theme = localStorage.getItem('theme')
-      ? localStorage.getItem('theme')
-      : 'dark';  
-
-    document.documentElement.classList.add(theme as string);
-    setStyleProperty(document.documentElement.className);
-    
     fetchServerData();
   }, []);
 

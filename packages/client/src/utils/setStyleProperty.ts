@@ -2,6 +2,7 @@ const themes: Record<string, Record<string, string>> = {
   dark: {
     '--color-layout': '#343739',
     '--color-primary': '#fff',
+    '--color-primary-button': '#fff',
     '--color-lightGrey': '#eaeaea',
     '--color-grey': '#999999',
     '--color-darkGrey': '#666869',
