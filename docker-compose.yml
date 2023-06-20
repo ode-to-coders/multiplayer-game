@@ -17,6 +17,7 @@ services:
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     environment:
+      SERVER_PORT: ${SERVER_PORT}
       VIRTUAL_HOST: ${APP_HOSTNAME}
       VIRTUAL_PORT: ${SERVER_PORT}
       LETSENCRYPT_HOST: ${APP_HOSTNAME}

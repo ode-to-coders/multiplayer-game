@@ -8,10 +8,8 @@ import {
 
 import { setIsAuth } from '../auth/authSlice';
 
-const BASE_API_PATH = `${__BASE_API_PATH__}`;
-
 const baseQuery = fetchBaseQuery({
-  baseUrl: `${BASE_API_PATH}`,
+  baseUrl: __BASE_API_PATH__,
   prepareHeaders(headers) {
     return headers;
   },
