@@ -27,6 +27,12 @@
       "widgets/*": ["src/widgets/*"]
     }
   },
-  "include": ["src", "setupTests.ts", "ssr.tsx"],
+  "include": [
+    "src",
+    "setupTests.ts",
+    "ssr.tsx",
+    "src/serviceWorker.ts",
+    "registerServiceWorker.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
