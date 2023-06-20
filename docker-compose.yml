@@ -12,12 +12,14 @@ services:
     env_file:
       - .env
     restart: always
-    ports:
-      - '${SERVER_PORT}:${SERVER_PORT}'
     depends_on:
       - postgres
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
     environment:
-      SERVER_PORT: ${SERVER_PORT}
+      VIRTUAL_HOST: ${APP_HOSTNAME}
+      VIRTUAL_PORT: ${SERVER_PORT}
+      LETSENCRYPT_HOST: ${APP_HOSTNAME}
     networks:
       - default
 
@@ -38,29 +40,46 @@ services:
     networks:
       - default
 
-  pgadmin:
-    container_name: pgadmin_container
-    image: dpage/pgadmin4
-    env_file:
-      - .env
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
-    volumes:
-      - pgadmin:/var/lib/pgadmin
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    container_name: nginx-proxy
+    restart: always
     ports:
-      - ${PGADMIN_PORT}:${PGADMIN_PORT}
+      - 80:80
+      - 443:443
+    volumes:
+      - conf:/etc/nginx/conf.d
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - certs:/etc/nginx/certs:ro
+      - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - default
-    depends_on:
-      - postgres
-    restart: unless-stopped
 
-networks:
-  default:
-    driver: bridge
+  acme-companion:
+    image: nginxproxy/acme-companion
+    container_name: nginx-proxy-acme
+    restart: always
+    depends_on:
+      - nginx-proxy
+    environment:
+      - DEFAULT_EMAIL=mail@${APP_HOSTNAME}
+    volumes_from:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - acme:/etc/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
     postgres:
-    pgadmin:
+    volumes:
+    conf:
+    vhost:
+    html:
+    certs:
+    acme:
+
+networks:
+  default:
+     driver: bridge
