@@ -15,7 +15,7 @@ export const authMiddleware = async (
     }
 
     const checkAuth = await fetch(
-      'https://ya-praktikum.tech/api/v2/auth/user',
+      'https://odetocode-league-24.ya-praktikum.tech/api/v2/auth/user',
       {
         headers: {
           Cookie: `authCookie=${authCookie};uuid=${uuid}`,
