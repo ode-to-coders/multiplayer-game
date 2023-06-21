@@ -16,7 +16,7 @@ import { dbConnect } from './db';
 import routes from './src/routes/routes';
 
 import { proxyMiddleware } from './src/middlewares/proxy.middleware';
-import { authMiddleware } from './src/middlewares/auth.middleware';
+//import { authMiddleware } from './src/middlewares/auth.middleware';
 // import { csp } from './src/middlewares';
 
 type payloadType = {
