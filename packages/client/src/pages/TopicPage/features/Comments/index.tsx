@@ -70,7 +70,7 @@ export function Comments(props: TProps) {
         <div key={comment.id} className={styles.wrap}>
           <Box className={styles.comment}>
             <Avatar
-              src={`https://odetocode-league-24.ya-praktikum.tech/api/v2/resources${userData?.avatar}`}
+              src={`https://ya-praktikum.tech/api/v2/resources${comment?.author_avatar}`}
             />
             <Box className={styles.info}>
               <div className={styles.wrapName}>
@@ -84,7 +84,8 @@ export function Comments(props: TProps) {
           </Box>
           <Box className={styles.comment__setup}>
             {(comment.author === userData?.display_name ||
-              comment.author === userData?.login) && (
+              comment.author === userData?.login ||
+              comment.author === userData?.first_name) && (
               <>
                 <StyledButton
                   extendсlass={cn(styles.button, styles.btnDelete)}
