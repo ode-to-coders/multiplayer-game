@@ -27,8 +27,6 @@ const mockFiveAnswers: TCardQuestion[] = [
   {type: 'fantasy', index: 2},
 ]
 
-import { EndPage } from '../../pages/EndPage/EndPage';
-
 
 // TODO в будущем при запуске.. внести в компонент и динамически решать какие нужны размеры взависимости от экрана клиента
 const canvasSize = {width: 1280  , height: 768};
