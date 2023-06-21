@@ -7,7 +7,6 @@ import createEmotionServer from '@emotion/server/create-instance';
 import type { ViteDevServer } from 'vite';
 import { getWinnerEnthourage } from './src/utils/winner';
 import { getRandom } from './src/utils/randomPair';
-import serialize from 'serialize-javascript';
 
 dotenv.config();
 
@@ -234,7 +233,7 @@ function start() {
           };
           break;
       }
-      client.send(serialize(result, {isJSON: true}));
+      client.send(JSON.stringify(result));
     });
   }
 }

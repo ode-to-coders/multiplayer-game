@@ -89,7 +89,6 @@ export const Canvas = () => {
 
   ws.onmessage = function (response: any) {
     const { type, payload } = JSON.parse(response.data);
-    console.log(payload);
 
     switch (type) {
       case 'play': {
@@ -236,8 +235,6 @@ export const Canvas = () => {
           ...secrets,
           ...empty,
         ];
-
-        console.log(rivalsAnswer, 'rivalsAns');
 
         rivalsResult.forEach((check, index) => {
           ssd.mainGamer.notes[7][index] =

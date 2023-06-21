@@ -23,12 +23,10 @@
     "node": ">=15"
   },
   "devDependencies": {
-    "@evilmartians/lefthook": "1.1.1",
-    "@types/serialize-javascript": "5.0.2"
+    "@evilmartians/lefthook": "1.1.1"
   },
   "dependencies": {
     "@emotion/server": "^11.11.0",
-    "lerna": "5.4.3",
-    "serialize-javascript": "6.0.1"
+    "lerna": "5.4.3"
   }
 }
