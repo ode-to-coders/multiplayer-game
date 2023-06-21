@@ -8,7 +8,7 @@ import {
 
 import { setIsAuth } from '../auth/authSlice';
 
-const BASE_API_PATH = `${__BASE_API_PATH__}`;
+const BASE_API_PATH = 'https://odetocode-league-24.ya-praktikum.tech/api/v2/';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${BASE_API_PATH}`,

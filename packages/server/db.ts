@@ -6,10 +6,10 @@ import { userThemeModel } from './src/models/userTheme.model';
 
 const sequelizeOptions: SequelizeOptions = {
   host: 'localhost',
-  port: 5432,
-  username: 'postgres',
-  password: 'belka321',
-  database: 'postgres',
+  port: Number(POSTGRES_PORT),
+  username: POSTGRES_USER,
+  password: POSTGRES_PASSWORD,
+  database: POSTGRES_DB,
   dialect: 'postgres',
 };
 
