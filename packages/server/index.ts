@@ -14,7 +14,7 @@ dotenv.config();
 import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as cookieParser from 'cookie-parser';
+// import * as cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -244,7 +244,7 @@ async function startServer() {
   app.use(cors());
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  app.use(cookieParser.default());
+  // app.use(cookieParser.default());
 
   /**
    * Проксируем основные ручки яндекса

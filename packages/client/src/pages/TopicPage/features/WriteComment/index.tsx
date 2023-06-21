@@ -1,7 +1,6 @@
 import styles from './index.module.scss';
 
 import { useCreateCommentMutation } from '../../../../app/store/api/forum/forumApi';
-import { useGetUserInfoQuery } from '../../../../app/store/api/auth/authApi';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { StyledButton } from '../../../../shared/ui/Styled';
 
@@ -18,13 +17,9 @@ type TProps = {
 };
 
 export function WriteComment(props: TProps) {
-  const { topic_id, depth, parent_id, baseState, setStateComment } = props;
+  const { author, topic_id, depth, parent_id, baseState, setStateComment } = props;
 
-  const { data: userData } = useGetUserInfoQuery();
-
-  const [showTextAreaForComment, setShowTextAreaForComment] = useState(
-    baseState ?? false
-  );
+  const [showTextAreaForComment, setShowTextAreaForComment] = useState(baseState ?? false);
 
   const [createComment, { isLoading: isLoadingCreateComment }] =
     useCreateCommentMutation();
@@ -43,23 +38,21 @@ export function WriteComment(props: TProps) {
     if (commentFormValidationResult.sanitizedData) {
       createComment({
         topic_id,
-        author: userData?.display_name || userData?.first_name || '',
-        author_avatar: userData?.avatar || '',
+        author,
         content,
         depth,
         // Поменять на реальный id, если коментарий к топику то null
         // Если комментарий относится к другому комменту то parent_id это id коммента
         // на который отвечаем
-        parent_id,
+        parent_id
       });
     }
 
     setShowTextAreaForComment(false);
-    setStateComment &&
-      setStateComment({
-        id: -1,
-        toogle: COMMENT_STATE.OFF,
-      });
+    setStateComment && setStateComment({
+      id: -1,
+      toogle: COMMENT_STATE.OFF
+    });
   };
 
   const handleShowWriteComment = () => {

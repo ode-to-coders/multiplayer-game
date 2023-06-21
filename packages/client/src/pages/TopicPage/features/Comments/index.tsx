@@ -84,8 +84,7 @@ export function Comments(props: TProps) {
           </Box>
           <Box className={styles.comment__setup}>
             {(comment.author === userData?.display_name ||
-              comment.author === userData?.login ||
-              comment.author === userData?.first_name) && (
+              comment.author === userData?.login) && (
               <>
                 <StyledButton
                   extendсlass={cn(styles.button, styles.btnDelete)}

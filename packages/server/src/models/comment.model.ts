@@ -7,7 +7,6 @@ export interface IComment {
   parent_id: number | null;
   content: string;
   author: string;
-  author_avatar: string;
   depth: number;
   createdAt: Date;
   updatedAt: Date;
@@ -31,10 +30,6 @@ export const commentModel: ModelAttributes<Model, IComment> = {
   author: {
     type: DataType.STRING,
     allowNull: false,
-  },
-  author_avatar: {
-    type: DataType.STRING,
-    allowNull: true,
   },
   content: {
     type: DataType.STRING,
