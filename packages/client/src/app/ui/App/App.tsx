@@ -11,7 +11,9 @@ import { UnauthenticatedApp } from '../UnauthenticatedApp/UnauthenticatedApp';
 
 import '../../styles/vars.scss';
 import '../../styles/global.scss';
+
 import styles from './index.module.scss';
+
 
 function App() {
   useEffect(() => {

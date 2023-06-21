@@ -7,3 +7,4 @@ export { StyledButtonGroup } from './StyledButtonGroup';
 export { StyledGridItem } from './StyledGridItem';
 export { StyledTableCell } from './StyledTableCell';
 export { StyledTableContainer } from './StyledTableContainer';
+export { StyledSwitch } from './StyledSwitch';

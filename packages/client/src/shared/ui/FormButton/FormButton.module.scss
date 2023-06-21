@@ -1,5 +1,5 @@
 .myBtn {
-  color: var(--color-primary);
+  color: var(--color-primary-button);
   font-size: 13px;
   width: 280px;
   height: 37px;
@@ -10,5 +10,9 @@
 
   &:active {
     border: 1px solid var(--color-primary);
+  }
+
+  &:hover {
+    background-color: var(--darken-blue);
   }
 }

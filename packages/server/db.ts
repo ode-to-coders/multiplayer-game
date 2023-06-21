@@ -2,16 +2,14 @@ import { Sequelize, SequelizeOptions } from 'sequelize-typescript';
 import { topicModel } from './src/models/topic.model';
 import { commentModel } from './src/models/comment.model';
 import { leaderboardModel } from './src/models/leaderboard.model';
-
-const { POSTGRES_USER, POSTGRES_PASSWORD, POSTGRES_DB, POSTGRES_PORT } =
-  process.env;
+import { userThemeModel } from './src/models/userTheme.model';
 
 const sequelizeOptions: SequelizeOptions = {
   host: 'localhost',
-  port: Number(POSTGRES_PORT),
-  username: POSTGRES_USER,
-  password: POSTGRES_PASSWORD,
-  database: POSTGRES_DB,
+  port: 5432,
+  username: 'postgres',
+  password: 'belka321',
+  database: 'postgres',
   dialect: 'postgres',
 };
 
@@ -20,6 +18,7 @@ export const sequelize = new Sequelize(sequelizeOptions);
 export const Topic = sequelize.define('Topic', topicModel);
 export const Comment = sequelize.define('Comment', commentModel);
 export const Leaderboard = sequelize.define('Leaderboard', leaderboardModel);
+export const UserTheme = sequelize.define('UserTheme', userThemeModel);
 
 Topic.hasMany(Comment, {
   foreignKey: 'topic_id',
