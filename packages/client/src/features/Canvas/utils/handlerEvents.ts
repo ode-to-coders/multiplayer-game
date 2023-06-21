@@ -17,15 +17,6 @@ export class HandlerEvents {
     this.that.canvasRef.addEventListener('click', this.handlerClick)
     this.that.canvasRef.addEventListener('keydown', this.handlerKeyDown)
     this.that.canvasRef.addEventListener('mousemove', this.handlerMouseMove)
-    this.that.canvasRef.addEventListener('wheel', this.handlerWheelMouse)
-  }
-
-  handlerWheelMouse = (e: WheelEvent) => {
-    if (e.deltaY > 0) {
-      this.that.audio.setVolume(-10);
-    } else if (e.deltaY < 0) {      
-      this.that.audio.setVolume(10);
-    }
   }
 
   handlerMouseMove = (e: MouseEvent) => {

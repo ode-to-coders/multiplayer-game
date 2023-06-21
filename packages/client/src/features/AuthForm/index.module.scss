@@ -6,9 +6,8 @@
   border-radius: 0.75rem;
   padding-top: 1.25rem;
   padding-bottom: 1.875rem;
-  box-shadow: 0rem 0rem 0.375rem rgba(255, 255, 255, 0.14);
+  box-shadow: 0rem 0rem 0.375rem var(--color-darkGrey);
   width: 21.25rem;
-  height: 28.75rem;
 
   & .head {
     color: var(--color-primary);
@@ -44,7 +43,7 @@
       background-color: inherit;
       width: 17.5rem;
       height: 2em;
-
+      padding-left: 0.5rem;
       &:focus {
         border: 0.125rem solid var(--color-blue);
         border-radius: 0.3rem;
@@ -60,13 +59,15 @@
   }
 
   .btnSubmit {
-    margin-top: auto;
-    margin-bottom: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   .link {
-    color: var(--color-blue);
     text-decoration: none;
-    margin-top: 0.375rem;
+    margin-top: 0.8rem;
+    &:hover {
+      color: var(--color-blue);
+    }
   }
 }

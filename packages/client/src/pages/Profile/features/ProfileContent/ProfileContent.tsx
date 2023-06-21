@@ -93,6 +93,11 @@ export const ProfileContent = ({
   //-----------------------------------
   return (
     <>
+      <div className={s.wrapLink}>
+        <Link to={profileConfig[page].linkBack} className={s.linkBack}>
+          Назад
+        </Link>
+      </div>
       <div className={s.wrapData}>
         <div className={s.wrapAva}>
           {avatar}
@@ -105,9 +110,7 @@ export const ProfileContent = ({
           {profileConfig[page].getComponent(data)}
         </div>
       </div>
-      <Link to={profileConfig[page].linkBack} className={s.linkBack}>
-        Назад
-      </Link>
+
       {showModal && (
         <ModalBase title="Загрузите файл" setOpenCback={setShowModal}>
           <div className={s.modalWrap}>
