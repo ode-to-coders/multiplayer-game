@@ -61,9 +61,9 @@ export function LeaderBoardPage() {
                 <div className={styles.col}>
                   <div className={styles.count}>{i + 1}</div>
                   <div className={styles.userInfo}>
-                    <Avatar 
-                      alt="?" 
-                      src={`https://ya-praktikum.tech/api/v2/resources${avatar}`}
+                    <Avatar
+                      alt="?"
+                      src={`https://odetocode-league-24.ya-praktikum.tech/api/v2/resources${avatar}`}
                     />
                     <div className={styles.name}>{gamer}</div>
                   </div>
