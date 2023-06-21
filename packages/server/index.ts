@@ -147,8 +147,9 @@ async function startServer() {
   /**
    * Проверка авторизации для кастомных ручек
    */
-  app.use('/api/topics', authMiddleware);
-  app.use('/api/comments', authMiddleware);
+  
+  // app.use('/api/topics', authMiddleware);
+  // app.use('/api/comments', authMiddleware);
 
   // app.use(csp());
 

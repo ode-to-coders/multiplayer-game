@@ -17,10 +17,10 @@ export const authMiddleware = async (
     const checkAuth = await fetch(
       'https://ya-praktikum.tech/api/v2/auth/user',
       {
-        credentials: 'include',
         headers: {
-          cookie: authCookie || '',
+          Cookie: `authCookie=${authCookie};uuid=${uuid}`,
         },
+        credentials: 'include',
       }
     );
 
@@ -30,6 +30,6 @@ export const authMiddleware = async (
 
     next();
   } catch (error) {
-    res.status(401).clearCookie('authCookie').clearCookie('uuid');
+    res.sendStatus(401);
   }
 };
