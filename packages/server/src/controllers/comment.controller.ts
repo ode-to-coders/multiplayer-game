@@ -6,7 +6,8 @@ import { getNestedComments } from '../utils/get-comments';
 import { IComment } from '../models/comment.model';
 
 export const createComment = async (req: Request, res: Response) => {
-  const { topic_id, author, content, parent_id, depth } = req.body;
+  const { topic_id, author, content, parent_id, depth, author_avatar } =
+    req.body;
 
   if (!topic_id || !author || !content) {
     res
@@ -18,6 +19,7 @@ export const createComment = async (req: Request, res: Response) => {
     const data = await Comment.create({
       topic_id,
       author,
+      author_avatar,
       content,
       parent_id,
       depth,
@@ -88,11 +90,12 @@ export const deleteComment = async (req: Request, res: Response) => {
 };
 
 export const updateComment = async (req: Request, res: Response) => {
-  const { topic_id, author, content, parent_id, depth, id } = req.body;
+  const { topic_id, author, content, parent_id, depth, id, author_avatar } =
+    req.body;
 
   try {
     const data = await Comment.update(
-      { topic_id, author, content, parent_id, depth },
+      { topic_id, author, content, parent_id, depth, author_avatar },
       {
         where: { id },
       }

@@ -12,6 +12,8 @@ import styles from './index.module.scss';
 import logo from './logo.png';
 import { DataLoader } from '../../shared/ui/DataLoader/DataLoader';
 
+export let ws: any;
+
 export const StartPage = () => {
   const { data, isError, isFetching } = useGetUserInfoQuery();
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -29,26 +31,50 @@ export const StartPage = () => {
       setIsFullscreen(false);
       return document.exitFullscreen();
     }
-  }, [document.fullscreenElement]);
+  }, []);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:3002/game/rooms/');
+    if (count >= 2) {
+      ws.send(
+        JSON.stringify({
+          event: 'ready',
+          payload: {
+            gameId,
+          },
+        })
+      );
+    }
+  }, [gameId, count]);
+
+  useEffect(() => {
+    ws = new WebSocket('ws://localhost:3002/game/rooms/');
 
     ws.onopen = () => {
       console.log('WebSocket connection opened');
       ws.send(
         JSON.stringify({
           event: 'connect',
-          payload: { login: data?.login, gameId: gameId },
+          payload: {
+            login: data?.login,
+            gameId: gameId,
+          },
         })
       );
     };
 
-    ws.onmessage = function (response) {
+    ws.onmessage = function (response: any) {
       const { type, payload } = JSON.parse(response.data);
-      const { login, rivalName, canStart, count } = payload;
+      const {
+        login,
+        rivalName,
+        canStart,
+        count
+      } = payload;
+
       setGamers(rivalName);
+
       setCount(count);
+
       switch (type) {
         case 'connectionToPlay':
           if (!payload.success) {
@@ -57,8 +83,7 @@ export const StartPage = () => {
           break;
         case 'readyToPlay':
           if (login === data?.login && canStart) {
-            // TODO: переход на страницу с канвасом
-            console.log('ready to play');
+            navigate(`/game/${gameId}`);
           }
           break;
         default:
@@ -75,7 +100,7 @@ export const StartPage = () => {
         })
       );
     };
-  }, []);
+  }, [count, data?.login, gameId]);
 
   // const handleChangeButton = () => {
   //   ws.close();

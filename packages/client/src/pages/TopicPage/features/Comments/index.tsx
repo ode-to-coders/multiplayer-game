@@ -12,6 +12,7 @@ import { useDeleteCommentMutation } from '../../../../app/store/api/forum/forumA
 import { IComment } from '../../../../app/store/api/forum/types';
 import { WriteComment } from '../WriteComment';
 import { COMMENT_STATE, TCommentState } from '../../types';
+import { sanitize } from '../../../../shared/utils/sanitize';
 
 type TProps = {
   topic_id: number;
@@ -70,21 +71,21 @@ export function Comments(props: TProps) {
         <div key={comment.id} className={styles.wrap}>
           <Box className={styles.comment}>
             <Avatar
-              src={`https://ya-praktikum.tech/api/v2/resources${userData?.avatar}`}
+              src={`https://ya-praktikum.tech/api/v2/resources${comment?.author_avatar}`}
             />
             <Box className={styles.info}>
-              <div className={styles.wrapName}>
-                <div className={styles.username}>{comment.author}</div>
-                <div className={styles.date}>
-                  {handleDateComment(comment.updatedAt)}
-                </div>
-              </div>
-              <div className={styles.text}>{comment.content}</div>
+              <div className={styles.username} 
+                dangerouslySetInnerHTML={{ __html: sanitize( comment.author ) } }
+              />
+              <div className={styles.text} 
+                dangerouslySetInnerHTML={{ __html: sanitize( comment.content ) } }
+              />
             </Box>
           </Box>
           <Box className={styles.comment__setup}>
             {(comment.author === userData?.display_name ||
-              comment.author === userData?.login) && (
+              comment.author === userData?.login ||
+              comment.author === userData?.first_name) && (
               <>
                 <StyledButton
                   extendсlass={cn(styles.button, styles.btnDelete)}

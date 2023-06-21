@@ -5,49 +5,42 @@ import { createServer as createViteServer } from 'vite';
 import createCache from '@emotion/cache';
 import createEmotionServer from '@emotion/server/create-instance';
 import type { ViteDevServer } from 'vite';
+import { getWinnerEnthourage } from './src/utils/winner';
+import { getRandom } from './src/utils/randomPair';
+import serialize from 'serialize-javascript';
+
+dotenv.config();
+
 import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-//import * as cookieParser from 'cookie-parser';
+import * as cookieParser from 'cookie-parser';
 
 dotenv.config();
 
 import { dbConnect } from './db';
 import routes from './src/routes/routes';
 
+import {
+  resultType,
+  requestType,
+  clientType,
+  gamesType,
+  userAnswerType,
+}  from './types';
 import { proxyMiddleware } from './src/middlewares/proxy.middleware';
-import { authMiddleware } from './src/middlewares/auth.middleware';
+// import { authMiddleware } from './src/middlewares/auth.middleware';
 // import { csp } from './src/middlewares';
 
-type payloadType = {
-  success?: boolean;
-  rivalName?: Array<string>;
-  login?: string;
-  gameId?: string;
-  canStart?: boolean;
-  count?: number;
-};
-
-type resultType = {
-  type: string;
-  payload: payloadType;
-};
-
-type requestType = {
-  event: string;
-  gameId: string;
-  payload: payloadType;
-};
-
-type clientType = {
-  login: string;
-} & WebSocket;
-
-type gamesType = Record<string, Array<clientType>>;
 
 const games: gamesType = {};
 
+let userAnswers: userAnswerType[];
+let winEntourage = '';
+
 export const app = express();
+
+const countSecret = Array.from(Array(14).keys());
 
 function start() {
   dbConnect().then(res => console.log('res', res));
@@ -80,41 +73,154 @@ function start() {
     if (games[gameId] && games[gameId]?.length < 4) {
       games[gameId] = games[gameId].filter(wsc => wsc.login !== ws.login);
       games[gameId] = [...games[gameId], ws];
+
+      userAnswers = games[gameId].map((client, i) => {
+        return {
+          login: client.login,
+          id: i,
+          entourage: '',
+          profession: '',
+          secret: '',
+          answers: '',
+          votes: [],
+          randomPair: [0, 1],
+          finalVotes: [],
+          score: 0,
+        }
+      });
     }
     if (games[gameId] && games[gameId]?.length === 4) {
       games[gameId] = games[gameId].filter(wsc => wsc.login !== ws.login);
     }
   }
 
+
   function broadcast(params: requestType) {
     let result: resultType;
 
-    const { gameId } = params.payload as requestType;
+    const {
+      gameId,
+      login
+    } = params.payload as requestType;
 
     games[gameId].forEach((client: clientType) => {
+      const rivals = games[gameId]
+      .filter((user: clientType) => user.login !== login)
+      ?.map(user => user.login);
+
       switch (params.event) {
-        case 'connect':
+        case 'connect': {
           result = {
             type: 'connectToPlay',
             payload: {
               success: true,
-              rivalName: games[gameId]
-                .filter((user: clientType) => user.login !== client.login)
-                ?.map(user => user.login),
+              rivalName: rivals,
               login: client.login,
               count: games[gameId].length,
             },
           };
           break;
-        case 'ready':
+        }
+
+        case 'ready': {
           result = {
             type: 'readyToPlay',
             payload: {
-              canStart: games[gameId].length > 3,
+              canStart: games[gameId].length > 1,
               login: client.login,
+              count: games[gameId].length,
+              rivalName: rivals,
             },
           };
           break;
+        }
+
+        case 'winEntourage': {
+          const currentUserIndex = userAnswers.findIndex((member: userAnswerType) => member.login === login);
+          const randomPair = getRandom(countSecret, 2);
+
+          const currentUserAnswer = {
+            ...userAnswers[currentUserIndex],
+            randomPair,
+            ...params.payload.answers,
+          };
+
+          userAnswers = [
+            ...userAnswers.slice(0, currentUserIndex),
+            currentUserAnswer,
+            ...userAnswers.slice(currentUserIndex + 1)
+          ];
+
+          const isVoted = userAnswers.every((userAnswer: userAnswerType) => userAnswer.entourage !== '');
+
+          if (isVoted) {
+            winEntourage = getWinnerEnthourage(userAnswers).name;
+
+            result = {
+              type: 'passWinEntourage',
+              payload: {
+                login,
+                userAnswers,
+                winEntourage,
+                rivalName: rivals,
+                count: games[gameId].length,
+              },
+            }
+          }
+          break;
+        }
+
+        case 'showAnswer': {
+          const isVoted = userAnswers.every((userAnswer: userAnswerType) => userAnswer.answers !== '');
+
+          if (isVoted) {
+            result = {
+              type: 'answersOnQuestion',
+              payload: {
+                userAnswers,
+                login,
+              },
+            };
+          }
+          break;
+        }
+
+        case 'game': {
+          const currentUserIndex = userAnswers.findIndex((member: userAnswerType) => member.login === login);
+
+          const currentUserAnswer = {
+            ...userAnswers[currentUserIndex],
+            ...params.payload.answers,
+          };
+
+          userAnswers = [
+            ...userAnswers.slice(0, currentUserIndex),
+            currentUserAnswer,
+            ...userAnswers.slice(currentUserIndex + 1)
+          ];
+
+          result = {
+            type: 'play',
+            payload: {
+              login,
+              userAnswers,
+              rivalName: rivals,
+            },
+          };
+
+          break;
+        }
+
+        case 'checkAnswer': {
+          result = {
+            type: 'lastScene',
+            payload: {
+              userAnswers,
+            },
+          };
+          break;
+        }
+
         default:
           result = {
             type: 'logout',
@@ -128,7 +234,7 @@ function start() {
           };
           break;
       }
-      client.send(JSON.stringify(result));
+      client.send(serialize(result, {isJSON: true}));
     });
   }
 }
@@ -138,7 +244,7 @@ async function startServer() {
   app.use(cors());
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  //app.use(cookieParser.default());
+  app.use(cookieParser.default());
 
   /**
    * Проксируем основные ручки яндекса
@@ -147,8 +253,9 @@ async function startServer() {
   /**
    * Проверка авторизации для кастомных ручек
    */
-  app.use('/api/topics', authMiddleware);
-  app.use('/api/comments', authMiddleware);
+  
+  // app.use('/api/topics', authMiddleware);
+  // app.use('/api/comments', authMiddleware);
 
   // app.use(csp());
 
