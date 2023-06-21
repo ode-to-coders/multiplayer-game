@@ -16,7 +16,8 @@ import { ssd } from './storeSessionData';
 import { GAMESCENES } from './const';
 import { TCardQuestion, userAnswerType } from './types';
 
-import styles from './index.module.scss';
+import s from './index.module.scss';
+import { Header } from './features';
 
 const mockFiveAnswers: TCardQuestion[] = [
   {type: 'black', index: 0},
@@ -33,7 +34,7 @@ const canvasSize = {width: 1280  , height: 768};
 
 export const Canvas = () => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
-  const [scene, setScene] = useState(1);
+  const [scene, setScene] = useState(0);
   const [showModalResult, setShowModalResult] = useState(false);
   const [frameRender, goFrameRender] = useState<number>(1);
   const [userRatings, setUserRatings] = useState<userAnswerType[]>([]);
@@ -280,8 +281,8 @@ export const Canvas = () => {
       if(!canvasRef.current) {
         // Компонент был размонтирован
         return;
-      }     
-      
+      }
+
       // запуск!
       next = canvasScenes.startGame(canvasRef.current, scene);
       
@@ -307,13 +308,22 @@ export const Canvas = () => {
 
   return (
     <div>
-      <div className={styles.wrapCont}>
-        <canvas
-          ref={canvasRef}
-          className={styles.canvas}
-          width={canvasSize.width}
-          height={canvasSize.height}
-        />
+      <div className={s.wrapCont}>
+        <div className={s.contCanvas}>
+          <canvas
+            ref={canvasRef}
+            className={s.canvas}
+            width={canvasSize.width}
+            height={canvasSize.height}
+          />
+          {scene > 0 && 
+            <Header
+              canvasScenes={canvasScenes}
+              scene={scene}
+              canvasSize={canvasSize}
+            />
+          }
+        </div>
       </div>
       {showModalResult && <EndPage ratings={userRatings} />}
     </div>

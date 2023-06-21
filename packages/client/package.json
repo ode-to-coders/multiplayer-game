@@ -9,7 +9,7 @@
     "preview": "vite preview --config vite.config.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "test": "jest ./"
+    "test": "jest --passWithNoTests"
   },
   "husky": {
     "hooks": {

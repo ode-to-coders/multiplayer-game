@@ -43,7 +43,7 @@ export class WriteAnswer {
       nameTimer: timerData.nameId,
       numsSeconds: timerData.seconds,
       left: this.that.canvasRef.width / 2 - 35 *m,
-      top: 472 *m,
+      top: 477 *m,
       width: 70 *m,
       height: 25 *m,
       fontSize: 25 *m,

@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import { store } from './app/store/store';
 import { BrowserRouter } from 'react-router-dom';
 import createEmotionCache from './utils/createEmotionCache';
+import { registerServiceWorker } from '../registerServiceWorker';
 
 const cache = createEmotionCache();
 
@@ -22,3 +23,7 @@ ReactDOM.hydrateRoot(
     </React.StrictMode>
   </CacheProvider>
 );
+
+if (process.env.NODE_ENV === 'production') {
+  registerServiceWorker();
+}

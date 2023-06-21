@@ -10,6 +10,7 @@ export interface IComment {
   depth: number;
   createdAt: Date;
   updatedAt: Date;
+  comments: IComment[];
 }
 
 export const commentModel: ModelAttributes<Model, IComment> = {
@@ -38,6 +39,10 @@ export const commentModel: ModelAttributes<Model, IComment> = {
     type: DataType.INTEGER,
     defaultValue: 0,
     allowNull: false,
+  },
+  comments: {
+    type: DataType.ARRAY(DataType.JSON),
+    defaultValue: [],
   },
   createdAt: {
     type: DataType.DATE,

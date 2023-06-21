@@ -1,15 +1,24 @@
 .wrapCont {
   display: flex;
   height: 100vh;
+  font-family: 'Arial Narrow Bold', sans-serif;
+  font-size: 20px; 
+  color: white;
 
-  .canvas {
-    border: 1px solid orange;
-    border-radius: 20px;
-    margin: auto;    
-    transition: border-color 0.1s ease-in-out;
+  .contCanvas {
+    margin: auto;
+    display: flex;
+    box-sizing: border-box; 
 
-    &:focus {
-      outline: none;
-    }
+    .canvas {
+      border: 1px solid orange;
+      border-radius: 20px;
+      margin: auto;    
+      transition: border-color 0.1s ease-in-out;
+  
+      &:focus {
+        outline: none;
+      }
+    }    
   }
 }

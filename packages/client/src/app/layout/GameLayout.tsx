@@ -2,6 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 
 import { PAGES } from '../lib/routes.types';
 import { StyledContainer, StyledGridItem } from '../../shared/ui/Styled';
+import { ThemeToggler } from '../../components/ThemeToggler';
 
 import styles from './index.module.scss';
 
@@ -49,13 +50,16 @@ export const GameLayout = () => {
             <span />
           </NavLink>
         </StyledGridItem>
-        <StyledGridItem item extendсlass={styles.gridLast}>
+        <StyledGridItem item>
           <NavLink
             className={({ isActive }) => (isActive ? 'active-link' : 'link')}
             to={PAGES.ROOMS}>
             Комнаты
             <span />
           </NavLink>
+        </StyledGridItem>
+        <StyledGridItem item extendсlass={styles.gridLast}>
+          <ThemeToggler />
         </StyledGridItem>
       </StyledGridItem>
       <Outlet />

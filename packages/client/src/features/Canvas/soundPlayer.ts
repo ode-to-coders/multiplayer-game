@@ -4,7 +4,7 @@ export class SoundPlayer {
   private audioCtx!: AudioContext;
   private gainNode!: GainNode;
   private sources: AudioBufferSourceNode[] = [];
-  private volume = 1;
+  private volume = 0;
   private static __INSTANCE__: SoundPlayer | null =null;
 
   constructor() {
@@ -16,6 +16,7 @@ export class SoundPlayer {
     this.audioCtx = new AudioContext();
     this.gainNode = this.audioCtx.createGain();
     this.gainNode.connect(this.audioCtx.destination);
+    this.gainNode.gain.value = this.volume;
   }
 
   public play = (url: string, loopOn = false) => {
@@ -39,6 +40,8 @@ export class SoundPlayer {
     );
     this.sources = [];
   }
+
+  public getVolume = () => this.volume;
 
   public setVolume = (volume: number) => {
     if (volume === -10 && this.volume >= 0.1) {

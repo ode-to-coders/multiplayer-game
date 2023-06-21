@@ -16,7 +16,6 @@ import {
 import { PAGES, Routes } from './routes.types';
 
 import rooms from '../../mocks/rooms.json';
-import ratings from '../../mocks/ratings.json';
 import { Canvas } from '../../features/Canvas';
 
 /**
@@ -49,7 +48,7 @@ const GAME_ROUTES: Routes = [
   },
   {
     path: PAGES.LEADERBOARD,
-    Component: () => <LeaderBoardPage users={ratings} />,
+    Component: () => <LeaderBoardPage />,
   },
   {
     path: PAGES.FORUM,
