@@ -17,10 +17,10 @@ export const authMiddleware = async (
     const checkAuth = await fetch(
       'https://ya-praktikum.tech/api/v2/auth/user',
       {
-        headers: {
-          Cookie: `authCookie=${authCookie};uuid=${uuid}`,
-        },
         credentials: 'include',
+        headers: {
+          cookie: authCookie || '',
+        },
       }
     );
 
