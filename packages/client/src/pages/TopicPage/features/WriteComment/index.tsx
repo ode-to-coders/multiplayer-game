@@ -4,6 +4,7 @@ import { useCreateCommentMutation } from '../../../../app/store/api/forum/forumA
 import { Dispatch, SetStateAction, useState } from 'react';
 import { StyledButton } from '../../../../shared/ui/Styled';
 
+import validateAndSanitizeCommentsForm from '../../../../shared/utils/validator';
 import { COMMENT_STATE, TCommentState } from '../../types';
 
 type TProps = {
@@ -28,15 +29,17 @@ export function WriteComment(props: TProps) {
     const target = e.target as HTMLFormElement;
     const content = (target.elements[0] as HTMLTextAreaElement).value;
 
+    const commentFormValidationResult = validateAndSanitizeCommentsForm(content);
+
     if (isLoadingCreateComment) {
-      return;
+      return null;
     }
 
-    if (content) {
+    if (commentFormValidationResult.sanitizedData) {
       createComment({
         topic_id,
         author,
-        content,
+        content: commentFormValidationResult.sanitizedData,
         depth,
         // Поменять на реальный id, если коментарий к топику то null
         // Если комментарий относится к другому комменту то parent_id это id коммента
