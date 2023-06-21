@@ -28,6 +28,10 @@ export const ErrorFallbackPage = () => {
     };
   }, [location.pathname]);
 
+  const handleClick = () => {
+    navigate('/');
+  }
+
   return (
     <Layout>
       <StyledContainer
@@ -37,7 +41,9 @@ export const ErrorFallbackPage = () => {
         <StyledDescribe variant="body1" className={style.describe}>
           Произошла непредвиденная ошибка
         </StyledDescribe>
-        <StyledButton>Вернуться назад</StyledButton>
+        <div onClick={handleClick}>
+          <StyledButton>Вернуться на главную</StyledButton>
+        </div>
       </StyledContainer>
     </Layout>
   );

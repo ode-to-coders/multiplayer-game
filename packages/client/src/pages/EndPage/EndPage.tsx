@@ -4,13 +4,13 @@ import { StyledContainer } from '../../shared/ui/Styled';
 
 import style from './index.module.scss';
 
-export const EndPage = () => {
+export const EndPage = (props: any) => {
   return (
     <StyledContainer
       extendсlass={style.container}
       maxWidth={false}
       disableGutters>
-      <ModalEnd />
+      <ModalEnd {...props} />
     </StyledContainer>
   );
 };

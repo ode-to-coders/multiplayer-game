@@ -6,6 +6,7 @@ import createCache from '@emotion/cache';
 import createEmotionServer from '@emotion/server/create-instance';
 import type { ViteDevServer } from 'vite';
 import { getWinnerEnthourage } from './src/utils/winner';
+import { getRandom } from './src/utils/randomPair';
 
 dotenv.config();
 
@@ -15,42 +16,22 @@ import * as path from 'path';
 import { dbConnect } from './db';
 import routes from './src/routes/routes';
 
-type payloadType = {
-  success?: boolean;
-  rivalName?: Array<string>;
-  login?: string;
-  gameId?: string;
-  canStart?: boolean;
-  count?: number;
-  userAnswers?: any,
-  answers?: any,
-  winEntourage?: string,
-};
-
-type resultType = {
-  type: string;
-  payload: payloadType;
-};
-
-type requestType = {
-  event: string;
-  gameId: string;
-  payload: payloadType;
-  login: string;
-};
-
-type clientType = {
-  login: string;
-  entourage: string;
-} & WebSocket;
-
-type gamesType = Record<string, Array<clientType>>;
+import {
+  resultType,
+  requestType,
+  clientType,
+  gamesType,
+  userAnswerType,
+}  from './types';
 
 const games: gamesType = {};
 
-let userAnswers: any;
+let userAnswers: userAnswerType[];
+let winEntourage = '';
 
 export const app = express();
+
+const countSecret = Array.from(Array(14).keys());
 
 function start() {
   dbConnect().then(res => console.log('res', res));
@@ -91,8 +72,11 @@ function start() {
           entourage: '',
           profession: '',
           secret: '',
-          answers: [],
+          answers: '',
           votes: [],
+          randomPair: [0, 1],
+          finalVotes: [],
+          score: 0,
         }
       });
     }
@@ -112,7 +96,7 @@ function start() {
 
     games[gameId].forEach((client: clientType) => {
       const rivals = games[gameId]
-      .filter((user: clientType) => user.login !== client.login)
+      .filter((user: clientType) => user.login !== login)
       ?.map(user => user.login);
 
       switch (params.event) {
@@ -142,52 +126,91 @@ function start() {
           break;
         }
 
-          case 'game': {
-            const currentUserIndex = userAnswers.findIndex((member: any) => member.login === client.login);
-            let currentUserAnswer;
-            let winEntourage;
+        case 'winEntourage': {
+          const currentUserIndex = userAnswers.findIndex((member: userAnswerType) => member.login === login);
+          const randomPair = getRandom(countSecret, 2);
 
-            // const currentUserAnswer = {
-            //   ...userAnswers[currentUserIndex],
-            //   ...params.payload.answers
-            // }
+          const currentUserAnswer = {
+            ...userAnswers[currentUserIndex],
+            randomPair,
+            ...params.payload.answers,
+          };
 
-            if (Object.keys(params.payload.answers)[0] === 'answers') {
-              currentUserAnswer = {
-                ...userAnswers[currentUserIndex],
-                answers: [...userAnswers[currentUserIndex].answers, Object.values(params.payload.answers)[0]]
-              };
-              console.log(currentUserAnswer);
-            } else {
-              currentUserAnswer = {
-                ...userAnswers[currentUserIndex],
-                ...params.payload.answers
-              };
-            };
+          userAnswers = [
+            ...userAnswers.slice(0, currentUserIndex),
+            currentUserAnswer,
+            ...userAnswers.slice(currentUserIndex + 1)
+          ];
 
-            userAnswers = [
-              ...userAnswers.slice(0, currentUserIndex),
-              currentUserAnswer,
-             ...userAnswers.slice(currentUserIndex + 1)
-            ];
+          const isVoted = userAnswers.every((userAnswer: userAnswerType) => userAnswer.entourage !== '');
 
-            const isWin = userAnswers.map((answer: any) => answer.entourage !== '');
-
-            if (isWin) {
-              winEntourage = getWinnerEnthourage(userAnswers).name;
-            }
+          if (isVoted) {
+            winEntourage = getWinnerEnthourage(userAnswers).name;
 
             result = {
-              type: 'play',
+              type: 'passWinEntourage',
               payload: {
                 login,
                 userAnswers,
                 winEntourage,
+                rivalName: rivals,
+                count: games[gameId].length,
+              },
+            }
+          }
+          break;
+        }
+
+        case 'showAnswer': {
+          const isVoted = userAnswers.every((userAnswer: userAnswerType) => userAnswer.answers !== '');
+
+          if (isVoted) {
+            result = {
+              type: 'answersOnQuestion',
+              payload: {
+                userAnswers,
+                login,
               },
             };
-
-            break;
           }
+          break;
+        }
+
+        case 'game': {
+          const currentUserIndex = userAnswers.findIndex((member: userAnswerType) => member.login === login);
+
+          const currentUserAnswer = {
+            ...userAnswers[currentUserIndex],
+            ...params.payload.answers,
+          };
+
+          userAnswers = [
+            ...userAnswers.slice(0, currentUserIndex),
+            currentUserAnswer,
+            ...userAnswers.slice(currentUserIndex + 1)
+          ];
+
+          result = {
+            type: 'play',
+            payload: {
+              login,
+              userAnswers,
+              rivalName: rivals,
+            },
+          };
+
+          break;
+        }
+
+        case 'checkAnswer': {
+          result = {
+            type: 'lastScene',
+            payload: {
+              userAnswers,
+            },
+          };
+          break;
+        }
 
         default:
           result = {

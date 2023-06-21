@@ -30,21 +30,22 @@ export class WinEntourage {
   
   public render() {
     const ctx = this.that.canvasCtx;
-    const data = ssd.mainGamer;
-        
-    const entourage = data.entourage
-    drawText(ctx, {
-      left: 450 *m+lofs, top: 28 *m, width: 124 *m, height: 32 *m, 
-      text: `${data.numsVoicesWinEntourage} из ${data.numsRivals+1} проголосовали за антураж "${data.nameEntourage}"!`, 
-      fontSize: 25 *m,
-      textColor: JSCOLORS.white});
-    drawImgBorderText(ctx, source.game.memory[entourage], {
-      left: 150 *m+lofs, top: 132 *m, width: 715 *m, height: 364 *m,
-      color: JSCOLORS.black,
-      borderPadding: 10 *m,
-      borderColor: helperBorderColor(entourage),
-      radius: 10 *m,
-      shadowOn: true
-    })
+    const entourage = ssd.mainGamer.entourage;
+
+    if (entourage) {
+      drawText(ctx, {
+        left: 450 *m+lofs, top: 28 *m, width: 124 *m, height: 32 *m, 
+        text: `${ssd.mainGamer.numsVoicesWinEntourage} из ${ssd.mainGamer.numsRivals} проголосовали за антураж "${entourage}"!`, 
+        fontSize: 25 *m,
+        textColor: JSCOLORS.white});
+      drawImgBorderText(ctx, source.game.memory[entourage], {
+        left: 150 *m+lofs, top: 132 *m, width: 715 *m, height: 364 *m,
+        color: JSCOLORS.black,
+        borderPadding: 10 *m,
+        borderColor: helperBorderColor(entourage),
+        radius: 10 *m,
+        shadowOn: true
+      })
+    }
   }
 } 

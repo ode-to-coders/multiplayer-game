@@ -9,7 +9,5 @@ export function reverseSort(a: any, b: any): number {
 }
 
 export function isOpen(ws: any) {
-  console.log(ws.readyState, 'red');
-  console.log(ws.OPEN, 'open');
   return ws.readyState === ws.OPEN 
 }
