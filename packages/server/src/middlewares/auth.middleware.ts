@@ -19,7 +19,7 @@ export const authMiddleware = async (
       {
         credentials: 'include',
         headers: {
-          cookie: authCookie || '',
+          Cookie: `authCookie=${authCookie};uuid=${uuid}`,
         },
       }
     );
