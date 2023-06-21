@@ -46,6 +46,7 @@ export interface IComment {
   topic_id: number;
   parent_id: number | null;
   content: string;
+  author_avatar: string | null;
   author: string;
   depth: number;
   createdAt: Date;
@@ -60,6 +61,7 @@ export interface IGetComments {
 export interface ICreateComment {
   topic_id: number;
   author: string;
+  author_avatar: string | null;
   content: string;
   parent_id?: number | null;
   depth?: number;
