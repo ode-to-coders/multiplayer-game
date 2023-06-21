@@ -61,6 +61,8 @@ export const ThemeToggler = () => {
           theme: 'dark',
           ownerId: data?.id,
         });
+        setMainTheme('dark');
+        localStorage.setItem('theme', 'dark');
       }
     }
   }, []);
