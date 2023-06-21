@@ -135,7 +135,7 @@ export class CanvasScenes {
       return false;     
     }
     if (!this.checkOnSounds) {
-      // this.audio.play(source.sounds.bgMain, true);
+      this.audio.play(source.sounds.bgMain, true);
       this.checkOnSounds = true;
       this.scenes.set?.(GAMESCENES.selectWishEntourage);
     }
