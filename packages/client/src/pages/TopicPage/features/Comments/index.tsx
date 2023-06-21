@@ -70,7 +70,7 @@ export function Comments(props: TProps) {
         <div key={comment.id} className={styles.wrap}>
           <Box className={styles.comment}>
             <Avatar
-              src={`https://ya-praktikum.tech/api/v2/resources${comment?.author_avatar}`}
+              src={`https://odetocode-league-24.ya-praktikum.tech/api/v2/resources${comment?.author_avatar}`}
             />
             <Box className={styles.info}>
               <div className={styles.wrapName}>
