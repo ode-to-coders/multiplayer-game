@@ -10,8 +10,6 @@ export const authMiddleware = async (
   try {
     const { uuid, authCookie } = req.cookies;
 
-    console.log('uuid, authCookie ', uuid, authCookie);
-
     if (!uuid || !authCookie) {
       throw new Error('Authentication failed');
     }
