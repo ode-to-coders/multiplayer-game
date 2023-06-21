@@ -14,9 +14,18 @@ module.exports = {
   parserOptions: {
     ecmaVersion: 11,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: [
+    '@typescript-eslint',
+    'jam3'
+  ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 0,
     quotes: [2, 'single', { avoidEscape: true }],
+    'jam3/no-sanitizer-with-danger': [
+      2,
+      {
+        'wrapperName': ['sanitize']
+      }
+    ]
   },
 };

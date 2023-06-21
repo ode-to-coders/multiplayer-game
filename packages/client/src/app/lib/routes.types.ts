@@ -13,7 +13,7 @@ export const enum PAGES {
   PROFILE = '/profile',
   EDIT_PROFILE = '/profile/edit',
   EDIT_PASSWORD = '/profile/edit/password',
-  GAME = '/game',
+  GAME = '/game/:gameId',
   START_GAME = '/rooms/:gameId',
   ENDGAME = '/end',
   LEADERBOARD = '/leaderboard',
@@ -24,5 +24,4 @@ export const enum PAGES {
   REGISTRATION = '/registration',
   NOTFOUND = '/404',
   SERVER_ERROR = '/500',
-  ENTHOURAGE = '/game/enthourage',
 }

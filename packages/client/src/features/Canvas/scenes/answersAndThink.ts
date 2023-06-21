@@ -87,10 +87,13 @@ export class AnswersAndThink {
       // подготовка массива с координатами и размерами полей 'инпутов' (создается один раз на игру)
       if (ssd.hoverRects[nameScene][1] === undefined) { // если только первый запуск (есть только элемент [0] с данными для разворачивания)
         const {
-          left, top, width, height
-        } = ssd.hoverRects[nameScene][0] // достаем начальные данные
+          left,
+          top,
+          width,
+          height
+        } = ssd.hoverRects[nameScene][0]; // достаем начальные данные
         ssd.hoverRects[nameScene] = []; // подготавливаем его (очищаем)
-        const lengthLine = ssd.mainGamer.notes[0].length
+        const lengthLine = ssd.mainGamer.notes[0]?.length
         for (let indexLine = 0; indexLine < 6; indexLine++) { // разворачиваем данные (запушиваем массив 'инпутов')
           for (let i = 0; i < lengthLine; i++) {
             ssd.hoverRects[nameScene].push({
