@@ -36,7 +36,7 @@ export const Canvas = () => {
   const [scene, setScene] = useState(1);
   const [showModalResult, setShowModalResult] = useState(false);
   const [frameRender, goFrameRender] = useState<number>(1);
-  const [userRatings, setUserRatings] = useState([]);
+  const [userRatings, setUserRatings] = useState<userAnswerType[]>([]);
 
   const { gameId } = useParams();
   const { data } = useGetUserInfoQuery();
@@ -171,7 +171,8 @@ export const Canvas = () => {
         } = payload;
 
         const rivalsAnswer = userAnswers.filter((userAnswer: userAnswerType) => userAnswer.login !== data?.login);
-        const currentUser = userAnswers.filter((userAnswer: userAnswerType) => userAnswer.login === data?.login)[0];
+        const currentUserIndex = userAnswers.findIndex((member: userAnswerType) => member.login === data?.login);
+        const currentUser = userAnswers[currentUserIndex];
         const subFinalResult = subarray(2, currentUser.finalVotes);
 
         const finalResult = rivalsAnswer.reduce((acc: boolean[], rival: userAnswerType, index: number) => {
@@ -179,8 +180,8 @@ export const Canvas = () => {
           const rivalProf = rival.profession;
 
           const answerForCurrentRival = subFinalResult[index];
-          const answerForCurrentRivalProf = gameData[0][ssd.mainGamer.entourage].profession[answerForCurrentRival[0]];
-          const answerForCurrentRivalSecret = gameData[0][ssd.mainGamer.entourage].secret[answerForCurrentRival[1]];
+          const answerForCurrentRivalProf = gameData[0][ssd.mainGamer.entourage].profession[answerForCurrentRival[0] - 1];
+          const answerForCurrentRivalSecret = gameData[0][ssd.mainGamer.entourage].secret[answerForCurrentRival[1] - 1];
 
           if (answerForCurrentRivalProf === rivalProf) {
             acc.push(true);
@@ -198,8 +199,6 @@ export const Canvas = () => {
           return acc;
         }, []);
 
-        console.log(currentUser, 'curUser');
-
         finalResult.forEach((check: boolean, index: number) => {
           ssd.mainGamer.notes[6][index] = check ? '✔' : '✖'
         });
@@ -207,59 +206,49 @@ export const Canvas = () => {
         const profs: boolean[] = [];
         const secrets: boolean[] = [];
 
-        // rivalsAnswer.forEach((ans: userAnswerType) => {
-        //   const numProf = ans.finalVotes[0];
-        //   const numSecret =  ans.finalVotes[1];
+        rivalsAnswer.forEach((userAnswer: userAnswerType, index: number) => {
+          const subFinalRivals = subarray(2, userAnswer.finalVotes);
 
-        //   if(currentUser.profession === gameData[0][ssd.mainGamer.entourage].profession[numProf]) {
-        //     profs.push(true)
-        //   } else {
-        //     profs.push(false)
-        //   }
+          const answerForCurrentRival = subFinalRivals[index];
+          const rivalAnswerProf = gameData[0][ssd.mainGamer.entourage].profession[answerForCurrentRival[0] - 1];
+          const rivalAnswerSecret = gameData[0][ssd.mainGamer.entourage].secret[answerForCurrentRival[1] - 1];
 
-        //   if(currentUser[0].secret === gameData[0][ssd.mainGamer.entourage].secret[numSecret]) {
-        //     secrets.push(true)
-        //   } else {
-        //     secrets.push(false)
-        //   }
-        // });
+          if(currentUser.secret === rivalAnswerSecret) {
+            secrets.push(true);
+            userAnswer.score = userAnswer.score + 1;
+          } else {
+            secrets.push(false);
+          }
 
-        // const empty = new Array(5 - profs.length).fill(null, 0, 5 - profs.length);
+          if(currentUser.profession === rivalAnswerProf) {
+            profs.push(true);
+            userAnswer.score = userAnswer.score + 1;
+          } else {
+            profs.push(false);
+          }
+        });
 
-        // const rivalsResult = [
-        //   ...profs,
-        //   ...empty,
-        //   ...secrets,
-        //   ...empty,
-        // ];
+        const empty = new Array(5 - profs.length).fill(null, 0, 5 - profs.length);
 
-        // rivalsResult.forEach((check, index) => {
-        //   ssd.mainGamer.notes[7][index] =
-        //     check 
-        //     ? '✖'
-        //     : check === false
-        //       ? '✔'
-        //       : ''
-        // });
+        const rivalsResult = [
+          ...profs,
+          ...empty,
+          ...secrets,
+          ...empty,
+        ];
 
-        // const ratings = userAnswers.map((user: userAnswerType) => {
-        //   const withoutCurrentUser = userAnswers.filter((userAnswer: userAnswerType) => user.login !== userAnswer.login);
+        console.log(rivalsAnswer, 'rivalsAns');
 
-        //   return withoutCurrentUser.map((rivals: userAnswerType) => {
-        //     const numProf = rivals.finalVotes[0];
-        //     const numSecret =  rivals.finalVotes[1];
+        rivalsResult.forEach((check, index) => {
+          ssd.mainGamer.notes[7][index] =
+            check 
+            ? '✔'
+            : check === false
+              ? '✖'
+              : ''
+        });
 
-        //     if (gameData[0][ssd.mainGamer.entourage].profession[numProf] === user.profession
-        //       || gameData[0][ssd.mainGamer.entourage].secret[numSecret] === user.secret
-        //       ) {
-        //       rivals.score = rivals.score + 1;
-        //     }
-
-        //     return rivals;
-        //   });
-        // });
-
-        // setUserRatings(ratings);
+        setUserRatings(userAnswers);
 
         setScene(GAMESCENES.finalResult);
         break;

@@ -9,11 +9,14 @@ const tableNames = ['Место', 'Никнейм', 'Набрано очков']
 
 roomRating.sort(reverseSort);
 
-export const ModalEnd = (ratings: any) => {
-  // const sortedRatings = ratings.sort(reverseSort);
+export const ModalEnd = (props: any) => {
+  const {
+    ratings
+  } = props;
+  ratings.sort(reverseSort);
   return (
     <ModalBase title="Расследование завершено!">
-      <TableBase rows={roomRating} tableNames={tableNames} avatar={avatar} />
+      <TableBase rows={ratings} tableNames={tableNames} avatar={avatar} />
       <ButtonGroupBase />
     </ModalBase>
   );
