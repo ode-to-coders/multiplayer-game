@@ -269,7 +269,12 @@ export class FinalThink {
         radius: 5 *m,
         shadowOn: true,
         shadowColor: color
-      })
+      },
+        (index > 1 ? {
+          text: '✖',
+          textColor: JSCOLORS.red,
+          fontSize: 100 *m
+        } : undefined))
     })
   }
 } 

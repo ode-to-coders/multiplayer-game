@@ -47,7 +47,7 @@ export function UpdateTopic(props: TProps) {
           className={styles.textAreaComment}
         >{old_content}</textarea>
         <StyledButton type="submit" extendсlass={styles.btnSubmitComment}>
-          изменить тему
+          Изменить тему
         </StyledButton>
       </form>
     </div>

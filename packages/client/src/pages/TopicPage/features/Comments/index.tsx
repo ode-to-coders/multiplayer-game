@@ -51,6 +51,19 @@ export function Comments(props: TProps) {
     });
   };
 
+  const handleDateComment = (date: Date) => {
+    const newDate = new Date(date);
+    const day = newDate.getDate();
+    const month = newDate.getMonth() + 1;
+    const hours = newDate.getHours();
+    const minutes = newDate.getMinutes();
+    return `${day}.${
+      month.toString().length === 2 ? '' : '0'
+    }${month} в ${hours}:${
+      minutes.toString().length === 2 ? '' : '0'
+    }${minutes}`;
+  };
+
   return (
     <>
       {children.map((comment: IComment) => (
@@ -60,7 +73,12 @@ export function Comments(props: TProps) {
               src={`https://ya-praktikum.tech/api/v2/resources${comment?.author_avatar}`}
             />
             <Box className={styles.info}>
-              <div className={styles.username}>{comment.author}</div>
+              <div className={styles.wrapName}>
+                <div className={styles.username}>{comment.author}</div>
+                <div className={styles.date}>
+                  {handleDateComment(comment.updatedAt)}
+                </div>
+              </div>
               <div className={styles.text}>{comment.content}</div>
             </Box>
           </Box>
