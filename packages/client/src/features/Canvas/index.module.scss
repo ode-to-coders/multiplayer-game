@@ -4,7 +4,6 @@
   font-family: 'Arial Narrow Bold', sans-serif;
   font-size: 20px; 
   color: white;
-  // font-style: italic;
 
   .contCanvas {
     margin: auto;
@@ -20,108 +19,6 @@
       &:focus {
         outline: none;
       }
-    }
-    
-    .headerCanvas {
-      position: absolute;
-      // border-bottom: 1px solid orange;
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      margin: 5px auto;
-      padding-left: 3px;
-      text-align: center;
-      display: flex;
-      flex-direction: row;
-      // background-color: rgba(255, 0, 0, 70%);
-      left: 0;
-      right: 0;
-
-      .checkGameInfo {
-        width: 100%;
-        height: 100%;
-        border-radius: 18px;
-        font-size: 30px;
-        color: var(--color-error);
-        // border: 1px solid orange;
-        z-index: 3;
-        background: url('assets/game/header/manWithFire_100x100.jpg');
-        background-size: cover;
-        transition: all 0.1s linear;
-
-
-        &:hover {
-          cursor: pointer;
-          transform: translate(1px, 1px);
-        }
-      }
-
-      .gameInfoCont {
-        opacity: 0;
-        position: absolute;
-        border-radius: 18px;
-        border: 1px solid orange;
-        transition: all 0.2s ease-in-out;
-        // для анимации плавного появления
-        opacity: 0;
-        width: 350px;
-        height: 350px;
-        z-index: -1;
-
-        background-color: rgba(0, 0, 0, 70%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-weight: 600;
-
-        .entourage {
-          height: 90px;
-          display: flex;
-          align-items: center;
-        }
-
-        .gamerName {
-          height: 90px;
-          border: 1px solid orange;
-          display: flex;
-          align-items: center;
-          align-self: flex-start;
-        }
-        
-        .cardsCont {
-          display: flex;
-          flex-direction: row;
-
-          .cards {
-            width: 193px;
-            height: 294px;
-            background-size: cover;
-            margin: 10px;
-            border: 1px solid orange;
-            border-radius: 10px;
-          }
-
-          .offCardsCont {
-            
-
-            .offCards {
-              width: 160px;
-              height: 245px;
-              color: var(--color-error);
-              display: flex;
-              align-items: center;
-              font-weight: 900;
-            }
-          }
-        }
-      }
-
-      .checkGameInfo:hover + .gameInfoCont {
-        z-index:2;
-        opacity: 1;
-        transition: all 0.3s ease-in-out;
-        width: 450px;
-        height: 700px;
-      }
-    }
+    }    
   }
 }

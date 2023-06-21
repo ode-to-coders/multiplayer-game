@@ -1,0 +1,141 @@
+
+.headerCanvas {
+  position: absolute;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  margin: 5px auto;
+  padding-left: 3px;
+  padding-right: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  left: 0;
+  right: 0;
+
+  .checkGameInfo {
+    width: 100%;
+    height: 100%;
+    border-radius: 18px;
+    font-size: 30px;
+    color: var(--color-error);
+    z-index: 3;
+    background: url('assets/game/header/manWithFire_100x100.jpg');
+    background-size: cover;
+    transition: all 0.1s linear;
+
+
+    &:hover {
+      cursor: pointer;
+      transform: translate(1px, 1px);
+    }
+  }
+
+  .gameInfoCont {
+    opacity: 0;
+    position: absolute;
+    border-radius: 18px;
+    transition: all 0.2s ease-in-out;
+    // для анимации плавного появления
+    opacity: 0;
+    width: 350px;
+    height: 600px;
+    z-index: -1;
+
+    background-color: rgba(0, 0, 0, 80%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-weight: 600;
+
+    .entourage {
+      height: 90px;
+      display: flex;
+      align-items: center;
+    }
+
+    .gamerName {
+      height: 90px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .cardsCont {
+      display: flex;
+      flex-direction: row;
+
+      .cards {
+        width: 160px;
+        height: 245px;
+        background-size: cover;
+        margin: 10px;
+        // border: 1px solid orange;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        text-shadow:
+          0 2px 5px black, 
+          0 -2px 5px black,
+          2px 0 5px black,
+          -2px 0 5px black;
+      }
+    }
+
+    .offCardsCont { 
+      display: flex;
+      flex-direction: row;         
+
+      .offCards {
+        width: 160px;
+        height: 245px;
+        background-size: cover;
+        margin: 10px;
+        // border: 1px solid orange;
+        border-radius: 10px;
+        color: var(--color-error);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        text-shadow:
+          0 3px 4px black, 
+          0 -3px 4px black,
+          3px 0 4px black,
+          -3px 0 4px black;
+      }
+    }
+  }
+
+  .checkGameInfo:hover + .gameInfoCont {
+    z-index:2;
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+    width: 400px;
+    height: 710px;
+    box-shadow: 0 0 3px white;
+  }
+
+  .soundCont {
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+
+    .soundPointer {
+      cursor: pointer;
+    }
+
+    .soundElem {
+      margin: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .soundToggle {
+      width: 50px;
+      background-color: white;
+      border-radius: 50%;
+    }
+  }
+}
