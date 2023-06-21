@@ -15,7 +15,6 @@ const PATHS = [
   '/profile',
   '/profile/edit',
   '/profile/edit/password',
-  '/game',
 ];
 
 const addResourcesToCache = async (resources: any) => {

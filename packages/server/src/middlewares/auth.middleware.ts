@@ -10,6 +10,8 @@ export const authMiddleware = async (
   try {
     const { uuid, authCookie } = req.cookies;
 
+    console.log('uuid, authCookie ', uuid, authCookie);
+
     if (!uuid || !authCookie) {
       throw new Error('Authentication failed');
     }
@@ -27,6 +29,6 @@ export const authMiddleware = async (
 
     next();
   } catch (error) {
-    res.sendStatus(401);
+    res.status(401).clearCookie('authCookie').clearCookie('uuid');
   }
 };
