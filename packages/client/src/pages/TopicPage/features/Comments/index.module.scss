@@ -49,3 +49,16 @@
   font-size: 14px;
   line-height: 20px;
 }
+
+.date {
+  color: var(--color-grey);
+  font-weight: 500;
+  font-size: 11px;
+}
+
+.wrapName {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+}

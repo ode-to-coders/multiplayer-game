@@ -30,6 +30,6 @@ export const authMiddleware = async (
 
     next();
   } catch (error) {
-    res.sendStatus(401);
+    res.status(401).clearCookie('authCookie').clearCookie('uuid');
   }
 };

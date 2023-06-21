@@ -115,14 +115,12 @@ export function ForumPage() {
                   return (
                     <TableRow
                       key={index}
-                      hover role="checkbox"
+                      hover
+                      role="checkbox"
                       tabIndex={-1}
                       className={styles.row}
-                      onClick={(e) => handleClickTopic(e, item.id)}
-                    >
-                      <TableCell className={styles.cell}>
-                        {item.name}
-                      </TableCell>
+                      onClick={e => handleClickTopic(e, item.id)}>
+                      <TableCell className={styles.cell}>{item.name}</TableCell>
                       <TableCell className={styles.cell}>
                         {item.comments_count}
                       </TableCell>
@@ -133,17 +131,17 @@ export function ForumPage() {
                         {new Date(item.updatedAt).toLocaleDateString()}
                       </TableCell>
                       <TableCell className={styles.cell}>
-                        {
-                            (item.author === userData?.display_name ||
-                            item.author === userData?.login) &&
-                            <StyledButton
-                              onClick={() => handleDelete(item.id)}
-                              extendсlass={styles.buttonDelete}
-                            >
-                              удалить<br/>тему
-                            </StyledButton>                          
-                          }                
-                      </TableCell>                    
+                        {(item.author === userData?.display_name ||
+                          item.author === userData?.login) && (
+                          <StyledButton
+                            onClick={() => handleDelete(item.id)}
+                            extendсlass={styles.buttonDelete}>
+                            Удалить
+                            <br />
+                            тему
+                          </StyledButton>
+                        )}
+                      </TableCell>
                     </TableRow>
                   );
                 })}
