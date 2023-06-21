@@ -7,3 +7,7 @@ export function reverseSort(a: any, b: any): number {
   }
   return 0;
 }
+
+export function isOpen(ws: any) {
+  return ws.readyState === ws.OPEN 
+}

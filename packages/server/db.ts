@@ -5,10 +5,10 @@ import { leaderboardModel } from './src/models/leaderboard.model';
 import { userThemeModel } from './src/models/userTheme.model';
 
 const sequelizeOptions: SequelizeOptions = {
-  host: 'localhost',
+  host: 'postgres',
   port: 5432,
   username: 'postgres',
-  password: 'belka321',
+  password: 'postgres',
   database: 'postgres',
   dialect: 'postgres',
 };
