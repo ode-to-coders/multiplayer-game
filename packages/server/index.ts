@@ -14,7 +14,7 @@ dotenv.config();
 import express from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
-//import * as cookieParser from 'cookie-parser';
+import * as cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -29,7 +29,7 @@ import {
   userAnswerType,
 }  from './types';
 import { proxyMiddleware } from './src/middlewares/proxy.middleware';
-import { authMiddleware } from './src/middlewares/auth.middleware';
+// import { authMiddleware } from './src/middlewares/auth.middleware';
 // import { csp } from './src/middlewares';
 
 
@@ -244,7 +244,7 @@ async function startServer() {
   app.use(cors());
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
-  //app.use(cookieParser.default());
+  app.use(cookieParser.default());
 
   /**
    * Проксируем основные ручки яндекса
@@ -253,8 +253,9 @@ async function startServer() {
   /**
    * Проверка авторизации для кастомных ручек
    */
-  app.use('/api/topics', authMiddleware);
-  app.use('/api/comments', authMiddleware);
+  
+  // app.use('/api/topics', authMiddleware);
+  // app.use('/api/comments', authMiddleware);
 
   // app.use(csp());
 
