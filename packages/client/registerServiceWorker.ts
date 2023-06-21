@@ -3,7 +3,7 @@ export const registerServiceWorker = async () => {
     if ('serviceWorker' in navigator) {
       try {
         const registration = await navigator.serviceWorker.register(
-          'serviceWorker.ts'
+          './serviceWorker.ts'
         );
         if (!('Notification' in window)) {
           console.error('This browser does not support desktop notifications');

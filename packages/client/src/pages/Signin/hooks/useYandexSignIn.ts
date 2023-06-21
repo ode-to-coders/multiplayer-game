@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import {
@@ -13,6 +13,8 @@ export const useYandexSignIn = () => {
   const [signInYandex, { isError }] = useSignInYandexMutation();
   const [searchParams] = useSearchParams();
 
+  const ref = useRef(0);
+
   const { data } = useGetServiceIdQuery({
     redirect_uri: encodeURIComponent(__APP_PATH__),
   });
@@ -20,7 +22,8 @@ export const useYandexSignIn = () => {
   const authCode = searchParams.get('code');
 
   useEffect(() => {
-    if (authCode && authCode !== 'null' && !isError) {
+    ref.current = ref.current + 1;
+    if (authCode && authCode !== 'null' && !isError && ref.current < 2) {
       signInYandex({
         code: authCode,
         redirect_uri: __APP_PATH__,
