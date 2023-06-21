@@ -55,21 +55,18 @@
   }
 }
 
-.linkBack {
-  position: fixed;
+.wrapLink {
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 64px;
-  height: 100vh;
-  left: 0;
-  top: 0;
-  border-right: 3px solid var(--color-darkestGrey);
-  display: flex;
-  color: var(--color-blue);
-  transition: text-shadow 0.1s ease-in-out;
+}
 
+.linkBack {
+  color: var(--color-primary);
+  transition: text-shadow 0.1s ease-in-out;
   &:hover {
-    text-shadow: 1px 0 20px var(--color-primary);
+    color: var(--color-blue);
   }
 }
 
@@ -96,13 +93,16 @@
     & > .inputFileText {
       position: relative;
       display: inline-block;
-      color: var(--color-blue);
+
       text-decoration: underline;
       transition: all 0.1s ease-in-out;
+      &:hover {
+        color: var(--color-blue);
+      }
     }
 
     &:hover .inputFileText {
-      text-shadow: 1px 0 30px var(--color-primary);
+      cursor: pointer;
     }
   }
 

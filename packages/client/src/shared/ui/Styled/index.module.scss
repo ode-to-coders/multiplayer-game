@@ -16,7 +16,7 @@
 
 .button {
   background-color: var(--color-blue);
-  color: var(--color-primary);
+  color: var(--color-primary-button);
   border-radius: 0.5rem;
   width: 11.5rem;
   font-size: 0.8125rem;
@@ -24,16 +24,12 @@
   text-transform: inherit;
   padding: 0.75rem;
   &:hover {
-    background-color: darken(#00a0d7, 15%);
+    background-color: var(--darken-blue);
   }
 }
 
 .buttonGroup {
   margin-top: 1.5rem;
-}
-
-.container {
-  background-color: var(--color-layout);
 }
 
 .describe {

@@ -62,14 +62,14 @@ export function WriteComment(props: TProps) {
         <StyledButton
           onClick={handleShowWriteComment}
           extendсlass={styles.btnShowComment}>
-          написать комментарий
+          Написать комментарий
         </StyledButton>
       )}
       {showTextAreaForComment && (
         <form onSubmit={handleCreateComment} className={styles.formComment}>
           <textarea className={styles.textAreaComment} />
           <StyledButton type="submit" extendсlass={styles.btnSubmitComment}>
-            написать
+            Написать
           </StyledButton>
         </form>
       )}

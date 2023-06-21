@@ -4,12 +4,13 @@ import { CanvasScenes } from './canvasScenes';
 
 import s from './index.module.scss';
 import { EndPage } from '../../pages/EndPage/EndPage';
+import { Header } from './features';
 
 const canvasSize = {width: 1280  , height: 768}; // TODO в будущем при запуске.. внести в компонент и динамически решать какие нужны размеры взависимости от экрана клиента
 
 export const Canvas = () => {
   const canvasRef: RefObject<HTMLCanvasElement> = useRef(null);
-  const [scene, setScene] = useState(1);
+  const [scene, setScene] = useState(0);
   const [showModalResult, setShowModalResult] = useState(false);
   const [frameRender, goFrameRender] = useState<number>(1);
 
@@ -59,12 +60,21 @@ export const Canvas = () => {
   return (
     <div>
       <div className={s.wrapCont}>
-        <canvas
-          ref={canvasRef}
-          className={s.canvas}
-          width={canvasSize.width}
-          height={canvasSize.height}
-        />
+        <div className={s.contCanvas}>
+          <canvas
+            ref={canvasRef}
+            className={s.canvas}
+            width={canvasSize.width}
+            height={canvasSize.height}
+          />
+          {scene > 0 && 
+            <Header
+              canvasScenes={canvasScenes}
+              scene={scene}
+              canvasSize={canvasSize}
+            />
+          }
+        </div>
       </div>
       {showModalResult && <EndPage />}
     </div>

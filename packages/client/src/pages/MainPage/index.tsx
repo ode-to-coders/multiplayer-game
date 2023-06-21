@@ -13,6 +13,7 @@ import logo from '../../images/logo.png';
 import styles from './index.module.scss';
 import { useAuth } from '../../app/hooks/useAuth';
 
+
 export function MainPage() {
   const aboutAnchor = useRef<HTMLDivElement>(null);
   const videoAnchor = useRef<HTMLDivElement>(null);

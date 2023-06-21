@@ -24,4 +24,6 @@ ReactDOM.hydrateRoot(
   </CacheProvider>
 );
 
-registerServiceWorker();
+if (process.env.NODE_ENV === 'production') {
+  registerServiceWorker();
+}
