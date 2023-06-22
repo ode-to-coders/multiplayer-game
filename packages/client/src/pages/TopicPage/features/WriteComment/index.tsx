@@ -1,12 +1,11 @@
 import styles from './index.module.scss';
 
 import { useCreateCommentMutation } from '../../../../app/store/api/forum/forumApi';
+import { useGetUserInfoQuery } from '../../../../app/store/api/auth/authApi';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { StyledButton } from '../../../../shared/ui/Styled';
-
 import validateAndSanitizeCommentsForm from '../../../../shared/utils/validator';
 import { COMMENT_STATE, TCommentState } from '../../types';
-
 type TProps = {
   topic_id: number;
   author: string;
@@ -17,42 +16,46 @@ type TProps = {
 };
 
 export function WriteComment(props: TProps) {
-  const { author, topic_id, depth, parent_id, baseState, setStateComment } = props;
+  const { topic_id, depth, parent_id, baseState, setStateComment } = props;
 
-  const [showTextAreaForComment, setShowTextAreaForComment] = useState(baseState ?? false);
+  const { data: userData } = useGetUserInfoQuery();
+
+  const [showTextAreaForComment, setShowTextAreaForComment] = useState(
+    baseState ?? false
+  );
 
   const [createComment, { isLoading: isLoadingCreateComment }] =
     useCreateCommentMutation();
-
   const handleCreateComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as HTMLFormElement;
     const content = (target.elements[0] as HTMLTextAreaElement).value;
 
-    const commentFormValidationResult = validateAndSanitizeCommentsForm(content);
-
+    const commentFormValidationResult =
+      validateAndSanitizeCommentsForm(content);
     if (isLoadingCreateComment) {
-      return null;
+      return;
     }
-
     if (commentFormValidationResult.sanitizedData) {
       createComment({
         topic_id,
-        author,
+        author: userData?.display_name || userData?.first_name || '',
+        author_avatar: userData?.avatar || '',
         content,
         depth,
         // Поменять на реальный id, если коментарий к топику то null
         // Если комментарий относится к другому комменту то parent_id это id коммента
         // на который отвечаем
-        parent_id
+        parent_id,
       });
     }
 
     setShowTextAreaForComment(false);
-    setStateComment && setStateComment({
-      id: -1,
-      toogle: COMMENT_STATE.OFF
-    });
+    setStateComment &&
+      setStateComment({
+        id: -1,
+        toogle: COMMENT_STATE.OFF,
+      });
   };
 
   const handleShowWriteComment = () => {

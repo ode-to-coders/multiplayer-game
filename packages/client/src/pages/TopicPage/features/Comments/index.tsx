@@ -74,17 +74,20 @@ export function Comments(props: TProps) {
               src={`https://odetocode-league-24.ya-praktikum.tech/api/v2/resources${comment?.author_avatar}`}
             />
             <Box className={styles.info}>
-              <div className={styles.username} 
-                dangerouslySetInnerHTML={{ __html: sanitize( comment.author ) } }
+              <div
+                className={styles.username}
+                dangerouslySetInnerHTML={{ __html: sanitize(comment.author) }}
               />
-              <div className={styles.text} 
-                dangerouslySetInnerHTML={{ __html: sanitize( comment.content ) } }
+              <div
+                className={styles.text}
+                dangerouslySetInnerHTML={{ __html: sanitize(comment.content) }}
               />
             </Box>
           </Box>
           <Box className={styles.comment__setup}>
             {(comment.author === userData?.display_name ||
-              comment.author === userData?.login) && (
+              comment.author === userData?.login ||
+              comment.author === userData?.first_name) && (
               <>
                 <StyledButton
                   extendсlass={cn(styles.button, styles.btnDelete)}
