@@ -18,6 +18,7 @@ import { TCardQuestion, userAnswerType } from './types';
 
 import s from './index.module.scss';
 import { Header } from './features';
+import { usePushResultLeaderMutation } from '@/app/store/api/leaderboard/leaderboardApi';
 
 const mockFiveAnswers: TCardQuestion[] = [
   {type: 'black', index: 0},
@@ -248,6 +249,27 @@ export const Canvas = () => {
         setUserRatings(userAnswers);
 
         setScene(GAMESCENES.finalResult);
+        
+        const scores = userAnswers.map((user: userAnswerType) => user.score);
+        const maxScore = Math.max(...scores);
+        const indexUser = userAnswers.findIndex((user: userAnswerType) => user.login === data?.login)
+        const resultGame = userAnswers[indexUser].score === maxScore;
+
+        const [pushResultLeader] = usePushResultLeaderMutation();
+        try {
+          if (data) {
+            pushResultLeader({
+              idUser: data.id,
+              avatar: data?.avatar ?? undefined,
+              gamer: data.login,
+              resultGame,
+              points: userAnswers[indexUser].score
+            })
+          }
+        } catch (err) {
+          console.error('ошибка отправки в таблицу рейтинга результата игрока')
+        }
+
         break;
       }
 

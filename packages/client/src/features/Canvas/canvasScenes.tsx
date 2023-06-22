@@ -312,7 +312,7 @@ export class CanvasScenes {
           this.hoveredIndexRect = null;
           const text = ssd.objText[`${NAMESCENES.myAnswer}${ssd.counterFiveQuestions.openFive-1}`]?.text ?
             ssd.objText[`${NAMESCENES.myAnswer}${ssd.counterFiveQuestions.openFive-1}`]?.text
-            : 'не ответа';
+            : 'нет ответа';
 
           ssd.answersOfGamers = {};
           new Promise((res) => {

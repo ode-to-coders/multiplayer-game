@@ -59,7 +59,7 @@ export const yupSchemaRoomForm = yup.object().shape({
     .string()
     .required('Введите количество игроков')
     .matches(/^[2-6]+$/, 'Количество игроков от 2 до 6'),
-  password: yup.string().required('Введите пароль'),
+  password: yup.string(),
 });
 
 export const yupSchemaProfileEditForm = yup.object().shape({
