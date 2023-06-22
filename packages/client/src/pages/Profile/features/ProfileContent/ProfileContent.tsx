@@ -27,7 +27,7 @@ export const ProfileContent = ({
     return (
       <Avatar
         src={
-          `https://odetocode-league-24.ya-praktikum.tech/api/v2/resources${data.avatar}` ??
+          `https://ya-praktikum.tech/api/v2/resources${data.avatar}` ??
           emptyAvatar
         }
         className={s.ava}
