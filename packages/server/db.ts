@@ -7,9 +7,9 @@ import { userThemeModel } from './src/models/userTheme.model';
 const sequelizeOptions: SequelizeOptions = {
   host: 'postgres',
   port: 5432,
-  username: 'odetocoders',
-  password: 'odetocoders',
-  database: 'postgres',
+  username: 'odetocode',
+  password: 'odetocode',
+  database: 'odetocode',
   dialect: 'postgres',
 };
 

@@ -21,14 +21,6 @@ export const GameLayout = () => {
         <StyledGridItem item>
           <NavLink
             className={({ isActive }) => (isActive ? 'active-link' : 'link')}
-            to={PAGES.ENDGAME}>
-            Конец
-            <span />
-          </NavLink>
-        </StyledGridItem>
-        <StyledGridItem item>
-          <NavLink
-            className={({ isActive }) => (isActive ? 'active-link' : 'link')}
             to={PAGES.LEADERBOARD}>
             Рейтинг
             <span />
