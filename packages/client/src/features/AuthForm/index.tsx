@@ -66,7 +66,7 @@ export const AuthForm = (props: PropsWithChildren) => {
     const isError = 'error' in response;
 
     if (!isError) {
-      navigate(PAGES.GAME);
+      navigate(PAGES.MAIN);
     } else {
       alert('что-то пошло не так, попробуйте еще раз');
     }

@@ -4,7 +4,6 @@ import { useCreateCommentMutation } from '../../../../app/store/api/forum/forumA
 import { useGetUserInfoQuery } from '../../../../app/store/api/auth/authApi';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { StyledButton } from '../../../../shared/ui/Styled';
-import validateAndSanitizeCommentsForm from '../../../../shared/utils/validator';
 import { COMMENT_STATE, TCommentState } from '../../types';
 type TProps = {
   topic_id: number;
@@ -26,17 +25,17 @@ export function WriteComment(props: TProps) {
 
   const [createComment, { isLoading: isLoadingCreateComment }] =
     useCreateCommentMutation();
+
   const handleCreateComment = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as HTMLFormElement;
     const content = (target.elements[0] as HTMLTextAreaElement).value;
 
-    const commentFormValidationResult =
-      validateAndSanitizeCommentsForm(content);
     if (isLoadingCreateComment) {
       return;
     }
-    if (commentFormValidationResult.sanitizedData) {
+    
+    if (content) {
       createComment({
         topic_id,
         author: userData?.display_name || userData?.first_name || '',
