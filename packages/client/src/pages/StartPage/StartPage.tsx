@@ -47,7 +47,7 @@ export const StartPage = () => {
   }, [gameId, count]);
 
   useEffect(() => {
-    ws = new WebSocket('ws://localhost:3002/game/rooms/');
+    ws = new WebSocket('wss://odetocode-league-24.ya-praktikum.tech/wss');
 
     ws.onopen = () => {
       console.log('WebSocket connection opened');
