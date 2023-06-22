@@ -22,7 +22,7 @@ import {
 import { source } from '../../shared/const/gameLibrary/dataLibrary';
 import { GAMESCENES, NAMESCENES, TIMESCENES } from './const';
 
-import { TMainGamer, TScenes, TObjParamsDrawText, TCardQuestion, TAnswers } from './types';
+import { TMainGamer, TScenes, TObjParamsDrawText } from './types';
 import { HandlerEvents } from './utils/handlerEvents';
 import { SoundPlayer } from './soundPlayer';
 
