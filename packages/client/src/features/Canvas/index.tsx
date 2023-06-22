@@ -5,6 +5,7 @@ import { EndPage } from '../../pages/EndPage/EndPage';
 import { ws } from '../../pages/StartPage/StartPage';
 
 import { useGetUserInfoQuery } from '../../app/store/api/auth/authApi';
+import { usePushResultLeaderMutation } from '../../app/store/api/leaderboard/leaderboardApi';
 
 import { isOpen } from '../../shared/utils/helpers';
 import subarray from './utils/subarrays';
@@ -18,7 +19,6 @@ import { TCardQuestion, userAnswerType } from './types';
 
 import s from './index.module.scss';
 import { Header } from './features';
-import { usePushResultLeaderMutation } from '@/app/store/api/leaderboard/leaderboardApi';
 
 const mockFiveAnswers: TCardQuestion[] = [
   {type: 'black', index: 0},
