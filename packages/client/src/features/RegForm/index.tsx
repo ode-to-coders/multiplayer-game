@@ -54,7 +54,7 @@ export const RegForm = () => {
     []
   );
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -95,7 +95,7 @@ export const RegForm = () => {
     const isError = 'error' in response;
 
     if (!isError) {
-      // navigate(PAGES.GAME);
+      navigate(PAGES.MAIN);
     } else {
       //TODO Переделать на CustomNotification
       alert('что-то пошло не так, попробуйте еще раз');

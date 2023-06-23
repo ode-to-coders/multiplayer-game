@@ -9,7 +9,7 @@ const sequelizeOptions: SequelizeOptions = {
   port: 5432,
   username: 'odetocode',
   password: 'odetocode',
-  database: 'postgres',
+  database: 'odetocode',
   dialect: 'postgres',
 };
 

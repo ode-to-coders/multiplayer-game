@@ -59,7 +59,9 @@ export const pushResult = async (req: Request, res: Response) => {
 export const getLeaderboard = async (_req: Request, res: Response) => {
 
   try {
-    const data = await Leaderboard.findAll();
+    const data = await Leaderboard.findAll({
+      order: [['points', 'DESC']],
+    });
 
     res.send(data);
   } catch (err) {

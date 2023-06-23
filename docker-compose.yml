@@ -17,10 +17,9 @@ services:
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     environment:
-      SERVER_PORT: ${SERVER_PORT}
-      VIRTUAL_HOST: ${APP_HOSTNAME}
-      VIRTUAL_PORT: ${SERVER_PORT}
-      LETSENCRYPT_HOST: ${APP_HOSTNAME}
+      VIRTUAL_HOST1: https://odetocode-league-24.ya-praktikum.tech -> :3001
+      VIRTUAL_HOST2: wss://odetocode-league-24.ya-praktikum.tech/ws -> :3002
+      LETSENCRYPT_HOST: odetocode-league-24.ya-praktikum.tech
     networks:
       - default
 
@@ -42,7 +41,7 @@ services:
       - default
 
   nginx-proxy:
-    image: nginxproxy/nginx-proxy
+    image: mesudip/nginx-proxy
     container_name: nginx-proxy
     restart: always
     ports:
@@ -53,7 +52,7 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - certs:/etc/nginx/certs:ro
-      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - default
 
@@ -83,4 +82,4 @@ volumes:
 
 networks:
   default:
-     driver: bridge
+    driver: bridge

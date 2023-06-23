@@ -11,14 +11,12 @@ import { StyledButton } from '../../shared/ui/Styled/StyledButton';
 import logo from '../../images/logo.png';
 
 import styles from './index.module.scss';
-import { useAuth } from '../../app/hooks/useAuth';
 
 
 export function MainPage() {
   const aboutAnchor = useRef<HTMLDivElement>(null);
   const videoAnchor = useRef<HTMLDivElement>(null);
   const toPlay = useRef<HTMLDivElement>(null);
-  const { isAuth } = useAuth();
 
   const handleScroll = (element: HTMLDivElement | null) => {
     if (element) {
@@ -56,7 +54,7 @@ export function MainPage() {
           <img src={logo} />
         </div>
         <StyledButton>
-          <Link to={isAuth ? PAGES.ROOMS : PAGES.REGISTRATION}>Играть</Link>
+          <Link to={PAGES.ROOMS}>Играть</Link>
         </StyledButton>
       </div>
       <div ref={aboutAnchor}>

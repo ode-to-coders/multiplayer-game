@@ -22,7 +22,7 @@ import {
 import { source } from '../../shared/const/gameLibrary/dataLibrary';
 import { GAMESCENES, NAMESCENES, TIMESCENES } from './const';
 
-import { TMainGamer, TScenes, TObjParamsDrawText, TCardQuestion, TAnswers } from './types';
+import { TMainGamer, TScenes, TObjParamsDrawText } from './types';
 import { HandlerEvents } from './utils/handlerEvents';
 import { SoundPlayer } from './soundPlayer';
 
@@ -312,7 +312,7 @@ export class CanvasScenes {
           this.hoveredIndexRect = null;
           const text = ssd.objText[`${NAMESCENES.myAnswer}${ssd.counterFiveQuestions.openFive-1}`]?.text ?
             ssd.objText[`${NAMESCENES.myAnswer}${ssd.counterFiveQuestions.openFive-1}`]?.text
-            : 'не ответа';
+            : 'нет ответа';
 
           ssd.answersOfGamers = {};
           new Promise((res) => {

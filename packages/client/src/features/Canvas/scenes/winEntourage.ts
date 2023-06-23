@@ -35,7 +35,7 @@ export class WinEntourage {
     if (entourage) {
       drawText(ctx, {
         left: 450 *m+lofs, top: 28 *m, width: 124 *m, height: 32 *m, 
-        text: `${ssd.mainGamer.numsVoicesWinEntourage} из ${ssd.mainGamer.numsRivals} проголосовали за антураж "${entourage}"!`, 
+        text: `${ssd.mainGamer.numsVoicesWinEntourage} из ${ssd.mainGamer.numsRivals} проголосовали за антураж "${ssd.mainGamer.nameEntourage}"!`, 
         fontSize: 25 *m,
         textColor: JSCOLORS.white});
       drawImgBorderText(ctx, source.game.memory[entourage], {
