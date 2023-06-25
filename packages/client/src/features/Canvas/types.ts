@@ -145,3 +145,20 @@ export type TTimerCash = {
     bgImg: ImageData | null
   }
 }
+
+export type TAnswers = {
+  winEntourage: 'england' | 'modern' | 'fantasy',
+}
+
+export type userAnswerType = {
+  login: string,
+  id: number,
+  entourage: string,
+  profession: '',
+  secret: string,
+  answers: string,
+  votes: number[],
+  randomPair: number[],
+  finalVotes: number[],
+  score: number,
+}

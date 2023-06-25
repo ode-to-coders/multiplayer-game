@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from 'react';
 import { ssd } from './storeSessionData';
 
+import gameData from '../../mocks/gameData.json';
+
 import {
   SelectWishEntourage,
   WinEntourage,
@@ -20,7 +22,7 @@ import {
 import { source } from '../../shared/const/gameLibrary/dataLibrary';
 import { GAMESCENES, NAMESCENES, TIMESCENES } from './const';
 
-import { TMainGamer, TScenes, TObjParamsDrawText, TCardQuestion } from './types';
+import { TMainGamer, TScenes, TObjParamsDrawText, TCardQuestion, TAnswers } from './types';
 import { HandlerEvents } from './utils/handlerEvents';
 import { SoundPlayer } from './soundPlayer';
 
@@ -35,6 +37,7 @@ let lofs: number;
 
 
 export class CanvasScenes {
+  static gameId: number;
 
   public scenes: TScenes;
   public audio: SoundPlayer;
@@ -45,15 +48,24 @@ export class CanvasScenes {
 
   public canvasRef!: HTMLCanvasElement;
   public canvasCtx!: CanvasRenderingContext2D;
+  public handleChoose: (type: string, vote: any, key: string) => void;
+  public handleShowAnswer: () => void;
+  public handleCheckAnswers: () => void;
 
   constructor(
     setScene: Dispatch<SetStateAction<number>>,
     setShowModal: Dispatch<SetStateAction<boolean>>,
     setFrameRender: Dispatch<SetStateAction<number>>,
-    ratio: {width: number, height: number}
+    ratio: {width: number, height: number},
+    handleChoose: (type: string, vote: string | number | null, key: string) => void,
+    handleShowAnswer: () => void,
+    handleCheckAnswers: () => void,
   ) {
     this.setShowModalResult = setShowModal;
     this.setFrameRender = setFrameRender;
+    this.handleChoose = handleChoose;
+    this.handleShowAnswer = handleShowAnswer;
+    this.handleCheckAnswers = handleCheckAnswers;
 
     ssd.reset();
     m = ssd.ratio.multiple = ratio.height/640;
@@ -123,7 +135,7 @@ export class CanvasScenes {
       return false;     
     }
     if (!this.checkOnSounds) {
-      this.audio.play(source.sounds.bgMain, true);
+      // this.audio.play(source.sounds.bgMain, true);
       this.checkOnSounds = true;
       this.scenes.set?.(GAMESCENES.selectWishEntourage);
     }
@@ -141,66 +153,18 @@ export class CanvasScenes {
           let entourage: TMainGamer['entourage'];
           // запись желаемого антуража в временный entourage
           if (this.clickIndexRect !== null) {
-            entourage = this.returnEntourage(this.clickIndexRect)
+            entourage = this.returnEntourage(this.clickIndexRect);
           } else {
             entourage = this.returnEntourage(this.randomIndex012())
           }
 
-          // WEBSOCKET место для отправки entourage на бек
+          this.handleChoose('winEntourage', entourage, 'entourage');
 
-          // с бека получаем выигравший антураж и количество голосов за него
-          const mockResWinEntourage = entourage // пока закинем желаемый как мок
-          const mockRecNumsVoicesWinEntourage = 4;
-          // получаем также количество [1-5] соперников в сессии игры для целей отрисовки и их имена
-          const mockResNumsRivals = 5;
-          const mockResNamesRivals = ['Bibi', 'Macarena', 'MoveIt', 'Wolf', 'Sherlock'];
-          // здесь (или позже?) получаем также 5 вопросов для сцен в формате {тип вопроса, индекс}[]
-          // по типу и индексу в нужных сценах достаются строки-вопросы из библиотеки questions ('../../shared/const/gameLibrary/dataLibrary')
-          const mockFiveAnswers: TCardQuestion[] = [
-            {type: 'black', index: 0},
-            {type: 'england', index: 1},
-            {type: 'modern', index: 2},
-            {type: 'black', index: 5},
-            {type: 'fantasy', index: 2},
-          ]
-
-          ssd.mainGamer.entourage = mockResWinEntourage;
-          switch (ssd.mainGamer.entourage) {
-            case 'england':
-              ssd.mainGamer.nameEntourage = 'Викторианская Англия'
-              break;
-            case 'modern':
-              ssd.mainGamer.nameEntourage = 'Современность'
-              break;
-            case 'fantasy':
-              ssd.mainGamer.nameEntourage = 'Фэнтези'
-              break;
-            default:              
-              break;
-          }
-          ssd.mainGamer.numsVoicesWinEntourage = mockRecNumsVoicesWinEntourage;
-          ssd.mainGamer.numsRivals = mockResNumsRivals;
-          ssd.mainGamer.namesRivals = mockResNamesRivals;          
-          ssd.cardsForSelect = {
-            prof: [2, 5],
-            secret: [4, 3]
-          }
-          mockFiveAnswers.forEach((answer, index) => {
-            ssd.dataFiveQuestions[index] = {open: false, ...answer}
-          })
-          ssd.dataFiveQuestions
-          for (let i = 0; i < 8; i++) { // разворачиваем 8 массивчиков для отрисовки и возможности заполнять блокнот в след сценах
-            ssd.mainGamer.notes.push(new Array(ssd.mainGamer.numsRivals*2))
-          }
-
-          const next = true; // можно продолжать
-          // ...
           this.indexElem = null;
           this.clickIndexRect = null;
           this.hoveredIndexRect = null;
           ssd.rectsForScene = [];
           this.canvasRef.style.cursor = '';
-          if (next) this.scenes.set?.(GAMESCENES.winEntourage) // ок, продолжаем
         }
       }
       this.scenes.active = scene;
@@ -219,7 +183,6 @@ export class CanvasScenes {
         this.scenes.set?.(GAMESCENES.selectProf)
       }, TIMESCENES.winEntourage * 1000
       )
-    
     } else if (scene === GAMESCENES.selectProf) {
     // СЦЕНА ВЫБОРА ПРОФЕССИИ  ------------------------------------------
       
@@ -227,18 +190,24 @@ export class CanvasScenes {
         nameId: scene,
         seconds: TIMESCENES.selectProf,
         cback: () => {  
+
+          let num;
             
-          const arrSelected = ssd.mainGamer.selectedCards
+          const arrSelected = ssd.mainGamer.selectedCards;
+
           if (this.clickIndexRect !== null) {
-            // const num = ssd.cardsForSelect.prof[this.clickIndexRect];
-            // console.log(mock[0]['england'].profession[num]);
             arrSelected[0] = ssd.cardsForSelect.prof[this.clickIndexRect];
-            arrSelected[2] = ssd.cardsForSelect.prof[this.clickIndexRect === 0 ? 1 : 0]
+            arrSelected[2] = ssd.cardsForSelect.prof[this.clickIndexRect === 0 ? 1 : 0];
+
+            num = ssd.cardsForSelect.prof[this.clickIndexRect];
+
           } else {
-            const num = Math.random() < 0.5 ? 0 : 1;
+            num = Math.random() < 0.5 ? 0 : 1;
             arrSelected[0] = ssd.cardsForSelect.prof[num];
             arrSelected[2] = ssd.cardsForSelect.prof[num === 1 ? 0 : 1];
           }
+
+          this.handleChoose('game', gameData[0][ssd.mainGamer.entourage].profession[num], 'profession');
 
           // колбек по окончании сцены (таймера), здесь место для отправки выбора игрока и получения разрешения от сервера продолжать
           const next = true;
@@ -263,26 +232,30 @@ export class CanvasScenes {
         nameId: scene,
         seconds: TIMESCENES.selectSecret,
         cback: () => {
-          const arrSelected = ssd.mainGamer.selectedCards
+          const arrSelected = ssd.mainGamer.selectedCards;
+
+          let num;
           if (this.clickIndexRect !== null) {
-            // const num = ssd.cardsForSelect.prof[this.clickIndexRect];
-            // console.log(mock[0]['england'].profession[num]);
+            num = ssd.cardsForSelect.prof[this.clickIndexRect];
             arrSelected[1] = ssd.cardsForSelect.secret[this.clickIndexRect];
             arrSelected[3] = ssd.cardsForSelect.secret[this.clickIndexRect === 0 ? 1 : 0]
           } else {
-            const num = Math.random() < 0.5 ? 0 : 1;
+            num = Math.random() < 0.5 ? 0 : 1;
             arrSelected[1] = ssd.cardsForSelect.secret[num];
             arrSelected[3] = ssd.cardsForSelect.secret[num === 1 ? 0 : 1];
           }
+
+          this.handleChoose('game', gameData[0][ssd.mainGamer.entourage].secret[num], 'secret');
+
           // колбек по окончании сцены (таймера), здесь место для отправки выбора игрока, получения данных выбранных вопросов для следующей сцены и разрешения от сервера продолжать
           const next = true;
-          // ...
 
           this.indexElem = null;
           this.clickIndexRect = null;
           this.hoveredIndexRect = null; // очистка лога наведения
           ssd.rectsForScene = [];
           this.canvasRef.style.cursor = '';
+
           if (next) this.scenes.set?.(GAMESCENES.fiveClose) // можно продолжать? продолжаем
         }
       }
@@ -334,22 +307,22 @@ export class CanvasScenes {
         nameId: scene,
         seconds: TIMESCENES.myAnswer,
         cback: () => {
-          console.log(ssd.objText[`${NAMESCENES.myAnswer}${ssd.counterFiveQuestions.openFive-1}`]?.text)
-          // колбек по окончании сцены, здесь место для отправки ответа игрока и получения ответов игроков с сервера и разрешения продолжать
-          const mockAnswersOfGamers = {
-            Bibi: 'Живу в лесу, люблю есть мухоморы, иногда встречаю лакомые поганки, иногда приходится быть на диете и пить одну только воду',
-            Macarena: 'Ношу, ношу, уже устал, ох, как же так, и нет ни конца, ни начала этим письмам',
-            MoveIt: 'Встретил я однажды золотую монетку, с тех пор с золотом не расстаюсь, люблю его как самого себя',
-            Wolf: 'Я Завулон, Маг и Великий Воин в одном лице, Вы никогда не догадаетесь, откуда я пришел и куда иду',
-            Sherlock: 'Вы думаете, у меня не бывает неудач? Еще как'
-          }
-          ssd.answersOfGamers = mockAnswersOfGamers;
-          const next = true;
-          // ...
           this.indexElem = 0;
           this.clickIndexRect = 0;
           this.hoveredIndexRect = null;
-          if (next) this.scenes.set?.(GAMESCENES.gamersAnswers) // можно продолжать, все получили? продолжаем
+          const text = ssd.objText[`${NAMESCENES.myAnswer}${ssd.counterFiveQuestions.openFive-1}`]?.text ?
+            ssd.objText[`${NAMESCENES.myAnswer}${ssd.counterFiveQuestions.openFive-1}`]?.text
+            : 'не ответа';
+
+          ssd.answersOfGamers = {};
+          new Promise((res) => {
+            res(this.handleChoose(
+              'game',
+              text,
+              'answers'))
+          }).then(() => {
+            this.handleShowAnswer();
+          })
         }
       }
       this.scenes.active = scene;
@@ -362,9 +335,9 @@ export class CanvasScenes {
         nameId: scene,
         seconds: TIMESCENES.gamersAnswers,
         cback: () => {
+          this.handleChoose('game', ssd.mainGamer.notes, 'votes');
           // колбек по окончании сцены,
           const next = true;
-          // ...
           
           if (next) { // можно продолжать? все получили? продолжаем
             if (ssd.counterFiveQuestions.openFive < 5) {
@@ -404,25 +377,9 @@ export class CanvasScenes {
         ? false : false,
         cback: () => {
           if (scene === GAMESCENES.finalAnswer) {// колбек по окончании сцены, здесь место для отправки итогового ответа игрока и получение итоговых результатов и true для продолжения       
-            console.log('итоговые массив ответов ', ssd.mainGamer.notes[5])
-            const resultMock = [true, false, false, true, true, false, false, false, true, true] // результаты под кругами
-            const resultMock2 = [true, true, false, null, null, true, false, true, null, null] // второй ряд результатов (в самом низу) - в моке 3,4,8,9 индексы null, если, например 3 соперника.
-            resultMock.forEach((check, index) => {
-              ssd.mainGamer.notes[6][index] = check ? '✔' : '✖'
-            })
-            resultMock2.forEach((check, index) => {
-              ssd.mainGamer.notes[7][index] =
-                check 
-                ? '✔' 
-                : check === false
-                  ? '✖'
-                  : ''
-            })
-            const next = true;
-            // ...
-            if (next) { // можно продолжать? все получили? продолжаем переход
-              this.scenes.set?.(GAMESCENES.finalResult)
-            }
+            new Promise((res) => {
+              res(this.handleChoose('game', ssd.mainGamer.notes[5], 'finalVotes'))
+            }).then(() => this.handleCheckAnswers());
           } else {
             // иначе это финальный экран с результатами, показываем модальное окно с результатами
             this.setShowModalResult(true)
